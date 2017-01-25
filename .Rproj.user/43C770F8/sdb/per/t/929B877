@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\\name{CreateDataCV}\n\\alias{CreateDataCV}\n%- Also NEED an '\\alias' for EACH other topic documented here.\n\\title{\nA function to create cross-validation data.\n}\n\\description{\nA function to create cross-validation data.\n}\n\\usage{CreateDataCV(data, p = 0.75, G = 50, \n                        net_type = \"directed\",deg_thresh = 0, exclude_end = FALSE)\n}\n%- maybe also 'usage' for other objects documented here.\n\\arguments{\n  \\item{data}{\nMatrix. A 3-column matrix whose each row contains information of one edge in the form (from_node id, to_node id, time_stamp). from_node id is the id of the source node. to_node id is the id of the destination node. time_stamp is the arrival time of the edge. from_node id and to_node id are assumed to be integers starting from \\eqn{0}. time_stamp can be either numeric or string. We assume that a smaller time_stamp represents an earlier arrival time.}\n\\item{p}{\nNumeric. Indicates the ratio of number of new edges in the learning data to that of the full data. Default is \\eqn{p = 0.75}.\n}\n\\item{G}{\nInteger. Number of bins. Default value is \\eqn{50}.\n}\n \\item{net_type}{\nString. The type of the network: \"directed\" or \"undirected\". Default is \"directed\". \n}\n\\item{deg_thresh}{\nInteger. We only consider nodes with degree at least this threshold. Default value is \\eqn{0}.\n}\n\\item{exclude_end}{\nLogical. If TRUE, then for the testing data, at each time-step we only consider the new edges that connect to nodes with the current degrees less than \\eqn{deg\\_max}, which is the maximum degree in the learning data. The motivation for this option is that in the learning phase, we can only learn the PA function up to \\eqn{deg_max}, so it makes sense to limit the degree in the testing phase to \\eqn{deg\\_max}. From our experiences, this option does not matter. Default value is FALSE}.\n}\n\n\\value{An object of class \"CV_Data\" containing the data needed for cross validation.\n}\n\n\n\\author{\nThong Pham \\email{thongpham@thongpham.net}\n}\n\\references{\n1. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Nonparametric Estimation of the Preferential Attachment Function in Complex Networks: Evidence of Deviations from Log Linearity, Proceedings of ECCS 2014, 141-153 (Springer International Publishing) (\\url{http://dx.doi.org/10.1007/978-3-319-29228-1_13}).\n\n2. Pham, T., Sheridan, P. & Shimodaira, H. (2015). PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks. PLoS ONE 10(9): e0137796. doi:10.1371/journal.pone.0137796 (\\url{http://dx.doi.org/10.1371/journal.pone.0137796}).\n\n3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\\url{www.nature.com/articles/srep32558}).\n}\n\n\\examples{\nlibrary(\"PAFit\")\ndata     <- GenerateNet(N = 100,m = 1,mode = 1, alpha = 1, shape = 5, rate = 5)\ndata_cv  <- CreateDataCV(data$graph)\n}\n\n\\keyword{fitness model}\n\\keyword{Preferential Attachment function}\n\\keyword{Minorize-Maximization algorithms}\n\\keyword{Bianconi-Barabasi model}\n\\keyword{Barabasi-Albert model}% __ONLY ONE__ keyword per line\n",
+    "created" : 1484892187577.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1170044138",
+    "id" : "929B877",
+    "lastKnownWriteTime" : 1484892589,
+    "last_content_update" : 1484892589826,
+    "path" : "~/Dropbox/1- Program/PAFit/PAFit/man/CreateDataCV.Rd",
+    "project_path" : "man/CreateDataCV.Rd",
+    "properties" : {
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_doc"
+}

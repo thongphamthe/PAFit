@@ -1,0 +1,7 @@
+{
+    "installOptions" : {
+        "installDependencies" : true,
+        "installFromRepository" : false,
+        "libraryPath" : "C:/Users/Thong Pham/R/win-library/3.1"
+    }
+}

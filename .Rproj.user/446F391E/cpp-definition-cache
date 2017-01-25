@@ -1,0 +1,125 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 5,
+                "file" : "/Users/thethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 10,
+                "name" : "normalized_constant(NumericVector &, const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericMatrix &, const double &)",
+                "parent_name" : "",
+                "usr" : "c:@F@normalized_constant#&I#&1I#S1_#S1_#S1_#&1d#"
+            },
+            {
+                "column" : 5,
+                "file" : "/Users/thethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 37,
+                "name" : "normalized_constant_alpha(NumericVector &, const double &, const double &, const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericMatrix &, const double &)",
+                "parent_name" : "",
+                "usr" : "c:@F@normalized_constant_alpha#&I#&1d#S1_#&1I#S2_#S2_#S2_#S1_#"
+            },
+            {
+                "column" : 5,
+                "file" : "/Users/thethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 66,
+                "name" : "get_stats(CharacterVector &, CharacterVector &, const NumericVector &, const NumericVector &, const NumericVector &, const NumericVector &, const NumericVector &, const long, const int, const int, CharacterVector &, NumericVector &, NumericMatrix &, NumericVector &, NumericVector &, NumericMatrix &, NumericVector &, NumericMatrix &, NumericMatrix &, const int)",
+                "parent_name" : "",
+                "usr" : "c:@F@get_stats#&I#S0_#&1I#S1_#S1_#S1_#S1_#1L#1I#1I#S0_#S0_#S0_#S0_#S0_#S0_#S0_#S0_#S0_#1I#"
+            },
+            {
+                "column" : 5,
+                "file" : "/Users/thethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 306,
+                "name" : "update_f(NumericVector &, const NumericVector &, const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericVector &, const NumericVector &, const double, const double, const double)",
+                "parent_name" : "",
+                "usr" : "c:@F@update_f#&I#&1I#S1_#S1_#S1_#S1_#S1_#1d#1d#1d#"
+            },
+            {
+                "column" : 8,
+                "file" : "/Users/thethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 334,
+                "name" : "update_offset(const NumericMatrix &, const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericVector &, const double, const double)",
+                "parent_name" : "",
+                "usr" : "c:@F@update_offset#&1I#S0_#S0_#S0_#S0_#1d#1d#"
+            },
+            {
+                "column" : 8,
+                "file" : "/Users/thethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 366,
+                "name" : "update_offset_alpha(const double &, const NumericMatrix &, const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericVector &, const double, const double)",
+                "parent_name" : "",
+                "usr" : "c:@F@update_offset_alpha#&1d#&1I#S1_#S1_#S1_#S1_#1d#1d#"
+            },
+            {
+                "column" : 5,
+                "file" : "/Users/thethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 395,
+                "name" : "update_f_alpha(NumericVector &, const NumericVector &, const double &, const double &, const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericVector &, const NumericVector &, const double, const double)",
+                "parent_name" : "",
+                "usr" : "c:@F@update_f_alpha#&I#&1I#&1d#S2_#S1_#S1_#S1_#S1_#S1_#1d#1d#"
+            },
+            {
+                "column" : 8,
+                "file" : "/Users/thethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 428,
+                "name" : "update_alpha(const NumericVector &, const NumericVector &, const NumericVector &, const double &, const NumericVector &, const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericMatrix &, const double &)",
+                "parent_name" : "",
+                "usr" : "c:@F@update_alpha#&1I#S0_#S0_#&1d#S0_#S0_#S0_#S0_#S0_#S1_#"
+            },
+            {
+                "column" : 8,
+                "file" : "/Users/thethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 479,
+                "name" : "update_PA_offset(const NumericVector &, const NumericVector &, const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericMatrix &)",
+                "parent_name" : "",
+                "usr" : "c:@F@update_PA_offset#&1I#S0_#S0_#S0_#S0_#S0_#"
+            },
+            {
+                "column" : 15,
+                "file" : "/Users/thethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 506,
+                "name" : "coeff_theta(const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericVector &, const int)",
+                "parent_name" : "",
+                "usr" : "c:@F@coeff_theta#&1I#S0_#S0_#S0_#1I#"
+            },
+            {
+                "column" : 15,
+                "file" : "/Users/thethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 538,
+                "name" : "coeff_var(const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericVector &, const NumericMatrix &, const int)",
+                "parent_name" : "",
+                "usr" : "c:@F@coeff_var#&1I#S0_#S0_#S0_#S0_#1I#"
+            },
+            {
+                "column" : 5,
+                "file" : "/Users/thethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 566,
+                "name" : "cal_var_f(NumericVector &, const NumericVector &, const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericVector &, const NumericVector &, const NumericVector &, const double)",
+                "parent_name" : "",
+                "usr" : "c:@F@cal_var_f#&I#&1I#S1_#S1_#S1_#S1_#S1_#S1_#1d#"
+            },
+            {
+                "column" : 8,
+                "file" : "/Users/thethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 591,
+                "name" : "my_zeroin(double, double, std::function<double (double)>, double, long)",
+                "parent_name" : "",
+                "usr" : "c:@F@my_zeroin#d#d#$@N@std@N@__1@C@function>#d#p1d#d#L#"
+            }
+        ],
+        "file" : "/Users/thethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+        "file_last_write" : 1479305867
+    }
+]

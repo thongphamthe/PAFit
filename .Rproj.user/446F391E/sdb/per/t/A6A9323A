@@ -1,0 +1,17 @@
+{
+    "contents" : "#Fit Multinomial\nFitMultinomial <- function(true,dat){\n  true[true == 0] <- 1\n  return(sum(dat*log(true)))\n}",
+    "created" : 1478616692480.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4165150168",
+    "id" : "A6A9323A",
+    "lastKnownWriteTime" : 1445216981,
+    "path" : "~/Dropbox/1- Program/PAFit/PAFit/R/FitMultinomial.R",
+    "project_path" : "R/FitMultinomial.R",
+    "properties" : {
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,0 +1,9 @@
+PAFit v0.9.2 (Release date: 2017-1-20)
+==============
+
+Changes:
+
+* Adding functions for performing cross validation when assuming Ak = k^alpha. This will reduce the cross validation to one-dimensional search, since in this case we only have to find the optimum parameter s for fitness.
+
+* Fixing a bug in reading factor data.
+

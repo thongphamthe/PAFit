@@ -1,0 +1,62 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 5,
+                "file" : "/Users/phamthethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 5,
+                "name" : "normalized_constant(NumericVector &, const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericMatrix &)",
+                "parent_name" : "",
+                "usr" : "c:@F@normalized_constant#&$@N@Rcpp@C@Vector>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#&1$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#&1S1_#S4_#S2_#"
+            },
+            {
+                "column" : 5,
+                "file" : "/Users/phamthethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 29,
+                "name" : "get_stats(CharacterVector &, CharacterVector &, const NumericVector &, const NumericVector &, const NumericVector &, const NumericVector &, const NumericVector &, const long, const int, const int, CharacterVector &, NumericVector &, NumericMatrix &, NumericVector &, NumericVector &, NumericMatrix &, NumericVector &, NumericMatrix &)",
+                "parent_name" : "",
+                "usr" : "c:@F@get_stats#&$@N@Rcpp@C@Vector>#VI16#@N@Rcpp@CT>1#T@PreserveStorage#S0_#&1$@N@Rcpp@C@Vector>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#S2_#S2_#S2_#S2_#1L#1I#1I#S0_#&S3_#&$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#S4_#S4_#S5_#S4_#S5_#"
+            },
+            {
+                "column" : 5,
+                "file" : "/Users/phamthethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 219,
+                "name" : "update_f(NumericVector &, const NumericVector &, const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericVector &, const NumericVector &, const double, const double)",
+                "parent_name" : "",
+                "usr" : "c:@F@update_f#&$@N@Rcpp@C@Vector>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#&1S1_#&1$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#S2_#S2_#S2_#S2_#1d#1d#"
+            },
+            {
+                "column" : 15,
+                "file" : "/Users/phamthethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 244,
+                "name" : "coeff_theta(const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericVector &, const int)",
+                "parent_name" : "",
+                "usr" : "c:@F@coeff_theta#&1$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#&1$@N@Rcpp@C@Vector>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#S2_#S2_#1I#"
+            },
+            {
+                "column" : 15,
+                "file" : "/Users/phamthethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 276,
+                "name" : "coeff_var(const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericVector &, const NumericMatrix &, const int)",
+                "parent_name" : "",
+                "usr" : "c:@F@coeff_var#&1$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#&1$@N@Rcpp@C@Vector>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#S2_#S2_#S0_#1I#"
+            },
+            {
+                "column" : 5,
+                "file" : "/Users/phamthethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+                "kind" : 6,
+                "line" : 304,
+                "name" : "cal_var_f(NumericVector &, const NumericVector &, const NumericMatrix &, const NumericVector &, const NumericVector &, const NumericVector &, const NumericVector &, const NumericVector &, const double)",
+                "parent_name" : "",
+                "usr" : "c:@F@cal_var_f#&$@N@Rcpp@C@Vector>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#&1S1_#&1$@N@Rcpp@C@Matrix>#VI14#@N@Rcpp@CT>1#T@PreserveStorage#S2_#S2_#S2_#S2_#S2_#1d#"
+            }
+        ],
+        "file" : "/Users/phamthethong/Dropbox/1- Program/PAFit/PAFit/src/Cpp_code.cpp",
+        "file_last_write" : 1437100879
+    }
+]

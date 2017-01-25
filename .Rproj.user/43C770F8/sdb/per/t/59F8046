@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\\name{performCV}\n\\alias{performCV}\n%- Also NEED an '\\alias' for EACH other topic documented here.\n\\title{\nA function to perform cross validation.\n}\n\\description{\nA function to perform cross validation.\n}\n\\usage{performCV(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4), \n                      stop_cond = 10^-7, only_PAFit = TRUE, \n                      silent = FALSE, only_linear = FALSE)\n}\n%- maybe also 'usage' for other objects documented here.\n\\arguments{\n  \\item{cv_data}{\nCross-validation data.}\n\\item{r}{\nNumeric vector. Specifying the values of the regularization parameter \\eqn{r} of the PA function. Default value is the vector \\eqn{c(0.01,0.1,1,10,100)}.\n}\n\\item{s}{\nNumeric vector. Specifying the values of the regularization parameter \\eqn{s} of node fitness. Default value is the vector \\eqn{c(0.1,1,10,100,1000,10000)}.\n}\n\\item{stop_cond}{\nNumeric. The iterative algorithm will halt if the relative difference of the objective function falls below this value. Default value is \\eqn{10^-7}.\n}\n\\item{only_PAFit}{\nLogical. If TRUE then only perform the CV for PAFit full model. Default is TRUE.\n}\n\\item{silent}{\nLogical. If TRUE then the progress is not printed out. Default is FALSE.\n}\n\\item{only_linear}{\nLogical. If TRUE then only perform the CV assuming the linear functional form \\eqn{A_k = k}. Default is FALSE. \n}\n}\n\\value{An object of class \"CV_Result\" containing the cross validation result. The important fields are:\n\\item{r_optimal}{\nNumeric. The optimal value of the r parameter chosen by the CV process.\n}\n\\item{s_optimal}{\nNumeric. The optimal value of the s parameter chosen by the CV process.\n}\nOne then uses \\eqn{PAFit} function on the full data with the parameters \\eqn{r} and \\eqn{s} set to \\eqn{r_optimal} and \\eqn{s_optimal}, respectively.\n}\n\n\\author{\nThong Pham \\email{thongpham@thongpham.net}\n}\n\\references{\n1. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Nonparametric Estimation of the Preferential Attachment Function in Complex Networks: Evidence of Deviations from Log Linearity, Proceedings of ECCS 2014, 141-153 (Springer International Publishing) (\\url{http://dx.doi.org/10.1007/978-3-319-29228-1_13}).\n\n2. Pham, T., Sheridan, P. & Shimodaira, H. (2015). PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks. PLoS ONE 10(9): e0137796. doi:10.1371/journal.pone.0137796 (\\url{http://dx.doi.org/10.1371/journal.pone.0137796}).\n\n3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\\url{www.nature.com/articles/srep32558}).\n}\n\n\\examples{\nlibrary(\"PAFit\")\ndata      <- GenerateNet(N = 100,m = 5,mode = 1, alpha = 0.5, shape = 10, rate = 10)\ndata_cv   <- CreateDataCV(data$graph) # create CV data\ncv_result <- performCV(data_cv,r = c(0.1,1), s = c(10),only_PAFit = TRUE,stop_cond = 10^-2)\nstat      <- GetStatistics(data$graph) # create the summary statistics of full data\nresult    <- PAFit(stat, r = cv_result$r_optimal, s = cv_result$s_optimal, \n                   stop_cond = 10^-2) # final result\n}\n\n\\keyword{fitness model}\n\\keyword{Preferential Attachment function}\n\\keyword{Minorize-Maximization algorithms}\n\\keyword{Bianconi-Barabasi model}\n\\keyword{Barabasi-Albert model}% __ONLY ONE__ keyword per line\n",
+    "created" : 1484904222528.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "361339332",
+    "id" : "59F8046",
+    "lastKnownWriteTime" : 1484904269,
+    "last_content_update" : 1484904269720,
+    "path" : "~/Dropbox/1- Program/PAFit/PAFit/man/performCV.Rd",
+    "project_path" : "man/performCV.Rd",
+    "properties" : {
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_doc"
+}
