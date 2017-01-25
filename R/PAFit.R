@@ -1,14 +1,15 @@
-# function to estimate jointly the attachment function and node fitness  2015-3-11 Thong Pham
-PAFit <- function(data, only_PA = FALSE, only_f = FALSE, mode_f = c("Linear_PA", "Constant_PA","Log_linear"),
-                  true_A = NULL, true_f = NULL,
-                  s = 1,
-                  auto_lambda = TRUE, r = 0.01, 
-                  lambda = 1, weight_PA_mode = 1, auto_stop = TRUE,stop_cond = 10^-9, iteration = 20, 
-                  max_iter = 200000,
-                  debug = FALSE, step_size = 0.5, q = 1,
-                  alpha_start = 1,
-                  normalized_f = FALSE, interpolate = TRUE, 
-                  mode_reg_A = 2, start_mode_A = "Log_linear", start_mode_f = "Constant",
+# function to estimate jointly the attachment function and node fitness  
+PAFit <- function(data, 
+                  only_PA        = FALSE       , only_f      = FALSE , 
+                  mode_f         = "Linear_PA" ,
+                  true_A         = NULL        , true_f      = NULL  , s           = 1    ,
+                  auto_lambda    = TRUE        , r           = 0.01  , lambda      = 1    , 
+                  weight_PA_mode = 1           , auto_stop   = TRUE  ,stop_cond    = 10^-9, 
+                  iteration      = 20          , max_iter    = 200000, debug       = FALSE, 
+                  step_size      = 0.5         , q           = 1     , alpha_start = 1    ,
+                  normalized_f   = FALSE       , interpolate = TRUE  , mode_reg_A  = 2    , 
+                  start_mode_A   = "Log_linear", 
+                  start_mode_f   = "Constant"  ,
                   ...) {
     if ((data$only_PA == TRUE) & (only_PA == FALSE)) {
         stop("Error: the data do not support estimation of node fitness. 
@@ -537,14 +538,14 @@ PAFit <- function(data, only_PA = FALSE, only_f = FALSE, mode_f = c("Linear_PA",
                                                                       log(theta[non_zero_theta[ok_log[num_ok_log - 3]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 3]]]) - 
                                                                       2 * log(theta[non_zero_theta[ok_log[num_ok_log - 2]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 2]]]) ) ) ) / x - 
                   temp4[ok_log[num_ok_log - 1]] - 
-                  (16*w_k[non_zero_theta[ok_log[num_ok_log - 1]]] + 8*w_k[non_zero_theta[ok_log[num_ok_log -2]]]) * lambda * log(x) / x / log(center_k[non_zero_theta[ok_log[num_ok_log - 1]]])}
+                  (16*w_k[non_zero_theta[ok_log[num_ok_log - 1]]] + 8 * w_k[non_zero_theta[ok_log[num_ok_log -2]]]) * lambda * log(x) / x / log(center_k[non_zero_theta[ok_log[num_ok_log - 1]]])}
               
                   g_end     <-  function(x) {
-                (data$Sum_m_k[non_zero_theta[ok_log[num_ok_log]]] - 2*lambda * w_k[non_zero_theta[ok_log[num_ok_log -1]]] * (-3 * 
+                (data$Sum_m_k[non_zero_theta[ok_log[num_ok_log]]] - 2 * lambda * w_k[non_zero_theta[ok_log[num_ok_log -1]]] * (-3 * 
                                                log(theta[non_zero_theta[ok_log[num_ok_log]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log]]]) + 
                                                log(theta[non_zero_theta[ok_log[num_ok_log - 2]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 2]]]) - 
                                                2 * log(theta[non_zero_theta[ok_log[num_ok_log - 1]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 1]]])   )) / x  -   
-                  temp4[ok_log[num_ok_log]] - 8*w_k[non_zero_theta[ok_log[num_ok_log - 1]]] * lambda*log(x)/x / log(center_k[non_zero_theta[ok_log[num_ok_log]]]) }  
+                  temp4[ok_log[num_ok_log]] - 8 * w_k[non_zero_theta[ok_log[num_ok_log - 1]]] * lambda * log(x)/x / log(center_k[non_zero_theta[ok_log[num_ok_log]]]) }  
               
             
                   

@@ -8,16 +8,17 @@ A function to estimate the attachment function and node fitness in temporal comp
 From a PAFitData object, which contains summary statistics summerized from the dataset, PAFit estimates the attachment function \eqn{A_k} and node fitness \eqn{\eta_i} by penalized log-likelihood maximization.  It also calculates confidence intervals for \eqn{A_k} and \eqn{\eta_i}.  Estimation of the attachment function in isolation (while fixing \eqn{\eta_i = 1}) can be specified by setting only_PA = TRUE.  Estimation of node fitness in isolation (fixing either \eqn{A_k = k} or \eqn{A_k = 1}) can be specified by setting only_f = TRUE.
 }
 \usage{
-PAFit (data, only_PA = FALSE, only_f = FALSE, 
-       mode_f = c("Linear_PA", "Constant_PA","Log_linear"),
-       true_A = NULL, true_f = NULL, s = 1, auto_lambda = TRUE, 
-       r = 0.01, lambda = 1, weight_PA_mode = 1, auto_stop = TRUE,
-       stop_cond = 10^-9, iteration = 20, max_iter = 2e+05, 
-       debug = FALSE, step_size = 0.5, q = 1,
-       alpha_start = 1, normalized_f = FALSE, 
-       interpolate = TRUE, 
-       mode_reg_A = 2, 
-       start_mode_A = "Log_linear", start_mode_f = "Constant",
+PAFit (data, 
+       only_PA        = FALSE       , only_f      = FALSE, 
+       mode_f         = "Linear_PA" ,
+       true_A         = NULL        , true_f      = NULL , s           = 1    , 
+       auto_lambda    = TRUE        , r           = 0.01 , lambda      = 1    , 
+       weight_PA_mode = 1           , auto_stop   = TRUE , stop_cond   = 10^-9, 
+       iteration      = 20          , max_iter    = 2e+05, debug       = FALSE, 
+       step_size      = 0.5         , q           = 1    , alpha_start = 1    , 
+       normalized_f   = FALSE       , interpolate = TRUE , mode_reg_A  = 2    , 
+       start_mode_A   = "Log_linear", 
+       start_mode_f   = "Constant"  ,
        ...)
 }
 \arguments{

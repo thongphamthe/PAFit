@@ -7,6 +7,7 @@ Author: Thong Pham, Paul Sheridan, Hidetoshi Shimodaira
 Maintainer: Thong Pham <thongpham@thongpham.net>
 Description: A statistically sound method for estimating jointly the attachment function and node fitness in a temporal complex network by maximizing a suitable penalized log-likelihood function is implemented in this package. Tutorial can be found in the accompanying vignette. For a list of references, please run the command: citation("PAFit").  
 URL: http://www.nature.com/articles/srep32558, http://dx.doi.org/10.1371/journal.pone.0137796, http://dx.doi.org/10.1007/978-3-319-29228-1_13 
+BugReports: https://github.com/thongphamthe/PAFit
 License: GPL-3
 Depends: R(>= 2.10.0)
 Imports: Rcpp (>= 0.11.3) , grDevices, graphics, stats, RColorBrewer, VGAM
