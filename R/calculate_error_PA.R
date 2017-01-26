@@ -1,6 +1,6 @@
 
 
-calculate_error_PA <- function(start_deg = 0,model = 1,alpha = 1, beta = 1, sat_at = 100,k , estimate_A, mode = 1) {
+Calculate_error_PA <- function(start_deg = 0,model = 1,alpha = 1, beta = 1, sat_at = 100,k , estimate_A, mode = 1) {
   #nonzero <- 0:(max(max.deg-1,k))
   nonzero <- k > start_deg
   A    <- A[nonzero]

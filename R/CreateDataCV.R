@@ -95,10 +95,10 @@ CreateDataCV<- function(data, p = 0.75, G = 50,
         prob_em_each[i,labels(bbb)[[1]]] <- bbb
         prob_em_each[i,labels(bbb)[[1]]] <- prob_em_each[i,labels(bbb)[[1]]]/ m_each[i] 
         
-        deg_each[i,labels(bbb)[[1]]]       <- deg_vec[labels(bbb)[[1]]]
+        deg_each[i,labels(bbb)[[1]]]     <- deg_vec[labels(bbb)[[1]]]
         
         #update new degree vector for the next step 
-        deg_vec[labels(aaa)[[1]]]          <- deg_vec[labels(aaa)[[1]]] + aaa;  
+        deg_vec[labels(aaa)[[1]]]        <- deg_vec[labels(aaa)[[1]]] + aaa;  
       }
       result            <- list(stats        = stats       , deg_each = deg_each,
                                 m_each       = m_each      ,

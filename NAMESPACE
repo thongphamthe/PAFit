@@ -10,9 +10,17 @@ importFrom("grDevices", "col2rgb")
 importFrom("graphics", "polygon")
 importFrom("graphics", "plot")
 importFrom("stats", "runif")
-S3method(print, PAFit)
-S3method(print, PAFitData)
-S3method(plot, PAFit)
-S3method(summary, PAFit)
-S3method(summary, PAFitData)
+
+
+S3method(print, PAFit_result)
+S3method(print, PA_result)
+S3method(print, PAFit_data)
+
+
+S3method(plot, PAFit_result)
+S3method(plot, PA_result)
+
+S3method(summary, PA_result)
+S3method(summary, PAFit_result)
+S3method(summary, PAFit_data)
 

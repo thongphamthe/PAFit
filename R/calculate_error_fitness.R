@@ -1,5 +1,5 @@
 #average error in estimating f
-calculate_error_fitness <- function(true, estimate) {
+Calculate_error_fitness <- function(true, estimate) {
   nonzero <- true > 0  
   true    <- true[nonzero]
   f       <- f[nonzero]

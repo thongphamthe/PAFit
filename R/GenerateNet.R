@@ -1,11 +1,11 @@
 # function to generate simulated network  2015-3-11 Thong Pham
 GenerateNet<-
-function(N = 1000, m = 1, mode = c(1,2,3), alpha = 1, beta = 1, sat_at = 100,
+function(N, m = 1, mode = 1, alpha = 1, beta = 2, sat_at = 100,
          offset = 1, rate = 0, 
          shape = 0, mode_f = c("gamma"), num_seed = 2, prob_m = FALSE,
          meanlog = 0, sdlog = 1,
-         scale_pareto = 0.6,
-         shape_pareto = 2.5,
+         scale_pareto = 2,
+         shape_pareto = 2,
          increase = FALSE, 
          multiple_node = 1, 
          specific_start = NULL,

@@ -1,19 +1,19 @@
-\name{print.PAFitData}
-\alias{print.PAFitData}
+\name{print.PAFit_result}
+\alias{print.PAFit_result}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-A function to print a PAFitData object
+A function to print a PAFit_result object
 }
 \description{
-This function print a PAFitData object's information.
+This function print a PAFit_result object's information.
 }
 \usage{
-\method{print}{PAFitData}(x,...)
+\method{print}{PAFit_result}(x,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-An object of class "PAFitData", containing the summary statistics needed in estimation.
+An object of class "PAFit_result", containing the estimation result of PAFit.
 }
    \item{\dots}{
 %%     ~~Describe \code{\dots} here~~
@@ -37,7 +37,8 @@ Thong Pham \email{thongpham@thongpham.net}
 
 \examples{
 library("PAFit")
-data   <- GenerateNet(N = 100,m = 1,mode = 1, alpha = 1, shape = 5, rate = 5)
-stats  <- GetStatistics(data$graph)
-print(stats)
+net       <- GenerateNet(N = 50,m = 1, mode = 1, alpha = 1, shape = 100, rate = 100)
+net_stats <- GetStatistics(net$graph)
+result    <- PAFit(net_stats)
+print(result)
 }

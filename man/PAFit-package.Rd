@@ -50,8 +50,9 @@ Maintainer: Thong Pham \email{thongpham@thongpham.net}
 \keyword{maximum likelihood function}
 \examples{
 library("PAFit")
-data   <- GenerateNet(N = 100,m = 1,alpha = 1, mode = 1, shape = 0, rate = 0)
-stats  <- GetStatistics(data$graph)
-result <- PAFit(stats,only_PA = TRUE,stop_cond = 10^-3)
-plot(x = result,data = stats,plot = "A")
+net    <- GenerateNet(N = 50,m = 1,alpha = 1, mode = 1, shape = 10, rate = 10)
+stats  <- GetStatistics(net$graph)
+result <- PAFit(stats)
+summary(result)
+plot(result,stats)
 }

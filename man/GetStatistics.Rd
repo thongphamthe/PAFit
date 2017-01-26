@@ -8,8 +8,8 @@ A function to summarize input data into sufficient statistics for estimating the
 The function summarizes input data into sufficient statistics for estimating the attachment function and node fitness, together with additional information about the data, such as the total number of nodes, the number of time-steps, the maximum degree, and the final degree of the network, etc. .  It also provides mechanisms to automatically deal with very large datasets by binning the degree, setting a degree threshold, or discarding time-steps. 
 }
 \usage{GetStatistics(data,net_type = c("directed","undirected"), only_PA = FALSE, 
-                     Binning = TRUE, G = 200, start_deg = 0,  
-                     deg_threshold = 0, CompressMode = c(0,1,2,3), 
+                     Binning = TRUE, G = 50, start_deg = 0,  
+                     deg_threshold = 5, CompressMode = c(0,1,2,3), 
                      CompressRatio = 0.5 , CustomTime = NULL, 
                      only_true_deg_matrix = FALSE)
 }

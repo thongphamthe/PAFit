@@ -1,6 +1,6 @@
 # function to plot estimation results  2015-3-12 Thong Pham
-plot.PAFit <-
-function(x,data,true_f = NULL, plot = c("A","f","true_f"), plot_bin = TRUE,
+plot.PAFit_result <-
+function(x,net_stat,true_f = NULL, plot = c("A","f","true_f"), plot_bin = TRUE,
          line = FALSE, confidence = TRUE, high_deg = NULL, shade_point = 0.5, shade_interval = 0.5, 
          max_A = NULL, 
          min_A = NULL, f_min = NULL, 
@@ -69,27 +69,27 @@ function(x,data,true_f = NULL, plot = c("A","f","true_f"), plot_bin = TRUE,
   }
   else if ("f" == plot[1]) {
       if (FALSE == is.null(high_deg))
-          non_zero <- x$lower_f > 10^-20 & data$increase >= high_deg
+          non_zero <- x$lower_f > 10^-20 & net_stat$increase >= high_deg
       else
-          non_zero <- x$lower_f > 10^-20 & data$increase > 0
+          non_zero <- x$lower_f > 10^-20 & net_stat$increase > 0
       if (length(non_zero) <= 0)
-        stop("There is no data. Please decrease high_deg") 
+        stop("There is no net_stat. Please decrease high_deg") 
       if (TRUE == confidence)
           lim_y = c(min(x$lower_f[non_zero]), 
                     max(x$upper_f[non_zero]))
       else lim_y = c(min(x$f[non_zero]),max(x$f[non_zero]))
-      xlim <- c(min(data$increase[non_zero])+1,max(data$increase[non_zero]))
-      plot(data$increase[non_zero][1],x$f[non_zero][1],log="xy",ylab = "Estimated fitness",xlim = xlim, 
+      xlim <- c(min(net_stat$increase[non_zero])+1,max(net_stat$increase[non_zero]))
+      plot(net_stat$increase[non_zero][1],x$f[non_zero][1],log="xy",ylab = "Estimated fitness",xlim = xlim, 
            ylim = lim_y, xlab = "Number of edges acquired",...)
       if (TRUE == confidence) {
-          order   <- order(data$increase[non_zero])
+          order   <- order(net_stat$increase[non_zero])
           upper_f <- x$upper_f[non_zero][order]
           lower_f <- x$lower_f[non_zero][order]
-          unique_x <- unique(data$increase[non_zero][order])
+          unique_x <- unique(net_stat$increase[non_zero][order])
           upper_u  <- rep(0,length(unique_x))
           lower_u  <- upper_u  
         for (jjj in 1:length(unique_x)) {
-          uu           <- which(data$increase[non_zero][order] == unique_x[jjj])
+          uu           <- which(net_stat$increase[non_zero][order] == unique_x[jjj])
           #print(uu)
           upper_u[jjj] <- max(upper_f[uu])
           lower_u[jjj] <- min(lower_f[uu])
@@ -98,27 +98,27 @@ function(x,data,true_f = NULL, plot = c("A","f","true_f"), plot_bin = TRUE,
           my_col <- my_col / 255
           polygon(c(unique_x,rev(unique_x)),c(upper_u,rev(lower_u)), col = rgb(my_col[1],my_col[2],my_col[3],shade_interval),
                   border = NA)    
-          #arrows(x0 = data$increase[non_zero], y0 = x$lower_f[non_zero], x1 = data$increase[non_zero], 
+          #arrows(x0 = net_stat$increase[non_zero], y0 = x$lower_f[non_zero], x1 = net_stat$increase[non_zero], 
           #       y1 = x$upper_f[non_zero], code = 3,angle = 90, length = 0,col = rgb(0,0,0,shade_interval))
       }
-      points(data$increase[non_zero],x$f[non_zero],pch = 20,col = rgb(0,0,0,shade_point),...)
+      points(net_stat$increase[non_zero],x$f[non_zero],pch = 20,col = rgb(0,0,0,shade_point),...)
       abline(h = 1)
   }
   else if ("true_f" == plot[1]) {
-          #names(true_f) <- data$node_id 
+          #names(true_f) <- net_stat$node_id 
           #true_f        <-  true_f[names(x$f)] 
-          true_f1   <- length(true_f[data$node_id][data$f_position])*true_f[data$node_id][data$f_position]/
-                       sum(true_f[data$node_id][data$f_position])
+          true_f1   <- length(true_f[net_stat$node_id][net_stat$f_position])*true_f[net_stat$node_id][net_stat$f_position]/
+                       sum(true_f[net_stat$node_id][net_stat$f_position])
           if (FALSE == is.null(high_deg)) {
-              non_zero <- x$lower_f[data$f_position] > 10^-20 & true_f1 > 10^-20 & data$increase[data$f_position] > high_deg
+              non_zero <- x$lower_f[net_stat$f_position] > 10^-20 & true_f1 > 10^-20 & net_stat$increase[net_stat$f_position] > high_deg
           } else
-              non_zero <- x$lower_f[data$f_position] > 10^-20 & true_f1 > 10^-20 
+              non_zero <- x$lower_f[net_stat$f_position] > 10^-20 & true_f1 > 10^-20 
           if (length(non_zero) <= 0)
-             stop("There is no data. Please decrease high_deg")  
+             stop("There is no net_stat. Please decrease high_deg")  
           #print(non_zero)
-          b        <- lm(true_f1[non_zero] ~ 0 + x$f[data$f_position][non_zero])$coefficients[1]
-          upper_f <-  exp(log(b*x$f[data$f_position][non_zero]) + 2 * sqrt(x$var_f[data$f_position][non_zero] / x$f[data$f_position][non_zero] ^ 2))
-          lower_f <-  exp(log(b*x$f[data$f_position][non_zero]) - 2 * sqrt(x$var_f[data$f_position][non_zero] / x$f[data$f_position][non_zero] ^ 2))
+          b        <- lm(true_f1[non_zero] ~ 0 + x$f[net_stat$f_position][non_zero])$coefficients[1]
+          upper_f <-  exp(log(b*x$f[net_stat$f_position][non_zero]) + 2 * sqrt(x$var_f[net_stat$f_position][non_zero] / x$f[net_stat$f_position][non_zero] ^ 2))
+          lower_f <-  exp(log(b*x$f[net_stat$f_position][non_zero]) - 2 * sqrt(x$var_f[net_stat$f_position][non_zero] / x$f[net_stat$f_position][non_zero] ^ 2))
           
           #print(lower_f)
           #print("---")
@@ -145,7 +145,7 @@ function(x,data,true_f = NULL, plot = c("A","f","true_f"), plot_bin = TRUE,
           }
           #print(xlim)          
           ylim <- xlim
-          plot(true_f1[non_zero][1], b*x$f[data$f_position][non_zero][1], xlim= xlim, ylim = ylim,
+          plot(true_f1[non_zero][1], b*x$f[net_stat$f_position][non_zero][1], xlim= xlim, ylim = ylim,
                 ylab= "Estimated fitness",xlab = "True fitness",log = "xy", pch ="",...)
           if (TRUE == confidence) {
               #x_point <- c(true_f1[non_zero],rev(true_f1[non_zero]))
@@ -170,17 +170,17 @@ function(x,data,true_f = NULL, plot = c("A","f","true_f"), plot_bin = TRUE,
           }
           abline(a=0,b = 1)
           if (FALSE == plot_true_degree) {
-              points(true_f1[non_zero],b*x$f[data$f_position][non_zero],pch = 20,col = rgb(0,0,0,shade_point),...) 
+              points(true_f1[non_zero],b*x$f[net_stat$f_position][non_zero],pch = 20,col = rgb(0,0,0,shade_point),...) 
           }
           else {  
-              points(b*x$f[data$f_position][non_zero],true_f1[non_zero],pch ="",...)
+              points(b*x$f[net_stat$f_position][non_zero],true_f1[non_zero],pch ="",...)
               col <- brewer.pal(9,"Greens")
-              order <- order(data$increase[data$f_position][non_zero])
-              col_seq <- seq(min(data$increase[data$f_position][non_zero]),
-                         max(data$increase[data$f_position][non_zero]),9)
-              a <- sapply(data$increase[data$f_position][non_zero], function(x)which(col_seq >= x)[1])
+              order <- order(net_stat$increase[net_stat$f_position][non_zero])
+              col_seq <- seq(min(net_stat$increase[net_stat$f_position][non_zero]),
+                         max(net_stat$increase[net_stat$f_position][non_zero]),9)
+              a <- sapply(net_stat$increase[net_stat$f_position][non_zero], function(x)which(col_seq >= x)[1])
               a[is.na(a)] <- 9
-              text(b*x$f[data$f_position][non_zero],true_f1[non_zero],data$increase[data$f_position][non_zero],col = col[a],...) 
+              text(b*x$f[net_stat$f_position][non_zero],true_f1[non_zero],net_stat$increase[net_stat$f_position][non_zero],col = col[a],...) 
           }
       }
 }

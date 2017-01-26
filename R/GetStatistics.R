@@ -1,7 +1,7 @@
 # function to summarize statistics from a growing network 
 GetStatistics <-
-function(data,net_type = c("directed","undirected"), only_PA = FALSE, Binning = TRUE, G = 200, start_deg = 0,  
-         deg_threshold = 0, CompressMode = c(0,1,2,3), CompressRatio = 0.5 , CustomTime = NULL, 
+function(data,net_type = c("directed","undirected"), only_PA = FALSE, Binning = TRUE, G = 50, start_deg = 0,  
+         deg_threshold = 5, CompressMode = c(0,1,2,3), CompressRatio = 0.5 , CustomTime = NULL, 
          only_true_deg_matrix = FALSE){
 
     data              <- data[order(data[,3], decreasing = FALSE),]
@@ -185,7 +185,7 @@ function(data,net_type = c("directed","undirected"), only_PA = FALSE, Binning = 
                 CompressMode = CompressMode[1], f_position = f_position, compressed_unique_time = compressed_unique_time, begin_deg = begin_deg, end_deg = end_deg,
                 interval_length = interval_length,node_id = node_id_old, N = N, T = T, T_compressed = T_compressed,
                 deg.max = deg.max, CompressRatio = CompressRatio , CustomTime = CustomTime, only_true_deg_matrix = only_true_deg_matrix)
-    class(result) <- "PAFitData"
+    class(result) <- "PAFit_data"
    
     return(result)
 }

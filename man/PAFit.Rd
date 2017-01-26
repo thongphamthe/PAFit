@@ -8,22 +8,22 @@ A function to estimate the attachment function and node fitness in temporal comp
 From a PAFitData object, which contains summary statistics summerized from the dataset, PAFit estimates the attachment function \eqn{A_k} and node fitness \eqn{\eta_i} by penalized log-likelihood maximization.  It also calculates confidence intervals for \eqn{A_k} and \eqn{\eta_i}.  Estimation of the attachment function in isolation (while fixing \eqn{\eta_i = 1}) can be specified by setting only_PA = TRUE.  Estimation of node fitness in isolation (fixing either \eqn{A_k = k} or \eqn{A_k = 1}) can be specified by setting only_f = TRUE.
 }
 \usage{
-PAFit (data, 
+PAFit (net_stat, 
        only_PA        = FALSE       , only_f      = FALSE, 
        mode_f         = "Linear_PA" ,
-       true_A         = NULL        , true_f      = NULL , s           = 1    , 
+       true_A         = NULL        , true_f      = NULL , s           = 10   , 
        auto_lambda    = TRUE        , r           = 0.01 , lambda      = 1    , 
-       weight_PA_mode = 1           , auto_stop   = TRUE , stop_cond   = 10^-9, 
-       iteration      = 20          , max_iter    = 2e+05, debug       = FALSE, 
+       weight_PA_mode = 1           , auto_stop   = TRUE , stop_cond   = 10^-6, 
+       iteration      = 200         , max_iter    = 2e+05, debug       = FALSE, 
        step_size      = 0.5         , q           = 1    , alpha_start = 1    , 
-       normalized_f   = FALSE       , interpolate = TRUE , mode_reg_A  = 2    , 
+       normalized_f   = FALSE       , interpolate = TRUE , mode_reg_A  = 0    , 
        start_mode_A   = "Log_linear", 
        start_mode_f   = "Constant"  ,
        ...)
 }
 \arguments{
-  \item{data}{
-An object of class "PAFitData" containing all the summary statistics summerized from the data by the function GetStatistics
+  \item{net_stat}{
+An object of class "PAFit_data" containing all the summary statistics summerized from the data by the function GetStatistics
 }
 \item{only_PA}{
 Logical. TRUE means that the attachment function \eqn{A_k} is estimated in isolation(fixing \eqn{\eta_i = 1}). Default is FALSE.
@@ -71,7 +71,7 @@ Numeric. The maximum number of iterations. Regardless of other settings, the alg
 \item{alpha_start}{Numeric. The starting value for alpha when we use the model \eqn{k^\alpha}. Default value is \eqn{1}.}
 \item{normalized_f}{Logical. Indicates whether we should normalize the estimated value of \eqn{f} after estimation. Default value is FALSE.}
 \item{interpolate}{Logical. Indicates whether we should perform interpolation for the missing values of the estimated \eqn{A_k}. The interpolation, if performed, is a linear regression on log-scale. Default value is TRUE.}
-\item{mode_reg_A}{Integer. Indicate which regularization term is used for the PA function. For the regularization function used in the PLOS ONE and SR paper, use 2. Default value is \eqn{2}.}
+\item{mode_reg_A}{Integer. Indicate which regularization term is used for the PA function. For the regularization function used in the PLOS ONE and SR paper, use 0. Default value is \eqn{0}.}
 \item{start_mode_A}{String. Takes one of two values: "Log_linear" (the initial PA function set to k^alpha_start) or "Random" (the initial function is randomly sampled from a uniform distribution). Default value is "Log_linear".}
 \item{start_mode_f}{String. Takes one of two values: "Constant" (the initial node fitnesses are all set to 1) or "Random" (the initial node fitnesses are randomly sampled from a gamma distribution). Default value is "Constant".}
 
@@ -81,7 +81,7 @@ Numeric. The maximum number of iterations. Regardless of other settings, the alg
 }
 }
 \value{
-an object of class "PAFit", which is a list. Some important fields of this object:
+an object of class "PAFit_result", which is a list. Some important fields of this object:
 \item{A }{The estimated attachment function}
 \item{k}{The corresponding degree}
 \item{var_A}{Variances of the estimated A}
@@ -118,9 +118,9 @@ Thong Pham
 
 \examples{
 library("PAFit")
-data   <- GenerateNet(N = 100,m = 1, mode = 1, alpha = 1, shape = 5, rate = 5)
-stats  <- GetStatistics(data$graph)
-result <- PAFit(stats,stop_cond = 10^-3)
+net        <- GenerateNet(N = 50,m = 1, mode = 1, alpha = 1, shape = 10, rate = 10)
+net_stats  <- GetStatistics(net$graph)
+result     <- PAFit(net_stats)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

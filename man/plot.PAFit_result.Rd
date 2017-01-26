@@ -1,5 +1,5 @@
-\name{plot.PAFit}
-\alias{plot.PAFit}
+\name{plot.PAFit_result}
+\alias{plot.PAFit_result}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 A function to plot the estimated attachment function and node fitness
@@ -8,7 +8,7 @@ A function to plot the estimated attachment function and node fitness
 This function plots the estimated attachment function \eqn{A_k} and node fitness \eqn{eta_i}, together with additional information such as their confidence intervals. 
 }
 \usage{
-\method{plot}{PAFit}(x,data,true_f = NULL, plot = c("A","f","true_f"), plot_bin = TRUE,
+\method{plot}{PAFit_result}(x,net_stat,true_f = NULL, plot = c("A","f","true_f"), plot_bin = TRUE,
          line = FALSE, confidence = TRUE, high_deg = NULL, 
          shade_point = 0.5, shade_interval = 0.5, 
          max_A = NULL, 
@@ -21,10 +21,10 @@ This function plots the estimated attachment function \eqn{A_k} and node fitness
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-An object of class "PAFit", containing the result
+An object of class "PAFit_result", containing the result
 }
-  \item{data}{
-An object of class "PAFitData", containing the summerized statistics.
+  \item{net_stat}{
+An object of class "PAFit_data", containing the summerized statistics.
 }
   \item{true_f}{
 Vector. Optional parameter for the true value of node fitnesses (only available in simulated datasets). If this parameter is specified and plot == "true_f", a plot of estimated \eqn{\eta} versus true \eqn{\eta} is produced (after a suitable rescaling of the estimated \eqn{f}).  
@@ -75,13 +75,13 @@ Thong Pham \email{thongpham@thongpham.net}
 
 \examples{
 library("PAFit")
-data   <- GenerateNet(N = 100,m = 1,mode = 1, alpha = 1, shape = 5, rate = 5)
-stats  <- GetStatistics(data$graph,deg_thresh = 1, Binning = TRUE, G = 50)
-result <- PAFit(stats,stop_cond = 10^-3)
+net        <- GenerateNet(N = 50 , m = 1 , mode = 1 , alpha = 1 , shape = 10 , rate = 10)
+net_stats  <- GetStatistics(net$graph)
+result     <- PAFit(net_stats)
 #plot A
-plot(result,stats,plot = "A")
+plot(result , net_stats , plot = "A")
 #plot f
-plot(result,stats,plot = "f")
+plot(result , net_stats , plot = "f")
 #plot true_f
-plot(result,stats,data$fitness, plot = "true_f")
+plot(result , net_stats , net$fitness, plot = "true_f")
 }

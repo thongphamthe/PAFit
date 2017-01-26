@@ -2,3 +2,5 @@
 /.Rhistory
 /PAFit.Rproj
 /.Rproj.user
+/.Rbuildignore
+/.gitignore

@@ -10,6 +10,8 @@
   \subsection{NEW}{
     \itemize{
       \item{starting to use GitHub for bugs reporting: \url{https://github.com/thongphamthe/PAFit/issues}}
+      \item{Newman's method and Jeong's method are implemented}
+      \item{functions to evaluate error between estimation and true values}
     }
   }
 }
