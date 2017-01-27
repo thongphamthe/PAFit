@@ -1,4 +1,5 @@
 # The PAFit package 
+[![Build Status](https://travis-ci.org/thongphamthe/PAFit.png?branch=master)](https://travis-ci.org/thongphamthe/PAFit) 
 [![codecov](https://codecov.io/gh/thongphamthe/PAFit/branch/master/graph/badge.svg)](https://codecov.io/gh/thongphamthe/PAFit)
 [![Downloads](http://cranlogs.r-pkg.org/badges/PAFit?color=brightgreen)](http://cran.rstudio.com/package=PAFit)
 [![CRAN](http://www.r-pkg.org/badges/version/PAFit)](http://cran.rstudio.com/package=PAFit)
