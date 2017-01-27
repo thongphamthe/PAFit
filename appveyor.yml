@@ -19,6 +19,9 @@ environment:
 
 build_script:
   - travis-tool.sh install_github hadley/devtools
+  - travis-tool.sh install_github cran/RColorBrewer
+  - travis-tool.sh install_github cran/VGAM
+  - travis-tool.sh install_github HenrikBengtsson/R.rsp
 
 test_script:
   - travis-tool.sh run_tests
