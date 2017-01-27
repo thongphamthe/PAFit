@@ -1,5 +1,5 @@
 # The PAFit package
-[![Build Status](https://travis-ci.org/thongphamthe/PAFit.png?branch=master)](https://travis-ci.org/thongphamthe/PAFit)
+[![Build Status](https://travis-ci.org/thongphamthe/PAFit.svg?branch=master)](https://travis-ci.org/thongphamthe/PAFit)
 [![codecov](https://codecov.io/gh/thongphamthe/PAFit/branch/master/graph/badge.svg)](https://codecov.io/gh/thongphamthe/PAFit)
 [![Downloads](http://cranlogs.r-pkg.org/badges/PAFit?color=brightgreen)](http://cran.rstudio.com/package=PAFit)
 [![CRAN](http://www.r-pkg.org/badges/version/PAFit)](http://cran.rstudio.com/package=PAFit)
@@ -16,7 +16,7 @@ This package is hosted on [CRAN](http://cran.r-project.org/web/packages/PAFit/) 
 ```r
 install.packages("PAFit")
 ```
-Alternatively, the development version can be install from from github using the devtools package:
+Alternatively, the development version can be installed from github using the devtools package:
 ```r
 install.packages("devtools")
 devtools::install_github("thongphamthe/PAFit", sub = "pkg")
@@ -38,14 +38,14 @@ then work through the tutorial (link to the current CRAN version):
 NEWS
 ---------------
 
-Please refer to the current CRAN version for news:
+Please refer to the current CRAN version of NEWS:
 
  * [NEWS](https://cran.r-project.org/web/packages/PAFit/NEWS)
 
 Citation
 ---------------
 
-Please use the information from the citation information file (link to the current CRAN version): 
+Please refer to the citation information file (link to the current CRAN version): 
 
  * [Citation Info](https://cran.r-project.org/web/packages/PAFit/citation.html)
  

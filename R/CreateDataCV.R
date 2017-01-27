@@ -36,8 +36,8 @@ CreateDataCV<- function(data, p = 0.75, G = 50,
           new_links      <- new_links[appear[as.character(new_links)] == 1]
           m_each[i]      <- length(new_links)
           aaa            <- table(new_links)
-          prob_em_each[i,labels(aaa)[[1]]] <- aaa
-          prob_em_each[i,labels(aaa)[[1]]] <- prob_em_each[i,labels(aaa)[[1]]]/ m_each[i] 
+          prob_em_each[i,labels(aaa)[[1]]]   <- aaa
+          prob_em_each[i,labels(aaa)[[1]]]   <- prob_em_each[i,labels(aaa)[[1]]]/ m_each[i] 
           if (i < length(time_each)) {
               deg_each[i+1,]                 <- deg_each[i,];    
               deg_each[i+1,labels(aaa)[[1]]] <- deg_each[i+1,labels(aaa)[[1]]] + aaa
@@ -85,8 +85,8 @@ CreateDataCV<- function(data, p = 0.75, G = 50,
       deg_vec                   <- deg
       time_each                 <- unique_time[unique_time > use_time]
       for (i in 1:length(time_each)){
-        new_links      <- in_node[time_stamp == time_each[i]]
-        new_links      <- new_links[appear[as.character(new_links)] == 1]
+        new_links       <- in_node[time_stamp == time_each[i]]
+        new_links       <- new_links[appear[as.character(new_links)] == 1]
         ### IMPORTANT: remove nodes that go outside the range of the degree distribution of testing data
         new_links_final <- new_links[deg_vec[as.character(new_links)] < deg_max]
         m_each[i]       <- length(new_links_final)
