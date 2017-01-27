@@ -30,12 +30,20 @@ for (mode_f_value in c("Constant_PA", "Log_linear")) {
                         result <- PAFit(net_stats, mode_f = mode_f_value,stop_cond = 10^-3)
                         print(result)
                         summary(result)
+                        
                         plot(result,net_stats,plot = "A")
                         plot(result,net_stats,plot = "f")
                         plot(result,net_stats,true_f = net$fitness,plot = "true_f")
+                        result <- PAFit(net_stats, 
+                                        mode_f = mode_f_value,
+                                        stop_cond = 10^-3, only_PA = TRUE)
+                        summary(result)
+                        print(result)
+                        
                         result_Jeong  <- Jeong(net$graph,net_stats, T_0 = 10, T_1 = 40)
                         print(result_Jeong)
                         summary(result_Jeong)
+                        plot(result_Jeong,net_stats)
                         result_Newman <- Newman_corrected(net_stats)
                         calculate_error_PA(k = result$k,A = result$A)
                         calculate_error_fitness(true = net$fitness,
