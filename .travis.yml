@@ -4,4 +4,3 @@ r:
     - release
     - devel
 cache: packages
-Remotes: hadley/devtools
