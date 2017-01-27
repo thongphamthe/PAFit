@@ -5,7 +5,7 @@
   A function to calculate the relative error between the true and estimated node fitnesses.
 }
 \description{
-  This function calculates the relative error \eqn{e_\eta} between the true node fitnesses \eqn{\eta} and the estimated node fitnesses{\hat{eta}}. \eqn{e_\eta} is defined as \eqn{e_\eta = 1/{N}\sum_{i = 1}^{N} (\eta_i - \hat{\eta}_i)^2/\eta_i^2}. 
+  This function calculates the relative error \eqn{e_\eta} between the true node fitnesses \eqn{\eta} and the estimated node fitnesses \eqn{\hat{eta}}. \eqn{e_\eta} is defined as \eqn{e_\eta = 1/{N}\sum_{i = 1}^{N} (\eta_i - \hat{\eta}_i)^2/\eta_i^2}. 
 }
 \usage{
   calculate_error_fitness(true, estimate)
@@ -15,7 +15,7 @@
   \item{true}{
     Vector. The true node fitnesses.
   }
-  \item{A}{
+  \item{estimate}{
     Vector. The estimated node fitnesses. 
   }
 }
