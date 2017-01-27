@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/thongphamthe/PAFit/branch/master/graph/badge.svg)](https://codecov.io/gh/thongphamthe/PAFit)
 [![Downloads](http://cranlogs.r-pkg.org/badges/PAFit?color=brightgreen)](http://cran.rstudio.com/package=PAFit)
 [![CRAN](http://www.r-pkg.org/badges/version/PAFit)](http://cran.rstudio.com/package=PAFit)
-[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://opensource.org/licenses/GPL-3.0/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
 ====================
 
