@@ -1,6 +1,5 @@
 \name{PAFit-package}
 \alias{PAFit-package}
-\alias{FitMultinomial}
 \docType{package} 
 \title{A statistical sound method for joint estimation of the attachment function and node fitness in a temporal complex network by maximizing a suitable penalized log-likelihood function}
 \description{
