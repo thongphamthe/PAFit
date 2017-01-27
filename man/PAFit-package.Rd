@@ -12,8 +12,8 @@ For a list of references, please run the command: citation("PAFit").
 \tabular{ll}{
 Package: \tab PAFit\cr
 Type: \tab Package\cr
-Version: \tab 0.9.3\cr
-Date: \tab 2017-01-20\cr
+Version: \tab 0.9.4\cr
+Date: \tab 2017-02-04\cr
 License: \tab GPL-3 \cr
 }
 \itemize{
@@ -48,9 +48,9 @@ Maintainer: Thong Pham \email{thongpham@thongpham.net}
 \keyword{maximum likelihood function}
 \examples{
 library("PAFit")
-net    <- GenerateNet(N = 50,m = 1,alpha = 1, mode = 1, shape = 10, rate = 10)
-stats  <- GetStatistics(net$graph)
-result <- PAFit(stats)
+net        <- GenerateNet(N = 50,m = 1,alpha = 1, mode = 1, shape = 10, rate = 10)
+net_stats  <- GetStatistics(net$graph)
+result     <- PAFit(net_stats)
 summary(result)
-plot(result,stats)
+plot(result,net_stats)
 }

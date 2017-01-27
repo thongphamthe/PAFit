@@ -73,7 +73,7 @@ function(x,net_stat,true_f = NULL, plot = c("A","f","true_f"), plot_bin = TRUE,
       else
           non_zero <- x$lower_f > 10^-20 & net_stat$increase > 0
       if (length(non_zero) <= 0)
-        stop("There is no net_stat. Please decrease high_deg") 
+        stop("There is no data. Please decrease high_deg") 
       if (TRUE == confidence)
           lim_y = c(min(x$lower_f[non_zero]), 
                     max(x$upper_f[non_zero]))

@@ -1,34 +1,33 @@
-#testing codes
-result <- NULL
-data   <- NULL
-stats  <- NULL
+#testing GenerateNet, GetStatistics, Jeong, Newman_corrected and PAFit
 library(PAFit)
-#Repeat the test 5 times 
-for (count in NULL)
-for (prob_m in c("TRUE", "FALSE")[1])
-   for (inc in c("TRUE","FALSE")[1])
-      for (log in c("TRUE", "FALSE")[1])             
-              for (i in 1:1) {
-                  data  <- GenerateNet(N = 10, m = 10,prob_m = prob_m, increase = inc, log = log,
-                                      mode = i, shape = 2, rate = 2)
-                  for (bin in c("TRUE","FALSE")[1])   
-                    for (deg_thresh in c(0,2)[1]) {  
-                        stats <- GetStatistics(data$graph,deg_threshold = deg_thresh, Binning = bin, G = 10) 
+
+for (prob_m in c("TRUE", "FALSE"))
+   for (inc in c("TRUE","FALSE"))
+      for (log in c("TRUE", "FALSE"))
+          for (mode_f_value in c("Constant_PA", "Log_linear"))  
+              for (i in 1:3) {
+                  net  <- GenerateNet(N = 50, m = 10,prob_m = prob_m, increase = inc, log = log,
+                                      mode = i, shape = 100, rate = 100)
+                  for (bin in c("TRUE","FALSE"))   
+                    for (deg_thresh in c(0)) {  
+                        net_stats <- GetStatistics(net$graph,deg_threshold = deg_thresh, Binning = bin, G = 10) 
                         #check stats
-                        if (sum(stats$m_t) != sum(stats$Sum_m_k))
+                        if (sum(net_stats$m_t) != sum(net_stats$Sum_m_k))
                             print("wrong at m_t and sum_m_k")
-                        if (sum(abs(colSums(stats$m_tk) - stats$Sum_m_k)) != 0)
+                        if (sum(abs(colSums(net_stats$m_tk) - net_stats$Sum_m_k)) != 0)
                             print("wrong at m_tk and sum_m_k")
-                        temp <- sapply(1:(stats$T-1),function(x) sum(stats$node_degree[x,] != -1))
-                        if (sum(abs(rowSums(stats$n_tk) - (rowSums(stats$offset_tk) + temp))))
+                        temp <- sapply(1:(net_stats$T-1),function(x) sum(net_stats$node_degree[x,] != -1))
+                        if (sum(abs(rowSums(net_stats$n_tk) - (rowSums(net_stats$offset_tk) + temp))))
                             print("wrong at node_degree, n_tk, offset_tk") 
-                        if (sum(stats$z_j) > sum(stats$m_t))
+                        if (sum(net_stats$z_j) > sum(net_stats$m_t))
                             print("wrong at z_j")   
-                        if (sum(stats$z_j) + sum(stats$offset_m_tk) - sum(stats$Sum_m_k))
+                        if (sum(net_stats$z_j) + sum(net_stats$offset_m_tk) - sum(net_stats$Sum_m_k))
                             print("Wrong at offset_m_tk")  
-                        result <- PAFit(stats, mode_f ="Constant_PA",stop_cond = 10^-3)
-                        plot(result,stats,plot = "A")
-                        #plot(result,stats,plot = "f")
-                        #plot(result,data = stats,true_f = data$fitness,plot = "true_f")
+                        result <- PAFit(net_stats, mode_f = mode_f_value,stop_cond = 10^-3)
+                        plot(result,net_stats,plot = "A")
+                        plot(result,net_stats,plot = "f")
+                        plot(result,net_stats,true_f = net$fitness,plot = "true_f")
+                        result_Jeong  <- Jeong(net$graph,net_stats, T_0 = 10, T_1 = 40)
+                        result_Newman <- Newman_corrected(net_stats)
                   }
     }
