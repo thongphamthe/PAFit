@@ -10,6 +10,7 @@ URL: http://www.nature.com/articles/srep32558, http://dx.doi.org/10.1371/journal
 BugReports: https://github.com/thongphamthe/PAFit
 License: GPL-3
 Depends: R(>= 2.10.0)
+Remotes: hadley/devtools
 Imports: Rcpp (>= 0.11.3) , grDevices, graphics, stats, RColorBrewer, VGAM
 LinkingTo: Rcpp
 LazyData: True
