@@ -22,7 +22,7 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
   }
   count <- 0
   total <- length(ratio_vec_PAFit) * length(rate_PAFit) + (!only_PAFit) *
-    (2 * length(rate_PAFit) + length(ratio_vec_PAFit) + (!only_linear)*rate_PAFit)[1]
+    (2 * length(rate_PAFit) + length(ratio_vec_PAFit) + (!only_linear)*length(rate_PAFit))[1]
   #Full model
   if (!only_linear)
   for (i in 1:length(ratio_vec_PAFit))
@@ -42,6 +42,7 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
         }
     }
   #linear A
+  if (!only_linear)
   if (FALSE == only_PAFit)
   if (length(rate_Fit) > 0) {
     for (i in 1:length(rate_Fit)) {
@@ -90,7 +91,8 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
       count <- count + 1
       if (silent == FALSE)
           print(paste0("Processing case ",count, " of ",total))
-      result_PAFit <- PAFit(cv_data$stats, mode_f = "Constant_PA", only_f = TRUE,s = rate_Fit[i], auto_stop =  TRUE, 
+      result_PAFit <- PAFit(cv_data$stats, mode_f = "Constant_PA", only_f = TRUE,s = rate_Fit[i], 
+                            auto_stop =  TRUE, 
                             stop_cond = stop_cond,normalized_f = FALSE)     
       for (k in 1:length(cv_data$m_each)) 
         if (cv_data$m_each[k] != 0) {
@@ -102,7 +104,7 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
     }
   }
   #k^alpha
-  if (!only_linear)
+  if (only_linear)
   if (FALSE == only_PAFit)
   for (j in 1:length(rate_PAFit)) {
     count <- count + 1
@@ -127,9 +129,12 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
   max_id    <- which.max(PAFit_each)[1]
   r_index   <- max_id %% length(r)
   if (r_index == 0)
-      r_index == 1
+      r_index <-  1
   s_index   <- ceiling(max_id / length(s))
   r_optimal <- r[r_index]
+  #print(r)
+  #print(r_index)
+  #print(r_optimal)
   s_optimal <- s[s_index]
   result    <- list(PAFit_each = PAFit_each, Fit_each_linear = Fit_each_linear, PA_each = PA_each, 
                     Fit_each = Fit_each, alpha_each = alpha_each, r_optimal = r_optimal, s_optimal = s_optimal)
