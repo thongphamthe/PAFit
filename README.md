@@ -19,10 +19,10 @@ install.packages("PAFit")
 Alternatively, the development version can be install from from github using the devtools package:
 ```r
 install.packages("devtools")
-devtools::install_github("thongphamthe/PAFit", sub="pkg")
+devtools::install_github("thongphamthe/PAFit", sub = "pkg")
 ```
 
-Note Windows users have to first install [Rtools](http://cran.rstudio.com/bin/windows/Rtools/).
+Note: Windows users have to first install [Rtools](http://cran.rstudio.com/bin/windows/Rtools/).
 
 Getting Started
 ---------------
@@ -31,10 +31,23 @@ To get started, load the package
 ```r
 library("PAFit")
 ```
-then work through the tutorial (links to the current CRAN version):
+then work through the tutorial (link to the current CRAN version):
 
  * [Tutorial](https://cran.r-project.org/web/packages/PAFit/vignettes/Tutorial.pdf)
 
+NEWS
+---------------
+
+Please refer to the current CRAN version for news:
+[NEWS](https://cran.r-project.org/web/packages/PAFit/NEWS)
+
+Citation
+---------------
+
+Please use the information from the citation information file (link to the current CRAN version): 
+
+ * [Citation Info](https://cran.r-project.org/web/packages/PAFit/citation.html)
+ 
 License
 -----------------
 GPL-3

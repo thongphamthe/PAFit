@@ -1,23 +1,24 @@
 \name{NEWS}
 \alias{NEWS}
 \title{Package News}
-\section{version 0.9.3 (Release date: 2017-02-04)}{
+\section{version 0.9.4 (Release date: 2017-02-04)}{
   \subsection{FIXED}{
     \itemize{
-      \item{a bug in reading data in which time-stamps are factors}
+      \item{a bug in \code{the performCV} function}
     }
   }
   \subsection{NEW}{
     \itemize{
       \item{starting to use GitHub for bugs reporting: \url{https://github.com/thongphamthe/PAFit/issues}}
-      \item{Newman's method and Jeong's method are implemented}
+            \item{starting to use a parallel GitHub homepage: \url{https://github.com/thongphamthe/PAFit}}
+      \item{The corrected Newman's method and Jeong's method are implemented}
       \item{functions to evaluate error between estimation and true values}
     }
   }
 }
 
 
-\section{version 0.9.2 (Release date: 2017-1-20)}{
+\section{version 0.9.3 (Release date: 2017-1-20)}{
   \subsection{FIXED}{
     \itemize{
       \item{a bug in reading data in which time-stamps are factors}
