@@ -39,7 +39,8 @@ NEWS
 ---------------
 
 Please refer to the current CRAN version for news:
-[NEWS](https://cran.r-project.org/web/packages/PAFit/NEWS)
+
+ * [NEWS](https://cran.r-project.org/web/packages/PAFit/NEWS)
 
 Citation
 ---------------
