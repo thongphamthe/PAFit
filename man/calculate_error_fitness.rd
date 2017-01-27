@@ -1,28 +1,27 @@
-\name{summary.PA_result}
-\alias{summary.PA_result}
+\name{calculate_error_fitness}
+\alias{calculate_error_fitness}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  A function to summarize a PA_result object
+  A function to calculate the relative error between the true and estimated node fitnesses.
 }
 \description{
-  This function summarizes information of a PA_result object. 
+  This function calculates the relative error \eqn{e_\eta} between the true node fitnesses \eqn{\eta} and the estimated node fitnesses{\hat{eta}}. \eqn{e_\eta} is defined as \eqn{e_\eta = 1/{N}\sum_{i = 1}^{N} (\eta_i - \hat{\eta}_i)^2/\eta_i^2}. 
 }
 \usage{
-  \method{summary}{PA_result}(object,...)
+  calculate_error_fitness(true, estimate)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{object}{
-    An object of class "PA_result", containing the estimated preferential attachment function from Newman's or Jeong's method.
+  \item{true}{
+    Vector. The true node fitnesses.
   }
-  \item{\dots}{
-    %%     ~~Describe \code{\dots} here~~
+  \item{A}{
+    Vector. The estimated node fitnesses. 
   }
 }
 \value{
-  Outputs summary information.
+  Outputs the relative error \eqn{e_f}.
 }
-
 \author{
   Thong Pham \email{thongpham@thongpham.net}
 }
@@ -36,8 +35,9 @@
 
 \examples{
   library("PAFit")
-  net        <- GenerateNet(N = 50 , m = 1 , mode = 1 , alpha = 1 , shape = 100 , rate = 100)
+  net        <- GenerateNet(N = 1000 , m = 1 , mode = 1 , alpha = 1 , shape = 100, rate = 100)
   net_stats  <- GetStatistics(net$graph)
-  result     <- Newman_corrected(net_stats)
-  summary(result)
+  result     <- PAFit(net_stats)
+  error_f    <- calculate_error_fitness(true = net$fitness, estimate = result$f)
+  print(error_f)
 }

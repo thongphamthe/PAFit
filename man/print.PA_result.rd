@@ -13,7 +13,7 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-An object of class "PA_result", containing the estimated preferential attachment.
+An object of class "PA_result", containing the estimated preferential attachment from Newman's or Jeong's method.
 }
    \item{\dots}{
 %%     ~~Describe \code{\dots} here~~

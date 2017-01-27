@@ -13,7 +13,7 @@ This function summarizes information of a PAFit_result object.
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-An object of class "PAFit_result", containing the estimation result.
+An object of class "PAFit_result", containing the estimation result of PAFit.
 }
 \item{\dots}{
 %%     ~~Describe \code{\dots} here~~
