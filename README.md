@@ -6,8 +6,7 @@
 
 ====================
 
-This package implements popular methods to estimate the preferential attachment function and node fitnesses in a growing network.
-In particular, it implements Jeong's method, Newman's method and PAFit.
+This package provides a framework for modelling and inferencing the attachment mechanisms of temporal complex networks. For estimating the preferential attachment (PA) function in isolation, it implements Jeong's method, the corrected Newman's method and the PAFit method. For jointly estimating the PA function and node fitnesses, it implements the PAFit method. It also provides flexible methods to generate a wide range of temporal networks based on PA and fitness.   
 
 Installation
 ------------
