@@ -4,6 +4,7 @@ r:
     - release
     - devel
 cache: packages
+r_github_packages: hadley/devtools
 notifications:
   email:
     on_success: never
