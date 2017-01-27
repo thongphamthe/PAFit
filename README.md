@@ -1,5 +1,5 @@
 # The PAFit package 
-[![codecov.io](https://codecov.io/gh/thongphamthe/PAFit/coverage.svg?branch=master)](https://codecov.io/gh/thongphamthe/PAFit?branch=master)
+[![codecov](https://codecov.io/gh/thongphamthe/PAFit/branch/master/graph/badge.svg)](https://codecov.io/gh/thongphamthe/PAFit)
 [![Downloads](http://cranlogs.r-pkg.org/badges/PAFit?color=brightgreen)](http://cran.rstudio.com/package=PAFit)
 [![CRAN](http://www.r-pkg.org/badges/version/PAFit)](http://cran.rstudio.com/package=PAFit)
 
