@@ -37,8 +37,12 @@ then work through the tutorial (links to the current CRAN version):
 
  * [Tutorial](https://cran.r-project.org/web/packages/PAFit/vignettes/Tutorial.pdf)
 
+License
+-----------------
+GPL-3
 
 Other information
 -----------------
 
  * If you have any suggestions or find bugs, please use the github [issue tracker](https://github.com/thongphamthe/PAFit/issues)
+ * Feel free to submit pull requests
