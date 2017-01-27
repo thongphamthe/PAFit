@@ -1,5 +1,6 @@
 # The PAFit package
 [![Build Status](https://travis-ci.org/thongphamthe/PAFit.svg?branch=master)](https://travis-ci.org/thongphamthe/PAFit)
+[![Build status](https://ci.appveyor.com/api/projects/status/ufje8pyddp42tbfu/branch/master?svg=true)](https://ci.appveyor.com/project/thongphamthe/pafit/branch/master)
 [![codecov](https://codecov.io/gh/thongphamthe/PAFit/branch/master/graph/badge.svg)](https://codecov.io/gh/thongphamthe/PAFit)
 [![Coverage Status](https://coveralls.io/repos/github/thongphamthe/PAFit/badge.svg?branch=master)](https://coveralls.io/github/thongphamthe/PAFit?branch=master)
 [![Downloads](http://cranlogs.r-pkg.org/badges/PAFit?color=brightgreen)](http://cran.rstudio.com/package=PAFit)
