@@ -106,24 +106,6 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// update_offset_alpha
-double update_offset_alpha(const double& alpha, const NumericMatrix& offset_n_tk, const NumericMatrix& offset_m_tk, const NumericVector& theta, const NumericVector& normalized_const, const NumericVector& m_t, const double shape, const double rate);
-RcppExport SEXP PAFit_update_offset_alpha(SEXP alphaSEXP, SEXP offset_n_tkSEXP, SEXP offset_m_tkSEXP, SEXP thetaSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP, SEXP rateSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< const double& >::type alpha(alphaSEXP);
-    Rcpp::traits::input_parameter< const NumericMatrix& >::type offset_n_tk(offset_n_tkSEXP);
-    Rcpp::traits::input_parameter< const NumericMatrix& >::type offset_m_tk(offset_m_tkSEXP);
-    Rcpp::traits::input_parameter< const NumericVector& >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< const NumericVector& >::type normalized_const(normalized_constSEXP);
-    Rcpp::traits::input_parameter< const NumericVector& >::type m_t(m_tSEXP);
-    Rcpp::traits::input_parameter< const double >::type shape(shapeSEXP);
-    Rcpp::traits::input_parameter< const double >::type rate(rateSEXP);
-    __result = Rcpp::wrap(update_offset_alpha(alpha, offset_n_tk, offset_m_tk, theta, normalized_const, m_t, shape, rate));
-    return __result;
-END_RCPP
-}
 // update_f_alpha
 int update_f_alpha(NumericVector& f, const NumericVector& non_zero_f, const double& alpha, const double& PA_offset, const NumericMatrix& degree, const NumericVector& theta, const NumericVector& z_j, const NumericVector& normalized_const, const NumericVector& m_t, const double shape, const double rate);
 RcppExport SEXP PAFit_update_f_alpha(SEXP fSEXP, SEXP non_zero_fSEXP, SEXP alphaSEXP, SEXP PA_offsetSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP z_jSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP, SEXP rateSEXP) {

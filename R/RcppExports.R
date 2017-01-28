@@ -21,10 +21,6 @@
     .Call('PAFit_update_offset', PACKAGE = 'PAFit', offset_n_tk, offset_m_tk, theta, normalized_const, m_t, shape, rate)
 }
 
-.update_offset_alpha <- function(alpha, offset_n_tk, offset_m_tk, theta, normalized_const, m_t, shape, rate) {
-    .Call('PAFit_update_offset_alpha', PACKAGE = 'PAFit', alpha, offset_n_tk, offset_m_tk, theta, normalized_const, m_t, shape, rate)
-}
-
 .update_f_alpha <- function(f, non_zero_f, alpha, PA_offset, degree, theta, z_j, normalized_const, m_t, shape, rate) {
     .Call('PAFit_update_f_alpha', PACKAGE = 'PAFit', f, non_zero_f, alpha, PA_offset, degree, theta, z_j, normalized_const, m_t, shape, rate)
 }
