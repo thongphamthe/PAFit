@@ -362,33 +362,33 @@ double update_offset(
   return offset;
 }
 
-// [[Rcpp::export(".update_offset_alpha")]]
-double update_offset_alpha( 
-                         const double       & alpha,       
-                         const NumericMatrix& offset_n_tk,
-                         const NumericMatrix& offset_m_tk, 
-                         const NumericVector& theta, 
-                         const NumericVector& normalized_const, 
-                         const NumericVector& m_t, 
-                         const double         shape, 
-                         const double         rate) {
-  long T        = offset_n_tk.nrow();        // number of time-steps
-  long K        = offset_n_tk.ncol();
-  double total1 = 0;
-  double total2 = 0;
-  double offset = 0;
-#pragma omp parallel for reduction(+:total1, total2) 
-  for (long i = 0; i < T; i++) {
-    for (long k = 0; k < K; k++)  
-      if (normalized_const(i) != 0) {
-        total1 += m_t(i) / normalized_const(i) * offset_n_tk(i,k) * pow(theta.at(k),alpha);
-        total2 += offset_m_tk(i,k);  
-      }
-  }
-  offset = (total2 + shape - 1)/(total1 + rate);
-  
-  return offset;
-}
+// // [[Rcpp::export(".update_offset_alpha")]]
+// double update_offset_alpha( 
+//                          const double       & alpha,       
+//                          const NumericMatrix& offset_n_tk,
+//                          const NumericMatrix& offset_m_tk, 
+//                          const NumericVector& theta, 
+//                          const NumericVector& normalized_const, 
+//                          const NumericVector& m_t, 
+//                          const double         shape, 
+//                          const double         rate) {
+//   long T        = offset_n_tk.nrow();        // number of time-steps
+//   long K        = offset_n_tk.ncol();
+//   double total1 = 0;
+//   double total2 = 0;
+//   double offset = 0;
+// #pragma omp parallel for reduction(+:total1, total2) 
+//   for (long i = 0; i < T; i++) {
+//     for (long k = 0; k < K; k++)  
+//       if (normalized_const(i) != 0) {
+//         total1 += m_t(i) / normalized_const(i) * offset_n_tk(i,k) * pow(theta.at(k),alpha);
+//         total2 += offset_m_tk(i,k);  
+//       }
+//   }
+//   offset = (total2 + shape - 1)/(total1 + rate);
+//   
+//   return offset;
+// }
 
 
 // [[Rcpp::export(".update_f_alpha")]]
