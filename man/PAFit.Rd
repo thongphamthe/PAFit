@@ -5,7 +5,7 @@
 A function to estimate the attachment function and node fitness in temporal complex networks
 }
 \description{
-From a PAFitData object, which contains summary statistics summerized from the dataset, PAFit estimates the attachment function \eqn{A_k} and node fitness \eqn{\eta_i} by penalized log-likelihood maximization.  It also calculates confidence intervals for \eqn{A_k} and \eqn{\eta_i}.  Estimation of the attachment function in isolation (while fixing \eqn{\eta_i = 1}) can be specified by setting only_PA = TRUE.  Estimation of node fitness in isolation (fixing either \eqn{A_k = k} or \eqn{A_k = 1}) can be specified by setting only_f = TRUE.
+From a \code{PAFit_data} object, which contains summary statistics summerized from the dataset, PAFit estimates the attachment function \eqn{A_k} and node fitness \eqn{\eta_i} by penalized log-likelihood maximization.  It also calculates confidence intervals for \eqn{A_k} and \eqn{\eta_i}.  Estimation of the attachment function in isolation (while fixing \eqn{\eta_i = 1}) can be specified by setting only_PA = TRUE.  Estimation of node fitness in isolation (fixing either \eqn{A_k = k} or \eqn{A_k = 1}) can be specified by setting \code{only_f = TRUE}.
 }
 \usage{
 PAFit (net_stat, 

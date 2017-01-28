@@ -33,10 +33,6 @@
     .Call('PAFit_update_alpha', PACKAGE = 'PAFit', non_zero_theta, norm, f, PA_offset, theta, degree, m_t, Sum_m_k, offset_tk, offset)
 }
 
-.update_PA_offset <- function(norm, f, degree, m_t, Sum_m_k, offset_tk) {
-    .Call('PAFit_update_PA_offset', PACKAGE = 'PAFit', norm, f, degree, m_t, Sum_m_k, offset_tk)
-}
-
 .coeff_theta <- function(degree, f, normalized_const, m_t, length_theta) {
     .Call('PAFit_coeff_theta', PACKAGE = 'PAFit', degree, f, normalized_const, m_t, length_theta)
 }

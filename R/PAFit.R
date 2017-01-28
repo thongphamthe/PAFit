@@ -16,8 +16,7 @@ PAFit <- function(net_stat,
                  Please re-run GetStatistics again with the option 'only_PA = FALSE' if you also want to estimate fitnesses.")
         only_PA <- TRUE  
     }
-  
-    estimate_shape <- FALSE
+
     shape          <- s
     rate           <- s
     ratio          <- r
@@ -285,11 +284,11 @@ PAFit <- function(net_stat,
     
     for (i in 1:iteration) {
         if (mode_f[1] != "Log_linear") {
-        if ((FALSE == only_PA) || ((TRUE == only_PA) && (!is.null(true_f)))) {
-            .normalized_constant(normalized_const,net_stat$node_degree,theta,f,net_stat$offset_tk,offset) 
-        } else if (is.null(true_f) && (TRUE == only_PA)) {
+            if ((FALSE == only_PA) || ((TRUE == only_PA) && (!is.null(true_f)))) {
+                .normalized_constant(normalized_const,net_stat$node_degree,theta,f,net_stat$offset_tk,offset) 
+            } else if (is.null(true_f) && (TRUE == only_PA)) {
             normalized_const <- as.vector(net_stat$n_tk[,non_zero_theta]%*%theta[non_zero_theta])
-        }
+            }
         #print(normalized_const)  
         #print(cal_reg_A());  
         #print(normalized_const);
@@ -307,17 +306,17 @@ PAFit <- function(net_stat,
             print(log_likelihood[length(log_likelihood)])
         }
         if (length(log_likelihood) > 1)
-          if (log_likelihood[length(log_likelihood)] < log_likelihood[length(log_likelihood) - 1])
-              stop("Warning: Log likelihood decreased.")  
+            if (log_likelihood[length(log_likelihood)] < log_likelihood[length(log_likelihood) - 1])
+                stop("Warning: Log likelihood decreased.")  
         
         
         if (TRUE == auto_stop)
             if (length(log_likelihood) > 1)
-             tryCatch({if (abs(log_likelihood[length(log_likelihood)] - log_likelihood[length(log_likelihood) - 1]) / 
-                 (abs(log_likelihood[length(log_likelihood) - 1]) + 1) < stop_cond)
-                  break_flag <- TRUE;},error = function(e) { #print(as.vector(normalized_const));print(f[non_zero_f]);
-                                                             #print(non_zero_f);
-                                                             break_flag <- TRUE;})
+                tryCatch({if (abs(log_likelihood[length(log_likelihood)] - log_likelihood[length(log_likelihood) - 1]) / 
+                          (abs(log_likelihood[length(log_likelihood) - 1]) + 1) < stop_cond)
+                           break_flag <- TRUE;},error = function(e) { #print(as.vector(normalized_const));print(f[non_zero_f]);
+                                                                      #print(non_zero_f);
+                                                                      break_flag <- TRUE;})
        
         
         ######################### quasi-Newton acceleration #########################
@@ -355,8 +354,8 @@ PAFit <- function(net_stat,
                 time_temp <- which(normalized_const_temp != 0)   
                 log_candidate <- objective_function_value(theta_temp,f_temp,offset_temp,normalized_const_temp)
                 if (log_candidate > log_likelihood[length(log_likelihood)]) {
-                    theta  <- candidate[1:length(theta)]
-                    f      <- candidate[(length(theta) + 1):(length(theta) + length(f))]
+                    theta  <- candidate[1 : length(theta)]
+                    f      <- candidate[(length(theta) + 1) : (length(theta) + length(f))]
                     offset <- candidate[length(candidate)]  
                     log_likelihood[length(log_likelihood)]  <- log_candidate
                     normalized_const                        <- normalized_const_temp
@@ -410,16 +409,7 @@ PAFit <- function(net_stat,
           #offset      <- offset/normalize_f
           
           
-            #update shape and rate
-          if ((TRUE == only_f) && (estimate_shape == TRUE)) {
-              N <- sum(net_stat$z_j > 0)
-              #print(shape)
-              opti <- function(x) {N * log(x) + N -  N * digamma(x) + sum(log(f[non_zero_f])) - sum(f[non_zero_f])} 
-              shape <- tryCatch(uniroot(opti,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
-                                error = function(e) {return(shape)})
-              rate  <- shape
-             
-           }
+          
             #update offset
             #if (net_stat$deg_thresh > 0)
             .normalized_constant(normalized_const, net_stat$node_degree,theta,f,net_stat$offset_tk,offset)
@@ -432,11 +422,11 @@ PAFit <- function(net_stat,
         }
 
         #### Update PA_offset if mode_f = "Linear_PA" #####
-        if ((TRUE == only_f) && (mode_f[1] == "Linear_PA")) {
-            PA_offset <- .update_PA_offset(normalized_const,f,net_stat$node_degree,net_stat$m_t,net_stat$Sum_m_k,
-                                           net_stat$offset_tk);
-            theta[1]  <- PA_offset
-        }
+        #if ((TRUE == only_f) && (mode_f[1] == "Linear_PA")) {
+        #    PA_offset <- .update_PA_offset(normalized_const,f,net_stat$node_degree,net_stat$m_t,net_stat$Sum_m_k,
+        #                                   net_stat$offset_tk);
+        #    theta[1]  <- PA_offset
+        #}
         #####################  Update A #######################
        
         if (FALSE == only_f) {
@@ -697,26 +687,9 @@ PAFit <- function(net_stat,
               #print(theta)
               #print(cal_reg_A());
             }
-          ### NORMALIZED THETA
-          #theta <- theta / theta[1];
-          #print(cal_reg_A());
+
          
-         # if (TRUE == debug_PA) {
-        #      first_part  <- center_k != 0 & center_k <= 100
-        #      second_part <- center_k != 0 & center_k > 100
-        #      lm1         <- lm(log(theta[first_part]) ~ log(center_k[first_part]))
-        #      lm2         <- lm(log(theta[second_part]) ~ log(center_k[second_part]))
-        #      constant1   <- lm1$coefficients[1]
-        #      constant2   <- lm2$coefficients[1]
-        #      alpha_1     <- lm1$coefficients[2]
-        #      alpha_2     <- lm2$coefficients[2]
-        #      overal_alpha <- lm(log(theta[center_k != 0]) ~ log(center_k[center_k != 0]))$coefficients[2]
-        #      plot(center_k,theta,log = "xy", pch = 20,main = paste0(round(overal_alpha,2),"-",
-         #                                                             round(alpha_1,2),"-",
-        #                                                             round(alpha_2,2)))  
-         #     lines(center_k[first_part],exp(constant1) * center_k[first_part]^alpha_1)
-          #    lines(center_k[second_part],exp(constant2) * center_k[second_part]^alpha_2)
-          #}
+
         } else { # log-linear PA
             .normalized_constant_alpha(normalized_const, alpha,PA_offset,net_stat$node_degree,theta,f,net_stat$offset_tk,offset)
             time_non_zero     <- which(normalized_const != 0)

@@ -165,22 +165,6 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// update_PA_offset
-double update_PA_offset(const NumericVector& norm, const NumericVector& f, const NumericMatrix& degree, const NumericVector& m_t, const NumericVector& Sum_m_k, const NumericMatrix& offset_tk);
-RcppExport SEXP PAFit_update_PA_offset(SEXP normSEXP, SEXP fSEXP, SEXP degreeSEXP, SEXP m_tSEXP, SEXP Sum_m_kSEXP, SEXP offset_tkSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< const NumericVector& >::type norm(normSEXP);
-    Rcpp::traits::input_parameter< const NumericVector& >::type f(fSEXP);
-    Rcpp::traits::input_parameter< const NumericMatrix& >::type degree(degreeSEXP);
-    Rcpp::traits::input_parameter< const NumericVector& >::type m_t(m_tSEXP);
-    Rcpp::traits::input_parameter< const NumericVector& >::type Sum_m_k(Sum_m_kSEXP);
-    Rcpp::traits::input_parameter< const NumericMatrix& >::type offset_tk(offset_tkSEXP);
-    __result = Rcpp::wrap(update_PA_offset(norm, f, degree, m_t, Sum_m_k, offset_tk));
-    return __result;
-END_RCPP
-}
 // coeff_theta
 NumericVector coeff_theta(const NumericMatrix& degree, const NumericVector& f, const NumericVector& normalized_const, const NumericVector& m_t, const int length_theta);
 RcppExport SEXP PAFit_coeff_theta(SEXP degreeSEXP, SEXP fSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP length_thetaSEXP) {
