@@ -8,9 +8,24 @@ i <- 1
 net  <- GenerateNet(N = 50, m = 10,prob_m = prob_m, increase = inc, log = log,
                     mode = i, shape = 100, rate = 100)
 
+net  <- GenerateNet(N = 50, m = 10,prob_m = prob_m, increase = inc, log = log,
+                    mode = i, shape = 100, rate = 100, specific_start = 10, 
+                    mode_f = "log_normal")
+
+net  <- GenerateNet(N = 50, m = 10,prob_m = prob_m, increase = inc, log = log,
+                    mode = i, shape = 100, rate = 100, specific_start = 10, 
+                    mode_f = "power_law")
+
+
 net_stats <- GetStatistics(net$graph,deg_threshold = 1, 
                              net_type = "directed",
                              Binning = TRUE, G = 10) 
+
+
+net_stats <- GetStatistics(net$graph,deg_threshold = 0, 
+                           net_type = "directed",
+                           Binning = TRUE, G = 10, CompressMode = 1)
+
 for (q in 1:3)
  for (j in 0:2)
    for (uu in 0:1)   
