@@ -5,9 +5,9 @@
 A function to summarize input data into sufficient statistics for estimating the attachment function and node fitness
 }
 \description{
-The function summarizes input data into sufficient statistics for estimating the attachment function and node fitness, together with additional information about the data, such as the total number of nodes, the number of time-steps, the maximum degree, and the final degree of the network, etc. .  It also provides mechanisms to automatically deal with very large datasets by binning the degree, setting a degree threshold, or discarding time-steps. 
+The function summarizes input data into sufficient statistics for estimating the attachment function and node fitness, together with additional information about the data, such as total number of nodes, number of time-steps, maximum degree, and the final degree of the network, etc. .  It also provides mechanisms to automatically deal with very large datasets by binning the degree, setting a degree threshold, or discarding time-steps. 
 }
-\usage{GetStatistics(data,net_type = c("directed","undirected"), only_PA = FALSE, 
+\usage{GetStatistics(net,net_type = c("directed","undirected"), only_PA = FALSE, 
                      Binning = TRUE, G = 50, start_deg = 0,  
                      deg_threshold = 5, CompressMode = c(0,1,2,3), 
                      CompressRatio = 0.5 , CustomTime = NULL, 
@@ -15,7 +15,7 @@ The function summarizes input data into sufficient statistics for estimating the
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{data}{
+  \item{net}{
 Matrix. A 3-column matrix whose each row contains information of one edge in the form (from_node id, to_node id, time_stamp). from_node id is the id of the source node. to_node id is the id of the destination node. time_stamp is the arrival time of the edge. from_node id and to_node id are assumed to be integers starting from \eqn{0}. time_stamp can be either numeric or string. The value of a time-stamp can be arbitrary, but we assume that a smaller time_stamp (regarded so by the \eqn{sort} function in \eqn{R}) represents an earlier arrival time.}
 \item{net_type}{
 String. Indicates the type of network. Default value is \eqn{"directed"}.

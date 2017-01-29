@@ -1,13 +1,13 @@
 # function to summarize statistics from a growing network 
 GetStatistics <-
-function(data,net_type = c("directed","undirected"), only_PA = FALSE, Binning = TRUE, G = 50, start_deg = 0,  
+function(net,net_type = c("directed","undirected"), only_PA = FALSE, Binning = TRUE, G = 50, start_deg = 0,  
          deg_threshold = 5, CompressMode = c(0,1,2,3), CompressRatio = 0.5 , CustomTime = NULL, 
          only_true_deg_matrix = FALSE){
 
-    data              <- data[order(data[,3], decreasing = FALSE),]
-    time_stamp        <- as.vector(data[,3])
-    in_node           <- as.vector(data[,2])
-    out_node          <- as.vector(data[,1])
+    net              <- net[order(net[,3], decreasing = FALSE),]
+    time_stamp        <- as.vector(net[,3])
+    in_node           <- as.vector(net[,2])
+    out_node          <- as.vector(net[,1])
     out_node          <- out_node[out_node != -1]
     node_id           <- sort(union(in_node,out_node))
    
@@ -16,7 +16,7 @@ function(data,net_type = c("directed","undirected"), only_PA = FALSE, Binning = 
     } else
     if (net_type[1] == "undirected")
         deg           <- table(c(in_node,out_node))     
-        #deg           <- table(as.vector(as.matrix(data[,1:2])))        
+        #deg           <- table(as.vector(as.matrix(net[,1:2])))        
     
     deg_new           <- rep(0,length(node_id))
     names(deg_new)    <- node_id
@@ -66,7 +66,7 @@ function(data,net_type = c("directed","undirected"), only_PA = FALSE, Binning = 
     
     if (1 == CompressMode[1]) {
         T_compressed           <- round(CompressRatio*(T - 1))
-        compressed_unique_time <- floor(seq(1,T - 1,length.out = T_compressed))
+        compressed_unique_time <- unique_time[floor(seq(1,T - 1,length.out = T_compressed))]
     } else if (2 == CompressMode[1]){
         edge_cumsum             <- cumsum(as.vector(table(time_stamp))) 
         edge_ratio              <- edge_cumsum/edge_cumsum[T]
@@ -86,7 +86,7 @@ function(data,net_type = c("directed","undirected"), only_PA = FALSE, Binning = 
     if (net_type[1] == "directed")
         first_edge       <- table(in_node[time_stamp == unique_time[1]]) else 
     if (net_type[1] == "undirected")
-        first_edge       <- table(as.vector(as.matrix(data[time_stamp == unique_time[1],1:2])))
+        first_edge       <- table(as.vector(as.matrix(net[time_stamp == unique_time[1],1:2])))
        
     first_deg        <- rep(0,N)
     increase         <- rep(0,N)
