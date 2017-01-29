@@ -2,7 +2,7 @@
 \alias{calculate_error_fitness}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  A function to calculate the relative error between the true and estimated node fitnesses.
+  Calculating Fitness Estimation Error
 }
 \description{
   This function calculates the relative error \eqn{e_\eta} between the true node fitnesses \eqn{\eta} and the estimated node fitnesses \eqn{\hat{eta}}. \eqn{e_\eta} is defined as \eqn{e_\eta = 1/{N}\sum_{i = 1}^{N} (\eta_i - \hat{\eta}_i)^2/\eta_i^2}. 
@@ -35,9 +35,9 @@
 
 \examples{
   library("PAFit")
-  net        <- GenerateNet(N = 50, m = 1 , mode = 1 , alpha =0.5, shape = 100, rate = 100)
+  net        <- GenerateNet(N = 50 , m = 1 , mode = 1 , alpha =0.5 , shape = 100 , rate = 100)
   net_stats  <- GetStatistics(net$graph)
   result     <- PAFit(net_stats)
-  error_f    <- calculate_error_fitness(true = net$fitness, estimate = result$f)
+  error_f    <- calculate_error_fitness(true = net$fitness , estimate = result$f)
   print(error_f)
 }

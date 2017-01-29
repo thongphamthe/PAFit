@@ -2,13 +2,15 @@
 \alias{calculate_error_PA}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  A function to calculate the relative error between the true and estimated attachment functions.
+  Calculating Preferential Attachment Estimation Error
 }
 \description{
   This function calculates the relative error \eqn{e_A} between the true attachment function \eqn{A_k} and the estimated attachment function \eqn{\hat{A}_k}. \eqn{e_A} is defined as \eqn{e_A = 1/{K-start_deg + 1}\sum_{k = start_deg}^{K} (A_k - \hat{A}_k)^2/A^2_k}. 
 }
 \usage{
-  calculate_error_PA(k , A, start_deg = 0,mode = 1,alpha = 1, beta = 1, sat_at = 100)
+calculate_error_PA(k           ,  A        , start_deg = 0 ,
+                   mode   = 1  , alpha = 1 , beta      = 1 , 
+                   sat_at = 100)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,10 +22,10 @@
   }
   \item{start_deg}{Integer. The starting degree from which the relative error \eqn{e_A} is calculated. Default is \eqn{0}.}
  \item{mode}{
-Integer. Indicates the attachment function to be used in generating the network. If mode == 1, the attachment function is \eqn{A_k = k^\alpha}. If mode == 2, the attachment function is \eqn{A_k = min(k,sat_at)^\alpha}. If mode == 3, the attachment function is \eqn{A_k = \alpha log (k)^\beta}. Default value is \eqn{1}.
+Integer. Indicates the attachment function to be used in generating the network. If \code{mode == 1}, the attachment function is \eqn{A_k = k^\alpha}. If \code{mode == 2}, the attachment function is \eqn{A_k = min(k,sat_at)^\alpha}. If \code{mode == 3}, the attachment function is \eqn{A_k = \alpha log (k)^\beta}. Default value is \eqn{1}.
 } 
   \item{alpha}{
-Numeric. If mode == 1, this is the attachment exponent in the attachment function \eqn{A_k = k^\alpha}. If mode == 2, this is the attachment exponenet in the attachment function \eqn{A_k = min(k,sat_at)^\alpha}. If mode == 3, this is the alpha in the attachment function \eqn{A_k = \alpha log (k)^\beta} + 1.
+Numeric. If \code{mode == 1}, this is the attachment exponent in the attachment function \eqn{A_k = k^\alpha}. If \code{mode == 2}, this is the attachment exponenet in the attachment function \eqn{A_k = min(k,sat_at)^\alpha}. If \code{mode == 3}, this is the alpha in the attachment function \eqn{A_k = \alpha log (k)^\beta} + 1.
 }
 \item{beta}{
 Numeric. This is the beta in the attachment function \eqn{A_k = \alpha log (k)^\beta} + 1.
@@ -51,6 +53,6 @@ Integer. This is the saturation position \eqn{sat_at} in the attachment function
   net        <- GenerateNet(N = 1000 , m = 1 , mode = 1 , alpha = 1 , shape = 0)
   net_stats  <- GetStatistics(net$graph)
   result     <- Newman_corrected(net_stats)
-  error_A <- calculate_error_PA(k = result$k, A = result$A, mode = 1 , alpha = 1)
+  error_A    <- calculate_error_PA(k = result$k , A = result$A , mode = 1 , alpha = 1)
   print(error_A)
 }

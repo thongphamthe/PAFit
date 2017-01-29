@@ -4,14 +4,19 @@
 \section{version 0.9.4 (Release date: 2017-02-04)}{
   \subsection{FIXED}{
     \itemize{
-      \item{a bug in \code{the performCV} function}
+      \item{some minor bugs}
+    }
+  }
+    \subsection{CHANGED}{
+    \itemize{
+      \item{improved the exposition in the documentation}
     }
   }
   \subsection{NEW}{
     \itemize{
       \item{starting to use GitHub for bugs reporting: \url{https://github.com/thongphamthe/PAFit/issues}}
             \item{starting to use a parallel GitHub homepage: \url{https://github.com/thongphamthe/PAFit}}
-      \item{The corrected Newman's method and Jeong's method are implemented}
+      \item{the corrected Newman's method and Jeong's method are implemented}
       \item{functions to evaluate error between estimation and true values}
     }
   }
