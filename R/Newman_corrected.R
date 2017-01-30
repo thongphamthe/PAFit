@@ -1,4 +1,4 @@
-Newman_corrected <- function(net_stat,start = 1,interpolate = TRUE){
+Newman_corrected <- function(net_stat, start = 1, interpolate = TRUE){
   deg.max          <- net_stat$deg.max
   T_time           <- dim(net_stat$n_tk)[1]      
   k                <- 0:deg.max

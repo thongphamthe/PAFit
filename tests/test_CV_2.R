@@ -1,5 +1,5 @@
 #testing CV-related functions
-library(PAFit)
+#library(PAFit)
 prob_m <- "TRUE"
 inc    <- "TRUE"
 log <-  c("TRUE")
@@ -30,3 +30,8 @@ cv_result <- performCV(data_cv,  r = 10^c(-2,0),s = 10^c(-1,1),
 cv_result <- performCV(data_cv, r = 10^c(-2,0),s = 10^c(-1,1),
                        stop_cond = 10^-3, only_linear = TRUE)
 
+
+
+cv_result <- performCV(data_cv, r = 10^c(-2,0),s = 10^c(-1,1),
+                       stop_cond = 10^-3, only_linear = TRUE,
+                       only_PAFit = FALSE)

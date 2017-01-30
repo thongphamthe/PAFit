@@ -21,7 +21,7 @@ GetStatistics(net ,
 \arguments{
 The parameters can be divided into four groups. The first group specifies input data and how the data will be summerized:
   \item{net}{
-Matrix. A three column matrix whose each row contains information of one edge in the form \code{(from_node id, to_node id, time_stamp)}. \code{from_node id} is the id of the source node. \code{to_node id} is the id of the destination node. \code{time_stamp} is the arrival time of the edge. \code{from_node id} and \code{to_node id} are assumed to be integers starting from \eqn{0}. \code{time_stamp} can be either numeric or string. The value of a time-stamp can be arbitrary, but we assume that a smaller time_stamp (regarded so by the \code{sort} function in \code{R}) represents an earlier arrival time.}
+A three-column matrix whose each row contains information of one edge in the form \code{(from_node id, to_node id, time_stamp)}. \code{from_node id} is the id of the source node. \code{to_node id} is the id of the destination node. \code{time_stamp} is the arrival time of the edge. \code{from_node id} and \code{to_node id} are assumed to be integers starting from \eqn{0}. \code{time_stamp} can be either numeric or string. The value of a time-stamp can be arbitrary, but we assume that a smaller time_stamp (regarded so by the \code{sort} function in \code{R}) represents an earlier arrival time.}
 \item{net_type}{
 String. Possible values: \code{"directed"} or \code{"undirected"}. Indicates the type of network. Default value is \code{"directed"}.
 }

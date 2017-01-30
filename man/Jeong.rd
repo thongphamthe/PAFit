@@ -2,18 +2,18 @@
 \alias{Jeong}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  An implementation of the Jeong's method to estimate the preferential attachment function.
+ Jeong's Method for Estimating  the Preferential Attachment Function.
 }
 \description{
   This function estimates the preferential attachment function by Jeong's method. 
 }
 \usage{
-    Jeong(raw_net, net_stat,T_0,T_1, interpolate = TRUE)
+    Jeong(raw_net, net_stat, T_0, T_1 , interpolate = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{raw_net}{
-    a 3-column matrix that contains the network.
+    a three-column matrix that contains the network.
   }
   \item{net_stat}{
     An object of class "PAFit_data" which contains summerized statistics needed in estimation.
@@ -22,7 +22,7 @@
   \item{T_1}{Positive integer. The ending time-step.
   } 
   \item{interpolate}{
-    Logical. If \code{TRUE} then all the gaps in the estimated PA function are interpolated by linear interpolating in logarithm scale. Default value is \code{TRUE}.
+    Logical. If \code{TRUE} then all the gaps in the estimated PA function are interpolated by linear interpolating in logarithm scale. Default value is \code{FALSE}.
   }
 }
 \value{

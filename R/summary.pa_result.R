@@ -1,4 +1,3 @@
-# function to summarize estimation results  2015-3-11 Thong Pham
 summary.PA_result <- function(object,...){
   cat("\nPA_result object contains estimated attachment function. \n");
   cat("Number of bins: ", object$G,"\n");

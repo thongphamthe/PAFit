@@ -1,5 +1,5 @@
 #testing GenerateNet, GetStatistics, Jeong, Newman_corrected and PAFit
-library(PAFit)
+#library(PAFit)
 for (prob_m in c("TRUE", "FALSE"))
    for (inc in c("TRUE","FALSE"))
       for (log in c("TRUE", "FALSE"))
@@ -27,7 +27,8 @@ for (prob_m in c("TRUE", "FALSE"))
 print(net_stats)
 summary(net_stats)
 for (mode_f_value in c("Constant_PA", "Log_linear")) {
-                        result <- PAFit(net_stats, mode_f = mode_f_value,stop_cond = 10^-3)
+                        result <- PAFit(net_stats, mode_f = mode_f_value,
+                                        stop_cond = 10^-3, debug = TRUE)
                         print(result)
                         summary(result)
                         
@@ -36,7 +37,7 @@ for (mode_f_value in c("Constant_PA", "Log_linear")) {
                         plot(result,net_stats,true_f = net$fitness,plot = "true_f")
                         result <- PAFit(net_stats, 
                                         mode_f = mode_f_value,
-                                        stop_cond = 10^-3, only_PA = TRUE)
+                                        stop_cond = 10^-3, only_PA = TRUE, debug = TRUE)
                         summary(result)
                         print(result)
                         
@@ -44,6 +45,8 @@ for (mode_f_value in c("Constant_PA", "Log_linear")) {
                         print(result_Jeong)
                         summary(result_Jeong)
                         plot(result_Jeong,net_stats)
+                        plot(result_Jeong,net_stats, line = TRUE)
+                        plot(result_Jeong,net_stats, high_deg = 5)
                         result_Newman <- Newman_corrected(net_stats)
                         calculate_error_PA(k = result$k,A = result$A)
                         calculate_error_fitness(true = net$fitness,

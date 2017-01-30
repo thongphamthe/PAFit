@@ -1,16 +1,23 @@
 # function to estimate jointly the attachment function and node fitness  
 PAFit <- function(net_stat, 
-                  only_PA        = FALSE       , only_f      = FALSE , 
+                  only_PA        = FALSE       , only_f         = FALSE        , 
                   mode_f         = "Linear_PA" ,
-                  true_A         = NULL        , true_f      = NULL  , s           = 10    ,
-                  auto_lambda    = TRUE        , r           = 0.01  , lambda      = 1     , 
-                  weight_PA_mode = 1           , auto_stop   = TRUE  , stop_cond   = 10^-6 , 
-                  iteration      = 200         , max_iter    = 200000, debug       = FALSE , 
-                  step_size      = 0.5         , q           = 1     , alpha_start = 1     ,
-                  normalized_f   = FALSE       , interpolate = TRUE  , mode_reg_A  = 0     , 
-                  start_mode_A   = "Log_linear", 
+                  true_A         = NULL        , true_f         = NULL         , 
+                  
+                  mode_reg_A     = 0           , weight_PA_mode = 1            ,
+                  r              = 0.01        , s              = 10           ,
+                  lambda         = 1           , auto_lambda    = TRUE         ,
+
+                  alpha_start    = 1           , start_mode_A   = "Log_linear" , 
                   start_mode_f   = "Constant"  ,
-                  ...) {
+                  
+                  
+                  auto_stop      = TRUE        , stop_cond      = 10^-6        , 
+                  iteration      = 200         , max_iter       = 200000       , 
+                  debug          = FALSE       , q              = 1            , 
+                  step_size      = 0.5         ,
+                  
+                  normalized_f   = FALSE       , interpolate = TRUE) {
     if ((net_stat$only_PA == TRUE) & (only_PA == FALSE)) {
         warning("The net_stat does not support estimation of node fitness. It will be run with option 'only_PA = TRUE'.
                  Please re-run GetStatistics again with the option 'only_PA = FALSE' if you also want to estimate fitnesses.")
@@ -705,7 +712,7 @@ PAFit <- function(net_stat,
                 print(log_likelihood[length(log_likelihood)])
                 if (length(log_likelihood) > 1)
                     if (log_likelihood[length(log_likelihood)] < log_likelihood[length(log_likelihood) - 1])
-                        print("Warning: Log likelihood decreased.")  
+                        stop("Warning: Log likelihood decreased.")  
             }
             break_flag <- FALSE
             if (TRUE == auto_stop)

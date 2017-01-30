@@ -1,4 +1,4 @@
-Jeong <- function(raw_net, net_stat,T_0,T_1, interpolate = TRUE) {
+Jeong <- function(raw_net, net_stat,T_0,T_1, interpolate = FALSE) {
     #check the class 
     if (is.null(raw_net))
         stop("Please input a 3-column matrix (see references for more information)");

@@ -2,13 +2,13 @@
 \alias{Newman_corrected}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  An implementation of the corrected Newman's method to estimate the preferential attachment function.
+  Corrected Newman's Method for Estimating the Preferential Attachment Function.
 }
 \description{
 This function estimates the preferential attachment function by the corrected Jeong's method. 
 }
 \usage{
-  Newman_corrected(net_stat,start = 1,interpolate = TRUE)
+  Newman_corrected(net_stat , start = 1 , interpolate = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

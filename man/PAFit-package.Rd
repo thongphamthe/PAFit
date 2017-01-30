@@ -1,11 +1,9 @@
 \name{PAFit-package}
 \alias{PAFit-package}
 \docType{package} 
-\title{A statistical sound method for joint estimation of the attachment function and node fitness in a temporal complex network by maximizing a suitable penalized log-likelihood function}
+\title{Joint Inference of Preferential Attachment and Node Fitness in Temporal Complex Networks}
 \description{
-A method for estimating jointly the attachment function \eqn{A_k} and node fitness \eqn{\eta_i} of a temporal complex network is implemented in this package.  The network's growth is assumed to follow a modified version of the fitness model, in which newly added edges, including newly edges between existed nodes, are connected to a degree \eqn{k} node \eqn{v_i} with probability proportional to the product of the attachment value \eqn{A_k} and the fitness value \eqn{\eta_i}.  The method makes no assumption on the functional form of either \eqn{A_k} or \eqn{\eta_i}.  By choosing suitable regularizations, good estimations of \eqn{A_k} and \eqn{\eta_i} can be obtained by maximizing the corresponding penalized log-likelihood function.  We also implement a fast estimation of confidence intervals based on the Hessian of the penalized log likelihood.  See the accompanying vignette for a tutorial.
-
-For a list of references, please run the command: citation("PAFit").
+An implementation of a framework for modelling and inferencing the attachment mechanisms of temporal complex networks. For estimating the preferential attachment (PA) function in isolation, we implement Jeong's method, the corrected Newman's method and the PAFit method. For jointly estimating the PA function and node fitnesses, we implement the PAFit method. The package also provides flexible methods to generate a wide range of temporal networks based on PA and fitness. See the accompanying vignette for a tutorial. For a list of references, please run the command: citation("PAFit").
 }
 \details{
 \tabular{ll}{
@@ -15,10 +13,15 @@ Version: \tab 0.9.4\cr
 Date: \tab 2017-02-04\cr
 License: \tab GPL-3 \cr
 }
+The main functions are:
 \itemize{
-\item PAFit: estimates the Preferential Attachment function and fitness function in a temporal complex network.
-\item GenerateNet: generates simulated networks based on the Barabasi-Albert model or the fitness model.
-\item GetStatistics: summarizes a matrix of edges into summary statistics ready for applying the PAFit function.
+\item GenerateNet: generates networks based on the preferential attachment and fitness mechanisms.
+\item GetStatistics: summarizes a matrix of edges into summary statistics ready for estimating the preferential attachment function or node fitness.
+\item Jeong: estimates the preferential attachment in isolation by Jeong's method 
+\item Newman_corrected: estimates the preferential attachment in isolation by the corrected Newman's method
+\item PAFit: jointly estimates the preferential attachment function and node fitness
+\item CreateDataCV: creates cross-validation for \code{performCV} function
+\item performCV: performs cross-validation for selecting regularization parameters of \code{PAFit}
 }
 }
 \author{
@@ -36,15 +39,14 @@ Maintainer: Thong Pham \email{thongpham@thongpham.net}
 }
 
 
-\keyword{ package }
+\keyword{temporal complex networks}
+\keyword{preferential attachment}
 \keyword{fitness model}
-\keyword{Preferential Attachment function}
-\keyword{Minorize-Maximization algorithms}
+\keyword{Jeong's method}
+\keyword{Newman's method}
 \keyword{Barabasi-Albert model}
-\keyword{MM algorithims}
 \keyword{Bianconi-Barabasi model}
-\keyword{fitness}
-\keyword{maximum likelihood function}
+
 \examples{
 library("PAFit")
 net        <- GenerateNet(N = 50,m = 1,alpha = 1, mode = 1, shape = 10, rate = 10)

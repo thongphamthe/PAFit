@@ -438,37 +438,41 @@ double update_alpha(
                  const double&        offset
 ) {
   long T = degree.nrow();     // number of time-steps
-  long N = degree.ncol();     // number of nodes
+  long N  = degree.ncol();     // number of nodes
+  //long N2 = f.size();
+  
+  // printf("%d",N);
+  // printf("%d",N2);
+   
   long K = offset_tk.ncol();  // maximum degree 
-  long length_theta = theta.size();
-  NumericVector f_sum(length_theta);
+  //long length_theta = theta.size();
 
-  for (long t = 0; t < T; t++) 
-      for (long i = 0; i < N; ++i) {
-      if ((degree(t,i) > 0) && (norm(t) != 0)){
-        f_sum.at(degree(t,i)) += m_t.at(t)*f.at(i)/norm.at(t);
-      }
-  }
-  for (long t = 0; t < T; t++) 
-      for (long k = 0; k < K; ++k) {
-          if ((degree(t,k) > 0) && (norm(t) != 0) ){
-              f_sum.at(k) += offset_tk(t,k) * m_t.at(t) * offset/norm.at(t);
-          }
-  }
-
- 
   auto f_1 = [&](double x) {
-      double temp = 0;
+      double temp   = 0;
       double first  = 0;
-    for(long k = 0; k <Sum_m_k.size(); ++k)
-      for (long k = 0; k < non_zero_theta.size(); ++k) {
-          temp += log(theta.at(non_zero_theta.at(k) - 1)) * pow(theta.at(non_zero_theta.at(k) - 1),x) *
-              f_sum.at(non_zero_theta.at(k) - 1);
-          if (theta.at(non_zero_theta.at(k) - 1) > 0)
-          first += Sum_m_k.at(k) * log(theta.at(non_zero_theta.at(k) - 1)) * pow(theta.at(non_zero_theta.at(k) - 1),x) / 
-                   (pow(theta.at(non_zero_theta.at(k) - 1),x));  
+      for(long k = 0; k < Sum_m_k.size(); ++k)
+          if (theta.at(k) > 0)
+              first += Sum_m_k.at(k) * log(theta.at(k)); 
+      
+      for (long t = 0; t < T; t++) {
+          double norm  = 0;
+          double upper = 0;
+          for (long i = 0; i < N; ++i)
+              if (degree(t,i) >= 0 && (theta.at(degree(t,i)) > 0))  {
+                  norm  += f.at(i) * pow(theta.at(degree(t,i)),x);
+                  upper += pow(theta.at(degree(t,i)),x) * log(theta.at(degree(t,i))) * f.at(i); 
+          }
+          // offset
+          for (long k = 0; k < K; ++k)
+              if (theta.at(k) > 0)  {
+                  norm  += offset_tk(t,k) * pow(theta.at(k),x);  
+                  upper += pow(theta.at(k),x) * log(theta.at(k)) *
+                           offset_tk(t,k);
+          }
+          if (norm > 0)
+              temp -= upper / norm * m_t.at(t);
       }
-      return(first - temp);};
+      return(first + temp); };
   double alpha = my_zeroin(0,2,f_1,DBL_EPSILON,500);    
   //printf("alpha inside C: %f\n",alpha);    
   return alpha;

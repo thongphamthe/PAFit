@@ -57,11 +57,11 @@ Thong Pham \email{thongpham@thongpham.net}
 
 \examples{
 library("PAFit")
-data      <- GenerateNet(N = 100,m = 5,mode = 1, alpha = 0.5, shape = 10, rate = 10)
+data      <- GenerateNet(N = 100 , m = 5 , mode = 1 , alpha = 0.5 , shape = 10, rate = 10)
 data_cv   <- CreateDataCV(data$graph) # create CV data
-cv_result <- performCV(data_cv,r = c(0.1,1), s = c(10),only_PAFit = TRUE,stop_cond = 10^-2)
-stat      <- GetStatistics(data$graph) # create the summary statistics of full data
-result    <- PAFit(stat, r = cv_result$r_optimal, s = cv_result$s_optimal, 
+cv_result <- performCV(data_cv , r = c(0.1,1) , s = c(10) , only_PAFit = TRUE , stop_cond = 10^-2)
+net_stat      <- GetStatistics(data$graph) # create the summary statistics of full data
+result    <- PAFit(net_stat, r = cv_result$r_optimal, s = cv_result$s_optimal, 
                    stop_cond = 10^-2) # final result
 }
 

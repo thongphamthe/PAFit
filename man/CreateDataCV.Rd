@@ -2,35 +2,36 @@
 \alias{CreateDataCV}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-A function to create cross-validation data.
+Create Cross Validation Data
 }
 \description{
 A function to create cross-validation data.
 }
-\usage{CreateDataCV(data, p = 0.75, G = 50, 
-                        net_type = "directed",deg_thresh = 0, exclude_end = FALSE)
+\usage{
+CreateDataCV(net                   , p          = 0.75 , G           = 50  , 
+             net_type = "directed" , deg_thresh = 0    , exclude_end = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{data}{
-Matrix. A 3-column matrix whose each row contains information of one edge in the form (from_node id, to_node id, time_stamp). from_node id is the id of the source node. to_node id is the id of the destination node. time_stamp is the arrival time of the edge. from_node id and to_node id are assumed to be integers starting from \eqn{0}. time_stamp can be either numeric or string. We assume that a smaller time_stamp represents an earlier arrival time.}
+  \item{net}{
+A three-column matrix whose each row contains information of one edge in the form \code{(from_node id, to_node id, time_stamp)}. \code{from_node id} is the id of the source node. \code{to_node id} is the id of the destination node. \code{time_stamp} is the arrival time of the edge. \code{from_node id} and \code{to_node id} are assumed to be integers starting from \eqn{0}. \code{time_stamp} can be either numeric or string. The value of a time-stamp can be arbitrary, but we assume that a smaller time_stamp (regarded so by the \code{sort} function in \code{R}) represents an earlier arrival time.}
 \item{p}{
-Numeric. Indicates the ratio of number of new edges in the learning data to that of the full data. Default is \eqn{p = 0.75}.
+Numeric between \code{0} and \code{1}. Indicates the ratio of number of new edges in the learning data to that of the full data. Default is \code{p = 0.75}.
 }
 \item{G}{
-Integer. Number of bins. Default value is \eqn{50}.
+Integer. Number of bins. Default value is \\code{50}.
 }
  \item{net_type}{
-String. The type of the network: "directed" or "undirected". Default is "directed". 
+String. The type of the network: \code{"directed"} or \code{"undirected"}. Default is \code{"directed"}. 
 }
 \item{deg_thresh}{
-Integer. We only consider nodes with degree at least this threshold. Default value is \eqn{0}.
+Integer. We only consider nodes with number of acquired new edges at least this threshold. Default value is \code{0},i.e. all the nodes.
 }
 \item{exclude_end}{
-Logical. If TRUE, then for the testing data, at each time-step we only consider the new edges that connect to nodes with the current degrees less than \eqn{deg\_max}, which is the maximum degree in the learning data. The motivation for this option is that in the learning phase, we can only learn the PA function up to \eqn{deg_max}, so it makes sense to limit the degree in the testing phase to \eqn{deg\_max}. From our experiences, this option does not matter. Default value is FALSE}.
+Logical. If \code{TRUE}, then for the testing data, at each time-step we only consider the new edges that connect to nodes with the current degrees less than \eqn{deg\_max}, which is the maximum degree in the learning data. The motivation for this option is that in the learning phase, we can only learn the PA function up to \eqn{deg_max}, so it makes sense to limit the degree in the testing phase to \eqn{deg\_max}. From our experiences, this option does not matter. Default value is \code{FALSE}}.
 }
 
-\value{An object of class "CV_Data" containing the data needed for cross validation.
+\value{An object of class \code{"CV_Data"} containing the data needed for cross validation.
 }
 
 
@@ -47,8 +48,9 @@ Thong Pham \email{thongpham@thongpham.net}
 
 \examples{
 library("PAFit")
-data     <- GenerateNet(N = 100,m = 1,mode = 1, alpha = 1, shape = 5, rate = 5)
-data_cv  <- CreateDataCV(data$graph)
+net      <- GenerateNet(N = 100 , m = 1 , mode = 1 , alpha = 1 , shape = 5 , rate = 5)
+data_cv  <- CreateDataCV(net$graph)
+summary(data_cv)
 }
 
 \keyword{fitness model}

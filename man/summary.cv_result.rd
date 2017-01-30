@@ -1,21 +1,21 @@
-\name{print.PA_result}
-\alias{print.PA_result}
+\name{summary.CV_Result}
+\alias{summary.CV_Result}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  A function to print a PA_result object
+  Summarizing CV_Result object
 }
 \description{
-  This function prints a PA_result object's information.
+  This function summerizes a CV_Result object's information.
 }
 \usage{
-\method{print}{PA_result}(x,...)
+\method{summary}{CV_Result}(object,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{
-An object of class "PA_result", containing the estimated preferential attachment from Newman's or Jeong's method.
+\item{object}{
+An object of class "CV_Result", containing the cross-validation result of the performCV function.
 }
-   \item{\dots}{
+\item{\dots}{
 %%     ~~Describe \code{\dots} here~~
 }
 }
@@ -37,8 +37,10 @@ Thong Pham \email{thongpham@thongpham.net}
 
 \examples{
 library("PAFit")
-net        <- GenerateNet(N = 50,m = 10, mode = 1, alpha = 1, shape = 0)
-net_stats  <- GetStatistics(net$graph)
-result     <- Newman_corrected(net_stats)
-print(result)
+net        <- GenerateNet(N = 50 , m = 10 , mode = 1 , alpha = 1 , shape = 0)
+data_cv    <- CreateDataCV(net$graph)
+r_vector   <- c(0.01,0.1)
+s_vector   <- c(10)
+result_cv  <- performCV(data_cv, r = r_vector, s = s_vector, stop_cond = 10^-2)
+summary(result_cv)
 }

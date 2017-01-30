@@ -1,10 +1,10 @@
 
-CreateDataCV<- function(data, p = 0.75, G = 50, 
-                        net_type = "directed",deg_thresh = 0, exclude_end = FALSE) {
-  data              <- data[order(data[,3] , decreasing = FALSE),]
-  time_stamp        <- as.vector(data[,3])
-  in_node           <- as.vector(data[,2])
-  out_node          <- as.vector(data[,1])
+CreateDataCV<- function(net                   , p          = 0.75 , G           = 50, 
+                        net_type = "directed" , deg_thresh = 0    , exclude_end = FALSE) {
+  net               <- net[order(net[,3] , decreasing = FALSE),]
+  time_stamp        <- as.vector(net[,3])
+  in_node           <- as.vector(net[,2])
+  out_node          <- as.vector(net[,1])
   node_id           <- sort(union(in_node,out_node))
   names(node_id)    <- node_id
   unique_time       <- sort(unique(time_stamp))
@@ -17,7 +17,7 @@ CreateDataCV<- function(data, p = 0.75, G = 50,
   edge_ratio        <- edge_cumsum/edge_cumsum[length(edge_cumsum)]
   use_time          <- unique_time[which(edge_ratio >= p)[1]]
   
-  data_new          <- data[time_stamp <= use_time, ]
+  data_new          <- net[time_stamp <= use_time, ]
   stats             <- GetStatistics(data_new , net_type = net_type, 
                                      Binning = TRUE , G = G , deg_threshold = deg_thresh)
   appear[as.character(stats$f_position)] <- 1
@@ -68,7 +68,7 @@ CreateDataCV<- function(data, p = 0.75, G = 50,
     
   }
   result            <- list(stats        = stats       , deg_each = deg_each,
-                            m_each       = m_each      ,
+                            m_each       = m_each      , p        = p       ,
                             prob_em_each = prob_em_each, use_time = use_time)
   class(result)     <- "CV_Data"
   return(result)
@@ -82,13 +82,13 @@ CreateDataCV<- function(data, p = 0.75, G = 50,
           deg_each                  <- matrix(-1 , nrow = sum(unique_time > use_time) , ncol = length(stats$f_position))
           colnames(deg_each)        <- stats$f_position
       
-          #deg_vec                   <- deg
+ 
           deg_each[1,]              <- deg
           time_each                 <- unique_time[unique_time > use_time]
           for (i in 1:length(time_each)){
               new_links       <- in_node[time_stamp == time_each[i]]
               new_links       <- new_links[appear[as.character(new_links)] == 1]
-              ### IMPORTANT: remove nodes that go outside the range of the degree distribution of testing data
+              ### IMPORTANT: remove nodes that go outside the range of the degree distribution of testing net
               new_links_final <- new_links[deg_each[i,as.character(new_links)] < deg_max]
               m_each[i]       <- length(new_links_final)
               aaa             <- table(new_links)
@@ -96,17 +96,13 @@ CreateDataCV<- function(data, p = 0.75, G = 50,
               prob_em_each[i,labels(bbb)[[1]]] <- bbb
               prob_em_each[i,labels(bbb)[[1]]] <- prob_em_each[i,labels(bbb)[[1]]]/ m_each[i] 
               
-              #deg_each[i,labels(bbb)[[1]]]     <- deg_vec[labels(bbb)[[1]]]
-        
-              #update new degree vector for the next step 
-              #deg_vec[labels(aaa)[[1]]]        <- deg_vec[labels(aaa)[[1]]] + aaa;  
               if (i < length(time_each)) {
                   deg_each[i + 1 , ]                     <- deg_each[i , ];    
                   deg_each[i + 1 , labels(aaa)[[1]]]     <- deg_each[i + 1 , labels(aaa)[[1]]] + aaa
               }
       }
       result            <- list(stats        = stats       , deg_each = deg_each,
-                                m_each       = m_each      ,
+                                m_each       = m_each      , p        = p       ,
                                 prob_em_each = prob_em_each, use_time = use_time)
       class(result)     <- "CV_Data"
       return(result)

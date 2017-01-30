@@ -52,7 +52,7 @@ plot.PA_result <-
       points(x$k[non_zero] + 1,x$A[non_zero], col = col_point,...)
       if (TRUE == line) {
         alpha <- x$alpha
-        beta <-  x$linear_fit$coefficients[1]
+        beta <-  x$loglinear_fit$coefficients[1]
         lines(x$k[non_zero],exp(beta)*(x$k[non_zero])^alpha,lwd= 2)
       }
 }

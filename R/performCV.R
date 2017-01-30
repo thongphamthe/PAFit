@@ -1,28 +1,28 @@
 performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4), 
                       stop_cond = 10^-7, only_PAFit = TRUE, 
-                      silent = FALSE, only_linear = FALSE) { 
-  ratio_vec_PAFit   <- r
-  rate_PAFit        <- s
-  ratio_vec_PA      <- ratio_vec_PAFit
-  rate_Fit          <- rate_PAFit  
-  PAFit_each        <- matrix(0,nrow = length(ratio_vec_PAFit), ncol = length(rate_PAFit))
-  rownames(PAFit_each) <- ratio_vec_PAFit
-  colnames(PAFit_each) <- rate_PAFit
-  Fit_each_linear   <- rep(0,length(rate_Fit))
+                      silent = FALSE, only_linear = FALSE,...) { 
+  ratio_vec_PAFit        <- r
+  rate_PAFit             <- s
+  ratio_vec_PA           <- ratio_vec_PAFit
+  rate_Fit               <- rate_PAFit  
+  PAFit_each             <- matrix(0,nrow = length(ratio_vec_PAFit), ncol = length(rate_PAFit))
+  rownames(PAFit_each)   <- ratio_vec_PAFit
+  colnames(PAFit_each)   <- rate_PAFit
+  Fit_each_linear        <- rep(0,length(rate_Fit))
   names(Fit_each_linear) <- rate_Fit
-  PA_each           <- rep(0,length(ratio_vec_PA))
-  names(PA_each)    <- ratio_vec_PA
-  Fit_each          <- rep(0,length(rate_Fit))
-  names(Fit_each)   <- rate_Fit
-  alpha_each        <- rep(0,length(rate_PAFit))
-  names(alpha_each) <- rate_PAFit
-  FitMultinomial <- function(true,dat){
-    true[true == 0] <- 1
-    return(sum(dat*log(true)))
+  PA_each                <- rep(0,length(ratio_vec_PA))
+  names(PA_each)         <- ratio_vec_PA
+  Fit_each               <- rep(0,length(rate_Fit))
+  names(Fit_each)        <- rate_Fit
+  alpha_each             <- rep(0,length(rate_PAFit))
+  names(alpha_each)      <- rate_PAFit
+  FitMultinomial         <- function(true,dat){
+      true[true == 0] <- 1
+      return(sum(dat*log(true)))
   }
   count <- 0
   total <- length(ratio_vec_PAFit) * length(rate_PAFit) + (!only_PAFit) *
-    (2 * length(rate_PAFit) + length(ratio_vec_PAFit) + (!only_linear)*length(rate_PAFit))[1]
+           (2 * length(rate_PAFit) + length(ratio_vec_PAFit) + (!only_linear) * length(rate_PAFit))[1]
   #Full model
   if (!only_linear)
   for (i in 1:length(ratio_vec_PAFit))
@@ -111,7 +111,7 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
     if (silent == FALSE)
         print(paste0("Processing case ",count, " of ",total))
     result_PAFit <- PAFit(cv_data$stats, mode_f = "Log_linear",s = rate_PAFit[j],
-                          auto_stop =  TRUE, stop_cond = stop_cond,normalized_f = FALSE);
+                          auto_stop =  TRUE, stop_cond = stop_cond,normalized_f = FALSE, debug = TRUE);
     for (k in 1:length(cv_data$m_each)) 
       if (cv_data$m_each[k] != 0) {
        

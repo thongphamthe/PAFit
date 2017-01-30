@@ -15,7 +15,8 @@ importFrom("stats", "runif")
 S3method(print, PAFit_result)
 S3method(print, PA_result)
 S3method(print, PAFit_data)
-
+S3method(print, CV_Data)
+S3method(print, CV_Result)
 
 S3method(plot, PAFit_result)
 S3method(plot, PA_result)
@@ -23,4 +24,5 @@ S3method(plot, PA_result)
 S3method(summary, PA_result)
 S3method(summary, PAFit_result)
 S3method(summary, PAFit_data)
-
+S3method(summary, CV_Data)
+S3method(summary, CV_Result)

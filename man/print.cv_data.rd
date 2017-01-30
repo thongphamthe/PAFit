@@ -1,21 +1,21 @@
-\name{print.PA_result}
-\alias{print.PA_result}
+\name{print.CV_Data}
+\alias{print.CV_Data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  A function to print a PA_result object
+  Printing a CV_Data object
 }
 \description{
-  This function prints a PA_result object's information.
+  This function prints a CV_data object's information.
 }
 \usage{
-\method{print}{PA_result}(x,...)
+\method{print}{CV_Data}(x,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{
-An object of class "PA_result", containing the estimated preferential attachment from Newman's or Jeong's method.
+\item{x}{
+An object of class "CV_Data", containing the data needed for subsequent cross-validation by the performCV function.
 }
-   \item{\dots}{
+\item{\dots}{
 %%     ~~Describe \code{\dots} here~~
 }
 }
@@ -37,8 +37,7 @@ Thong Pham \email{thongpham@thongpham.net}
 
 \examples{
 library("PAFit")
-net        <- GenerateNet(N = 50,m = 10, mode = 1, alpha = 1, shape = 0)
-net_stats  <- GetStatistics(net$graph)
-result     <- Newman_corrected(net_stats)
-print(result)
+net        <- GenerateNet(N = 50 , m = 10 , mode = 1 , alpha = 1 , shape = 0)
+data_cv    <- CreateDataCV(net$graph)
+print(data_cv)
 }
