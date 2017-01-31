@@ -2,21 +2,21 @@
 \alias{plot.PAFit_result}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-A function to plot the estimated attachment function and node fitness
+Plotting the estimated attachment function and node fitness
 }
 \description{
-This function plots the estimated attachment function \eqn{A_k} and node fitness \eqn{eta_i}, together with additional information such as their confidence intervals. 
+This function plots the estimated attachment function \eqn{A_k} and node fitness \eqn{eta_i}, together with additional information such as their confidence intervals or the estimated attachment exponent (\eqn{\alpha} when assuming \eqn{A_k = k^\alpha}). 
 }
 \usage{
-\method{plot}{PAFit_result}(x,net_stat,true_f = NULL, plot = c("A","f","true_f"), plot_bin = TRUE,
-         line = FALSE, confidence = TRUE, high_deg = NULL, 
-         shade_point = 0.5, shade_interval = 0.5, 
-         max_A = NULL, 
-         min_A = NULL, f_min = NULL, 
-         f_max = NULL, plot_true_degree = FALSE, 
-         label_x = NULL, label_y = NULL,
-         col_interval = "lightsteelblue",
-         col_point = "black",...)
+\method{plot}{PAFit_result}(x,
+     net_stat              ,
+     true_f      = NULL    , plot             = "A"   , plot_bin     = TRUE             ,
+     line        = FALSE   , confidence       = TRUE  , high_deg     = NULL             , 
+     shade_point = 0.5     , shade_interval   = 0.5   , col_interval = "lightsteelblue" ,
+     col_point   = "black" , label_x          = NULL  , label_y      = NULL             ,
+     max_A       = NULL    , min_A            = NULL  , f_min        = NULL             , 
+     f_max       = NULL    , plot_true_degree = FALSE , 
+     ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

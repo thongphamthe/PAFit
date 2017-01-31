@@ -37,7 +37,7 @@ Thong Pham \email{thongpham@thongpham.net}
 
 \examples{
 library("PAFit")
-net        <- GenerateNet(N = 50,m = 10, mode = 1, alpha = 1, shape = 0)
+net        <- GenerateNet(N = 50 , m = 10 , mode = 1 , alpha = 1 , shape = 0)
 net_stats  <- GetStatistics(net$graph)
 result     <- Newman_corrected(net_stats)
 print(result)

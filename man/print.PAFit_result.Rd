@@ -37,7 +37,7 @@ Thong Pham \email{thongpham@thongpham.net}
 
 \examples{
 library("PAFit")
-net       <- GenerateNet(N = 50,m = 1, mode = 1, alpha = 1, shape = 100, rate = 100)
+net       <- GenerateNet(N = 50 , m = 1 , mode = 1 , alpha = 1 , shape = 100 , rate = 100)
 net_stats <- GetStatistics(net$graph)
 result    <- PAFit(net_stats)
 print(result)

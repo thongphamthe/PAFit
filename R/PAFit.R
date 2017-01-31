@@ -1067,9 +1067,6 @@ PAFit <- function(net_stat,
                      only_PA = only_PA, only_f = only_f, lambda = lambda, shape = shape, rate = rate, normalized_f = normalized_f, 
                      deg_threshold = net_stat$deg_thresh, stop_cond = stop_cond, auto_lambda = auto_lambda, ratio = ratio, 
                      G = net_stat$G,shape = shape, rate = rate, offset = offset)
-      if (only_PA == TRUE)
-          class(result) <- "PA_result"
-      else
-          class(result) <- "PAFit_result"
+      class(result) <- "PAFit_result"
       return(result)
 }
