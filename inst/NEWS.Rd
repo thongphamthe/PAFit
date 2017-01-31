@@ -1,7 +1,7 @@
 \name{NEWS}
 \alias{NEWS}
 \title{Package News}
-\section{version 0.9.4 (Release date: 2017-02-04)}{
+\section{version 0.9.4 (Release date: 2017-02-01)}{
   \subsection{FIXED}{
     \itemize{
       \item{some minor bugs}
@@ -10,12 +10,13 @@
     \subsection{CHANGED}{
     \itemize{
       \item{improved the exposition in the documentation}
+      \item{improved code readability}
     }
   }
   \subsection{NEW}{
     \itemize{
       \item{starting to use GitHub for bugs reporting: \url{https://github.com/thongphamthe/PAFit/issues}}
-            \item{starting to use a parallel GitHub homepage: \url{https://github.com/thongphamthe/PAFit}}
+      \item{starting to use a parallel GitHub homepage: \url{https://github.com/thongphamthe/PAFit}}
       \item{the corrected Newman's method and Jeong's method are implemented}
       \item{functions to evaluate error between estimation and true values}
     }
