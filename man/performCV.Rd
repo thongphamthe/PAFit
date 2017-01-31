@@ -8,8 +8,9 @@ A function to perform cross validation.
 A function to perform cross validation.
 }
 \usage{performCV(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4), 
-                      stop_cond = 10^-7, only_PAFit = TRUE, 
-                      silent = FALSE, only_linear = FALSE,...)
+                stop_cond = 10^-7, only_PAFit = TRUE, 
+                silent = FALSE, only_linear = FALSE,
+                ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
