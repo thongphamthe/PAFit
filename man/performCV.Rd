@@ -2,14 +2,18 @@
 \alias{performCV}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-A function to perform cross validation.
+Selecting regularization parameters by cross-validation
 }
 \description{
-A function to perform cross validation.
+A function to perform cross validation to select \code{r} and \code{s} in \code{PAFit}.
 }
-\usage{performCV(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4), 
-                stop_cond = 10^-7, only_PAFit = TRUE, 
-                silent = FALSE, only_linear = FALSE,
+\usage{performCV(cv_data,
+                 r           = 10^c(-2,-1,0,1,2),
+                 s           = 10^c(-1,1,2,3,4), 
+                 stop_cond   = 10^-7, 
+                 only_PAFit  = TRUE, 
+                 silent      = FALSE, 
+                 only_loglinear = FALSE,
                 ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -17,25 +21,25 @@ A function to perform cross validation.
   \item{cv_data}{
 Cross-validation data.}
 \item{r}{
-Numeric vector. Specifying the values of the regularization parameter \eqn{r} of the PA function. Default value is the vector \eqn{c(0.01,0.1,1,10,100)}.
+Numeric vector. Specifying the values of the regularization parameter \eqn{r} of the PA function. Default value is the vector \code{c(0.01,0.1,1,10,100)}.
 }
 \item{s}{
-Numeric vector. Specifying the values of the regularization parameter \eqn{s} of node fitness. Default value is the vector \eqn{c(0.1,1,10,100,1000,10000)}.
+Numeric vector. Specifying the values of the regularization parameter \eqn{s} of node fitness. Default value is the vector \code{c(0.1,1,10,100,1000,10000)}.
 }
 \item{stop_cond}{
-Numeric. The iterative algorithm will halt if the relative difference of the objective function falls below this value. Default value is \eqn{10^-7}.
+Numeric. The iterative algorithm will halt if the relative difference of the objective function falls below this value. Default value is \code{10^-7}.
 }
 \item{only_PAFit}{
-Logical. If TRUE then only perform the CV for PAFit full model. Default is TRUE.
+Logical. If \code{TRUE} then only perform the CV for PAFit full model. Default is \code{TRUE}.
 }
 \item{silent}{
-Logical. If TRUE then the progress is not printed out. Default is FALSE.
+Logical. If \code{TRUE} then the progress is not printed out. Default is \code{FALSE}.
 }
-\item{only_linear}{
-Logical. If TRUE then only perform the CV assuming the linear functional form \eqn{A_k = k}. Default is FALSE. 
+\item{only_loglinear}{
+Logical. If \code{TRUE} then only perform the CV assuming the linear functional form \eqn{A_k = k^\alpha}. In this case, the search is one-dimensional, since we only have to find \code{s} (given \code{s}, \eqn{\alpha} and node fitnesses can be estimated). Default is \code{FALSE}. 
 }
 \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
+Additional parameters (e.g. \code{debug = TRUE}) to pass onto the \code{PAFit} function.
 }
 }
 \value{An object of class "CV_Result" containing the cross validation result. The important fields are:
@@ -61,12 +65,10 @@ Thong Pham \email{thongpham@thongpham.net}
 
 \examples{
 library("PAFit")
-data      <- GenerateNet(N = 100 , m = 5 , mode = 1 , alpha = 0.5 , shape = 10, rate = 10)
-data_cv   <- CreateDataCV(data$graph) # create CV data
+net       <- GenerateNet(N = 100 , m = 5 , mode = 1 , alpha = 0.5 , shape = 10, rate = 10)
+data_cv   <- CreateDataCV(net$graph) # create CV data
 cv_result <- performCV(data_cv , r = c(0.1,1) , s = c(10) , only_PAFit = TRUE , stop_cond = 10^-2)
-net_stat      <- GetStatistics(data$graph) # create the summary statistics of full data
-result    <- PAFit(net_stat, r = cv_result$r_optimal, s = cv_result$s_optimal, 
-                   stop_cond = 10^-2) # final result
+print(cv_result)
 }
 
 \keyword{fitness model}

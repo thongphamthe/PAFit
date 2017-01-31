@@ -5,8 +5,8 @@ PAFit <- function(net_stat,
                   true_A         = NULL        , true_f         = NULL         , 
                   
                   mode_reg_A     = 0           , weight_PA_mode = 1            ,
-                  r              = 0.01        , s              = 10           ,
-                  lambda         = 1           , auto_lambda    = TRUE         ,
+                  s              = 10          , lambda         = 1            , 
+                  auto_lambda    = TRUE        , r              = 0.01         ,
 
                   alpha_start    = 1           , start_mode_A   = "Log_linear" , 
                   start_mode_f   = "Constant"  ,

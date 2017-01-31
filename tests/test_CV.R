@@ -30,5 +30,5 @@ cv_result <- performCV(data_cv,  r = 10^c(-2,0),s = 10^c(-1,1),
 
 
 cv_result <- performCV(data_cv, r = 10^c(-2,0),s = 10^c(-1,1),
-                       stop_cond = 10^-2, only_linear = TRUE,debug = TRUE)
+                       stop_cond = 10^-2, only_loglinear = TRUE,debug = TRUE)
 

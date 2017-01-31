@@ -80,6 +80,13 @@ plot(result,net_stats,plot = "f", f_min = 0.001)
 plot(result,net_stats,plot = "f", f_min = 0.001, f_max = 2)
 plot(result,net_stats,plot = "f", f_max = 2)
 
+
+plot(result,net_stats, true_f = net$fitness, plot = "true_f", high_deg = 2)
+
+plot(result,net_stats,true_f = net$fitness, plot = "true_f" , f_min = 0.001)
+plot(result,net_stats,true_f = net$fitness, plot = "true_f" , f_min = 0.001, f_max = 2)
+plot(result,net_stats,true_f = net$fitness, plot = "true_f" , f_max = 2)
+
 plot(result,net_stats,line = TRUE)
 
 

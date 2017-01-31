@@ -1,6 +1,11 @@
-performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4), 
-                      stop_cond = 10^-7, only_PAFit = TRUE, 
-                      silent = FALSE, only_linear = FALSE,...) { 
+performCV <- function(cv_data,
+                      r              = 10^c(-2,-1,0,1,2),
+                      s              = 10^c(-1,1,2,3,4) , 
+                      stop_cond      = 10^-7            , 
+                      only_PAFit     = TRUE             , 
+                      silent         = FALSE            , 
+                      only_loglinear = FALSE            ,
+                      ...) { 
   ratio_vec_PAFit        <- r
   rate_PAFit             <- s
   ratio_vec_PA           <- ratio_vec_PAFit
@@ -22,9 +27,9 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
   }
   count <- 0
   total <- length(ratio_vec_PAFit) * length(rate_PAFit) + (!only_PAFit) *
-           (2 * length(rate_PAFit) + length(ratio_vec_PAFit) + (!only_linear) * length(rate_PAFit))[1]
+           (2 * length(rate_PAFit) + length(ratio_vec_PAFit) + (!only_loglinear) * length(rate_PAFit))[1]
   #Full model
-  if (!only_linear)
+  if (!only_loglinear)
   for (i in 1:length(ratio_vec_PAFit))
     for (j in 1:length(rate_PAFit)){
       count <- count + 1
@@ -42,7 +47,7 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
         }
     }
   #linear A
-  if (!only_linear)
+  if (!only_loglinear)
   if (FALSE == only_PAFit)
   if (length(rate_Fit) > 0) {
     for (i in 1:length(rate_Fit)) {
@@ -63,7 +68,7 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
       
     }  
   }
-  if (!only_linear)
+  if (!only_loglinear)
   #Only PA
   if (FALSE == only_PAFit)
   if (length(ratio_vec_PA) > 0) {
@@ -84,7 +89,7 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
     }
   }
   # Only f
-  if (!only_linear)
+  if (!only_loglinear)
   if (FALSE == only_PAFit)
   if (length(rate_Fit) > 0) {
     for (i in 1:length(rate_Fit)) {
@@ -104,7 +109,7 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
     }
   }
   #k^alpha
-  if (only_linear)
+  if (only_loglinear)
   if (FALSE == only_PAFit)
   for (j in 1:length(rate_PAFit)) {
     count <- count + 1
@@ -136,8 +141,13 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
   #print(r_index)
   #print(r_optimal)
   s_optimal <- s[s_index]
-  result    <- list(PAFit_each = PAFit_each, Fit_each_linear = Fit_each_linear, PA_each = PA_each, 
-                    Fit_each = Fit_each, alpha_each = alpha_each, r_optimal = r_optimal, s_optimal = s_optimal,...)
+  result    <- list(PAFit_each      = PAFit_each, 
+                    Fit_each_linear = Fit_each_linear, 
+                    PA_each         = PA_each, 
+                    Fit_each        = Fit_each, 
+                    alpha_each      = alpha_each, 
+                    r_optimal       = r_optimal, 
+                    s_optimal       = s_optimal)
   class(result) <- "CV_Result"
   if(FALSE == silent) {
       print(paste0("Optimal r parameter is: ",r_optimal));

@@ -5,7 +5,9 @@
 Joint inference of preferential attachment and node fitness by Minorize-Maximization algorithms
 }
 \description{
-From a \code{PAFit_data} object, which contains summary statistics summerized from the dataset, PAFit estimates the attachment function \eqn{A_k} and node fitness \eqn{\eta_i} by penalized log-likelihood maximization.  It also infers the remaining uncertainties in the estimated results by approximating the confidence intervals of \eqn{A_k} and \eqn{\eta_i}.  Estimation of either the attachment function or node fitness in isolation are also supported. Estimation of the PA function with \eqn{\eta_i = 1} can be specified by setting \code{only_PA = TRUE}.  Estimation of node fitness with either \eqn{A_k = k} or \eqn{A_k = 1} can be specified by setting \code{only_f = TRUE}.
+From a \code{PAFit_data} object, which contains summary statistics of the dataset, PAFit estimates the attachment function \eqn{A_k} and node fitness \eqn{\eta_i} by penalized log-likelihood maximization. It also infers the remaining uncertainties in the estimated results by approximating the confidence intervals of \eqn{A_k} and \eqn{\eta_i}.  
+
+Estimation of either the attachment function or node fitness in isolation are also supported. Estimation of the PA function with \eqn{\eta_i = 1} can be specified by setting \code{only_PA = TRUE}.  Estimation of node fitness with either \eqn{A_k = k} or \eqn{A_k = 1} can be specified by setting \code{only_f = TRUE}.
 }
 \usage{
 PAFit (net_stat, 
@@ -14,8 +16,8 @@ PAFit (net_stat,
        true_A         = NULL        , true_f         = NULL        , 
        
        mode_reg_A     = 0           , weight_PA_mode = 1           ,
-       r              = 0.01        , s              = 10          , 
-       lambda         = 1           , auto_lambda    = TRUE        , 
+       s              = 10          , lambda         = 1           , 
+       auto_lambda    = TRUE        ,  r             = 0.01        , 
        
        alpha_start    = 1           , start_mode_A   = "Log_linear", 
        start_mode_f   = "Constant"  ,
@@ -42,33 +44,33 @@ Logical. \code{TRUE} means that the attachment function \eqn{A_k} is estimated i
 Logical. \code{TRUE} means that the fitness function is estimated in isolation. Default is \code{FALSE}.
 }
 \item{mode_f}{
-String. Possible values: \code{"Linear_PA"}, \code{"Constant_PA"} or \code{"Log_linear"}. Only effective when \code{only_f == TRUE}. If \code{mode_f == "Linear_PA"} then \eqn{A_k = k} for \eqn{k \ge 1} and \eqn{A_0 = C}. If \code{mode_f == "Constant_PA"} then \eqn{A_k = 1} for all \eqn{k}. If \code{mode_f == "Log_linear"} then \eqn{A_k = k^\alpha} for \eqn{k \ge 1} and \eqn{A_0 = C}. The values of \eqn{\alpha} and \eqn{C} are estimated by MLE. Default values is \code{"Linear_PA"}.
+String. Possible values: \code{"Linear_PA"}, \code{"Constant_PA"} or \code{"Log_linear"}. In the first two cases, the PA function is fixed. If \code{mode_f == "Linear_PA"} then \eqn{A_k = k} for \eqn{k \ge 1} and \eqn{A_0 = 1}. If \code{mode_f == "Constant_PA"} then \eqn{A_k = 1} for all \eqn{k}. In the final case of \code{mode_f == "Log_linear"}, we set \eqn{A_k = k^\alpha} for \eqn{k \ge 1} and \eqn{A_0 = 1}. The value of \eqn{\alpha} is also estimated. Default values is \code{"Linear_PA"}.
 }
 \item{true_A}{
-Numeric vector. If \code{true_A} is supplemented, then only fitness is estimated.
+Numeric vector. User-supplemented value of the PA function. If \code{true_A} is supplemented, then only node fitnesses are estimated.
 }
 \item{true_f}{
-Numeric vector. If \code{true_f} is supplemented, then only PA is estimated.
+Numeric vector. User-supplemented value of node fitnesses. If \code{true_f} is supplemented, then only the PA function is estimated.
 }
 
-Second group specifies the objective function, e.g. the weighting of PA, the regularization term for PA and fitness: 
+Second group specifies the objective function, e.g. the weighting of PA, the regularization terms for PA and fitness: 
 
-\item{mode_reg_A}{Integer. Possible values: \code{0}, \code{1} or \code{2}. Indicates which regularization term is used for the PA function. For the regularization function used in the PLOS ONE and SR paper, use \code{0}. Default value is \eqn{0}.}
+\item{mode_reg_A}{Integer. Possible values: \code{0}, \code{1} or \code{2}. Indicates which regularization term is used for the PA function. For the regularization function used in the PLOS ONE and SR paper, use \code{0}. Default value is \code{0}.}
 
 \item{weight_PA_mode}{
 Binary. Indicates how the regularization terms for \eqn{A_k} are weighted. If \code{weight_PA_mode == 0}, the regularization term for \eqn{A_k} is weighted by the total number of edges connected to degree \eqn{k} nodes. If \code{weight_PA_mode == 1}, the regularization terms have uniform weights. Default value is \eqn{0}.
 }
-\item{r}{
-Non-negative numeric. The regularization parameter \code{r} for the PA function. Default value is \code{0.01}.
-}
 \item{s}{
-Positive numeric. The regularization parameter \code{s} for node fitness. Default value is \code{1}.
+Positive numeric. The regularization parameter \code{s} for node fitness. Default value is \code{10}.
 }
 \item{lambda}{
-Numeric. The strength of the regularization for PA function. Ignored when  \code{auto_lambda == TRUE}. Default value is  \code{1}.  \code{lambda == 0} means no regularization for PA. 
+Non-negative numeric. The absolute strength of the regularization for PA function. Ignored when  \code{auto_lambda == TRUE}. Default value is  \code{1}.  \code{lambda == 0} means no regularization for PA. 
 }
 \item{auto_lambda}{
-Logical. If \code{auto_lambda == TRUE}, lambda will be determined automatically from the data. Default is \code{TRUE}.
+Logical. If \code{auto_lambda == TRUE}, \code{lambda} will be determined automatically from the data by \code{r}. Default is \code{TRUE}.
+}
+\item{r}{
+Non-negative numeric. The regularization parameter \code{r} for the PA function indicates the relative strength of the regularization term. From \code{r}, the value of \code{lambda} is automatically determined if \code{auto_lambda == TRUE}. Default value is \code{0.01}.
 }
 
 

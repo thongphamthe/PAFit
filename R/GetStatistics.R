@@ -78,6 +78,7 @@ function(net ,
         T_compressed            <- length(compressed_unique_time)
     }  else if (3 == CompressMode[1]) {
         compressed_unique_time <- sort(unique(CustomTime))
+        T_compressed           <- length(compressed_unique_time)
         CompressRatio          <- length(compressed_unique_time)/(T - 1)
     } else {
         #No Time compression

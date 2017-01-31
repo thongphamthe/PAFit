@@ -7,7 +7,8 @@ for (prob_m in c("TRUE", "FALSE"))
               for (i in 1:3) {
                   net  <- GenerateNet(N = 50, m = 10,prob_m = prob_m, increase = inc, log = log,
                                       mode = i, shape = 100, rate = 100)
-                  for (bin in c("TRUE","FALSE"))   
+                  for (bin in c("TRUE","FALSE"))
+                    
                     for (deg_thresh in c(0)) {  
                         net_stats <- GetStatistics(net$graph,deg_threshold = deg_thresh, Binning = bin, G = 10) 
                         #check stats
@@ -22,6 +23,8 @@ for (prob_m in c("TRUE", "FALSE"))
                             stop("wrong at z_j")   
                         if (sum(net_stats$z_j) + sum(net_stats$offset_m_tk) - sum(net_stats$Sum_m_k))
                             stop("Wrong at offset_m_tk") 
+                        net_stats <- GetStatistics(net$graph,deg_threshold = deg_thresh, Binning = bin, G = 10,only_PA = TRUE)
+                        net_stats <- GetStatistics(net$graph,deg_threshold = deg_thresh, Binning = bin, G = 10,only_true_deg_matrix = TRUE)
                     }
               }
 net_stats <- GetStatistics(net$graph,deg_threshold = deg_thresh, Binning = TRUE, G = 10) 
