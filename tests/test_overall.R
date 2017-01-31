@@ -55,6 +55,7 @@ for (mode_f_value in c("Constant_PA", "Log_linear")) {
                         result_Newman <- Newman_corrected(net_stats)
                         result_Newman <- Newman_corrected(net_stats, interpolate = TRUE)
                         calculate_error_PA(k = result$k,A = result$A)
+                        calculate_error_PA(k = result$k,A = result$A, mode = 2)
                         calculate_error_fitness(true = net$fitness,
                                                 estimate = result$f)
 }

@@ -97,5 +97,31 @@ summary(result)
 
 
 result <- PAFit(net_stats, r = 0.01, only_f = TRUE, 
-                stop_cond = 10^-5, q = 1, normalized_f = TRUE, debug = TRUE)
+                stop_cond = 10^-2, q = 1, normalized_f = TRUE, debug = TRUE)
+
+
+net_stats <- GetStatistics(net$graph,deg_threshold = 0, 
+                           net_type = "directed",
+                           Binning = TRUE, G = 1, CompressMode = 1, start_deg = 10,
+                           CompressRatio = 2)
+result <- PAFit(net_stats, r = 0.01, 
+                stop_cond = 10^-2, q = 1, normalized_f = TRUE, debug = TRUE, start_mode_A = "Random")
+
+result <- PAFit(net_stats, r = 0.01, only_f = TRUE,
+                stop_cond = 10^-2, q = 1, normalized_f = TRUE, debug = TRUE, true_A = 1:10000)
+
+
+net_stats <- GetStatistics(net$graph,deg_threshold = 0, 
+                           net_type = "directed",
+                           Binning = TRUE, G = 10, CompressMode = 1, start_deg = 1,
+                           CompressRatio = 2)
+result <- PAFit(net_stats, r = 0.01, 
+                stop_cond = 10^-2, q = 1, normalized_f = TRUE, debug = TRUE, start_mode_A = "Random")
+
+result <- PAFit(net_stats, r = 0.01, only_f = TRUE,
+                stop_cond = 10^-2, q = 1, normalized_f = TRUE, debug = TRUE, true_A = 1:10000)
+
+
+
+
 
