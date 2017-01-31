@@ -70,7 +70,9 @@ for (mode_f_value in c("Constant_PA", "Log_linear")) {
   
   plot(result,net_stats,plot = "A")
   plot(result,net_stats,plot = "f")
-  plot(result,net_stats,true_f = net$fitness,plot = "true_f")
+  plot(result,net_stats,true_f = net$fitness,plot = "true_f", confidence = FALSE)
+  plot(result,net_stats,true_f = net$fitness,plot = "true_f", confidence = TRUE)
+  plot(result,net_stats,true_f = net$fitness,plot = "true_f", confidence = TRUE, plot_true_degree = TRUE)
   result <- PAFit(net_stats, 
                   mode_f = mode_f_value,
                   stop_cond = 10^-2, only_PA = TRUE, debug = TRUE)
