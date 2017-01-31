@@ -144,7 +144,9 @@ function(net ,
         z_j                     <- vector()  
         node_degree             <- matrix(0,0,0)
     }
-    undirected  = 0;
+    if (net_type[1] == "directed")
+        undirected  = 0
+    else undirected = 1;
     max_node_id = max(node_id_old);
     only_PA_num = ifelse(only_PA,1,0);
     only_true_deg_matrix_num = ifelse(only_true_deg_matrix,1,0)
