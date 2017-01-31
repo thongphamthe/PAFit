@@ -2,9 +2,9 @@
 [![Build Status](https://travis-ci.org/thongphamthe/PAFit.svg?branch=master)](https://travis-ci.org/thongphamthe/PAFit)
 [![Build status](https://ci.appveyor.com/api/projects/status/ufje8pyddp42tbfu/branch/master?svg=true)](https://ci.appveyor.com/project/thongphamthe/pafit/branch/master)
 [![codecov](https://codecov.io/gh/thongphamthe/PAFit/branch/master/graph/badge.svg)](https://codecov.io/gh/thongphamthe/PAFit)
-[![Downloads from CRAN](http://cranlogs.r-pkg.org/badges/PAFit?color=brightgreen)](http://cran.rstudio.com/web/packages/PAFit/index.html)
-[![CRAN](http://www.r-pkg.org/badges/version/PAFit)](http://cran.rstudio.com/package=PAFit)
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg)](http://www.gnu.org/licenses/gpl-3.0)
+[![Downloads from CRAN](https://cranlogs.r-pkg.org/badges/PAFit?color=brightgreen)](https://CRAN.R-project.org/package=PAFit)
+[![CRAN](https://www.r-pkg.org/badges/version/PAFit)](https://cran.rstudio.com/package=PAFit)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ====================
 
@@ -13,11 +13,11 @@ This package provides a framework for modelling and inferencing the attachment m
 Installation
 ------------
 
-This package is hosted on [CRAN](http://cran.r-project.org/web/packages/PAFit/) and can be installed in the usual way:
+This package is hosted on [CRAN](https://CRAN.R-project.org/package=PAFit) and can be installed in the usual way:
 ```r
 install.packages("PAFit")
 ```
-Alternatively, the development version can be installed from github using the devtools package (Windows users have to first install [Rtools](http://cran.rstudio.com/bin/windows/Rtools/)):
+Alternatively, the development version can be installed from github using the devtools package (Windows users have to first install [Rtools](https://cran.rstudio.com/bin/windows/Rtools/)):
 ```r
 install.packages("devtools")
 devtools::install_github("thongphamthe/PAFit")
@@ -32,28 +32,28 @@ library("PAFit")
 ```
 then work through the tutorial (link to the current CRAN version):
 
- * [Tutorial](https://cran.r-project.org/web/packages/PAFit/vignettes/Tutorial.pdf)
+ * [Tutorial](https://CRAN.R-project.org/package=PAFit/vignettes/Tutorial.pdf)
  
 Reference manual
 ---------------
 
 Please refer to the current version on CRAN:
 
- * [Manual](https://cran.r-project.org/web/packages/PAFit/PAFit.pdf) 
+ * [Manual](https://CRAN.R-project.org/package=PAFit/PAFit.pdf) 
 
 NEWS
 ---------------
 
 Please refer to the current version on CRAN:
 
- * [NEWS](https://cran.r-project.org/web/packages/PAFit/NEWS)
+ * [NEWS](https://CRAN.R-project.org/package=PAFit/NEWS)
 
 Citation
 ---------------
 
 Please refer to the citation information file (link to the current CRAN version): 
 
- * [Citation Info](https://cran.r-project.org/web/packages/PAFit/citation.html)
+ * [Citation Info](https://CRAN.R-project.org/package=PAFit/citation.html)
  
 License
 -----------------
