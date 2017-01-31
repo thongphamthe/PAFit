@@ -940,10 +940,15 @@ PAFit <- function(net_stat,
                    lambda * hessian_of_regularization(theta[non_zero_theta])) 
     } else if (1 == mode_reg_A) {
     # mode_reg_A = 1
+       
         upper_aa <- net_stat$Sum_m_k[non_zero_theta] /theta[non_zero_theta] ^ 2 + - temp4 
-        upper_aa[ok_log] <- upper_aa[ok_log] + lambda * hessian_of_regularization_log(theta[non_zero_theta[ok_log]])
         upper_bb <- net_stat$Sum_m_k[non_zero_theta] /theta[non_zero_theta] ^ 2
-        upper_bb[ok_log] <- upper_bb[ok_log] + lambda * hessian_of_regularization_log(theta[non_zero_theta[ok_log]])
+        
+        if (length(ok_log) > 0) {
+            upper_aa[ok_log] <- upper_aa[ok_log] + lambda * hessian_of_regularization_log(theta[non_zero_theta[ok_log]])
+            upper_bb[ok_log] <- upper_bb[ok_log] + lambda * hessian_of_regularization_log(theta[non_zero_theta[ok_log]])
+        }
+       
         
         aa <- 1 / (upper_aa)
         bb <-  1 / (upper_bb)   
