@@ -417,7 +417,7 @@ int update_f_alpha(      NumericVector& f,
                  total += m_t.at(i) / normalized_const.at(i) * (PA_offset);   
         }
         if (z_j(non_zero_f(j) - 1) + shape - 1 <= 0)
-            f(non_zero_f(j) - 1) = 0;
+            f(non_zero_f(j) - 1) = 1;
         else 
             f.at(non_zero_f.at(j) - 1) = (z_j.at(non_zero_f.at(j) - 1) + shape - 1)/(total + rate);
   }

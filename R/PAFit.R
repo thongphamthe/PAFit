@@ -700,6 +700,11 @@ PAFit <- function(net_stat,
         } else { # log-linear PA
             .normalized_constant_alpha(normalized_const, alpha,PA_offset,net_stat$node_degree,theta,f,net_stat$offset_tk,offset)
             time_non_zero     <- which(normalized_const != 0)
+            non_zero_f        <- which(f != 0) 
+            #print(alpha)
+            #print(normalized_const[time_non_zero])
+            #print(f[non_zero_f])
+            
             log_likelihood    <- c(log_likelihood, sum(net_stat$z_j[non_zero_f] * log(f[non_zero_f])) +
                                    alpha * sum(net_stat$Sum_m_k[non_zero_theta] * log(theta[non_zero_theta])) -
                                    sum(net_stat$m_t[time_non_zero] * log(normalized_const[time_non_zero])) + 
@@ -714,6 +719,7 @@ PAFit <- function(net_stat,
                     if (log_likelihood[length(log_likelihood)] < log_likelihood[length(log_likelihood) - 1])
                         stop("Warning: Log likelihood decreased.")  
             }
+            #print("---------")
             break_flag <- FALSE
             if (TRUE == auto_stop)
                 if (length(log_likelihood) > 1)

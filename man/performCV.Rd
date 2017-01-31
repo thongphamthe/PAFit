@@ -9,7 +9,7 @@ A function to perform cross validation.
 }
 \usage{performCV(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4), 
                       stop_cond = 10^-7, only_PAFit = TRUE, 
-                      silent = FALSE, only_linear = FALSE)
+                      silent = FALSE, only_linear = FALSE,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,6 +32,9 @@ Logical. If TRUE then the progress is not printed out. Default is FALSE.
 }
 \item{only_linear}{
 Logical. If TRUE then only perform the CV assuming the linear functional form \eqn{A_k = k}. Default is FALSE. 
+}
+\item{\dots}{
+%%     ~~Describe \code{\dots} here~~
 }
 }
 \value{An object of class "CV_Result" containing the cross validation result. The important fields are:

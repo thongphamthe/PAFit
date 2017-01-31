@@ -31,7 +31,7 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
       if (silent == FALSE)
           print(paste0("Processing case ",count, " of ",total))
       result_PAFit <- PAFit(cv_data$stats,s = rate_PAFit[j], r = ratio_vec_PAFit[i], auto_stop =  TRUE, 
-                            stop_cond = stop_cond, normalized_f = FALSE)   
+                            stop_cond = stop_cond, normalized_f = FALSE,...)   
       for (k in 1:length(cv_data$m_each))
         if (cv_data$m_each[k] != 0) { 
           prob_PAFit      <- result_PAFit$A[cv_data$deg_each[k,] + 1]* result_PAFit$f[as.character(cv_data$stats$f_position)]; 
@@ -50,7 +50,7 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
       if (silent == FALSE)
           print(paste0("Processing case ",count, " of ",total))
       result_PAFit <- PAFit(cv_data$stats, mode_f = "Linear_PA", only_f = TRUE,s = rate_Fit[i], auto_stop =  TRUE, 
-                            stop_cond = stop_cond,normalized_f = FALSE)     
+                            stop_cond = stop_cond,normalized_f = FALSE,...)     
       for (k in 1:length(cv_data$m_each)) 
         if (cv_data$m_each[k] != 0) {
           prob_PAFit      <- result_PAFit$f[as.character(cv_data$stats$f_position)] *
@@ -72,7 +72,7 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
       if (silent == FALSE)
           print(paste0("Processing case ",count, " of ",total))
       result_PAFit <- PAFit(cv_data$stats, only_PA = TRUE, auto_lambda = TRUE, r = ratio_vec_PA[i], auto_stop =  TRUE, 
-                            stop_cond = stop_cond,normalized_f = FALSE)
+                            stop_cond = stop_cond,normalized_f = FALSE,...)
       
       for (k in 1:length(cv_data$m_each)) 
         if (cv_data$m_each[k] != 0) {
@@ -93,7 +93,7 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
           print(paste0("Processing case ",count, " of ",total))
       result_PAFit <- PAFit(cv_data$stats, mode_f = "Constant_PA", only_f = TRUE,s = rate_Fit[i], 
                             auto_stop =  TRUE, 
-                            stop_cond = stop_cond,normalized_f = FALSE)     
+                            stop_cond = stop_cond,normalized_f = FALSE,...)     
       for (k in 1:length(cv_data$m_each)) 
         if (cv_data$m_each[k] != 0) {
           prob_PAFit      <- result_PAFit$f[as.character(cv_data$stats$f_position)] 
@@ -111,7 +111,7 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
     if (silent == FALSE)
         print(paste0("Processing case ",count, " of ",total))
     result_PAFit <- PAFit(cv_data$stats, mode_f = "Log_linear",s = rate_PAFit[j],
-                          auto_stop =  TRUE, stop_cond = stop_cond,normalized_f = FALSE, debug = TRUE);
+                          auto_stop =  TRUE, stop_cond = stop_cond,normalized_f = FALSE,...);
     for (k in 1:length(cv_data$m_each)) 
       if (cv_data$m_each[k] != 0) {
        
@@ -137,7 +137,7 @@ performCV <- function(cv_data,r = 10^c(-2,-1,0,1,2),s = 10^c(-1,1,2,3,4),
   #print(r_optimal)
   s_optimal <- s[s_index]
   result    <- list(PAFit_each = PAFit_each, Fit_each_linear = Fit_each_linear, PA_each = PA_each, 
-                    Fit_each = Fit_each, alpha_each = alpha_each, r_optimal = r_optimal, s_optimal = s_optimal)
+                    Fit_each = Fit_each, alpha_each = alpha_each, r_optimal = r_optimal, s_optimal = s_optimal,...)
   class(result) <- "CV_Result"
   if(FALSE == silent) {
       print(paste0("Optimal r parameter is: ",r_optimal));

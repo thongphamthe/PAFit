@@ -1,5 +1,5 @@
 #testing CV-related functions
-#library(PAFit)
+library(PAFit)
 prob_m <- "TRUE"
 inc    <- "TRUE"
 log    <-  c("TRUE")

@@ -1,5 +1,5 @@
 # function to generate simulated network  2015-3-11 Thong Pham
-GenerateNet<-
+GenerateNet <-
 function(N, 
          num_seed       = 2      , 
          multiple_node  = 1      , 

@@ -1,5 +1,5 @@
 #testing CV-related functions
-#library(PAFit)
+library(PAFit)
 prob_m <- "TRUE"
 inc    <- "TRUE"
 log <-  c("TRUE")
@@ -20,15 +20,15 @@ for (net_type in c("directed","undirected")) {
 
    # perform CV  
 cv_result <- performCV(data_cv,  r = 10^c(-2,0),s = 10^c(-1,1),
-                       stop_cond = 10^-3,only_PAFit = FALSE)
+                       stop_cond = 10^-3,only_PAFit = FALSE,debug = TRUE)
 #print(cv_result)
 #summary(cv_result)
 
 
 cv_result <- performCV(data_cv,  r = 10^c(-2,0),s = 10^c(-1,1),
-                       stop_cond = 10^-3,only_PAFit = TRUE)
+                       stop_cond = 10^-3,only_PAFit = TRUE,debug = TRUE)
 
 
 cv_result <- performCV(data_cv, r = 10^c(-2,0),s = 10^c(-1,1),
-                       stop_cond = 10^-3, only_linear = TRUE)
+                       stop_cond = 10^-3, only_linear = TRUE,debug = TRUE)
 

@@ -1,5 +1,5 @@
 #testing GenerateNet, GetStatistics, Jeong, Newman_corrected and PAFit
-#library(PAFit)
+library(PAFit)
 for (prob_m in c("TRUE", "FALSE"))
    for (inc in c("TRUE","FALSE"))
       for (log in c("TRUE", "FALSE"))
