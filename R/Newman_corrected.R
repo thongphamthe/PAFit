@@ -85,9 +85,14 @@ Newman_corrected <- function(net_stat, start = 1, interpolate = FALSE){
   
   A[which(A == "NaN")] <- 0
   k                    <- 0:(length(A) - 1)
-
   
-  result        <- list(A = A , k = k,center_k = center_k, theta = theta, alpha = alpha, loglinear_fit = linear_fit) 
+  names(linear_fit$coefficients) <- c("Constant","Attachment exponent")
+  ci <- confint(linear_fit,"Attachment exponent")
+  
+  result        <- list(A     = A    , k     = k     , center_k      = center_k   , 
+                        theta = theta, alpha = alpha , loglinear_fit = linear_fit ,
+                        G     = net_stat$G,
+                        ci    = ci) 
   class(result) <- "PA_result"
   
   return(result)

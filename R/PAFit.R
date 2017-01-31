@@ -1023,9 +1023,12 @@ PAFit <- function(net_stat,
                   linear_fit  <- lm(log_A ~log_k , weights = 1 / (weight_A * var_log)) 
       }
       else linear_fit <- list(coefficients=c(-1,-1))
-      names(linear_fit$coefficients) <- c("offset","attachment exponent")
+      names(linear_fit$coefficients) <- c("offset","Attachment exponent")
       upper_A         <- exp(log(A) + 2 * sd_log)
       lower_A         <- exp(log(A) - 2 * sd_log)
+      
+     
+      ci <- confint(linear_fit,"Attachment exponent")
       
       ##### Variance of f ####################
     
@@ -1055,7 +1058,7 @@ PAFit <- function(net_stat,
                      upper_A = upper_A    ,  lower_A       = lower_A    , weight_of_A = weight_A  , center_k = center_k,  
                      theta   = theta      ,  upper_bin     = upper_bin  , lower_bin   = lower_bin , var_bin  = cov_bin,
                      # estimated attachment exponent alpha, and the log-linear fit 
-                     alpha   = alpha      ,  loglinear_fit = linear_fit , 
+                     alpha   = alpha      ,  loglinear_fit = linear_fit , ci          = ci        ,
                      
                      # if mode_f = "Log_linear", the  attachment exponent alpha's over iterations
                      alpha_series = ifelse(rep(mode_f[1] == "Log_linear",length(alpha_series)),alpha_series,-1),
