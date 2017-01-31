@@ -2,7 +2,7 @@
 \alias{CreateDataCV}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create Cross Validation Data
+Creating cross validation data
 }
 \description{
 A function to create cross-validation data.

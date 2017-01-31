@@ -12,7 +12,7 @@ PAFit <- function(net_stat,
                   start_mode_f   = "Constant"  ,
                   
                   
-                  auto_stop      = TRUE        , stop_cond      = 10^-6        , 
+                  auto_stop      = TRUE        , stop_cond      = 10^-7        , 
                   iteration      = 200         , max_iter       = 200000       , 
                   debug          = FALSE       , q              = 1            , 
                   step_size      = 0.5         ,
@@ -579,14 +579,7 @@ PAFit <- function(net_stat,
                 theta[non_zero_theta[not_ok_log]] <- net_stat$Sum_m_k[non_zero_theta[not_ok_log]]/temp4[not_ok_log]  
             } else if (2 == mode_reg_A) {
               #mode_reg_A == 2  
-              # a little different, since there are terms from A_0 
-              g_1  <- function(x) {
-                (net_stat$Sum_m_k[non_zero_theta[ok_log[1]]] - 2 * u[2,1] * w_k[non_zero_theta[ok_log[2]]] * lambda * 
-                   (- u[2,2] * log(theta[non_zero_theta[ok_log[2]]])   + 
-                      u[2,3] * log(theta[non_zero_theta[ok_log[3]]])  - 
-                      3 * u[2,1] * log(theta[non_zero_theta[ok_log[1]]])  ) ) / x -   
-                  temp4[ok_log[1]] - 8 * lambda * w_k[non_zero_theta[ok_log[2]]] * log(x) / x * u[2,1]^2}
-              
+
               g_1_new <- function(x) {
                 (net_stat$Sum_m_k[non_zero_theta[ok_log[1]]] - 2 * u[2,1] * w_k[non_zero_theta[ok_log[2]]] * lambda * 
                    (- u[2,2] * log(theta[non_zero_theta[ok_log[2]]])   + 
@@ -1051,18 +1044,29 @@ PAFit <- function(net_stat,
       if (mode_f[1] != "Log_linear")
          alpha = linear_fit$coefficients[2]
       else names(alpha) <- "Estimated attachment exponent"
-      result <- list(A           = A   ,          var_A        = cov, loglinear_fit     = linear_fit, mode_f = mode_f[1], 
-                     center_k = center_k, alpha_series = ifelse(rep(mode_f[1] == "Log_linear",length(alpha_series)),alpha_series,-1),
-                     theta = theta, upper_bin = upper_bin, lower_bin = lower_bin,
-                     k             = k_non_zero ,   weight_of_A  = weight_A, var_logA       = var_log,  #alpha_center = alpha_center,      
-                     upper_A       = upper_A,       lower_A      = lower_A,  alpha_theta = alpha_center,
-                     alpha          = alpha, true_A = true_A, true_f = true_f,
-                     var_bin = cov_bin, PA_offset = PA_offset, candidate_accept = candidate_accept,
-                     f             = f_new,         var_f        = cov_f_new, only_PA = only_PA, only_f = only_f,
-                   upper_f       = upper_f,       lower_f      = lower_f,  objective_value = log_likelihood, lambda = lambda, 
-                   shape = shape, rate = rate, normalized_f = normalized_f, deg_threshold = net_stat$deg_thresh,
-                   stop_cond = stop_cond, auto_lambda = auto_lambda, ratio = ratio, G = net_stat$G,shape = shape, rate = rate, 
-                   offset = offset)
+      
+      result <- list(# estimated PA function and its variances, confidence interval 
+                     k       = k_non_zero ,  A             = A          , var_A       = cov       , var_logA = var_log,
+                     upper_A = upper_A    ,  lower_A       = lower_A    , weight_of_A = weight_A  , center_k = center_k,  
+                     theta   = theta      ,  upper_bin     = upper_bin  , lower_bin   = lower_bin , var_bin  = cov_bin,
+                     # estimated attachment exponent alpha, and the log-linear fit 
+                     alpha   = alpha      ,  loglinear_fit = linear_fit , 
+                     
+                     # if mode_f = "Log_linear", the  attachment exponent alpha's over iterations
+                     alpha_series = ifelse(rep(mode_f[1] == "Log_linear",length(alpha_series)),alpha_series,-1),
+                     
+                     # estimated node fitnesses and their variances, confidence intervals
+                     f        = f_new     ,  var_f         = cov_f_new, 
+                     upper_f  = upper_f   ,  lower_f       = lower_f, # confidence intervals
+                     
+                     # values of the objective function over iterations
+                     objective_value = log_likelihood,
+                     
+                     # other parameters specified
+                     mode_f = mode_f[1] , true_A = true_A , true_f = true_f, PA_offset = PA_offset, candidate_accept = candidate_accept,
+                     only_PA = only_PA, only_f = only_f, lambda = lambda, shape = shape, rate = rate, normalized_f = normalized_f, 
+                     deg_threshold = net_stat$deg_thresh, stop_cond = stop_cond, auto_lambda = auto_lambda, ratio = ratio, 
+                     G = net_stat$G,shape = shape, rate = rate, offset = offset)
       if (only_PA == TRUE)
           class(result) <- "PA_result"
       else

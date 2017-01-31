@@ -2,13 +2,13 @@
 \alias{Newman_corrected}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Corrected Newman's Method for Estimating the Preferential Attachment Function.
+  Corrected Newman's method for estimating the preferential attachment function
 }
 \description{
 This function estimates the preferential attachment function by the corrected Jeong's method. 
 }
 \usage{
-  Newman_corrected(net_stat , start = 1 , interpolate = TRUE)
+  Newman_corrected(net_stat , start = 1 , interpolate = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -17,7 +17,7 @@ This function estimates the preferential attachment function by the corrected Je
   }
   \item{start}{Positive integer. The starting time from which the method is applied. Default value is \eqn{1}.}
   \item{interpolate}{
-    Logical. If \code{TRUE} then all the gaps in the estimated PA function are interpolated by linear interpolating in logarithm scale. Default value is \code{TRUE}.
+    Logical. If \code{TRUE} then all the gaps in the estimated PA function are interpolated by linear interpolating in logarithm scale. Default value is \code{FALSE}.
   }
 }
 \value{

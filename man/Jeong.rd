@@ -2,7 +2,7 @@
 \alias{Jeong}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
- Jeong's Method for Estimating  the Preferential Attachment Function.
+ Jeong's method for estimating  the preferential attachment function
 }
 \description{
   This function estimates the preferential attachment function by Jeong's method. 

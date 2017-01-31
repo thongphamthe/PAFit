@@ -2,7 +2,7 @@
 \alias{calculate_error_fitness}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Calculating Fitness Estimation Error
+  Calculating fitness estimation error
 }
 \description{
   This function calculates the relative error \eqn{e_\eta} between the true node fitnesses \eqn{\eta} and the estimated node fitnesses \eqn{\hat{eta}}. \eqn{e_\eta} is defined as \eqn{e_\eta = 1/{N}\sum_{i = 1}^{N} (\eta_i - \hat{\eta}_i)^2/\eta_i^2}. 

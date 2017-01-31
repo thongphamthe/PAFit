@@ -16,4 +16,4 @@ net_stats <- GetStatistics(net$graph,deg_threshold = 1,
 
 result <- PAFit(net_stats,mode_f = "Log_linear",
                 auto_stop =  TRUE, s = 100,
-                stop_cond = 10^-5,normalized_f = FALSE, debug = TRUE)
+                stop_cond = 10^-2,normalized_f = FALSE, debug = TRUE)

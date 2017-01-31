@@ -24,6 +24,7 @@ for (prob_m in c("TRUE", "FALSE"))
                             stop("Wrong at offset_m_tk") 
                     }
               }
+net_stats <- GetStatistics(net$graph,deg_threshold = deg_thresh, Binning = TRUE, G = 10) 
 print(net_stats)
 summary(net_stats)
 for (mode_f_value in c("Constant_PA", "Log_linear")) {
@@ -37,19 +38,52 @@ for (mode_f_value in c("Constant_PA", "Log_linear")) {
                         plot(result,net_stats,true_f = net$fitness,plot = "true_f")
                         result <- PAFit(net_stats, 
                                         mode_f = mode_f_value,
-                                        stop_cond = 10^-3, only_PA = TRUE, debug = TRUE)
+                                        stop_cond = 10^-2, only_PA = TRUE, debug = TRUE)
                         summary(result)
                         print(result)
                         
                         result_Jeong  <- Jeong(net$graph,net_stats, T_0 = 10, T_1 = 40)
+                        result_Jeong  <- Jeong(net$graph,net_stats, T_0 = 10, T_1 = 40, interpolate = TRUE)
                         print(result_Jeong)
                         summary(result_Jeong)
                         plot(result_Jeong,net_stats)
                         plot(result_Jeong,net_stats, line = TRUE)
                         plot(result_Jeong,net_stats, high_deg = 5)
                         result_Newman <- Newman_corrected(net_stats)
+                        result_Newman <- Newman_corrected(net_stats, interpolate = TRUE)
                         calculate_error_PA(k = result$k,A = result$A)
                         calculate_error_fitness(true = net$fitness,
                                                 estimate = result$f)
-      }
+}
+net_stats <- GetStatistics(net$graph,deg_threshold = deg_thresh, Binning = FALSE, G = 10) 
+print(net_stats)
+summary(net_stats)
+for (mode_f_value in c("Constant_PA", "Log_linear")) {
+  result <- PAFit(net_stats, mode_f = mode_f_value,
+                  stop_cond = 10^-3, debug = TRUE)
+  print(result)
+  summary(result)
+  
+  plot(result,net_stats,plot = "A")
+  plot(result,net_stats,plot = "f")
+  plot(result,net_stats,true_f = net$fitness,plot = "true_f")
+  result <- PAFit(net_stats, 
+                  mode_f = mode_f_value,
+                  stop_cond = 10^-2, only_PA = TRUE, debug = TRUE)
+  summary(result)
+  print(result)
+  
+  result_Jeong  <- Jeong(net$graph,net_stats, T_0 = 10, T_1 = 40)
+  result_Jeong  <- Jeong(net$graph,net_stats, T_0 = 10, T_1 = 40, interpolate = TRUE)
+  print(result_Jeong)
+  summary(result_Jeong)
+  plot(result_Jeong,net_stats)
+  plot(result_Jeong,net_stats, line = TRUE)
+  plot(result_Jeong,net_stats, high_deg = 5)
+  result_Newman <- Newman_corrected(net_stats)
+  result_Newman <- Newman_corrected(net_stats, interpolate = TRUE)
+  calculate_error_PA(k = result$k,A = result$A)
+  calculate_error_fitness(true = net$fitness,
+                          estimate = result$f)
+}
 

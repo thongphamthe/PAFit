@@ -2,7 +2,7 @@
 \alias{GenerateNet}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Simulating Networks from Preferential Attachment and Fitness Mechanisms}
+Simulating networks from preferential attachment and fitness mechanisms}
 \description{
 This function generates networks from the General Temporal model, a generative temporal network model that includes many well-known models such as the Barabasi-Albert model or the fitness model as special cases. The number of edges of the new node at each time-step can be specified to be fixed, or followed a Poisson distribution.  In the latter case, the mean of the Poisson distribution is either held fixed or increased with time.
 }

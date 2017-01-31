@@ -15,20 +15,20 @@ for (net_type in c("directed","undirected")) {
     data_cv <- CreateDataCV(net$graph, p = 0.75, G = 50, 
                             net_type = net_type,deg_thresh = 0)
 }
-#print(data_cv)
-#summary(data_cv)
+print(data_cv)
+summary(data_cv)
 
    # perform CV  
 cv_result <- performCV(data_cv,  r = 10^c(-2,0),s = 10^c(-1,1),
-                       stop_cond = 10^-3,only_PAFit = FALSE,debug = TRUE)
-#print(cv_result)
-#summary(cv_result)
+                       stop_cond = 10^-2,only_PAFit = FALSE,debug = TRUE)
+print(cv_result)
+summary(cv_result)
 
 
 cv_result <- performCV(data_cv,  r = 10^c(-2,0),s = 10^c(-1,1),
-                       stop_cond = 10^-3,only_PAFit = TRUE,debug = TRUE)
+                       stop_cond = 10^-2,only_PAFit = TRUE,debug = TRUE)
 
 
 cv_result <- performCV(data_cv, r = 10^c(-2,0),s = 10^c(-1,1),
-                       stop_cond = 10^-3, only_linear = TRUE,debug = TRUE)
+                       stop_cond = 10^-2, only_linear = TRUE,debug = TRUE)
 

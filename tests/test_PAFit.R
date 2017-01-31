@@ -46,31 +46,31 @@ for (q in 1:3)
  for (j in 0:2)
    for (uu in 0:1)   
       result <- PAFit(net_stats, r = 0.01, mode_reg_A = j, weight_PA_mode = uu,
-                    stop_cond = 10^-5, q = q, normalized_f = TRUE,debug = TRUE)
+                    stop_cond = 10^-2, q = q, normalized_f = TRUE,debug = TRUE)
 
 result <- PAFit(net_stats, r = 0, 
-                stop_cond = 10^-5, q = 1, normalized_f = FALSE, debug = TRUE)
+                stop_cond = 10^-2, q = 1, normalized_f = FALSE, debug = TRUE)
 print(result)
 summary(result)
 plot(result,net_stats,high_deg = 5)
 
 result <- PAFit(net_stats, r = 0.01, only_PA = TRUE, 
-                stop_cond = 10^-5, q = 1, debug = TRUE)
+                stop_cond = 10^-2, q = 1, debug = TRUE)
 print(result)
 summary(result)
 
 
 result <- PAFit(net_stats, r = 0.01, only_f = TRUE, mode_f = "Log_linear",
-                stop_cond = 10^-5, q = 1, normalized_f = FALSE, debug = TRUE)
+                stop_cond = 10^-2, q = 1, normalized_f = FALSE, debug = TRUE)
 
 
 result <- PAFit(net_stats, r = 0.01, mode_f = "Log_linear",
-                stop_cond = 10^-5, q = 1, normalized_f = FALSE, debug = TRUE)
+                stop_cond = 10^-2, q = 1, normalized_f = FALSE, debug = TRUE)
 
 plot(result,net_stats,plot = "f",plot_true_degree = TRUE)
 
 result <- PAFit(net_stats, r = 0.01, only_f = TRUE, 
-                stop_cond = 10^-5, q = 1, normalized_f = FALSE, debug = TRUE)
+                stop_cond = 10^-2, q = 1, normalized_f = FALSE, debug = TRUE)
 
 plot(result,net_stats, plot = "f",plot_true_degree = TRUE)
 

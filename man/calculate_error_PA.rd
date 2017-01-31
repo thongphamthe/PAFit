@@ -2,7 +2,7 @@
 \alias{calculate_error_PA}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Calculating Preferential Attachment Estimation Error
+  Calculating preferential attachment estimation error
 }
 \description{
   This function calculates the relative error \eqn{e_A} between the true attachment function \eqn{A_k} and the estimated attachment function \eqn{\hat{A}_k}. \eqn{e_A} is defined as \eqn{e_A = 1/{K-start_deg + 1}\sum_{k = start_deg}^{K} (A_k - \hat{A}_k)^2/A^2_k}. 

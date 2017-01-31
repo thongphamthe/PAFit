@@ -2,10 +2,10 @@
 \alias{PAFit}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Joint Inference of Preferential Attachment and Node Fitness in Temporal Complex Networks
+Joint inference of preferential attachment and node fitness by Minorize-Maximization algorithms
 }
 \description{
-From a \code{PAFit_data} object, which contains summary statistics summerized from the dataset, PAFit estimates the attachment function \eqn{A_k} and node fitness \eqn{\eta_i} by penalized log-likelihood maximization.  It also calculates confidence intervals for \eqn{A_k} and \eqn{\eta_i}.  Estimation of the attachment function in isolation (while fixing \eqn{\eta_i = 1}) can be specified by setting only_PA = TRUE.  Estimation of node fitness in isolation (fixing either \eqn{A_k = k} or \eqn{A_k = 1}) can be specified by setting \code{only_f = TRUE}.
+From a \code{PAFit_data} object, which contains summary statistics summerized from the dataset, PAFit estimates the attachment function \eqn{A_k} and node fitness \eqn{\eta_i} by penalized log-likelihood maximization.  It also infers the remaining uncertainties in the estimated results by approximating the confidence intervals of \eqn{A_k} and \eqn{\eta_i}.  Estimation of either the attachment function or node fitness in isolation are also supported. Estimation of the PA function with \eqn{\eta_i = 1} can be specified by setting \code{only_PA = TRUE}.  Estimation of node fitness with either \eqn{A_k = k} or \eqn{A_k = 1} can be specified by setting \code{only_f = TRUE}.
 }
 \usage{
 PAFit (net_stat, 
@@ -20,7 +20,7 @@ PAFit (net_stat,
        alpha_start    = 1           , start_mode_A   = "Log_linear", 
        start_mode_f   = "Constant"  ,
        
-       auto_stop      = TRUE        , stop_cond      = 10^-6       , 
+       auto_stop      = TRUE        , stop_cond      = 10^-7       , 
        iteration      = 200         , max_iter       = 2e+05       , 
        debug          = FALSE       , q              = 1           ,   
        step_size      = 0.5         ,
@@ -30,7 +30,7 @@ PAFit (net_stat,
 \arguments{
 The parameters can be divided into five groups based on what they specify.
 
-First group specify basic instructions for the algorithm: 
+First group specifies basic instructions for the algorithm: 
 
   \item{net_stat}{
 An object of class \code{"PAFit_data"} containing all the summary statistics summerized from the data by the function \code{GetStatistics}.
@@ -52,6 +52,7 @@ Numeric vector. If \code{true_f} is supplemented, then only PA is estimated.
 }
 
 Second group specifies the objective function, e.g. the weighting of PA, the regularization term for PA and fitness: 
+
 \item{mode_reg_A}{Integer. Possible values: \code{0}, \code{1} or \code{2}. Indicates which regularization term is used for the PA function. For the regularization function used in the PLOS ONE and SR paper, use \code{0}. Default value is \eqn{0}.}
 
 \item{weight_PA_mode}{
@@ -73,6 +74,7 @@ Logical. If \code{auto_lambda == TRUE}, lambda will be determined automatically 
 
 
 Third group specifies the initial value of PA and fitness: 
+
 \item{alpha_start}{Non-negative numeric. The starting value for alpha when we use the model \eqn{k^\alpha}. Default value is \code{1}.}
 \item{start_mode_A}{String. Takes one of two values: \code{"Log_linear"} (the initial PA function set to k^alpha_start) or \code{"Random"} (the initial function is randomly sampled from a uniform distribution). Default value is \code{"Log_linear"}.}
 \item{start_mode_f}{String. Takes one of two values: \code{"Constant"} (the initial node fitnesses are all set to \code{1}) or \code{"Random"} (the initial node fitnesses are randomly sampled from a gamma distribution). Default value is \code{"Constant"}.}
@@ -80,12 +82,12 @@ Third group specifies the initial value of PA and fitness:
 Fourth group concerns the iterative process:
 
 \item{auto_stop}{Logical. Indicates whether the algorithm stop automatically or not. Default is \code{TRUE}}
-\item{stop_cond}{Numeric. If \code{auto_stop = TRUE}, the iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop_cond} where \eqn{h(ii)} is the value of the objective function (posterior probability in log-scale) at iteration \eqn{ii}. We recommend to choose stop_cond at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \eqn{10^-9}.}
+\item{stop_cond}{Numeric. If \code{auto_stop = TRUE}, the iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop_cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose stop_cond at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-7}.}
 \item{iteration}{
-Integer. The number of iterations. Ignored if \code{auto_stop == TRUE}. Default value is \eqn{20}. 
+Integer. The number of iterations. Ignored if \code{auto_stop == TRUE}. Default value is \code{20}. 
 }
 \item{max_iter}{
-Integer. The maximum number of iterations. Regardless of other settings, the algorithm will stop once the number of  iterations reaches this threshold. Default value is \eqn{2e+05}.
+Integer. The maximum number of iterations. Regardless of other settings, the algorithm will stop once the number of  iterations reaches this threshold. Default value is \code{2e+05}.
 }
 \item{debug}{Logical. if \code{debug == TRUE}, the value of the objective function \eqn{h} is printed out at each step. Defaule is \code{FALSE}.}
 \item{q}{Integer. Indicates numbers of previous steps using in the quasi-Newton speedup. Ignored if \eqn{q <= 1}. Defaule is \code{1}.}
@@ -98,25 +100,49 @@ Final group gives some additional instructions:
 
 }
 \value{
-an object of class "PAFit_result", which is a list. Some important fields of this object:
-\item{A }{The estimated attachment function}
-\item{k}{The corresponding degree}
-\item{var_A}{Variances of the estimated A}
-\item{linear_fit}{Result of fitting the log-linear model \eqn{log A_k = \alpha log k} to the estimated \eqn{A_k}}
+an object of class "PAFit_result", which is a list. Some important fields can be divided into five groups. 
+
+
+The first group gives the estimated preferential attachment function:
+
+
+\item{k}{The observed degree vector}
+\item{A }{The estimated attachment function corresponding to \code{k}}
+\item{center_k}{The logarithmic center of the bins}
+\item{theta}{Preferential attachment value corresponding to \code{center_k} (before mapping back to \eqn{A_k})}
+\item{weight_of_A}{The number of \code{A} in each bin}
+\item{loglinear_fit}{Result of fitting the log-linear model \eqn{log A_k = \alpha log k + C} to the estimated \eqn{A_k}}
 \item{alpha}{The estimated attachment exponent of the log-linear model \eqn{A_k =k^\alpha}}
-\item{weight_of_A}{The number of A in each bin}
-\item{var_logA}{Variances of \eqn{log(A)}}        
+\item{alpha_series}{The series of alpha over iterations if \code{mode_f == "Log_linear"}}     
+
+The second group gives the confidence intervals of the estimated PA function:
+
+\item{var_A}{Variances of the estimated A}
+\item{var_logA}{Variances of \eqn{log(A)}}   
 \item{upper_A}{The upper value of the two-sigma confidence interval of A}
 \item{lower_A}{The lower value of the two-sigma confidence interval of A}
-\item{center_k}{The logarithmic center of the bins}
-\item{theta}{Attachment value of the bins (before converting back to \eqn{A_k})}
 \item{upper_bin}{The upper value of the two-sigma confidence interval of theta}
 \item{lower_bin}{The lower value of the two-sigma confidence interval of theta}
+
+
+The third group gives the estimated node fitnesses: 
+
 \item{f}{The estimated node fitnesses \eqn{\eta}}
+
+
+The fourth group gives the confidence intervals of the estimated node fitnesses:
+
 \item{var_f}{Variances of the estimated node fitnesses}
 \item{upper_f}{The upper value of the two-sigma confidence interval of node fitness \eqn{\eta}}
 \item{lower_f}{The lower value of the two-sigma confidence interval of node fitness \eqn{\eta}}
+
+
+
+The final group gives additional information on the iterative process:
+
 \item{objective_value}{Values of the objective function \eqn{h} (posterior probability in log-scale) recorded at each iteration}
+
+
 }
 
 \author{

@@ -2,7 +2,7 @@
 \alias{GetStatistics}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Getting Summarized Statistics from Input Data  
+Getting summarized statistics from input data  
 }
 \description{
 The function summarizes input data into sufficient statistics for estimating the attachment function and node fitness, together with additional information about the data, such as total number of nodes, number of time-steps, maximum degree, and the final degree of the network, etc. .  It also provides mechanisms to automatically deal with very large datasets by binning the degree, setting a degree threshold, or grouping time-steps. 
