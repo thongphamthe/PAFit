@@ -18,11 +18,6 @@ This package is hosted on [CRAN](https://CRAN.R-project.org/package=PAFit) and c
 ```r
 install.packages("PAFit")
 ```
-Alternatively, the development version can be installed from github using the devtools package (Windows users have to first install [Rtools](https://cran.rstudio.com/bin/windows/Rtools/)):
-```r
-install.packages("devtools")
-devtools::install_github("thongphamthe/PAFit")
-```
 
 Getting started
 ---------------
