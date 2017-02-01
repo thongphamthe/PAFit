@@ -1,7 +1,28 @@
 \name{NEWS}
 \alias{NEWS}
 \title{Package News}
-\section{version 0.9.4 (Release date: 2017-02-01)}{
+
+\section{version 0.9.6 (Release date: 2017-02-02)}{
+  \subsection{FIXED}{
+    \itemize{
+      \item{minor bugs in edge cases}
+    }
+  }
+    \subsection{CHANGED}{
+    \itemize{
+      \item{improved the exposition in the documentation}
+      \item{improved code readability}
+    }
+  }
+  \subsection{NEW}{
+    \itemize{
+      \item{adding confidence interval for the estimated attachment exponenent in all methods}
+    }
+  }
+}
+
+
+\section{version 0.9.5 (Release date: 2017-02-01)}{
   \subsection{FIXED}{
     \itemize{
       \item{some minor bugs}

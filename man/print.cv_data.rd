@@ -2,10 +2,10 @@
 \alias{print.CV_Data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Printing a CV_Data object
+  Printing a \code{CV_Data} object
 }
 \description{
-  This function prints a CV_data object's information.
+  This function prints a \code{CV_data} object's information.
 }
 \usage{
 \method{print}{CV_Data}(x,...)
@@ -13,7 +13,7 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 \item{x}{
-An object of class "CV_Data", containing the data needed for subsequent cross-validation by the performCV function.
+An object of class \code{"CV_Data"}, containing the data needed for subsequent cross-validation by the \code{performCV} function.
 }
 \item{\dots}{
 %%     ~~Describe \code{\dots} here~~

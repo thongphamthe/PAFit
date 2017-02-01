@@ -479,6 +479,51 @@ double update_alpha(
 }
 
 
+// [[Rcpp::export(".var_alpha")]]
+double var_alpha(
+    const double         alpha, 
+    const NumericVector& non_zero_theta,  
+    const NumericVector& norm,
+    const NumericVector& f, 
+    const double       & PA_offset,
+    const NumericVector& theta,
+    const NumericMatrix& degree, 
+    const NumericVector& m_t,
+    const NumericVector& Sum_m_k,
+    const NumericMatrix& offset_tk,
+    const double&        offset
+) {
+  long T = degree.nrow();     // number of time-steps
+  long N  = degree.ncol();     // number of nodes
+  //long N2 = f.size();
+  
+  // printf("%d",N);
+  // printf("%d",N2);
+  
+  long K = offset_tk.ncol();  // maximum degree 
+  //long length_theta = theta.size();
+  double var_alpha = 0; 
+  
+
+  for (long t = 0; t < T; t++) {
+      double norm            = 0;
+      double norm_derivative = 0;
+      double norm_second_derivative = 0;
+      for (long i = 0; i < N; ++i)
+          if (degree(t,i) >= 0 && (theta.at(degree(t,i)) > 0))  {
+              norm  += f.at(i) * pow(theta.at(degree(t,i)) , alpha);
+              norm_derivative += pow(theta.at(degree(t,i)) , alpha) * log(theta.at(degree(t,i))) * f.at(i); 
+              norm_second_derivative +=  pow(theta.at(degree(t,i)) , alpha) * log(theta.at(degree(t,i))) * log(theta.at(degree(t,i))) * 
+                                         f.at(i);  
+          }
+      double upper = norm_second_derivative * norm - norm_derivative * norm_derivative;   
+      double lower = norm * norm;
+      var_alpha -= m_t.at(t) * upper / lower;
+  }
+      
+  return - 1.0 / var_alpha;
+}
+
 // // [[Rcpp::export(".update_PA_offset")]]
 // double update_PA_offset(
 //     const NumericVector& norm,

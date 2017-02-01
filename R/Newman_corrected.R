@@ -29,14 +29,18 @@ Newman_corrected <- function(net_stat, start = 1, interpolate = FALSE){
   }
   
   #estimate the attachment exponent alpha
-  non_zero      <- which(center_k > 0 & theta > 0)
+  non_zero     <- which(center_k > 0 & theta > 0)
   log_A        <- log(theta[non_zero])
   log_k        <- log(center_k[non_zero])
   
   linear_fit   <- lm(log_A ~ log_k)
   alpha        <- linear_fit$coefficients[2]
   names(alpha) <- "Estimated attachment exponent" 
-  
+  names(linear_fit$coefficients) <- c("Constant","Attachment exponent")
+  res          <- df.residual(linear_fit)
+  if (res > 0)
+      ci       <- confint(linear_fit,"Attachment exponent")
+  else ci      <- "N"
   
   #interpolation
   if (TRUE == interpolate) {
@@ -46,18 +50,25 @@ Newman_corrected <- function(net_stat, start = 1, interpolate = FALSE){
         theta[1:(theta_nonzero[1] - 1)] <- theta[theta_nonzero[1]]  
       }
     if (length(theta_nonzero) > 1) {
-      for (i in 1:(length(theta_nonzero) - 1))
-        if (theta_nonzero[i+1] > theta_nonzero[i] + 1) {
-          if (center_k[theta_nonzero[i]] != 0) {
-            regress <- lm(c(log(theta[theta_nonzero[i]]),log(theta[theta_nonzero[i+1]]))~ 
-                            c(log(center_k[theta_nonzero[i]]),log(center_k[theta_nonzero[i+1]])))
-          } else
-            regress <- lm(c(log(theta[theta_nonzero[i]]),log(theta[theta_nonzero[i+1]]))~ 
-                            c(log(center_k[theta_nonzero[i]] + 1),
-                              log(center_k[theta_nonzero[i+1]] + 1)))
-          
-          for (j in (theta_nonzero[i] + 1):(theta_nonzero[i+1]-1))
-            theta[j] <- exp(log(center_k[j]) * regress$coefficients[2] + regress$coefficients[1])           
+        for (i in 1:(length(theta_nonzero) - 1))
+            if (theta_nonzero[i + 1] > theta_nonzero[i] + 1) {
+                regress_flag <- 0  
+                if (center_k[theta_nonzero[i]] > 0 && center_k[theta_nonzero[i + 1]] > 0 &&
+                    theta[theta_nonzero[i]] > 0 && theta[theta_nonzero[i + 1]] > 0){
+                    regress_flag <- 1
+                    regress <- lm(c(log(theta[theta_nonzero[i]]),log(theta[theta_nonzero[i + 1]]))~ 
+                               c(log(center_k[theta_nonzero[i]]),log(center_k[theta_nonzero[i + 1]])))
+                } else {
+                      if (center_k[theta_nonzero[i]] > 0 && center_k[theta_nonzero[i + 1]] > 0 &&
+                          theta[theta_nonzero[i]] > 0 && theta[theta_nonzero[i + 1]] > 0) {
+                          regress_flag <- 1
+                          regress <- lm(c(log(theta[theta_nonzero[i]]),log(theta[theta_nonzero[i + 1]]))~ 
+                                        c(log(center_k[theta_nonzero[i]] + 1), log(center_k[theta_nonzero[i + 1]] + 1)))
+                      }
+                }   
+                if (1 == regress_flag)
+                    for (j in (theta_nonzero[i] + 1):(theta_nonzero[i + 1]-1))
+                        theta[j] <- exp(log(center_k[j]) * regress$coefficients[2] + regress$coefficients[1])           
         }  
     }
     if (length(theta_nonzero) > 0)
@@ -85,9 +96,13 @@ Newman_corrected <- function(net_stat, start = 1, interpolate = FALSE){
   
   A[which(A == "NaN")] <- 0
   k                    <- 0:(length(A) - 1)
+  
 
   
-  result        <- list(A = A , k = k,center_k = center_k, theta = theta, alpha = alpha, loglinear_fit = linear_fit) 
+  result        <- list(A     = A    , k     = k     , center_k      = center_k   , 
+                        theta = theta, alpha = alpha , loglinear_fit = linear_fit ,
+                        G     = net_stat$G,
+                        ci    = ci) 
   class(result) <- "PA_result"
   
   return(result)

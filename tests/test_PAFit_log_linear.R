@@ -4,7 +4,7 @@ prob_m <- "TRUE"
 inc    <- "TRUE"
 log    <-  c("TRUE")
 mode_f_value <- c("Constant_PA", "Log_linear")[1]  
-i <- 1
+i      <- 1
 net  <- GenerateNet(N = 50, m = 10,prob_m = prob_m, increase = inc, log = log,
                     mode = i, shape = 100, rate = 100,alpha = 0.5)
 
@@ -16,4 +16,5 @@ net_stats <- GetStatistics(net$graph,deg_threshold = 1,
 
 result <- PAFit(net_stats,mode_f = "Log_linear",
                 auto_stop =  TRUE, s = 100,
-                stop_cond = 10^-2,normalized_f = FALSE, debug = TRUE)
+                stop_cond = 10^-8,normalized_f = FALSE, debug = TRUE)
+print(result)

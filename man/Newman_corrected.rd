@@ -21,7 +21,7 @@ This function estimates the preferential attachment function by the corrected Je
   }
 }
 \value{
-  Outputs an "PA_result" object which contains the estimated PA function.
+  Outputs an "PA_result" object which contains the estimated PA function. It also includes the estimated attachment exponenent \eqn{\alpha} and the confidence interval of \eqn{\alpha} when possible.
 }
 \author{
   Thong Pham \email{thongpham@thongpham.net}
@@ -36,7 +36,7 @@ This function estimates the preferential attachment function by the corrected Je
 
 \examples{
   library("PAFit")
-  net        <- GenerateNet(N = 1000 , m = 1 , mode = 1 , alpha = 1 , shape = 0)
+  net        <- GenerateNet(N = 1000 , m = 30 , mode = 1 , alpha = 1 , shape = 0) # no fitness
   net_stats  <- GetStatistics(net$graph)
   result     <- Newman_corrected(net_stats)
   summary(result)

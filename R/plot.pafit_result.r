@@ -3,7 +3,7 @@ plot.PAFit_result <-
 function(x,
          net_stat              ,
          true_f      = NULL    , plot             = "A"   , plot_bin     = TRUE             ,
-         line        = FALSE   , confidence       = TRUE  , high_deg     = NULL             , 
+         line        = FALSE   , confidence       = TRUE  , high_deg     = 1                , 
          shade_point = 0.5     , shade_interval   = 0.5   , col_interval = "lightsteelblue" ,
          col_point   = "black" , label_x          = NULL  , label_y      = NULL             ,
          max_A       = NULL    , min_A            = NULL  , f_min        = NULL             , 
@@ -22,19 +22,24 @@ function(x,
           non_zero <- which(x$A > 10^-20 & x$k >= x$deg_threshold) 
       new_var_log <- x$var_logA[non_zero] * (x$A[non_zero][1]) ^ 2;
       if (!is.null(high_deg)) {
-          x$A[non_zero] <- x$A[non_zero] / x$A[non_zero][1];    
+          x$A[non_zero]       <- x$A[non_zero] / x$A[non_zero][1];    
           x$lower_A[non_zero] <- exp(log(x$A[non_zero]) - 2 * sqrt(new_var_log));
           x$upper_A[non_zero] <- exp(log(x$A[non_zero]) + 2 * sqrt(new_var_log));
+          non_zero            <- x$A > 10^-20 & x$k >= max(x$deg_threshold,high_deg) &
+                                 (!is.na(x$upper_A)) & (!is.infinite(x$upper_A))
       } 
      if ((!is.null(max_A)) && (!is.null(min_A)))
           limit <- c(min(min_A,x$lower_A[non_zero]) , max(max_A,x$upper_A[non_zero]))
-      else if (!is.null(min_A))
+      else if (!is.null(min_A)) {
           limit <- c(min(min_A,x$lower_A[non_zero]) , max(x$upper_A[non_zero])) 
-      else if (!is.null(max_A))
+      }
+      else if (!is.null(max_A)) {
           limit <- c(min(x$lower_A[non_zero]) , max(max_A,x$upper_A[non_zero]))
-      else 
+      }
+      else { 
           limit <- c(min(x$lower_A[non_zero]) , max(x$upper_A[non_zero]))
-    
+      }
+      
       xlim  <- c(min(x$k[non_zero] + 1) , max(x$k[non_zero] + 1))
       plot(x$k[non_zero][1] + 1 , x$A[non_zero][1] , xlab = ifelse(!is.null(label_x),label_x,expression(k + 1)),
            ylab = ifelse(!is.null(label_y) , label_y,expression(hat(A)[k])),

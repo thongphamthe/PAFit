@@ -135,7 +135,7 @@ performCV <- function(cv_data,
   r_index   <- max_id %% length(r)
   if (r_index == 0)
       r_index <-  1
-  s_index   <- ceiling(max_id / length(s))
+  s_index   <- ceiling(max_id / length(r))
   r_optimal <- r[r_index]
   #print(r)
   #print(r_index)

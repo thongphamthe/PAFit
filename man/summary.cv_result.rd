@@ -2,10 +2,10 @@
 \alias{summary.CV_Result}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Summarizing CV_Result object
+  Summarizing \code{CV_Result} object
 }
 \description{
-  This function summerizes a CV_Result object's information.
+  This function summerizes a \code{CV_Result} object's information.
 }
 \usage{
 \method{summary}{CV_Result}(object,...)
@@ -13,7 +13,7 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 \item{object}{
-An object of class "CV_Result", containing the cross-validation result of the performCV function.
+An object of class \code{"CV_Result"}, containing the cross-validation result of the \code{performCV} function.
 }
 \item{\dots}{
 %%     ~~Describe \code{\dots} here~~

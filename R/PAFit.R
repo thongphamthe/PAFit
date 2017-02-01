@@ -113,10 +113,15 @@ PAFit <- function(net_stat,
     if (0 == mode_reg_A) {
         update_theta   <- non_zero_theta[-c(1 , 2 , num_nonzero , num_nonzero - 1)]
         noupdate_theta <- non_zero_theta[c(1 , 2 , num_nonzero , num_nonzero - 1)]
-        minus_1        <- non_zero_theta[-c(1 , num_nonzero , num_nonzero - 1 , num_nonzero - 2)]
-        minus_2        <- non_zero_theta[-c(num_nonzero , num_nonzero - 1 , num_nonzero - 2 , num_nonzero - 3)] 
+        if (num_nonzero > 2)
+            minus_1        <- non_zero_theta[-c(1 , num_nonzero , num_nonzero - 1 , num_nonzero - 2)]
+        if (num_nonzero > 3)
+            minus_2    <- non_zero_theta[-c(num_nonzero , num_nonzero - 1 , num_nonzero - 2 , num_nonzero - 3)] 
+        
         plus_1         <- non_zero_theta[-c(1 , 2 , 3 , num_nonzero)]
-        plus_2         <- non_zero_theta[-c(1 , 2 , 3 , 4)] 
+        
+        if (length(non_zero_theta) > 4)
+            plus_2         <- non_zero_theta[-c(1 , 2 , 3 , 4)] 
         #num_ok_log     <- 1
     } else if (1 == mode_reg_A) {
           ok_log     <- which(center_k[non_zero_theta] > 1)
@@ -125,10 +130,16 @@ PAFit <- function(net_stat,
           #print(not_ok_log)
           update_theta   <- non_zero_theta[ok_log[-c(1, 2, num_ok_log, num_ok_log - 1)]]
           noupdate_theta <- non_zero_theta[ok_log[c(1, 2, num_ok_log, num_ok_log - 1)]]
-          minus_1 <- non_zero_theta[ok_log[-c(1, num_ok_log, num_ok_log - 1, num_ok_log - 2)]]
-          minus_2 <- non_zero_theta[ok_log[-c(num_ok_log, num_ok_log - 1, num_ok_log - 2, num_ok_log - 3)]] 
+          if (num_ok_log > 2)
+              minus_1 <- non_zero_theta[ok_log[-c(1, num_ok_log, num_ok_log - 1, num_ok_log - 2)]]
+          if (num_ok_log > 3)
+              minus_2 <- non_zero_theta[ok_log[-c(num_ok_log, num_ok_log - 1, num_ok_log - 2, num_ok_log - 3)]] 
+          
           plus_1  <- non_zero_theta[ok_log[-c(1, 2, 3, num_ok_log)]]
-          plus_2  <- non_zero_theta[ok_log[-c(1, 2, 3, 4)]] 
+          
+          if (length(ok_log) > 4)
+              plus_2  <- non_zero_theta[ok_log[-c(1, 2, 3, 4)]] 
+          
     } else if (2 == mode_reg_A) {
           ok_log     <- which(center_k[non_zero_theta] > 0)
           not_ok_log <- which(center_k[non_zero_theta] == 0)
@@ -154,11 +165,16 @@ PAFit <- function(net_stat,
                   u[k1,k1 - 1]   <- 1/(log(center_k[non_zero_theta[ok_log[k1]]]) - log(center_k[non_zero_theta[ok_log[k1 - 1]]]))
                   u[k1,k1 + 1]   <- 1/(log(center_k[non_zero_theta[ok_log[k1 + 1 ]]]) - log(center_k[non_zero_theta[ok_log[k1]]]))
               }
-          #print(u)
+       
           extract_u <- function(i,j) {
             result <- NULL
-            for (index in 1:length(i))
-              result <- c(result,u[i[index],j[index]])  
+            #print(u)
+            #print(i)
+            #print(j)
+            #max_length_u <- min(dim(u)[1],i,j)
+            #if (max_length_u > 0)
+                for (index in 1:length(i))
+                    result <- c(result,u[i[index],j[index]])  
             return(result)
           }
           update_k <- 3:(num_ok_log-2)
@@ -469,37 +485,58 @@ PAFit <- function(net_stat,
                         (net_stat$Sum_m_k[non_zero_theta[1]] - 2*w_k[non_zero_theta[2]] * lambda * (-2 * log(theta[non_zero_theta[2]]) + 
                         log(theta[non_zero_theta[3]]) - 3 * log(theta[non_zero_theta[1]])))/x -   
                          temp4[1] - 8 * lambda * w_k[non_zero_theta[2]] * log(x) / x}
-                
-                g_2 <- function(x) {
-                       (net_stat$Sum_m_k[non_zero_theta[2]] - 2*lambda * 
-                          (2*w_k[non_zero_theta[2]]*(-2*log(theta[non_zero_theta[2]]) -log(theta[non_zero_theta[3]]) - log(theta[non_zero_theta[1]])) + 
-                             w_k[non_zero_theta[3]]*(-2*log(theta[non_zero_theta[3]]) +log(theta[non_zero_theta[4]]) -3*log(theta[non_zero_theta[2]]) ))) / x - 
-                         temp4[2] - (16*w_k[non_zero_theta[2]] + 8*w_k[non_zero_theta[3]]) * lambda * log(x) / x}
-               g_semiend <- function(x) {
-                            (net_stat$Sum_m_k[non_zero_theta[num_nonzero - 1]] - 2*lambda * 
-                            (2*w_k[non_zero_theta[num_nonzero - 1]]*(-2*log(theta[non_zero_theta[num_nonzero - 1]]) - log(theta[non_zero_theta[num_nonzero]]) - log(theta[non_zero_theta[num_nonzero - 2]])) +
-                             w_k[non_zero_theta[num_nonzero -2]] *(-3*log(theta[non_zero_theta[num_nonzero - 1]]) + log(theta[non_zero_theta[num_nonzero - 3]]) - 2*log(theta[non_zero_theta[num_nonzero - 2]])))) / x - 
-                              temp4[num_nonzero - 1] - 
-                              (16*w_k[non_zero_theta[num_nonzero - 1]] + 8*w_k[non_zero_theta[num_nonzero -2]]) * lambda * log(x) / x}
+                if (length(non_zero_theta) > 3) {
+                    g_2 <- function(x) {
+                                       (net_stat$Sum_m_k[non_zero_theta[2]] - 2 * lambda * 
+                                       (2 * w_k[non_zero_theta[2]] * (-2 * log(theta[non_zero_theta[2]]) -log(theta[non_zero_theta[3]]) - log(theta[non_zero_theta[1]])) + 
+                                        w_k[non_zero_theta[3]]*(-2*log(theta[non_zero_theta[3]]) +log(theta[non_zero_theta[4]]) -3 * log(theta[non_zero_theta[2]]) ))) / x - 
+                                        temp4[2] - (16 * w_k[non_zero_theta[2]] + 8 * w_k[non_zero_theta[3]]) * lambda * log(x) / x}
+                } else if (length(non_zero_theta) == 3) {
+                    g_2 <- function(x) {
+                         (net_stat$Sum_m_k[non_zero_theta[2]] - 2 * lambda * 
+                         (2*w_k[non_zero_theta[2]] * (-2 * log(theta[non_zero_theta[2]]) -log(theta[non_zero_theta[3]]) - log(theta[non_zero_theta[1]])) + 
+                          w_k[non_zero_theta[3]]*(-2*log(theta[non_zero_theta[3]]) -  3 * log(theta[non_zero_theta[2]]) ))) / x - 
+                          temp4[2] - (16 * w_k[non_zero_theta[2]] + 8 * w_k[non_zero_theta[3]]) * lambda * log(x) / x}          
+                }
+               if (num_nonzero > 3) {  
+                   g_semiend <- function(x) {
+                                             (net_stat$Sum_m_k[non_zero_theta[num_nonzero - 1]] - 2*lambda * 
+                                             (2*w_k[non_zero_theta[num_nonzero - 1]]*(-2*log(theta[non_zero_theta[num_nonzero - 1]]) - log(theta[non_zero_theta[num_nonzero]]) - log(theta[non_zero_theta[num_nonzero - 2]])) +
+                                             w_k[non_zero_theta[num_nonzero -2]] *(-3*log(theta[non_zero_theta[num_nonzero - 1]]) + log(theta[non_zero_theta[num_nonzero - 3]]) - 2*log(theta[non_zero_theta[num_nonzero - 2]])))) / x - 
+                                             temp4[num_nonzero - 1] - 
+                                             (16 * w_k[non_zero_theta[num_nonzero - 1]] + 8*w_k[non_zero_theta[num_nonzero -2]]) * lambda * log(x) / x}
+               } else if (num_nonzero == 3) {
+                          g_semiend <- function(x) {
+                                       (net_stat$Sum_m_k[non_zero_theta[num_nonzero - 1]] - 2 * lambda * 
+                                       (2 * w_k[non_zero_theta[num_nonzero - 1]] * (-2 * log(theta[non_zero_theta[num_nonzero - 1]]) - log(theta[non_zero_theta[num_nonzero]]) - log(theta[non_zero_theta[num_nonzero - 2]])) +
+                                       w_k[non_zero_theta[num_nonzero -2]] *(-3 * log(theta[non_zero_theta[num_nonzero - 1]]) - 2 * log(theta[non_zero_theta[num_nonzero - 2]])))) / x - 
+                                       temp4[num_nonzero - 1] - 
+                                       (16 * w_k[non_zero_theta[num_nonzero - 1]] + 8 * w_k[non_zero_theta[num_nonzero -2]]) * lambda * log(x) / x}   
+                 
+               }
+               
                g_end     <-  function(x) {
                              (net_stat$Sum_m_k[non_zero_theta[num_nonzero]] - 2*lambda * w_k[non_zero_theta[num_nonzero -1]] *(-3*log(theta[non_zero_theta[num_nonzero]]) + log(theta[non_zero_theta[num_nonzero - 2]]) - 2*log(theta[non_zero_theta[num_nonzero - 1]]))) / x  -   
                              temp4[num_nonzero] - 8*w_k[non_zero_theta[num_nonzero -1]]*lambda*log(x)/x}  
-
-               U_1 <- net_stat$Sum_m_k[update_theta] - 2 * lambda * (2*w_k[update_theta]*(-2*log(theta[update_theta]) - log(theta[plus_1]) - log(theta[minus_1])) + 
-                                                                   w_k[minus_1]*(-3*log(theta[update_theta]) + log(theta[minus_2]) - 2*log(theta[minus_1])) + 
-                                                                   w_k[plus_1]*(-2*log(theta[plus_1]) + log(theta[plus_2]) - 3*log(theta[update_theta])))
-               U_2 <- (16*w_k[update_theta] + 8*w_k[minus_1] + 8*w_k[plus_1]) * lambda
-               U_3 <- temp4[-c(1,2,num_nonzero-1,num_nonzero)]
+               
+               if (length(update_theta) > 0) {
+                   U_1 <- net_stat$Sum_m_k[update_theta] - 2 * lambda * (2*w_k[update_theta]*(-2*log(theta[update_theta]) - log(theta[plus_1]) - log(theta[minus_1])) + 
+                                                                       w_k[minus_1]*(-3*log(theta[update_theta]) + log(theta[minus_2]) - 2*log(theta[minus_1])) + 
+                                                                       w_k[plus_1]*(-2*log(theta[plus_1]) + log(theta[plus_2]) - 3*log(theta[update_theta])))
+                   U_2 <- (16*w_k[update_theta] + 8*w_k[minus_1] + 8*w_k[plus_1]) * lambda
+                   U_3 <- temp4[-c(1,2,num_nonzero-1,num_nonzero)]
+               }
                theta[non_zero_theta[1]] <- tryCatch(uniroot(g_1,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
                                                     error = function(e) {return(theta[non_zero_theta[1]])})
         
                theta[non_zero_theta[2]] <- tryCatch(uniroot(g_2,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
                                                    error = function(e) {return(theta[non_zero_theta[2]])})
                #parallelization here
-               for (jj in 1:length(update_theta)) {
-                  g <- function(x){U_1[jj]/x - U_2[jj]*log(x)/x - U_3[jj]}
-                  theta[update_theta[jj]] <- tryCatch(uniroot(g,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
-                                                      error = function(e) theta[update_theta[jj]])
+               if (length(update_theta) > 0)
+                   for (jj in 1:length(update_theta)) {
+                       g <- function(x){U_1[jj]/x - U_2[jj]*log(x)/x - U_3[jj]}
+                       theta[update_theta[jj]] <- tryCatch(uniroot(g,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
+                                                          error = function(e) theta[update_theta[jj]])
                }
                theta[non_zero_theta[num_nonzero - 1]] <- tryCatch(uniroot(g_semiend,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
                                                                   error = function(e) 
@@ -509,33 +546,55 @@ PAFit <- function(net_stat,
             }
             else if (1 == mode_reg_A) {
                 #mode_reg_A == 1  
-              g_1  <- function(x) {
-                (net_stat$Sum_m_k[non_zero_theta[ok_log[1]]] - 2 * w_k[non_zero_theta[ok_log[2]]] * lambda * (-2 * log(theta[non_zero_theta[ok_log[2]]]) / 
-                                                                                                          log(center_k[non_zero_theta[ok_log[2]]])  + 
-                                                                                          log(theta[non_zero_theta[ok_log[3]]]) / log(center_k[non_zero_theta[ok_log[3]]]) - 
-                                                                                          3 * log(theta[non_zero_theta[ok_log[1]]]) / log(center_k[non_zero_theta[ok_log[1]]])  ))/x -   
-                  temp4[ok_log[1]] - 8 * lambda * w_k[non_zero_theta[ok_log[2]]] * log(x) / x / log(center_k[non_zero_theta[ok_log[1]]])}
+                g_1  <- function(x) {
+                                     (net_stat$Sum_m_k[non_zero_theta[ok_log[1]]] - 2 * w_k[non_zero_theta[ok_log[2]]] * lambda * (-2 * log(theta[non_zero_theta[ok_log[2]]]) / 
+                                                                                                                                        log(center_k[non_zero_theta[ok_log[2]]])  + 
+                                                                                                                                        log(theta[non_zero_theta[ok_log[3]]]) / log(center_k[non_zero_theta[ok_log[3]]]) - 
+                                                                                                                                        3 * log(theta[non_zero_theta[ok_log[1]]]) / log(center_k[non_zero_theta[ok_log[1]]])  ))/x -   
+                                      temp4[ok_log[1]] - 8 * lambda * w_k[non_zero_theta[ok_log[2]]] * log(x) / x / log(center_k[non_zero_theta[ok_log[1]]])}
               
-              g_2 <- function(x) {
-                (net_stat$Sum_m_k[non_zero_theta[ok_log[2]]] - 2 * lambda * 
-                   (2 * w_k[non_zero_theta[ok_log[2]]] * (- 2 * log(theta[non_zero_theta[ok_log[2]]]) / log(center_k[non_zero_theta[ok_log[2]]]) - 
+              if (length(ok_log) > 3) {
+                  g_2 <- function(x) {
+                   (net_stat$Sum_m_k[non_zero_theta[ok_log[2]]] - 2 * lambda * 
+                    (2 * w_k[non_zero_theta[ok_log[2]]] * (- 2 * log(theta[non_zero_theta[ok_log[2]]]) / log(center_k[non_zero_theta[ok_log[2]]]) - 
                                                             log(theta[non_zero_theta[ok_log[3]]]) / log(center_k[non_zero_theta[ok_log[3]]]) - 
                                                             log(theta[non_zero_theta[ok_log[1]]]) / log(center_k[non_zero_theta[ok_log[1]]])   ) + 
                       w_k[non_zero_theta[ok_log[3]]]*(- 2 * log(theta[non_zero_theta[ok_log[3]]]) / log(center_k[non_zero_theta[ok_log[3]]])  +
                                                         log(theta[non_zero_theta[ok_log[4]]]) / log(center_k[non_zero_theta[ok_log[4]]]) -
                                                         3 * log(theta[non_zero_theta[ok_log[2]]]) / log(center_k[non_zero_theta[ok_log[2]]])  ))) / x - 
-                  temp4[ok_log[2]] - (16*w_k[non_zero_theta[ok_log[2]]] + 8*w_k[non_zero_theta[ok_log[3]]]) * lambda * log(x) / x / log(center_k[non_zero_theta[ok_log[2]]])}
-          
-                  g_semiend <- function(x) {
-                (net_stat$Sum_m_k[non_zero_theta[ok_log[num_ok_log - 1]]] - 2*lambda * 
-                   (2*w_k[non_zero_theta[ok_log[num_ok_log - 1]]] * ( -2 * log(theta[non_zero_theta[ok_log[num_ok_log - 1]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 1]]]) - 
-                                                                        log(theta[non_zero_theta[ok_log[num_ok_log]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log]]]) - 
-                                                                  log(theta[non_zero_theta[ok_log[num_ok_log - 2]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 2]]]) ) +
-                      w_k[non_zero_theta[ok_log[num_ok_log -2]]] *( - 3 * log(theta[non_zero_theta[ok_log[num_ok_log - 1]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 1]]]) + 
-                                                                      log(theta[non_zero_theta[ok_log[num_ok_log - 3]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 3]]]) - 
-                                                                      2 * log(theta[non_zero_theta[ok_log[num_ok_log - 2]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 2]]]) ) ) ) / x - 
-                  temp4[ok_log[num_ok_log - 1]] - 
-                  (16*w_k[non_zero_theta[ok_log[num_ok_log - 1]]] + 8 * w_k[non_zero_theta[ok_log[num_ok_log -2]]]) * lambda * log(x) / x / log(center_k[non_zero_theta[ok_log[num_ok_log - 1]]])}
+                         temp4[ok_log[2]] - (16*w_k[non_zero_theta[ok_log[2]]] + 8*w_k[non_zero_theta[ok_log[3]]]) * lambda * log(x) / x / log(center_k[non_zero_theta[ok_log[2]]])}
+                } else if (length(ok_log) == 3) {
+                           g_2 <- function(x) {
+                                               (net_stat$Sum_m_k[non_zero_theta[ok_log[2]]] - 2 * lambda * 
+                                                (2 * w_k[non_zero_theta[ok_log[2]]] * (- 2 * log(theta[non_zero_theta[ok_log[2]]]) / log(center_k[non_zero_theta[ok_log[2]]]) - 
+                                                                                            log(theta[non_zero_theta[ok_log[3]]]) / log(center_k[non_zero_theta[ok_log[3]]]) - 
+                                                              log(theta[non_zero_theta[ok_log[1]]]) / log(center_k[non_zero_theta[ok_log[1]]])   ) + 
+                                                      w_k[non_zero_theta[ok_log[3]]]*(- 2 * log(theta[non_zero_theta[ok_log[3]]]) / log(center_k[non_zero_theta[ok_log[3]]]) -
+                                                             3 * log(theta[non_zero_theta[ok_log[2]]]) / log(center_k[non_zero_theta[ok_log[2]]])  ))) / x - 
+                              temp4[ok_log[2]] - (16*w_k[non_zero_theta[ok_log[2]]] + 8*w_k[non_zero_theta[ok_log[3]]]) * lambda * log(x) / x / log(center_k[non_zero_theta[ok_log[2]]])}
+                }
+                 if (num_ok_log > 3) {
+                     g_semiend <- function(x) {
+                                               (net_stat$Sum_m_k[non_zero_theta[ok_log[num_ok_log - 1]]] - 2*lambda * 
+                                                 (2*w_k[non_zero_theta[ok_log[num_ok_log - 1]]] * ( -2 * log(theta[non_zero_theta[ok_log[num_ok_log - 1]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 1]]]) - 
+                                                                                                    log(theta[non_zero_theta[ok_log[num_ok_log]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log]]]) - 
+                                                                                                     log(theta[non_zero_theta[ok_log[num_ok_log - 2]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 2]]]) ) +
+                                                      w_k[non_zero_theta[ok_log[num_ok_log -2]]] *( - 3 * log(theta[non_zero_theta[ok_log[num_ok_log - 1]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 1]]]) + 
+                                                                                                          log(theta[non_zero_theta[ok_log[num_ok_log - 3]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 3]]]) - 
+                                                                                                      2 * log(theta[non_zero_theta[ok_log[num_ok_log - 2]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 2]]]) ) ) ) / x - 
+                                                      temp4[ok_log[num_ok_log - 1]] - 
+                                                       (16*w_k[non_zero_theta[ok_log[num_ok_log - 1]]] + 8 * w_k[non_zero_theta[ok_log[num_ok_log -2]]]) * lambda * log(x) / x / log(center_k[non_zero_theta[ok_log[num_ok_log - 1]]])}
+                 } else if (num_ok_log == 3) {
+                            g_semiend <- function(x) {
+                                                     (net_stat$Sum_m_k[non_zero_theta[ok_log[num_ok_log - 1]]] - 2*lambda * 
+                                                     (2*w_k[non_zero_theta[ok_log[num_ok_log - 1]]] * ( -2 * log(theta[non_zero_theta[ok_log[num_ok_log - 1]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 1]]]) - 
+                                                                                                            log(theta[non_zero_theta[ok_log[num_ok_log]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log]]]) - 
+                                                                                                           log(theta[non_zero_theta[ok_log[num_ok_log - 2]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 2]]]) ) +
+                                                            w_k[non_zero_theta[ok_log[num_ok_log -2]]] *( - 3 * log(theta[non_zero_theta[ok_log[num_ok_log - 1]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 1]]]) - 
+                                                                                           2 * log(theta[non_zero_theta[ok_log[num_ok_log - 2]]]) / log(center_k[non_zero_theta[ok_log[num_ok_log - 2]]]) ) ) ) / x - 
+                                                       temp4[ok_log[num_ok_log - 1]] - 
+                                                         (16*w_k[non_zero_theta[ok_log[num_ok_log - 1]]] + 8 * w_k[non_zero_theta[ok_log[num_ok_log -2]]]) * lambda * log(x) / x / log(center_k[non_zero_theta[ok_log[num_ok_log - 1]]])}   
+                  }
               
                   g_end     <-  function(x) {
                 (net_stat$Sum_m_k[non_zero_theta[ok_log[num_ok_log]]] - 2 * lambda * w_k[non_zero_theta[ok_log[num_ok_log -1]]] * (-3 * 
@@ -545,17 +604,19 @@ PAFit <- function(net_stat,
                   temp4[ok_log[num_ok_log]] - 8 * w_k[non_zero_theta[ok_log[num_ok_log - 1]]] * lambda * log(x)/x / log(center_k[non_zero_theta[ok_log[num_ok_log]]]) }  
               
             
+                  if (length(update_theta) > 0) {
+                      U_1 <- net_stat$Sum_m_k[update_theta] - 2 * lambda * (2 * w_k[update_theta] * (-2 * log(theta[update_theta]) / log(center_k[update_theta]) - 
+                                                                                                   log(theta[plus_1]) /  log(center_k[plus_1]) - log(theta[minus_1]) / log(center_k[minus_1]) ) + 
+                                                                          w_k[minus_1]*(-3 * log(theta[update_theta]) / log(center_k[update_theta]) + 
+                                                                                             log(theta[minus_2]) / log(center_k[minus_2]) - 2 * log(theta[minus_1]) / log(center_k[minus_1])  ) + 
+                                                                           w_k[plus_1]*(-2 * log(theta[plus_1]) / log(center_k[plus_1]) + log(theta[plus_2]) / log(center_k[plus_2]) - 
+                                                                                         3 * log(theta[update_theta]) / log(center_k[update_theta])))
                   
-                  U_1 <- net_stat$Sum_m_k[update_theta] - 2 * lambda * (2 * w_k[update_theta] * (-2 * log(theta[update_theta]) / log(center_k[update_theta]) - 
-                                                                                               log(theta[plus_1]) /  log(center_k[plus_1]) - log(theta[minus_1]) / log(center_k[minus_1]) ) + 
-                                                                      w_k[minus_1]*(-3 * log(theta[update_theta]) / log(center_k[update_theta]) + 
-                                                                                      log(theta[minus_2]) / log(center_k[minus_2]) - 2 * log(theta[minus_1]) / log(center_k[minus_1])  ) + 
-                                                                      w_k[plus_1]*(-2 * log(theta[plus_1]) / log(center_k[plus_1]) + log(theta[plus_2]) / log(center_k[plus_2]) - 
-                                                                                     3 * log(theta[update_theta]) / log(center_k[update_theta])))
+                      U_2 <- (16*w_k[update_theta] + 8*w_k[minus_1] + 8*w_k[plus_1]) * lambda
                   
-                  U_2 <- (16*w_k[update_theta] + 8*w_k[minus_1] + 8*w_k[plus_1]) * lambda
+                      U_3 <- temp4[ok_log[-c(1,2,num_ok_log - 1,num_ok_log)]]
                   
-                  U_3 <- temp4[ok_log[-c(1,2,num_ok_log - 1,num_ok_log)]]
+                  }
                   
                   
               theta[non_zero_theta[ok_log[1]]] <- tryCatch(uniroot(g_1,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
@@ -564,11 +625,12 @@ PAFit <- function(net_stat,
               theta[non_zero_theta[ok_log[2]]] <- tryCatch(uniroot(g_2,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
                                                    error = function(e) {return(theta[non_zero_theta[ok_log[2]]])})
               #parallelization here
-              for (jj in 1:length(update_theta)) {
-                g <- function(x){U_1[jj]/x - U_2[jj]*log(x)/x / log(center_k[update_theta[jj]]) - U_3[jj]}
-                theta[update_theta[jj]] <- tryCatch(uniroot(g,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
-                                                    error = function(e) theta[update_theta[jj]])
-              }
+              if (length(update_theta) > 0)
+                  for (jj in 1:length(update_theta)) {
+                      g <- function(x){U_1[jj]/x - U_2[jj]*log(x)/x / log(center_k[update_theta[jj]]) - U_3[jj]}
+                      theta[update_theta[jj]] <- tryCatch(uniroot(g,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
+                                                     error = function(e) theta[update_theta[jj]])
+                  }
               theta[non_zero_theta[ok_log[num_ok_log - 1]]] <- tryCatch(uniroot(g_semiend,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
                                                                  error = function(e) 
                                                                  {return(theta[non_zero_theta[ok_log[num_ok_log - 1]]])})
@@ -589,33 +651,62 @@ PAFit <- function(net_stat,
                       (log(theta[non_zero_theta[ok_log[1]]])  + log(theta[non_zero_theta[not_ok_log]]) )) / x -   
                   temp4[ok_log[1]] - (8 * lambda * w_k[non_zero_theta[ok_log[2]]] * u[2,1]^2 + 
                                       4 * lambda * w_k[non_zero_theta[not_ok_log]])* log(x) / x }
-              
-              g_2 <- function(x) {
-                (net_stat$Sum_m_k[non_zero_theta[ok_log[2]]] - lambda * 
-                   (-2 * u[2 , 2] * w_k[non_zero_theta[ok_log[2]]] * ( u[2,2] * log(theta[non_zero_theta[ok_log[2]]]) + 
-                                                                       u[2,3] * log(theta[non_zero_theta[ok_log[3]]]) +  
-                                                                       u[2,1] * log(theta[non_zero_theta[ok_log[1]]]) ) +
+              if (length(ok_log) > 3) {
+                  g_2 <- function(x) {
+                                     (net_stat$Sum_m_k[non_zero_theta[ok_log[2]]] - lambda * 
+                                     (-2 * u[2 , 2] * w_k[non_zero_theta[ok_log[2]]] * ( u[2 , 2] * log(theta[non_zero_theta[ok_log[2]]]) + 
+                                                                                         u[2 , 3] * log(theta[non_zero_theta[ok_log[3]]]) +  
+                                                                                         u[2 , 1] * log(theta[non_zero_theta[ok_log[1]]]) ) +
                       
-                      2 * u[3,2] * w_k[non_zero_theta[ok_log[3]]]*(- u[3,3] * log(theta[non_zero_theta[ok_log[3]]])  +
-                                                                   u[3, 4] * log(theta[non_zero_theta[ok_log[4]]]) - 
-                                                                  3 * u[3,2] * log(theta[non_zero_theta[ok_log[2]]])  ) )) / x - 
+                                      2 * u[3,2] * w_k[non_zero_theta[ok_log[3]]]*(- u[3 , 3] * log(theta[non_zero_theta[ok_log[3]]])  +
+                                                                                     u[3 , 4] * log(theta[non_zero_theta[ok_log[4]]]) - 
+                                                                                 3 * u[3 , 2] * log(theta[non_zero_theta[ok_log[2]]])  ) )) / x - 
                   
-                  temp4[ok_log[2]] + (-4 * u[2,2]^2 * w_k[non_zero_theta[ok_log[2]]] - 
-                                      8 * u[3,2]^2 * w_k[non_zero_theta[ok_log[3]]]) * lambda * log(x) / x     }
-              
-              g_semiend <- function(x) {
-                (net_stat$Sum_m_k[non_zero_theta[ok_log[num_ok_log - 1]]] - lambda * 
-                   (-2 * u[num_ok_log - 1, num_ok_log - 1] * w_k[non_zero_theta[ok_log[num_ok_log - 1]]] * 
-                      ( u[num_ok_log - 1, num_ok_log - 1] * log(theta[non_zero_theta[ok_log[num_ok_log - 1]]]) + 
-                          u[num_ok_log - 1, num_ok_log] * log(theta[non_zero_theta[ok_log[num_ok_log]]])  + 
-                          u[num_ok_log - 1, num_ok_log -  2] * log(theta[non_zero_theta[ok_log[num_ok_log - 2]]]) )  +
-                     2 * u[num_ok_log - 2, num_ok_log - 1] * w_k[non_zero_theta[ok_log[num_ok_log -2]]] * 
-                      ( - 3 * u[num_ok_log - 2, num_ok_log - 1]* log(theta[non_zero_theta[ok_log[num_ok_log - 1]]]) + 
-                          u[num_ok_log - 2, num_ok_log - 3] * log(theta[non_zero_theta[ok_log[num_ok_log - 3]]])  - 
-                          u[num_ok_log - 2, num_ok_log - 2] * log(theta[non_zero_theta[ok_log[num_ok_log - 2]]])  ) ) ) / x - 
-                  temp4[ok_log[num_ok_log - 1]] - 
-                  (4 * u[num_ok_log - 1, num_ok_log - 1]^2 * w_k[non_zero_theta[ok_log[num_ok_log - 1]]] + 8 * u[num_ok_log - 2, num_ok_log - 1] ^ 2 * 
-                     w_k[non_zero_theta[ok_log[num_ok_log -2]]]) * lambda * log(x) / x }
+                                       temp4[ok_log[2]] + (-4 * u[2,2]^2 * w_k[non_zero_theta[ok_log[2]]] - 
+                                                           8 * u[3,2]^2 * w_k[non_zero_theta[ok_log[3]]]) * lambda * log(x) / x     }
+              } else if (length(ok_log) == 3) {
+                         g_2 <- function(x) {
+                                              (net_stat$Sum_m_k[non_zero_theta[ok_log[2]]] - lambda * 
+                                               (-2 * u[2 , 2] * w_k[non_zero_theta[ok_log[2]]] * ( u[2 , 2] * log(theta[non_zero_theta[ok_log[2]]]) + 
+                                                                                                   u[2 , 3] * log(theta[non_zero_theta[ok_log[3]]]) +  
+                                                                                                   u[2 , 1] * log(theta[non_zero_theta[ok_log[1]]]) ) +
+                        
+                                                 2 * u[3,2] * w_k[non_zero_theta[ok_log[3]]]*(- u[3 , 3] * log(theta[non_zero_theta[ok_log[3]]]) - 
+                                                                                            3 * u[3 , 2] * log(theta[non_zero_theta[ok_log[2]]])  ) )) / x - 
+                    
+                                                 temp4[ok_log[2]] + (-4 * u[2,2]^2 * w_k[non_zero_theta[ok_log[2]]] - 
+                                                                      8 * u[3,2]^2 * w_k[non_zero_theta[ok_log[3]]]) * lambda * log(x) / x     }  
+                
+              }
+              if (num_ok_log > 3) {
+                  g_semiend <- function(x) {
+                                            (net_stat$Sum_m_k[non_zero_theta[ok_log[num_ok_log - 1]]] - lambda * 
+                                             (-2 * u[num_ok_log - 1, num_ok_log - 1] * w_k[non_zero_theta[ok_log[num_ok_log - 1]]] * 
+                                             ( u[num_ok_log - 1, num_ok_log - 1] * log(theta[non_zero_theta[ok_log[num_ok_log - 1]]]) + 
+                                               u[num_ok_log - 1, num_ok_log] * log(theta[non_zero_theta[ok_log[num_ok_log]]])  + 
+                                               u[num_ok_log - 1, num_ok_log -  2] * log(theta[non_zero_theta[ok_log[num_ok_log - 2]]]) )  +
+                                           2 * u[num_ok_log - 2, num_ok_log - 1] * w_k[non_zero_theta[ok_log[num_ok_log -2]]] * 
+                                           ( - 3 * u[num_ok_log - 2, num_ok_log - 1]* log(theta[non_zero_theta[ok_log[num_ok_log - 1]]]) + 
+                                              u[num_ok_log - 2, num_ok_log - 3] * log(theta[non_zero_theta[ok_log[num_ok_log - 3]]])  - 
+                                              u[num_ok_log - 2, num_ok_log - 2] * log(theta[non_zero_theta[ok_log[num_ok_log - 2]]])  ) ) ) / x - 
+                                              temp4[ok_log[num_ok_log - 1]] - 
+                                              (4 * u[num_ok_log - 1, num_ok_log - 1]^2 * w_k[non_zero_theta[ok_log[num_ok_log - 1]]] + 8 * u[num_ok_log - 2, num_ok_log - 1] ^ 2 * 
+                                               w_k[non_zero_theta[ok_log[num_ok_log -2]]]) * lambda * log(x) / x }
+              } else if (num_ok_log == 3) {
+                         g_semiend <- function(x) {
+                                                 (net_stat$Sum_m_k[non_zero_theta[ok_log[num_ok_log - 1]]] - lambda * 
+                                                 (-2 * u[num_ok_log - 1, num_ok_log - 1] * w_k[non_zero_theta[ok_log[num_ok_log - 1]]] * 
+                                                 (u[num_ok_log - 1, num_ok_log - 1] * log(theta[non_zero_theta[ok_log[num_ok_log - 1]]]) + 
+                                                  u[num_ok_log - 1, num_ok_log] * log(theta[non_zero_theta[ok_log[num_ok_log]]])  + 
+                                                  u[num_ok_log - 1, num_ok_log -  2] * log(theta[non_zero_theta[ok_log[num_ok_log - 2]]]) )  +
+                                                  2 * u[num_ok_log - 2, num_ok_log - 1] * w_k[non_zero_theta[ok_log[num_ok_log -2]]] * 
+                                                 ( - 3 * u[num_ok_log - 2, num_ok_log - 1]* log(theta[non_zero_theta[ok_log[num_ok_log - 1]]]) - 
+                                                 u[num_ok_log - 2, num_ok_log - 2] * log(theta[non_zero_theta[ok_log[num_ok_log - 2]]])  ) ) ) / x - 
+                                                 temp4[ok_log[num_ok_log - 1]] - 
+                                                 (4 * u[num_ok_log - 1, num_ok_log - 1]^2 * w_k[non_zero_theta[ok_log[num_ok_log - 1]]] + 8 * u[num_ok_log - 2, num_ok_log - 1] ^ 2 * 
+                                                    w_k[non_zero_theta[ok_log[num_ok_log -2]]]) * lambda * log(x) / x }  
+                
+              }
               
               g_end     <-  function(x) {
                 (net_stat$Sum_m_k[non_zero_theta[ok_log[num_ok_log]]] - 
@@ -626,28 +717,28 @@ PAFit <- function(net_stat,
                   temp4[ok_log[num_ok_log]] - 
                   8 * u [num_ok_log - 1, num_ok_log]^2 * w_k[non_zero_theta[ok_log[num_ok_log - 1]]] * lambda * log(x) / x }  
               
-              
-              U_1 <- net_stat$Sum_m_k[update_theta] - lambda * (- 2 * extract_u(update_k, update_k) * w_k[update_theta] * (
-                extract_u(update_k, update_k) * log(theta[update_theta]) + 
-                  extract_u(update_k, update_k + 1) * log(theta[plus_1]) +
-                  extract_u(update_k, update_k - 1) * log(theta[minus_1]) ) +
+              if (length(update_theta) > 0) {
+                  U_1 <- net_stat$Sum_m_k[update_theta] - lambda * (- 2 * extract_u(update_k, update_k) * w_k[update_theta] * (
+                                                                    extract_u(update_k, update_k) * log(theta[update_theta]) + 
+                                                                    extract_u(update_k, update_k + 1) * log(theta[plus_1]) +
+                                                                    extract_u(update_k, update_k - 1) * log(theta[minus_1]) ) +
                   
-                  2 * extract_u(update_k - 1, update_k) * w_k[minus_1] * (
-                    -3 * extract_u(update_k - 1, update_k) * log(theta[update_theta]) + 
-                      extract_u(update_k - 1, update_k - 2) * log(theta[minus_2]) - 
-                      extract_u(update_k - 1, update_k - 1) * log(theta[minus_1]) ) + 
+                                                                    2 * extract_u(update_k - 1, update_k) * w_k[minus_1] * (
+                                                                   -3 * extract_u(update_k - 1, update_k) * log(theta[update_theta]) + 
+                                                                        extract_u(update_k - 1, update_k - 2) * log(theta[minus_2]) - 
+                                                                        extract_u(update_k - 1, update_k - 1) * log(theta[minus_1]) ) + 
                   
-                  2 * extract_u(update_k + 1, update_k) * w_k[plus_1]* (
-                    - extract_u(update_k + 1, update_k + 1) * log(theta[plus_1]) + 
-                      extract_u(update_k + 1, update_k + 2) * log(theta[plus_2])  - 
-                      3 * extract_u(update_k + 1, update_k)* log(theta[update_theta]) )
-              )
+                                                                    2 * extract_u(update_k + 1, update_k) * w_k[plus_1]* (
+                                                                     - extract_u(update_k + 1, update_k + 1) * log(theta[plus_1]) + 
+                                                                       extract_u(update_k + 1, update_k + 2) * log(theta[plus_2])  - 
+                                                                    3 * extract_u(update_k + 1, update_k)* log(theta[update_theta]) )
+                                                                  )
               
-              U_2 <- (4 * extract_u(update_k, update_k)^2 * w_k[update_theta] + 8 * extract_u(update_k - 1, update_k)^2 * w_k[minus_1] + 
-                        8 * extract_u(update_k + 1, update_k)^2 * w_k[plus_1]) * lambda
-              U_3 <- temp4[ok_log[-c(1,2,num_ok_log - 1,num_ok_log)]]
+                  U_2 <- (4 * extract_u(update_k, update_k) ^ 2 * w_k[update_theta] + 8 * extract_u(update_k - 1, update_k) ^ 2 * w_k[minus_1] + 
+                          8 * extract_u(update_k + 1, update_k) ^ 2 * w_k[plus_1]) * lambda
+                  U_3 <- temp4[ok_log[-c(1 , 2 , num_ok_log - 1 , num_ok_log)]]
               
-            
+              }
               
               theta[non_zero_theta[ok_log[1]]] <- tryCatch(uniroot(g_1_new,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
                                                            error = function(e) {return(theta[non_zero_theta[ok_log[1]]])})
@@ -655,10 +746,11 @@ PAFit <- function(net_stat,
               theta[non_zero_theta[ok_log[2]]] <- tryCatch(uniroot(g_2,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
                                                            error = function(e) {return(theta[non_zero_theta[ok_log[2]]])})
               #parallelization here
-              for (jj in 1:length(update_theta)) {
-              #jj <- length(update_theta)
-              g <- function(x){U_1[jj]/x - U_2[jj]*log(x)/x - U_3[jj]}
-               theta[update_theta[jj]] <- tryCatch(uniroot(g,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
+              if (length(update_theta) > 0)
+                  for (jj in 1:length(update_theta)) {
+                  #jj <- length(update_theta)
+                  g <- function(x){U_1[jj]/x - U_2[jj]*log(x)/x - U_3[jj]}
+                       theta[update_theta[jj]] <- tryCatch(uniroot(g,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
                                                    error = function(e) theta[update_theta[jj]])
               }
                theta[non_zero_theta[ok_log[num_ok_log - 1]]] <- tryCatch(uniroot(g_semiend,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
@@ -771,7 +863,15 @@ PAFit <- function(net_stat,
        if (FALSE == only_PA)
            .cal_var_f(cov_f,non_zero_f,net_stat$node_degree,theta,f,net_stat$z_j,
                      normalized_const,net_stat$m_t,shape)
-     
+      
+       ### Variance of alpha if mode_f == "Log_linear" ######
+    if (mode_f == "Log_linear") {
+         .normalized_constant_alpha(normalized_const, alpha,PA_offset, net_stat$node_degree,theta,f,net_stat$offset_tk,offset)
+         cov_alpha <- .var_alpha(alpha, non_zero_theta,
+                                 normalized_const,f, PA_offset,
+                                 theta,net_stat$node_degree,net_stat$m_t,net_stat$Sum_m_k,net_stat$offset_tk,offset) 
+    }
+    
       # mode_reg_A = 0:
       hessian_of_regularization <- function(theta){
               n      <- length(theta)
@@ -798,7 +898,7 @@ PAFit <- function(net_stat,
       hessian_of_regularization_log <- function(theta){
           n      <- length(theta)
           result <- vector()
-          if (n - 2 >= 3){
+         
               result <- c(result,2*w_k[non_zero_theta[ok_log[2]]]*((1 - log(theta[1]) / log(center_k[non_zero_theta[ok_log[1]]]) ) /theta[1]^2 + 
                                                                      (2*log(theta[2]) / log(center_k[non_zero_theta[ok_log[2]]]) - 
                                                                         log(theta[3])) / log(center_k[non_zero_theta[ok_log[3]]]) / theta[1]^2 ) )
@@ -806,8 +906,9 @@ PAFit <- function(net_stat,
               result <- c(result,2*w_k[non_zero_theta[ok_log[3]]]*((1 - log(theta[2]) / log(center_k[non_zero_theta[ok_log[2]]]) )/theta[2]^2 + 
                                                                    (2*log(theta[3]) / log(center_k[non_zero_theta[ok_log[3]]]) - log(theta[4]) / log(center_k[non_zero_theta[ok_log[4]]])) / theta[2]^2 ) +
                           2*w_k[non_zero_theta[2]]*((2 - 2 * log(theta[2]) / log(center_k[non_zero_theta[ok_log[2]]]) )/theta[2]^2 + ( log(theta[3]) / log(center_k[non_zero_theta[ok_log[3]]]) + 
-                                                                                                                                       log(theta[1]) / log(center_k[non_zero_theta[ok_log[1]]])  ) / theta[2]^2 ))
-             for (ii in 3:(n-2))
+                                                                                                                                      log(theta[1]) / log(center_k[non_zero_theta[ok_log[1]]])  ) / theta[2]^2 ))
+              if (n -2 >= 3) { 
+                  for (ii in 3:(n-2))
                  result <- c(result,2*w_k[non_zero_theta[ok_log[ii]]]*((2 - 2 * log(theta[ii]) / log(center_k[non_zero_theta[ok_log[ii]]]) )/theta[ii]^2 + 
                                                                      (log(theta[ii + 1]) / log(center_k[non_zero_theta[ok_log[ii + 1]]]) + 
                                                                       log(theta[ii - 1]) / log(center_k[non_zero_theta[ok_log[ii - 1]]]) ) / theta[ii]^2 ) + 
@@ -816,8 +917,9 @@ PAFit <- function(net_stat,
                                                                    log(theta[ii + 2]) / log(center_k[non_zero_theta[ok_log[ii + 2]]]) ) / theta[ii]^2 ) +
                              2*w_k[non_zero_theta[ok_log[ii-1]]]*((1 - log(theta[ii]) / log(center_k[non_zero_theta[ok_log[ii]]]) )/theta[ii]^2 + 
                                                                   (2 * log(theta[ii - 1]) / log(center_k[non_zero_theta[ok_log[ii - 1]]]) - 
-                                                                   log(theta[ii - 2]) / log(center_k[non_zero_theta[ok_log[ii - 2]]]) ) / theta[ii]^2 ))
-                 ii <- n - 1
+                                                                      log(theta[ii - 2]) / log(center_k[non_zero_theta[ok_log[ii - 2]]]) ) / theta[ii]^2 ))
+              }
+                  ii <- n - 1
                  result <- c(result, 2 * w_k[non_zero_theta[ok_log[ii]]]*((2 - 2 * log(theta[ii]) / log(center_k[non_zero_theta[ok_log[ii]]]) )/theta[ii]^2 + 
                                                                           (log(theta[ii + 1]) / log(center_k[non_zero_theta[ok_log[ii + 1]]]) + 
                                                                            log(theta[ii - 1]) / log(center_k[non_zero_theta[ok_log[ii - 1]]])  ) / theta[ii]^2 ) +
@@ -828,7 +930,8 @@ PAFit <- function(net_stat,
                  result <- c(result, 2*w_k[non_zero_theta[ok_log[ii-1]]]*((1 - log(theta[ii]) / log(center_k[non_zero_theta[ok_log[ii]]]) )/theta[ii]^2 + 
                                                                         (2 * log(theta[ii - 1]) / log(center_k[non_zero_theta[ok_log[ii - 1]]]) - 
                                                                            log(theta[ii - 2]) / log(center_k[non_zero_theta[ok_log[ii - 2]]])  ) / theta[ii]^2 )) 
-          }
+          if (length(result) == 0)
+              result <- rep(1,length(w_k[non_zero_theta[ok_log]]))
           return(w_k[non_zero_theta[ok_log]]*result)
       }
 
@@ -849,14 +952,23 @@ PAFit <- function(net_stat,
               
               result <- c(result, - (  2 *  w_k[non_zero_theta[not_ok_log]] * log(theta[non_zero_theta[ok_log[1]]])  +  
                                        2 *  w_k[non_zero_theta[ok_log[2]]] * u[2,1] * (u[2,3] * log(theta[non_zero_theta[ok_log[3]]]) -  u[2,2] * log(theta[non_zero_theta[ok_log[2]]])) - 
-                                       2 *  w_k[non_zero_theta[ok_log[2]]] * u[2,1]^2 + 2 *  w_k[non_zero_theta[ok_log[2]]] * u[2,1]^2 * log(theta[non_zero_theta[ok_log[1]]]) ) / theta[non_zero_theta[ok_log[1]]]^2); 
+                                       2 *  w_k[non_zero_theta[ok_log[2]]] * u[2,1]^2 + 2 *  w_k[non_zero_theta[ok_log[2]]] * u[2,1] ^ 2 * log(theta[non_zero_theta[ok_log[1]]]) ) / theta[non_zero_theta[ok_log[1]]] ^ 2); 
            }
           
-          result <- c(result, - (-2 *  w_k[non_zero_theta[ok_log[2]]] * (u[2,3] * log(theta[non_zero_theta[ok_log[3]]]) +  u[2,1] * log(theta[non_zero_theta[ok_log[1]]]))  * u[2,2] - 
-                                  2 *  w_k[non_zero_theta[ok_log[2]]] * u[2,2]^2 + 2 *  w_k[non_zero_theta[ok_log[2]]] * u[2,2]^2 *  log(theta[non_zero_theta[ok_log[2]]]) + 
-                                  2 *  w_k[non_zero_theta[ok_log[3]]] * (u[3,4] * log(theta[non_zero_theta[ok_log[4]]]) -  u[3,3] * log(theta[non_zero_theta[ok_log[3]]]))  * u[3,2] - 
-                                  2 *  w_k[non_zero_theta[ok_log[3]]] * u[3,2]^2 +  2 *  w_k[non_zero_theta[ok_log[3]]] * u[3,2]^2 * log(theta[non_zero_theta[ok_log[2]]]) ) / theta[non_zero_theta[ok_log[2]]]^2);
+          # result <- c(result, - (-2 *  w_k[non_zero_theta[ok_log[2]]] * (u[2 , 3] * log(theta[non_zero_theta[ok_log[3]]]) +  u[2,1] * log(theta[non_zero_theta[ok_log[1]]]))  * u[2,2] - 
+          #                         2 *  w_k[non_zero_theta[ok_log[2]]] * u[2 , 2] ^ 2 + 
+          #                         2 *  w_k[non_zero_theta[ok_log[2]]] * u[2 , 2] ^ 2 *  log(theta[non_zero_theta[ok_log[2]]]) + 
+          #                         2 *  w_k[non_zero_theta[ok_log[3]]] * (u[3 , 4] * log(theta[non_zero_theta[ok_log[4]]]) -  u[3,3] * log(theta[non_zero_theta[ok_log[3]]]))  * u[3,2] - 
+          #                         2 *  w_k[non_zero_theta[ok_log[3]]] * u[3 , 2]^2 +  2 *  w_k[non_zero_theta[ok_log[3]]] * u[3,2]^2 * log(theta[non_zero_theta[ok_log[2]]]) ) / theta[non_zero_theta[ok_log[2]]] ^ 2);
+            result <- c(result, - (-2 *  w_k[non_zero_theta[ok_log[2]]] * (u[2 , 3] * log(theta[non_zero_theta[ok_log[3]]]) +  u[2,1] * log(theta[non_zero_theta[ok_log[1]]]))  * u[2,2] - 
+                                    2 *  w_k[non_zero_theta[ok_log[2]]] * u[2 , 2] ^ 2 + 
+                                    2 *  w_k[non_zero_theta[ok_log[2]]] * u[2 , 2] ^ 2 *  log(theta[non_zero_theta[ok_log[2]]]) + 
+                                    2 *  w_k[non_zero_theta[ok_log[3]]] * ( -  u[3,3] * log(theta[non_zero_theta[ok_log[3]]]))  * u[3,2] - 
+                                    2 *  w_k[non_zero_theta[ok_log[3]]] * u[3 , 2]^2 +  2 *  w_k[non_zero_theta[ok_log[3]]] * u[3,2]^2 * log(theta[non_zero_theta[ok_log[2]]]) ) / theta[non_zero_theta[ok_log[2]]] ^ 2); 
+            if (dim(u)[1] >= 4)
+                result[length(result)] <- result[length(result)] - 2 *  w_k[non_zero_theta[ok_log[3]]] * (u[3 , 4] * log(theta[non_zero_theta[ok_log[4]]])) * u[3,2] / theta[non_zero_theta[ok_log[2]]] ^ 2 
           m <- length(ok_log)
+          if (m - 2 >= 3)
           for (ii in 3:(m-2))
             result <- c(result, - ( 2 *  w_k[non_zero_theta[ok_log[ii - 1]]] * ( - u[ii - 1,ii] + log(theta[non_zero_theta[ok_log[ii]]]) + u[ii - 1,ii - 2] * log(theta[non_zero_theta[ok_log[ii - 2]]]) -
                                                                                    u[ii - 1, ii - 1] * log(theta[non_zero_theta[ok_log[ii - 1]]]))  * u[ii - 1,ii]  + 
@@ -892,14 +1004,16 @@ PAFit <- function(net_stat,
                     theta[1:(theta_nonzero[1] - 1)]   <- theta[theta_nonzero[1]]  
                 #cov_bin[1:(theta_nonzero[1] - 1)] <- cov_bin[theta_nonzero[1]] 
                 }
+            #print("lm for interpolation")
             if (length(theta_nonzero) > 1) {
                 for (i in 1:(length(theta_nonzero) - 1))
-                    if (theta_nonzero[i+1] > theta_nonzero[i] + 1) {
-                        regress <- lm(c(log(theta[theta_nonzero[i]]),log(theta[theta_nonzero[i+1]]))~ 
-                                      c(log(center_k[theta_nonzero[i]]),log(center_k[theta_nonzero[i+1]]))) 
-                    for (j in (theta_nonzero[i] + 1):(theta_nonzero[i+1] - 1))
-                        theta[j] <- exp(log(center_k[j])*regress$coefficients[2] + 
-                                        regress$coefficients[1])           
+                    if (theta_nonzero[i + 1] > theta_nonzero[i] + 1) 
+                        if (center_k[theta_nonzero[i]] > 0 && center_k[theta_nonzero[i + 1]] > 0 &&
+                            theta[theta_nonzero[i]] > 0 && theta[theta_nonzero[i + 1]] > 0)  {
+                                regress <- lm(c(log(theta[theta_nonzero[i]]) , log(theta[theta_nonzero[i + 1]]))~ 
+                                              c(log(center_k[theta_nonzero[i]]) , log(center_k[theta_nonzero[i + 1]]))) 
+                                for (j in (theta_nonzero[i] + 1) : (theta_nonzero[i + 1] - 1))
+                                    theta[j] <- exp(log(center_k[j]) * regress$coefficients[2] + regress$coefficients[1])           
                     }  
             }
             if (length(theta_nonzero) > 0)
@@ -943,14 +1057,21 @@ PAFit <- function(net_stat,
        
         upper_aa <- net_stat$Sum_m_k[non_zero_theta] /theta[non_zero_theta] ^ 2 + - temp4 
         upper_bb <- net_stat$Sum_m_k[non_zero_theta] /theta[non_zero_theta] ^ 2
-        
-        if (length(ok_log) > 0) {
-            upper_aa[ok_log] <- upper_aa[ok_log] + lambda * hessian_of_regularization_log(theta[non_zero_theta[ok_log]])
-            upper_bb[ok_log] <- upper_bb[ok_log] + lambda * hessian_of_regularization_log(theta[non_zero_theta[ok_log]])
-        }
+        #print(upper_aa)
+        #print(theta)
+        #print(non_zero_theta)
+        #print(ok_log)
+        #print(hessian_of_regularization_log(theta[non_zero_theta[ok_log]]))
+        #print(theta[non_zero_theta[ok_log]])
+        if (length(theta) > 0)
+            if (length(non_zero_theta) > 0)
+                if (length(ok_log) > 0) {
+                    upper_aa[ok_log] <- upper_aa[ok_log] + lambda * hessian_of_regularization_log(theta[non_zero_theta[ok_log]])
+                    upper_bb[ok_log] <- upper_bb[ok_log] + lambda * hessian_of_regularization_log(theta[non_zero_theta[ok_log]])
+                }
        
         
-        aa <- 1 / (upper_aa)
+        aa <-  1 / (upper_aa)
         bb <-  1 / (upper_bb)   
     } else if (2 == mode_reg_A) {
         upper_aa <- net_stat$Sum_m_k[non_zero_theta] /theta[non_zero_theta] ^ 2 + - temp4 
@@ -965,24 +1086,32 @@ PAFit <- function(net_stat,
         upper_bb <- net_stat$Sum_m_k[non_zero_theta] /theta[non_zero_theta] ^ 2
         if (length(temp_aa) > 0)
             upper_bb <- upper_bb + lambda * hessian_of_regularization_mode_2(theta)
-        aa <- 1 / (upper_aa)
+        aa <-  1 / (upper_aa)
         bb <-  1 / (upper_bb)    
     }
-    
-     cov_bin1[non_zero_theta] <- ifelse(aa > 10^-10, aa, bb) 
+     if (length(aa) > 0 && length(bb) > 0)
+         cov_bin1[non_zero_theta] <- ifelse(aa > 10^-10, aa, bb) 
      #print(cov_bin1)
      cov_bin1[cov_bin1 == Inf] <- 0
 
-     cov_bin      <- cov_bin1
-     var_log_bin  <- cov_bin / ifelse(theta != 0 , theta ^ 2 , 1)
-     upper_bin    <- exp(log(theta) + 2 * sqrt(var_log_bin))
-     lower_bin    <- exp(log(theta) - 2 * sqrt(var_log_bin))
+     cov_bin                 <- cov_bin1
+     cov_bin[is.na(cov_bin)] <- 0
+     cov_bin[cov_bin < 0]    <- 0
+     var_log_bin             <- cov_bin / ifelse(theta != 0 , theta ^ 2 , 1)
+     upper_bin               <- exp(log(theta) + 2 * sqrt(var_log_bin))
+     lower_bin               <- exp(log(theta) - 2 * sqrt(var_log_bin))
      
 
-     non_zero_center <- center2_k > 0 & theta > 0 &  var_log_bin > 0 
+     non_zero_center         <- center2_k > 0 & theta > 0 &  var_log_bin > 0 
      #non_zero_center <- theta > 0 
-     if ((FALSE == only_f) && (mode_f[1] != "Log_linear"))
-         alpha_center <- lm(log(theta[non_zero_center]) ~ log(center2_k[non_zero_center]))$coefficients[2]
+     #print("lm for alpha_center")
+     #print(var_log_bin)
+     #print(non_zero_center)
+     if ((FALSE == only_f) && (mode_f[1] != "Log_linear")) { 
+         if (sum(non_zero_center) > 0)
+             alpha_center <- lm(log(theta[non_zero_center]) ~ log(center2_k[non_zero_center]))$coefficients[2]
+         else alpha_center <- NULL   
+     }
      else 
          alpha_center <- NULL   
      ############# Return theta to A #####################################
@@ -1000,7 +1129,7 @@ PAFit <- function(net_stat,
       interval     <- 0 : (length(A) - 1)
       
       #return(list(k = interval, A = A))
-      non_zero     <- which(A > 10^-20 & cov > 10^-20)
+      non_zero     <- which(A > 10^-20)
       non_zero     <- non_zero[non_zero >= net_stat$deg_thresh]
       k_non_zero   <- interval[non_zero]
     
@@ -1015,30 +1144,82 @@ PAFit <- function(net_stat,
       sd_log      <- sqrt(var_log)
       log_A       <- log(A)
       log_k       <- log(k_non_zero)
+      #print("lm for log_A")
+      
+      ok_var_log  <- var_log > 0
       
       if (((only_f == FALSE) && (mode_f[1] != "Log_linear")) && (length(k_non_zero) > 0))  {
-              if (0 == k_non_zero[1]) 
-                  linear_fit  <- lm(log_A[-1] ~ log_k[-1] , weights = 1 / (weight_A[-1] * var_log[-1])) 
-              else
-                  linear_fit  <- lm(log_A ~log_k , weights = 1 / (weight_A * var_log)) 
-      }
-      else linear_fit <- list(coefficients=c(-1,-1))
-      names(linear_fit$coefficients) <- c("offset","attachment exponent")
+          if ((sum(ok_var_log) > 0) && (0 == k_non_zero[ok_var_log][1]) && (length(log_k[ok_var_log]) > 1)) {
+                      #print("case of first k is zero")  
+                      linear_fit  <- lm(log_A[ok_var_log][-1] ~ log_k[ok_var_log][-1] , weights = 1 / (weight_A[ok_var_log][-1] * var_log[ok_var_log][-1])) 
+                      names(linear_fit$coefficients) <- c("offset","Attachment exponent")
+                      res          <- df.residual(linear_fit)
+                      if (res > 0)
+                          ci       <- confint(linear_fit,"Attachment exponent")
+                      else ci      <-"N" 
+                         
+          } else if ((sum(ok_var_log) > 0) && (0 != k_non_zero[ok_var_log][1])) {
+                    #print("case of first k is non_zero")    
+                    linear_fit  <- lm(log_A[ok_var_log] ~ log_k[ok_var_log], weights = 1 / (weight_A[ok_var_log] * var_log[ok_var_log])) 
+                    names(linear_fit$coefficients) <- c("offset","Attachment exponent")
+                    res          <- df.residual(linear_fit)
+                    if (res > 0)
+                        ci       <- confint(linear_fit,"Attachment exponent")
+                    else ci      <- "N"
+          } else if (0 == k_non_zero[1]) {
+                   if (length(log_k) > 1) {
+                       linear_fit  <- lm(log_A[-1] ~ log_k[-1]) 
+                       names(linear_fit$coefficients) <- c("offset","Attachment exponent")
+                       res          <- df.residual(linear_fit)
+                       if (res > 0)
+                           ci       <- confint(linear_fit,"Attachment exponent")
+                        else ci      <- "N" 
+                       
+                  }
+                  else  {
+                      linear_fit <- list(coefficients=c(-Inf,-Inf)) 
+                      names(linear_fit$coefficients) <- c("offset","Attachment exponent")
+                      ci         <- "N" 
+                 }
+          } else if (0 != k_non_zero[1]) {
+                     linear_fit  <- lm(log_A ~ log_k) 
+                     names(linear_fit$coefficients) <- c("offset","Attachment exponent")
+                     res          <- df.residual(linear_fit)
+                     if (res > 0)
+                        ci       <- confint(linear_fit,"Attachment exponent")
+                     else ci      <- "N"
+           } else {
+                linear_fit <- list(coefficients=c(-Inf,-Inf))
+                names(linear_fit$coefficients) <- c("offset","Attachment exponent")
+                ci         <- "N"  
+             }  
+       } else if (mode_f == "Log_linear") {
+            linear_fit <- NULL
+            ci         <- c(alpha - 2 * sqrt(cov_alpha), alpha + 2 * sqrt(cov_alpha));  
+       } else {
+           linear_fit <- list(coefficients=c(-Inf,-Inf))
+           names(linear_fit$coefficients) <- c("offset","Attachment exponent")
+           ci         <- "N"   
+       }
+      
       upper_A         <- exp(log(A) + 2 * sd_log)
       lower_A         <- exp(log(A) - 2 * sd_log)
+      
+     
+      
       
       ##### Variance of f ####################
     
       #if (rate <= 1 & shape <= 1)
       #   f[-non_zero_f] <- 0
 
-      f_new                                    <- rep(offset,net_stat$N)
-      names(f_new)                             <- net_stat$node_id
+      f_new                                        <- rep(offset,net_stat$N)
+      names(f_new)                                 <- net_stat$node_id
       f_new[as.character(net_stat$f_position)]     <- f
-      cov_f_new                                <- rep(0,net_stat$N)
-      names(cov_f_new)                         <- net_stat$node_id
+      cov_f_new                                    <- rep(0,net_stat$N)
+      names(cov_f_new)                             <- net_stat$node_id
       cov_f_new[as.character(net_stat$f_position)] <- abs(cov_f)
-      non_zero_f                               <- f_new > 10^-20 & cov_f_new > 10^-20
+      non_zero_f                                   <- f_new > 10^-20 & cov_f_new > 10^-20
     
       upper_f                                  <- rep(0,net_stat$N)
       upper_f[non_zero_f]                      <- exp(log(f_new[non_zero_f]) + 2 * sqrt(cov_f_new[non_zero_f] / f_new[non_zero_f] ^ 2))
@@ -1050,19 +1231,24 @@ PAFit <- function(net_stat,
          alpha = linear_fit$coefficients[2]
       else names(alpha) <- "Estimated attachment exponent"
       
+      
+
+      #print("End of function")
+      #print("----------------------")
+      
       result <- list(# estimated PA function and its variances, confidence interval 
                      k       = k_non_zero ,  A             = A          , var_A       = cov       , var_logA = var_log,
                      upper_A = upper_A    ,  lower_A       = lower_A    , weight_of_A = weight_A  , center_k = center_k,  
                      theta   = theta      ,  upper_bin     = upper_bin  , lower_bin   = lower_bin , var_bin  = cov_bin,
                      # estimated attachment exponent alpha, and the log-linear fit 
-                     alpha   = alpha      ,  loglinear_fit = linear_fit , 
+                     alpha   = alpha      ,  loglinear_fit = linear_fit , ci          = ci        ,
                      
                      # if mode_f = "Log_linear", the  attachment exponent alpha's over iterations
-                     alpha_series = ifelse(rep(mode_f[1] == "Log_linear",length(alpha_series)),alpha_series,-1),
+                     alpha_series = ifelse(rep(mode_f[1] == "Log_linear", length(alpha_series)),alpha_series,-1),
                      
                      # estimated node fitnesses and their variances, confidence intervals
-                     f        = f_new     ,  var_f         = cov_f_new, 
-                     upper_f  = upper_f   ,  lower_f       = lower_f, # confidence intervals
+                     f        = f_new     ,  var_f         = cov_f_new  , 
+                     upper_f  = upper_f   ,  lower_f       = lower_f    , # confidence intervals
                      
                      # values of the objective function over iterations
                      objective_value = log_likelihood,

@@ -2,10 +2,10 @@
 \alias{summary.PAFit_data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-A function to summarize a PAFit_data object 
+Summarizing a \code{PAFit_data} object 
 }
 \description{
-This function summarizes information of a PAFit_data object. 
+This function summarizes information of a \code{PAFit_data} object. 
 }
 \usage{
 \method{summary}{PAFit_data}(object,...)
@@ -13,7 +13,7 @@ This function summarizes information of a PAFit_data object.
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-An object of class "PAFit_data", containing the summary statistics needed in estimation.
+An object of class \code{"PAFit_data"}, containing the summary statistics needed in estimation.
 }
 \item{\dots}{
 %%     ~~Describe \code{\dots} here~~

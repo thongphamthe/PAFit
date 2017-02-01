@@ -41,18 +41,51 @@ net_stats <- GetStatistics(net$graph,deg_threshold = 0,
                            net_type = "directed",
                            Binning = TRUE, G = 10, CompressMode = 1,
                            CompressRatio = 2)
-
+for (n in c(20,50))
 for (q in 1:3)
  for (j in 0:2)
-   for (uu in 0:1)   
+   for (uu in 0:1) {  
+      net  <- GenerateNet(N = n, m = 1,prob_m = prob_m, increase = inc, log = log,
+                         mode = 1, shape = 100, rate = 100) 
+      net_stats <- GetStatistics(net$graph,deg_threshold = 1, 
+                                 net_type = "directed",
+                                 Binning = TRUE, G = 10) 
       result <- PAFit(net_stats, r = 0.01, mode_reg_A = j, weight_PA_mode = uu,
-                    stop_cond = 10^-2, q = q, normalized_f = TRUE,debug = TRUE)
+                    stop_cond = 10^-2, q = q, normalized_f = TRUE, debug = TRUE)
+      plot(result,net_stats,high_deg = 1)
+      plot(result,net_stats)
+      plot(result,net_stats,plot = "f", high_deg = 1)
+      plot(result,net_stats,plot = "f")
+   }
 
-result <- PAFit(net_stats, r = 0, 
+net_stats <- GetStatistics(net$graph,deg_threshold = 1, 
+                           net_type = "directed",
+                           Binning = TRUE, G = 3) 
+
+result <- PAFit(net_stats, r = 0,  mode_reg_A = 0, s = 100,
                 stop_cond = 10^-2, q = 1, normalized_f = FALSE, debug = TRUE)
+
+result <- PAFit(net_stats, r = 0, mode_reg_A = 1, s = 100,
+                stop_cond = 10^-2, q = 1, normalized_f = FALSE, debug = TRUE)
+
+result <- PAFit(net_stats, r = 0,  mode_reg_A = 2, s = 100,
+                stop_cond = 10^-2, q = 1, normalized_f = FALSE, debug = TRUE)
+
+
+net_stats <- GetStatistics(net$graph,deg_threshold = 1, 
+                           net_type = "directed",
+                           Binning = TRUE, G = 4) 
+result <- PAFit(net_stats, r = 0,  mode_reg_A = 0,
+                stop_cond = 10^-2, q = 1, normalized_f = FALSE, debug = TRUE)
+result <- PAFit(net_stats, r = 0, mode_reg_A = 1,
+                stop_cond = 10^-2, q = 1, normalized_f = FALSE, debug = TRUE)
+result <- PAFit(net_stats, r = 0,  mode_reg_A = 2,
+                stop_cond = 10^-2, q = 1, normalized_f = FALSE, debug = TRUE)
+
+
 print(result)
 summary(result)
-plot(result,net_stats,high_deg = 5)
+plot(result,net_stats,high_deg = 1)
 
 result <- PAFit(net_stats, r = 0.01, only_PA = TRUE, 
                 stop_cond = 10^-2, q = 1, debug = TRUE)

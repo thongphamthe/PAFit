@@ -2,10 +2,10 @@
 \alias{print.PAFit_result}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-A function to print a PAFit_result object
+Summarizing a \code{PAFit_result} object
 }
 \description{
-This function print a PAFit_result object's information.
+This function print a \code{PAFit_result} object's information.
 }
 \usage{
 \method{print}{PAFit_result}(x,...)
@@ -13,7 +13,7 @@ This function print a PAFit_result object's information.
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-An object of class "PAFit_result", containing the estimation result of PAFit.
+An object of class \code{"PAFit_result"}, containing the estimation result of \code{PAFit}.
 }
    \item{\dots}{
 %%     ~~Describe \code{\dots} here~~
@@ -37,8 +37,8 @@ Thong Pham \email{thongpham@thongpham.net}
 
 \examples{
 library("PAFit")
-net       <- GenerateNet(N = 50 , m = 1 , mode = 1 , alpha = 1 , shape = 100 , rate = 100)
-net_stats <- GetStatistics(net$graph)
-result    <- PAFit(net_stats)
+net        <- GenerateNet(N = 50,m = 10, mode = 1, alpha = 0.5, shape = 100, rate = 100)
+net_stats  <- GetStatistics(net$graph)
+result     <- PAFit(net_stats, r = 0.01, s = 100)
 print(result)
 }

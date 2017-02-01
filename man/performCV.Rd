@@ -19,7 +19,7 @@ A function to perform cross validation to select \code{r} and \code{s} in \code{
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{cv_data}{
-Cross-validation data.}
+Cross-validation data. An object of class \code{CV_Data}.}
 \item{r}{
 Numeric vector. Specifying the values of the regularization parameter \eqn{r} of the PA function. Default value is the vector \code{c(0.01,0.1,1,10,100)}.
 }

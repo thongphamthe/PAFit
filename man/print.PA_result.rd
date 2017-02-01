@@ -2,10 +2,10 @@
 \alias{print.PA_result}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  A function to print a PA_result object
+Printing a \code{PA_result} object
 }
 \description{
-  This function prints a PA_result object's information.
+  This function prints a \code{PA_result} object's information.
 }
 \usage{
 \method{print}{PA_result}(x,...)
@@ -13,7 +13,7 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-An object of class "PA_result", containing the estimated preferential attachment from Newman's or Jeong's method.
+An object of class \code{"PA_result"}, containing the estimated preferential attachment from Newman's or Jeong's method.
 }
    \item{\dots}{
 %%     ~~Describe \code{\dots} here~~
@@ -37,7 +37,7 @@ Thong Pham \email{thongpham@thongpham.net}
 
 \examples{
 library("PAFit")
-net        <- GenerateNet(N = 50 , m = 10 , mode = 1 , alpha = 1 , shape = 0)
+net        <- GenerateNet(N = 1000 , m = 30 , mode = 1 , alpha = 1 , shape = 0) # no fitness
 net_stats  <- GetStatistics(net$graph)
 result     <- Newman_corrected(net_stats)
 print(result)

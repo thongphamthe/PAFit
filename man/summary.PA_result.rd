@@ -2,10 +2,10 @@
 \alias{summary.PA_result}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  A function to summarize a PA_result object
+  A function to summarize a \code{PA_result} object
 }
 \description{
-  This function summarizes information of a PA_result object. 
+  This function summarizes information of a \code{PA_result} object. 
 }
 \usage{
   \method{summary}{PA_result}(object,...)
@@ -13,7 +13,7 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-    An object of class "PA_result", containing the estimated preferential attachment function from Newman's or Jeong's method.
+    An object of class \code{"PA_result"}, containing the estimated preferential attachment function from Newman's or Jeong's method.
   }
   \item{\dots}{
     %%     ~~Describe \code{\dots} here~~
@@ -36,7 +36,7 @@
 
 \examples{
   library("PAFit")
-  net        <- GenerateNet(N = 50 , m = 1 , mode = 1 , alpha = 1 , shape = 100 , rate = 100)
+  net        <- GenerateNet(N = 1000 , m = 30 , mode = 1 , alpha = 1 , shape = 0 ) # no fitness
   net_stats  <- GetStatistics(net$graph)
   result     <- Newman_corrected(net_stats)
   summary(result)

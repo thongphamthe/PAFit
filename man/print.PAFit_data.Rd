@@ -2,10 +2,10 @@
 \alias{print.PAFit_data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-A function to print a PAFit_data object
+Printing a \code{PAFit_data} object
 }
 \description{
-This function print a PAFit_data object's information.
+This function print a \code{PAFit_data} object's information.
 }
 \usage{
 \method{print}{PAFit_data}(x,...)
@@ -13,7 +13,7 @@ This function print a PAFit_data object's information.
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-An object of class "PAFit_data", containing the summary statistics needed in estimation.
+An object of class \code{"PAFit_data"}, containing the summary statistics needed in estimation.
 }
    \item{\dots}{
 %%     ~~Describe \code{\dots} here~~

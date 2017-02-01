@@ -77,7 +77,7 @@ Non-negative numeric. The regularization parameter \code{r} for the PA function 
 
 Third group specifies the initial value of PA and fitness: 
 
-\item{alpha_start}{Non-negative numeric. The starting value for alpha when we use the model \eqn{k^\alpha}. Default value is \code{1}.}
+\item{alpha_start}{Non-negative numeric. The starting value for \eqn{\alpha} when we use the model \eqn{k^\alpha}. Default value is \code{1}.}
 \item{start_mode_A}{String. Takes one of two values: \code{"Log_linear"} (the initial PA function set to k^alpha_start) or \code{"Random"} (the initial function is randomly sampled from a uniform distribution). Default value is \code{"Log_linear"}.}
 \item{start_mode_f}{String. Takes one of two values: \code{"Constant"} (the initial node fitnesses are all set to \code{1}) or \code{"Random"} (the initial node fitnesses are randomly sampled from a gamma distribution). Default value is \code{"Constant"}.}
 
@@ -115,7 +115,8 @@ The first group gives the estimated preferential attachment function:
 \item{weight_of_A}{The number of \code{A} in each bin}
 \item{loglinear_fit}{Result of fitting the log-linear model \eqn{log A_k = \alpha log k + C} to the estimated \eqn{A_k}}
 \item{alpha}{The estimated attachment exponent of the log-linear model \eqn{A_k =k^\alpha}}
-\item{alpha_series}{The series of alpha over iterations if \code{mode_f == "Log_linear"}}     
+\item{ci}{The confidence interval of the attachment exponent. It is two-sigma. When \code{mode_f != "Log_linear"}, this confidence interval is estimated from the log_linear fit (fitting \eqn{log k} to \eqn{log A_k}) using \code{confint} function, so it has a popular meaning as a \eqn{95}-percentage confidence interval.}
+\item{alpha_series}{The series of \eqn{\alpha} over iterations if \code{mode_f == "Log_linear"}}     
 
 The second group gives the confidence intervals of the estimated PA function:
 
@@ -163,9 +164,10 @@ Thong Pham
 
 \examples{
 library("PAFit")
-net        <- GenerateNet(N = 50,m = 1, mode = 1, alpha = 1, shape = 10, rate = 10)
+net        <- GenerateNet(N = 50,m = 10, mode = 1, alpha = 0.5, shape = 100, rate = 100)
 net_stats  <- GetStatistics(net$graph)
-result     <- PAFit(net_stats)
+result     <- PAFit(net_stats, r = 0.01, s = 100)
+summary(result)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

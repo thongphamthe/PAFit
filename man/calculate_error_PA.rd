@@ -25,7 +25,7 @@ calculate_error_PA(k           ,  A        , start_deg = 0 ,
 Integer. Indicates the attachment function to be used in generating the network. If \code{mode == 1}, the attachment function is \eqn{A_k = k^\alpha}. If \code{mode == 2}, the attachment function is \eqn{A_k = min(k,sat_at)^\alpha}. If \code{mode == 3}, the attachment function is \eqn{A_k = \alpha log (k)^\beta}. Default value is \eqn{1}.
 } 
   \item{alpha}{
-Numeric. If \code{mode == 1}, this is the attachment exponent in the attachment function \eqn{A_k = k^\alpha}. If \code{mode == 2}, this is the attachment exponenet in the attachment function \eqn{A_k = min(k,sat_at)^\alpha}. If \code{mode == 3}, this is the alpha in the attachment function \eqn{A_k = \alpha log (k)^\beta} + 1.
+Numeric. If \code{mode == 1}, this is the attachment exponent in the attachment function \eqn{A_k = k^\alpha}. If \code{mode == 2}, this is the attachment exponenet in the attachment function \eqn{A_k = min(k,sat_at)^\alpha}. If \code{mode == 3}, this is the \eqn{\alpha} in the attachment function \eqn{A_k = \alpha log (k)^\beta} + 1.
 }
 \item{beta}{
 Numeric. This is the beta in the attachment function \eqn{A_k = \alpha log (k)^\beta} + 1.

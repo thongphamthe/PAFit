@@ -11,7 +11,7 @@ This function plots the estimated attachment function \eqn{A_k} and node fitness
 \method{plot}{PAFit_result}(x,
      net_stat              ,
      true_f      = NULL    , plot             = "A"   , plot_bin     = TRUE             ,
-     line        = FALSE   , confidence       = TRUE  , high_deg     = NULL             , 
+     line        = FALSE   , confidence       = TRUE  , high_deg     = 1                , 
      shade_point = 0.5     , shade_interval   = 0.5   , col_interval = "lightsteelblue" ,
      col_point   = "black" , label_x          = NULL  , label_y      = NULL             ,
      max_A       = NULL    , min_A            = NULL  , f_min        = NULL             , 
@@ -39,7 +39,8 @@ Logical. Indicates whether to plot the line fitted from the log-linear model or 
 \item{confidence}{
 Logical. Indicates whether to plot the confidence intervals of \eqn{A_k} and \eqn{eta_i} or not. If confidence == TRUE, a 2-sigma confidence interval will be plotted at each \eqn{A_k} and \eqn{eta_i}.
 }
-\item{high_deg}{Integer. If this parameter is specified, only nodes whose number of edges acquired is not less than \eqn{high_deg} is plotted.}
+\item{high_deg}{Integer. If \code{plot == "A"}, the estimated PA function is plotted starting from \code{high_deg}, and \eqn{A_{high_deg}} is normalized to \code{1}. If \code{plot == "f"} or \code{plot == "true_f"}, only nodes whose number of edges acquired is not less than \eqn{high_deg} are plotted. Default value is \code{1}.}
+
 \item{shade_point}{
 Numeric. Value between 0 and 1. This is the transparency level of the points. Default value is \eqn{0.5}.
 }

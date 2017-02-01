@@ -147,6 +147,27 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// var_alpha
+double var_alpha(const double alpha, const NumericVector& non_zero_theta, const NumericVector& norm, const NumericVector& f, const double& PA_offset, const NumericVector& theta, const NumericMatrix& degree, const NumericVector& m_t, const NumericVector& Sum_m_k, const NumericMatrix& offset_tk, const double& offset);
+RcppExport SEXP PAFit_var_alpha(SEXP alphaSEXP, SEXP non_zero_thetaSEXP, SEXP normSEXP, SEXP fSEXP, SEXP PA_offsetSEXP, SEXP thetaSEXP, SEXP degreeSEXP, SEXP m_tSEXP, SEXP Sum_m_kSEXP, SEXP offset_tkSEXP, SEXP offsetSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const double >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type non_zero_theta(non_zero_thetaSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type norm(normSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type f(fSEXP);
+    Rcpp::traits::input_parameter< const double& >::type PA_offset(PA_offsetSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type degree(degreeSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type m_t(m_tSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type Sum_m_k(Sum_m_kSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type offset_tk(offset_tkSEXP);
+    Rcpp::traits::input_parameter< const double& >::type offset(offsetSEXP);
+    rcpp_result_gen = Rcpp::wrap(var_alpha(alpha, non_zero_theta, norm, f, PA_offset, theta, degree, m_t, Sum_m_k, offset_tk, offset));
+    return rcpp_result_gen;
+END_RCPP
+}
 // coeff_theta
 NumericVector coeff_theta(const NumericMatrix& degree, const NumericVector& f, const NumericVector& normalized_const, const NumericVector& m_t, const int length_theta);
 RcppExport SEXP PAFit_coeff_theta(SEXP degreeSEXP, SEXP fSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP length_thetaSEXP) {
