@@ -42,7 +42,7 @@ NEWS
 
 Please refer to the current version on CRAN:
 
- * [NEWS](https://CRAN.R-project.org/package=PAFit/NEWS)
+ * [NEWS](https://CRAN.R-project.org/package=PAFit/news.html)
 
 Citation
 ---------------
