@@ -2,7 +2,7 @@
 \alias{summary.PA_result}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  A function to summarize a \code{PA_result} object
+  Summarizing a \code{PA_result} object
 }
 \description{
   This function summarizes information of a \code{PA_result} object. 

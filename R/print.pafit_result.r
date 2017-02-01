@@ -8,7 +8,6 @@ print.PAFit_result <- function(x,...) {
   }
   else {
       cat("Mode: Both the attachment kernel and node fitness were estimated.")
-<<<<<<< HEAD
   }
   cat(" Form of the PA function:",x$mode_f,"\n");
   if (x$auto_lambda == TRUE) {
@@ -25,7 +24,6 @@ print.PAFit_result <- function(x,...) {
   else {
      cat("Two-sigma confidence interval of the attachment exponent: (", x$ci[1], ",", 
          x$ci[2],")\n");  
-=======
->>>>>>> master
+
   }
 }

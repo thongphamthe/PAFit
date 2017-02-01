@@ -27,7 +27,7 @@ PAFit (net_stat,
        debug          = FALSE       , q              = 1           ,   
        step_size      = 0.5         ,
       
-       normalized_f   = FALSE       , interpolate    = TRUE)
+       normalized_f   = FALSE       , interpolate    = FALSE)
 }
 \arguments{
 The parameters can be divided into five groups based on what they specify.
@@ -98,7 +98,7 @@ Integer. The maximum number of iterations. Regardless of other settings, the alg
 Final group gives some additional instructions: 
 
 \item{normalized_f}{Logical. Indicates whether we should normalize the estimated value of node fitness after estimation. Default value is \code{FALSE}.}
-\item{interpolate}{Logical. Indicates whether we should perform interpolation for the missing values of the estimated \eqn{A_k}. The interpolation, if performed, is a linear regression on log-scale. Default value is \code{TRUE}.}
+\item{interpolate}{Logical. Indicates whether we should perform interpolation for the missing gaps in the estimated \eqn{A_k}. The interpolation, if performed, is a linear regression on log-scale. Default value is \code{FALSE}.}
 
 }
 \value{

@@ -26,15 +26,4 @@ summary.PAFit_result <- function(object,...){
     cat("Number of nodes satisfied the threshold: ",sum(object$f != 1),"\n");
     cat("Number of iterations: ",length(object$objective_value) - 1,"\n");
     cat("Stopping condition:", object$stop_cond,"\n");
-<<<<<<< HEAD
-=======
-    cat("Auto Lambda: ",object$auto_lambda,"\n");
-    if (object$auto_lambda == TRUE) 
-        cat("Ratio (r): ", object$ratio,"\n");
-    cat("Lambda used: ", object$lambda,"\n");
-    cat("Prior of node fitness: shape: ",object$shape,"; rate: ",object$rate,"\n")
-    cat("Estimated attachment exponent: ",object$alpha,"\n");
-    cat("95% confidence interval of the attachment exponent: (", object$ci[1], ",", 
-        object$ci[2],")\n");
->>>>>>> master
 }

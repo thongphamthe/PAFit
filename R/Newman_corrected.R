@@ -96,16 +96,8 @@ Newman_corrected <- function(net_stat, start = 1, interpolate = FALSE){
   
   A[which(A == "NaN")] <- 0
   k                    <- 0:(length(A) - 1)
-<<<<<<< HEAD
-  
 
-  
-=======
-  
-  names(linear_fit$coefficients) <- c("Constant","Attachment exponent")
-  ci <- confint(linear_fit,"Attachment exponent")
-  
->>>>>>> master
+
   result        <- list(A     = A    , k     = k     , center_k      = center_k   , 
                         theta = theta, alpha = alpha , loglinear_fit = linear_fit ,
                         G     = net_stat$G,
