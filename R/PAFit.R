@@ -1149,6 +1149,7 @@ PAFit <- function(net_stat,
       ok_var_log  <- var_log > 0
       
       if (((only_f == FALSE) && (mode_f[1] != "Log_linear")) && (length(k_non_zero) > 0))  {
+<<<<<<< HEAD
           if ((sum(ok_var_log) > 0) && (0 == k_non_zero[ok_var_log][1]) && (length(log_k[ok_var_log]) > 1)) {
                       #print("case of first k is zero")  
                       linear_fit  <- lm(log_A[ok_var_log][-1] ~ log_k[ok_var_log][-1] , weights = 1 / (weight_A[ok_var_log][-1] * var_log[ok_var_log][-1])) 
@@ -1202,11 +1203,24 @@ PAFit <- function(net_stat,
            ci         <- "N"   
        }
       
+=======
+              if (0 == k_non_zero[1]) 
+                  linear_fit  <- lm(log_A[-1] ~ log_k[-1] , weights = 1 / (weight_A[-1] * var_log[-1])) 
+              else
+                  linear_fit  <- lm(log_A ~log_k , weights = 1 / (weight_A * var_log)) 
+      }
+      else linear_fit <- list(coefficients=c(-1,-1))
+      names(linear_fit$coefficients) <- c("offset","Attachment exponent")
+>>>>>>> master
       upper_A         <- exp(log(A) + 2 * sd_log)
       lower_A         <- exp(log(A) - 2 * sd_log)
       
      
+<<<<<<< HEAD
       
+=======
+      ci <- confint(linear_fit,"Attachment exponent")
+>>>>>>> master
       
       ##### Variance of f ####################
     

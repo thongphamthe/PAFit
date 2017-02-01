@@ -125,7 +125,8 @@ Jeong <- function(raw_net, net_stat,T_0,T_1, interpolate = FALSE) {
   A[which(A == "NaN")] <- 0
   k <- 0:(length(A) - 1)
   
-
+  names(linear_fit$coefficients) <- c("Constant","Attachment exponent")
+  ci <- confint(linear_fit,"Attachment exponent")
   
   result        <- list(A      = A          , k     = k     , center_k      = center_k , 
                         theta  = count      , alpha = alpha , loglinear_fit = linear_fit,
