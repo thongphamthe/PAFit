@@ -1,5 +1,6 @@
 \name{CreateDataCV}
 \alias{CreateDataCV}
+\alias{CV_Data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Creating cross validation data
@@ -19,19 +20,19 @@ A three-column matrix whose each row contains information of one edge in the for
 Numeric between \code{0} and \code{1}. Indicates the ratio of number of new edges in the learning data to that of the full data. Default is \code{p = 0.75}.
 }
 \item{G}{
-Integer. Number of bins. Default value is \\code{50}.
+Integer. Number of bins. Default value is \code{50}.
 }
  \item{net_type}{
 String. The type of the network: \code{"directed"} or \code{"undirected"}. Default is \code{"directed"}. 
 }
 \item{deg_thresh}{
-Integer. We only consider nodes with number of acquired new edges at least this threshold. Default value is \code{0},i.e. all the nodes.
+Integer. We only consider nodes with number of acquired new edges at least this threshold. Default value is \code{0}, i.e. all the nodes.
 }
 \item{exclude_end}{
-Logical. If \code{TRUE}, then for the testing data, at each time-step we only consider the new edges that connect to nodes with the current degrees less than \eqn{deg\_max}, which is the maximum degree in the learning data. The motivation for this option is that in the learning phase, we can only learn the PA function up to \eqn{deg_max}, so it makes sense to limit the degree in the testing phase to \eqn{deg\_max}. From our experiences, this option does not matter. Default value is \code{FALSE}}.
+Logical. If \code{TRUE}, then for the testing data, at each time-step we only consider the new edges that connect to nodes with the current degrees less than \eqn{deg_max}, which is the maximum degree in the learning data. The motivation for this option is that in the learning phase, we can only learn the PA function up to \eqn{deg_max}, so it makes sense to limit the degree in the testing phase to \eqn{deg_max}. From our experiences, this option does not matter. Default value is \code{FALSE}}.
 }
 
-\value{An object of class \code{"CV_Data"} containing the data needed for cross validation.
+\value{An object of class \code{CV_Data} containing the data needed for the cross validation performed by the function \code{\link{performCV}}.
 }
 
 
@@ -45,6 +46,7 @@ Thong Pham \email{thongpham@thongpham.net}
 
 3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
 }
+\seealso{\code{\link{performCV}}}
 
 \examples{
 library("PAFit")

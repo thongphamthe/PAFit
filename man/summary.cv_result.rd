@@ -13,7 +13,7 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 \item{object}{
-An object of class \code{"CV_Result"}, containing the cross-validation result of the \code{performCV} function.
+An object of class \code{CV_Result}, containing the cross-validation result of the \code{\link{performCV}} function.
 }
 \item{\dots}{
 %%     ~~Describe \code{\dots} here~~

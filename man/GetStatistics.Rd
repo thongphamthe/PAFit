@@ -1,5 +1,6 @@
 \name{GetStatistics}
 \alias{GetStatistics}
+\alias{PAFit_data}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Getting summarized statistics from input data  
@@ -104,6 +105,8 @@ Thong Pham \email{thongpham@thongpham.net}
 
 3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
 }
+
+\seealso{\code{\link{PAFit}},\code{\link{Newman_corrected}},\code{\link{Jeong}}}
 
 \examples{
 library("PAFit")

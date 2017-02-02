@@ -13,7 +13,7 @@ This function print a \code{PAFit_result} object's information.
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-An object of class \code{"PAFit_result"}, containing the estimation result of \code{PAFit}.
+An object of class \code{PAFit_result}, containing the estimation result of \code{PAFit}.
 }
    \item{\dots}{
 %%     ~~Describe \code{\dots} here~~

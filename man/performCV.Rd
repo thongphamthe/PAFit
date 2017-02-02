@@ -1,25 +1,27 @@
 \name{performCV}
 \alias{performCV}
+\alias{CV_Result}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Selecting regularization parameters by cross-validation
 }
 \description{
-A function to perform cross validation to select \code{r} and \code{s} in \code{PAFit}.
+A function to perform cross validation to select suitable values of \code{r} and \code{s} in \code{\link{PAFit}}.
 }
-\usage{performCV(cv_data,
-                 r           = 10^c(-2,-1,0,1,2),
-                 s           = 10^c(-1,1,2,3,4), 
-                 stop_cond   = 10^-7, 
-                 only_PAFit  = TRUE, 
-                 silent      = FALSE, 
-                 only_loglinear = FALSE,
-                ...)
+\usage{
+performCV(cv_data,
+          r           = 10^c(-2,-1,0,1,2),
+          s           = 10^c(-1,1,2,3,4), 
+          stop_cond   = 10^-7, 
+          only_PAFit  = TRUE, 
+          silent      = FALSE, 
+          only_loglinear = FALSE,
+          ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{cv_data}{
-Cross-validation data. An object of class \code{CV_Data}.}
+Cross-validation data. An object of class \code{CV_Data}, created by the function \code{\link{CreateDataCV}}.}
 \item{r}{
 Numeric vector. Specifying the values of the regularization parameter \eqn{r} of the PA function. Default value is the vector \code{c(0.01,0.1,1,10,100)}.
 }
@@ -42,14 +44,14 @@ Logical. If \code{TRUE} then only perform the CV assuming the linear functional 
 Additional parameters (e.g. \code{debug = TRUE}) to pass onto the \code{PAFit} function.
 }
 }
-\value{An object of class "CV_Result" containing the cross validation result. The important fields are:
+\value{An object of class \code{CV_Result} containing the cross validation result. The important fields are:
 \item{r_optimal}{
 Numeric. The optimal value of the r parameter chosen by the CV process.
 }
 \item{s_optimal}{
 Numeric. The optimal value of the s parameter chosen by the CV process.
 }
-One then uses \eqn{PAFit} function on the full data with the parameters \eqn{r} and \eqn{s} set to \eqn{r_optimal} and \eqn{s_optimal}, respectively.
+One then uses \code{\link{PAFit}} function on the full data with the parameters \code{r} and \code{s} set to \eqn{r_optimal} and \eqn{s_optimal}, respectively.
 }
 
 \author{
@@ -62,6 +64,7 @@ Thong Pham \email{thongpham@thongpham.net}
 
 3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
 }
+\seealso{\code{\link{CreateDataCV}}}
 
 \examples{
 library("PAFit")
@@ -74,5 +77,5 @@ print(cv_result)
 \keyword{fitness model}
 \keyword{Preferential Attachment function}
 \keyword{Minorize-Maximization algorithms}
-\keyword{Bianconi-Barabasi model}
-\keyword{Barabasi-Albert model}% __ONLY ONE__ keyword per line
+\keyword{\enc{Barabási}{Barabasi}-Albert model}
+\keyword{Bianconi-\enc{Barabási}{Barabasi} model}

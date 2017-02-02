@@ -3,25 +3,25 @@
 \docType{package} 
 \title{Joint Inference of Preferential Attachment and Node Fitness in Temporal Complex Networks}
 \description{
-An implementation of a framework for modelling and inferencing the attachment mechanisms of temporal complex networks. For estimating the preferential attachment (PA) function in isolation, we implement Jeong's method, the corrected Newman's method and the PAFit method. For jointly estimating the PA function and node fitnesses, we implement the PAFit method. The package also provides flexible methods to generate a wide range of temporal networks based on PA and fitness. See the accompanying vignette for a tutorial. For a list of references, please run the command: citation("PAFit").
+An implementation of a framework for modelling and inferencing the attachment mechanisms of temporal complex networks. For estimating the preferential attachment (PA) function in isolation, we implement Jeong's method, the corrected Newman's method and the PAFit method. For jointly estimating the PA function and node fitnesses, we implement the PAFit method. The package also provides flexible methods to generate a wide range of temporal networks based on PA and fitness. See the accompanying vignette for a tutorial. For a list of references, please run the command: \code{citation("PAFit")}.
 }
 \details{
 \tabular{ll}{
 Package: \tab PAFit\cr
 Type: \tab Package\cr
-Version: \tab 0.9.6\cr
-Date: \tab 2017-02-02\cr
+Version: \tab 0.9.7\cr
+Date: \tab 2017-02-15\cr
 License: \tab GPL-3 \cr
 }
 The main functions are:
 \itemize{
-\item GenerateNet: generates networks based on the preferential attachment and fitness mechanisms.
-\item GetStatistics: summarizes a matrix of edges into summary statistics ready for estimating the preferential attachment function or node fitness.
-\item Jeong: estimates the preferential attachment in isolation by Jeong's method 
-\item Newman_corrected: estimates the preferential attachment in isolation by the corrected Newman's method
-\item PAFit: jointly estimates the preferential attachment function and node fitness
-\item CreateDataCV: creates cross-validation for \code{performCV} function
-\item performCV: performs cross-validation for selecting regularization parameters of \code{PAFit}
+\item \code{\link{GenerateNet}}: generates a wide range of networks based on the preferential attachment and fitness mechanisms.
+\item \code{\link{GetStatistics}}: summarizes a matrix of edges into summary statistics ready for estimating the preferential attachment function or node fitness
+\item \code{\link{Jeong}}: estimates the preferential attachment in isolation by Jeong's method 
+\item \code{\link{Newman_corrected}}: estimates the preferential attachment in isolation by the corrected Newman's method
+\item \code{\link{PAFit}}: jointly estimates the preferential attachment function and node fitness
+\item \code{\link{CreateDataCV}}: creates cross-validation for \code{\link{performCV}} function
+\item \code{\link{performCV}}: performs cross-validation for selecting regularization parameters of \code{\link{PAFit}} function
 }
 }
 \author{
@@ -43,9 +43,9 @@ Maintainer: Thong Pham \email{thongpham@thongpham.net}
 \keyword{preferential attachment}
 \keyword{fitness model}
 \keyword{Jeong's method}
-\keyword{Newman's method}
-\keyword{Barabasi-Albert model}
-\keyword{Bianconi-Barabasi model}
+\keyword{Corrected Newman's method}
+\keyword{\enc{Barabási}{Barabasi}-Albert model}
+\keyword{Bianconi-\enc{Barabási}{Barabasi} model}
 
 \examples{
 library("PAFit")

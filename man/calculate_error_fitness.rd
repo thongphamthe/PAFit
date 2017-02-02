@@ -32,10 +32,10 @@
   
   3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
 }
-
+\seealso{\code{\link{calculate_error_PA}}}
 \examples{
   library("PAFit")
-  net        <- GenerateNet(N = 50 , m = 1 , mode = 1 , alpha =0.5 , shape = 100 , rate = 100)
+  net        <- GenerateNet(N = 50 , m = 1 , mode = 1 , alpha = 0.5 , shape = 100 , rate = 100)
   net_stats  <- GetStatistics(net$graph)
   result     <- PAFit(net_stats)
   error_f    <- calculate_error_fitness(true = net$fitness , estimate = result$f)

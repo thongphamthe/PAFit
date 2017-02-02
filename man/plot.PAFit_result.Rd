@@ -21,31 +21,31 @@ This function plots the estimated attachment function \eqn{A_k} and node fitness
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-An object of class "PAFit_result", containing the result
+An object of class \code{PAFit_result}, containing the estimated results from \code{\link{PAFit}}.
 }
   \item{net_stat}{
-An object of class "PAFit_data", containing the summerized statistics.
+An object of class \code{PAFit_data}, containing the summerized statistics.
 }
   \item{true_f}{
-Vector. Optional parameter for the true value of node fitnesses (only available in simulated datasets). If this parameter is specified and plot == "true_f", a plot of estimated \eqn{\eta} versus true \eqn{\eta} is produced (after a suitable rescaling of the estimated \eqn{f}).  
+Vector. Optional parameter for the true value of node fitnesses (only available in simulated datasets). If this parameter is specified and \code{plot == "true_f"}, a plot of estimated \eqn{\eta} versus true \eqn{\eta} is produced (after a suitable rescaling of the estimated \eqn{f}).  
 }
   \item{plot}{
-String. Indicates which plot is produced.if \eqn{"A"} then PA function is plotted. If \eqn{"f"} then estimated fitness is plotted. If \eqn{"true_f"} then estimated fitness and true fitness are plotted together (require supplement of true fitness). Default value is \eqn{"A"}.
+String. Indicates which plot is produced. If \code{"A"} then PA function is plotted. If \code{"f"} then estimated fitness is plotted. If \code{"true_f"} then estimated fitness and true fitness are plotted together (require supplement of true fitness). Default value is \code{"A"}.
 }
-\item{plot_bin}{Logical. If TRUE then only the center of each bin is plotted. Default is \eqn{TRUE}.}
+\item{plot_bin}{Logical. If TRUE then only the center of each bin is plotted. Default is \code{TRUE}.}
 \item{line}{
 Logical. Indicates whether to plot the line fitted from the log-linear model or not. Default value is \eqn{TRUE}.
 }
 \item{confidence}{
 Logical. Indicates whether to plot the confidence intervals of \eqn{A_k} and \eqn{eta_i} or not. If confidence == TRUE, a 2-sigma confidence interval will be plotted at each \eqn{A_k} and \eqn{eta_i}.
 }
-\item{high_deg}{Integer. If \code{plot == "A"}, the estimated PA function is plotted starting from \code{high_deg}, and \eqn{A_{high_deg}} is normalized to \code{1}. If \code{plot == "f"} or \code{plot == "true_f"}, only nodes whose number of edges acquired is not less than \eqn{high_deg} are plotted. Default value is \code{1}.}
+\item{high_deg}{Integer. If \code{plot == "A"}, the estimated PA function is plotted starting from \code{high_deg}, and \eqn{A_{high_deg}} is normalized to \code{1}. If \code{plot == "f"} or \code{plot == "true_f"}, only nodes whose number of edges acquired is not less than \code{high_deg} are plotted. Default value is \code{1}.}
 
 \item{shade_point}{
-Numeric. Value between 0 and 1. This is the transparency level of the points. Default value is \eqn{0.5}.
+Numeric. Value between 0 and 1. This is the transparency level of the points. Default value is \code{0.5}.
 }
 \item{shade_interval}{
-Numeric. Value between 0 and 1. This is the transparency level of the confidence intervals. Default value is \eqn{0.5}.
+Numeric. Value between 0 and 1. This is the transparency level of the confidence intervals. Default value is \code{0.5}.
 }
 \item{max_A}{Numeric. Specify the maximum of the axis of PA.}
 \item{min_A}{Numeric. Specify the minimum of the axis of PA.}
@@ -54,8 +54,8 @@ Numeric. Value between 0 and 1. This is the transparency level of the confidence
 \item{plot_true_degree}{Logical. The degree of each node is plotted or not.}
 \item{label_x}{String. The label of x-axis.}
 \item{label_y}{String. The label of y-axis.}
-\item{col_interval}{String. The name of the color of the confidence intervals. Default value is \eqn{"lightsteelblue"}.}
-\item{col_point}{String. The name of the color of the points. Default value is \eqn{"black"}.}
+\item{col_interval}{String. The name of the color of the confidence intervals. Default value is \code{"lightsteelblue"}.}
+\item{col_point}{String. The name of the color of the points. Default value is \code{"black"}.}
   \item{\dots}{
 %%     ~~Describe \code{\dots} here~~
 }

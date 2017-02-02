@@ -16,7 +16,7 @@
     a three-column matrix that contains the network.
   }
   \item{net_stat}{
-    An object of class "PAFit_data" which contains summerized statistics needed in estimation.
+    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{GetStatistics}}.
   }
   \item{T_0}{Positive integer. The starting time-step at which the degree sequence is freezed.}
   \item{T_1}{Positive integer. The ending time-step.
@@ -26,7 +26,7 @@
   }
 }
 \value{
-  Outputs an "PA_result" object which contains the estimated PA function. It also includes the estimated attachment exponenent \eqn{\alpha} and the confidence interval of \eqn{\alpha} when possible.
+  Outputs an \code{PA_result} object which contains the estimated PA function. It also includes the estimated attachment exponenent \eqn{\alpha} and the confidence interval of \eqn{\alpha} when possible.
 }
 \author{
   Thong Pham \email{thongpham@thongpham.net}
@@ -38,6 +38,7 @@
   
   3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
 }
+\seealso{\code{\link{Newman_corrected}}, \code{\link{PAFit}}}
 
 \examples{
   library("PAFit")

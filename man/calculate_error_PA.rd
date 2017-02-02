@@ -47,7 +47,7 @@ Integer. This is the saturation position \eqn{sat_at} in the attachment function
   
   3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
 }
-
+\seealso{\code{\link{calculate_error_fitness}}}
 \examples{
   library("PAFit")
   net        <- GenerateNet(N = 1000 , m = 1 , mode = 1 , alpha = 1 , shape = 0)

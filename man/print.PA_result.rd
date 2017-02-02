@@ -13,7 +13,7 @@ Printing a \code{PA_result} object
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-An object of class \code{"PA_result"}, containing the estimated preferential attachment from Newman's or Jeong's method.
+An object of class \code{PA_result}, containing the estimated preferential attachment from either \code{\link{Newman_corrected}} or \code{\link{Jeong}} functions.
 }
    \item{\dots}{
 %%     ~~Describe \code{\dots} here~~

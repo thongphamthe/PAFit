@@ -4,7 +4,7 @@
 \title{
 Simulating networks from preferential attachment and fitness mechanisms}
 \description{
-This function generates networks from the General Temporal model, a generative temporal network model that includes many well-known models such as the Barabasi-Albert model or the fitness model as special cases. The number of edges of the new node at each time-step can be specified to be fixed, or followed a Poisson distribution.  In the latter case, the mean of the Poisson distribution is either held fixed or increased with time.
+This function generates networks from the General Temporal model, a generative temporal network model that includes many well-known models such as the \enc{Barabási}{Barabasi}-Albert model or the Bianconi-\enc{Barabási}{Barabasi} model as special cases. The number of edges of the new node at each time-step can be specified to be fixed, or followed a Poisson distribution.  In the latter case, the mean of the Poisson distribution is either held fixed or increased with time.
 }
 \usage{
 GenerateNet (N, 
@@ -119,6 +119,7 @@ Thong Pham \email{thongpham@thongpham.net}
 
 3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
 }
+\seealso{\code{\link{GetStatistics}}, \code{\link{CreateDataCV}}}
 
 \examples{
 library("PAFit")

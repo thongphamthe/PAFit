@@ -1,5 +1,6 @@
 \name{PAFit}
 \alias{PAFit}
+\alias{PAFit_result}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Joint inference of preferential attachment and node fitness by Minorize-Maximization algorithms
@@ -35,7 +36,7 @@ The parameters can be divided into five groups based on what they specify.
 First group specifies basic instructions for the algorithm: 
 
   \item{net_stat}{
-An object of class \code{"PAFit_data"} containing all the summary statistics summerized from the data by the function \code{GetStatistics}.
+An object of class \code{PAFit_data} containing all the summary statistics summerized from the data by the function \code{\link{GetStatistics}}.
 }
 \item{only_PA}{
 Logical. \code{TRUE} means that the attachment function \eqn{A_k} is estimated in isolation(fixing \eqn{\eta_i = 1}). Default is \code{FALSE}.
@@ -61,7 +62,7 @@ Second group specifies the objective function, e.g. the weighting of PA, the reg
 Binary. Indicates how the regularization terms for \eqn{A_k} are weighted. If \code{weight_PA_mode == 0}, the regularization term for \eqn{A_k} is weighted by the total number of edges connected to degree \eqn{k} nodes. If \code{weight_PA_mode == 1}, the regularization terms have uniform weights. Default value is \eqn{0}.
 }
 \item{s}{
-Positive numeric. The regularization parameter \code{s} for node fitness. Default value is \code{10}.
+Positive numeric. The regularization parameter \code{s} for node fitness. Default value is \code{10}. In real-world situations, since we do not know beforehand the suitable value for \code{s}, we should choose its value by cross-validation. This is done in the \code{\link{performCV}} function.
 }
 \item{lambda}{
 Non-negative numeric. The absolute strength of the regularization for PA function. Ignored when  \code{auto_lambda == TRUE}. Default value is  \code{1}.  \code{lambda == 0} means no regularization for PA. 
@@ -70,7 +71,7 @@ Non-negative numeric. The absolute strength of the regularization for PA functio
 Logical. If \code{auto_lambda == TRUE}, \code{lambda} will be determined automatically from the data by \code{r}. Default is \code{TRUE}.
 }
 \item{r}{
-Non-negative numeric. The regularization parameter \code{r} for the PA function indicates the relative strength of the regularization term. From \code{r}, the value of \code{lambda} is automatically determined if \code{auto_lambda == TRUE}. Default value is \code{0.01}.
+Non-negative numeric. The regularization parameter \code{r} for the PA function indicates the relative strength of the regularization term. From \code{r}, the value of \code{lambda} is automatically determined if \code{auto_lambda == TRUE}. Default value is \code{0.01}. In real-world situations, since we do not know beforehand the suitable value for \code{r}, we should choose its value by cross-validation. This is done in the \code{\link{performCV}} function.
 }
 
 
@@ -102,7 +103,7 @@ Final group gives some additional instructions:
 
 }
 \value{
-an object of class "PAFit_result", which is a list. Some important fields can be divided into five groups. 
+an object of class \code{PAFit_result}, which is a list. Some important fields can be divided into five groups. 
 
 
 The first group gives the estimated preferential attachment function:
@@ -143,7 +144,7 @@ The fourth group gives the confidence intervals of the estimated node fitnesses:
 
 The final group gives additional information on the iterative process:
 
-\item{objective_value}{Values of the objective function \eqn{h} (posterior probability in log-scale) recorded at each iteration}
+\item{objective_value}{Values of the objective function \eqn{h} recorded at each iteration}
 
 
 }
@@ -161,6 +162,7 @@ Thong Pham
 3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
 }
 
+\seealso{\code{\link{Newman_corrected}}, \code{\link{Jeong}}, \code{\link{CreateDataCV}}, \code{\link{performCV}}}
 
 \examples{
 library("PAFit")
@@ -175,8 +177,7 @@ summary(result)
 \keyword{fitness model}
 \keyword{Preferential Attachment function}
 \keyword{Minorize-Maximization algorithms}
-\keyword{Barabasi-Albert model}
-\keyword{MM algorithims}
-\keyword{Bianconi-Barabasi model}
+\keyword{\enc{Barabási}{Barabasi}-Albert model}
+\keyword{Bianconi-\enc{Barabási}{Barabasi} model}
 \keyword{fitness}
 \keyword{maximum likelihood function}% __ONLY ONE__ keyword per line

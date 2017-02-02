@@ -24,10 +24,10 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-    An object of class \code{"PA_result"}, containing the estimated PA function and the estimated attachment exponenet. 
+    An object of class \code{PA_result}, containing the estimated PA function and the estimated attachment exponenet from either \code{\link{Newman_corrected}} or \code{\link{Jeong}} functions. 
   }
   \item{net_stat}{
-    An object of class \code{"PA_data"}, containing the summerized statistics.
+    An object of class \code{PA_data}, containing the summerized statistics. This object is created from the function \code{\link{GetStatistics}}.
   }
   \item{plot_bin}{Logical. If \code{TRUE} then only the center of each bin is plotted. Default is \code{TRUE}.}
   \item{high_deg}{Integer. Specifies the starting degree from which \eqn{A_k} is plotted. If this parameter is specified, the estimated PA function is plotted from \code{k = high_deg}}

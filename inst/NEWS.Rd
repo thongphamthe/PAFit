@@ -2,6 +2,26 @@
 \alias{NEWS}
 \title{Package News}
 
+\section{version 0.9.7 (Release date: 2017-02-15)}{
+  \subsection{FIXED}{
+    \itemize{
+     
+    }
+  }
+    \subsection{CHANGED}{
+    \itemize{
+      \item{improved the exposition in the documentation}
+      \item{improved code readability}
+    }
+  }
+  \subsection{NEW}{
+    \itemize{
+     
+    }
+  }
+}
+
+
 \section{version 0.9.6 (Release date: 2017-02-02)}{
   \subsection{FIXED}{
     \itemize{

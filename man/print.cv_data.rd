@@ -5,7 +5,7 @@
   Printing a \code{CV_Data} object
 }
 \description{
-  This function prints a \code{CV_data} object's information.
+  This function prints a \code{CV_Data} object's information.
 }
 \usage{
 \method{print}{CV_Data}(x,...)
@@ -13,7 +13,7 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 \item{x}{
-An object of class \code{"CV_Data"}, containing the data needed for subsequent cross-validation by the \code{performCV} function.
+An object of class \code{CV_Data}, containing the data needed for subsequent cross-validation by the \code{\link{performCV}} function.
 }
 \item{\dots}{
 %%     ~~Describe \code{\dots} here~~
