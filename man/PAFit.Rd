@@ -35,7 +35,7 @@ The parameters can be divided into five groups based on what they specify.
 
 First group specifies basic instructions for the algorithm: 
 
-  \item{net_stat}{
+\item{net_stat}{
 An object of class \code{PAFit_data} containing all the summary statistics summerized from the data by the function \code{\link{GetStatistics}}.
 }
 \item{only_PA}{

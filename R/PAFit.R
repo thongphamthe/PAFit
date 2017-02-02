@@ -753,10 +753,10 @@ PAFit <- function(net_stat,
                        theta[update_theta[jj]] <- tryCatch(uniroot(g,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
                                                    error = function(e) theta[update_theta[jj]])
               }
-               theta[non_zero_theta[ok_log[num_ok_log - 1]]] <- tryCatch(uniroot(g_semiend,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
+               theta[non_zero_theta[ok_log[num_ok_log - 1]]] <- tryCatch(uniroot(g_semiend,interval = c(0.0000001 , 1000),tol = .Machine$double.eps)$root,
                                                                         error = function(e) 
                                                                      {return(theta[non_zero_theta[ok_log[num_ok_log - 1]]])})
-               theta[non_zero_theta[ok_log[num_ok_log]]] <- tryCatch(uniroot(g_end,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
+               theta[non_zero_theta[ok_log[num_ok_log]]] <- tryCatch(uniroot(g_end,interval = c(0.0000001 , 1000),tol = .Machine$double.eps)$root,
                                                                     error = function(e) {return(theta[non_zero_theta[ok_log[num_ok_log]]])})
                
                if (length(not_ok_log) > 0) {
@@ -769,7 +769,7 @@ PAFit <- function(net_stat,
                          (- log(theta[non_zero_theta[not_ok_log]]) - 
                             log(theta[non_zero_theta[ok_log[1]]]) )) / x -   
                         temp4[not_ok_log] - 4 * lambda * w_k[non_zero_theta[not_ok_log]] * log(x) / x}
-                    theta[non_zero_theta[not_ok_log]] <- tryCatch(uniroot(g_0,interval = c(0.0000001,1000),tol = .Machine$double.eps)$root,
+                    theta[non_zero_theta[not_ok_log]] <- tryCatch(uniroot(g_0,interval = c(0.0000001 , 1000),tol = .Machine$double.eps)$root,
                                                                   error = function(e) {return(theta[non_zero_theta[not_ok_log]])}) 
                   }
                   

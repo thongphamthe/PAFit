@@ -3,7 +3,7 @@ GetStatistics <-
 function(net ,
          net_type      = "directed" , only_PA       = FALSE , only_true_deg_matrix = FALSE,
          Binning       = TRUE       , G             = 50    , start_deg            = 0,  
-         deg_threshold = 5          , 
+         deg_threshold = 1          , 
          CompressMode  = 0          , CompressRatio = 0.5   , CustomTime           = NULL){
 
     net               <- net[order(net[,3], decreasing = FALSE),]

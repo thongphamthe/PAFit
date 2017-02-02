@@ -1,4 +1,4 @@
-# function to generate simulated network  2015-3-11 Thong Pham
+# function to generate simulated network  
 GenerateNet <-
 function(N, 
          num_seed       = 2      , 

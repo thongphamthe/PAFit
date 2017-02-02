@@ -4,7 +4,7 @@
 \title{
 Simulating networks from preferential attachment and fitness mechanisms}
 \description{
-This function generates networks from the General Temporal model, a generative temporal network model that includes many well-known models such as the \enc{Barabási}{Barabasi}-Albert model or the Bianconi-\enc{Barabási}{Barabasi} model as special cases. The number of edges of the new node at each time-step can be specified to be fixed, or followed a Poisson distribution.  In the latter case, the mean of the Poisson distribution is either held fixed or increased with time.
+This function generates networks from the General Temporal model, a generative temporal network model that includes many well-known models such as the \enc{Erdős–Rényi}{Erdos-Renyi} model, the \enc{Barabási}{Barabasi}-Albert model or the Bianconi-\enc{Barabási}{Barabasi} model as special cases. This function also includes some flexible mechanisms to vary the number of new nodes and new edges at each time-step in order to generate realistic networks. 
 }
 \usage{
 GenerateNet (N, 
@@ -62,7 +62,7 @@ Logical. Indicates how to increase the mean of the Poisson distribution. If \cod
 }
 The third group of parameters specifies the preferential attachment function:
 \item{custom_PA}{
-Numeric vector. This is the user-input PA function: \eqn{A_0,\ A_1,\cdots,\ A_K}. If \code{custom_PA} is specified, then \code{mode} is ignored, and the PA function \code{custom_PA} is used to grow the network. Degree greater than \eqn{K} will have attachment value \eqn{A_k}. Default value is \code{NULL}.
+Numeric vector. This is the user-input PA function: \eqn{A_0, A_1,..., A_K}. If \code{custom_PA} is specified, then \code{mode} is ignored, and we grow the network using the PA function \code{custom_PA}. Degree greater than \eqn{K} will have attachment value \eqn{A_k}. Default value is \code{NULL}.
 }
 \item{mode}{
 Integer. Indicates the attachment function to be used in generating the network. If \code{mode == 1}, the attachment function is \eqn{A_k = k^\alpha}. If \code{mode == 2}, the attachment function is \eqn{A_k = min(k,sat_at)^\alpha}. If \code{mode == 3}, the attachment function is \eqn{A_k = \alpha log (k)^\beta}. Default value is \code{1}.
@@ -97,10 +97,10 @@ Numeric. Mean of the log-normal distribution in log scale. Default value is \cod
 Positive numeric. Standard deviation of the log-normal distribution in log scale. Default value is \code{1}.
 }
 \item{scale_pareto}{
-Numeric. The scale parameter of the Pareto distribution. Default value is \code{0.6}.
+Numeric. The scale parameter of the Pareto distribution. Default value is \code{2}.
 }
 \item{shape_pareto}{
-Numeric. The shape parameter of the Pareto distribution. Default value is \code{2.5}.
+Numeric. The shape parameter of the Pareto distribution. Default value is \code{2}.
 }
 }
 
@@ -119,7 +119,10 @@ Thong Pham \email{thongpham@thongpham.net}
 
 3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
 }
-\seealso{\code{\link{GetStatistics}}, \code{\link{CreateDataCV}}}
+\seealso{
+For subsequent estimation procedures, see \code{\link{GetStatistics}} and \code{\link{CreateDataCV}}.
+
+For simpler functions to generate networks from well-known models, see \code{\link{Generate_BA}}, \code{\link{Generate_ER}}, \code{\link{Generate_BB}} and \code{\link{Generate_fitonly}}. }
 
 \examples{
 library("PAFit")

@@ -40,6 +40,8 @@ Please refer to the current version on CRAN:
 
  * [Manual](https://CRAN.R-project.org/package=PAFit/PAFit.pdf) 
 
+You can view the html version, which has a better layout but renders mathematical symbols worse than the pdf version, if you use [Rstudio](https://www.rstudio.com/) 
+
 NEWS
 ---------------
 

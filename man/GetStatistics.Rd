@@ -11,16 +11,18 @@ The function summarizes input data into sufficient statistics for estimating the
 \usage{
 GetStatistics(net ,
               net_type             = "directed" , only_PA       = FALSE , 
-              only_true_deg_matrix = FALSE,
+              only_true_deg_matrix = FALSE      ,
               Binning              = TRUE       , G             = 50    , 
-              start_deg            = 0,  
-              deg_threshold        = 5          , 
+              start_deg            = 0          ,  
+              deg_threshold        = 1          , 
               CompressMode         = 0          , CompressRatio = 0.5   , 
               CustomTime           = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+
 The parameters can be divided into four groups. The first group specifies input data and how the data will be summerized:
+
   \item{net}{
 A three-column matrix whose each row contains information of one edge in the form \code{(from_node id, to_node id, time_stamp)}. \code{from_node id} is the id of the source node. \code{to_node id} is the id of the destination node. \code{time_stamp} is the arrival time of the edge. \code{from_node id} and \code{to_node id} are assumed to be integers starting from \eqn{0}. \code{time_stamp} can be either numeric or string. The value of a time-stamp can be arbitrary, but we assume that a smaller time_stamp (regarded so by the \code{sort} function in \code{R}) represents an earlier arrival time.}
 \item{net_type}{
@@ -44,7 +46,7 @@ Integer. The degree from which the program start to binning the degree together.
 }
 Third group contains a single parameter specifying how to reduce the number of node fitnesses:
 \item{deg_threshold}{
-Integer. We only estimate the fitnesses of nodes whose number of new edges acquired is at least \code{deg_threshold}. The fitnesses of all other nodes are fixed at \code{1}. Default value is \code{0}.
+Integer. We only estimate the fitnesses of nodes whose number of new edges acquired is at least \code{deg_threshold}. The fitnesses of all other nodes are fixed at \code{1}. Default value is \code{1}.
 }
 Last group of parameters specifies how to group the time-stamps: 
 \item{CompressMode}{
@@ -106,7 +108,7 @@ Thong Pham \email{thongpham@thongpham.net}
 3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
 }
 
-\seealso{\code{\link{PAFit}},\code{\link{Newman_corrected}},\code{\link{Jeong}}}
+\seealso{\code{\link{PAFit}}, \code{\link{Newman_corrected}}, \code{\link{Jeong}}}
 
 \examples{
 library("PAFit")

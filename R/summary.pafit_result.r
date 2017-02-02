@@ -20,7 +20,7 @@ summary.PAFit_result <- function(object,...){
           object$ci[2],")\n");  
     }
     cat("-------------------------------------------\n")
-    cat("Additional information of the execution:")
+    cat("Additional information: \n");
     cat("Number of bins: ", object$G,"\n");
     cat("Threshold of the number of new edges acquired: ", object$deg_thresh,"\n");
     cat("Number of nodes satisfied the threshold: ",sum(object$f != 1),"\n");
