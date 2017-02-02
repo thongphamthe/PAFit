@@ -6,7 +6,7 @@
 
 | **`Linux`** | **`Mac OS`** | **`Windows`** |
 |-----------------|---------------------|------------------|
-| [![Build Status](https://travis-ci.org/thongphamthe/PAFit.svg?branch=devel)](https://travis-ci.org/thongphamthe/PAFit) | [![Build Status](https://travis-ci.org/thongphamthe/PAFit.svg?branch=os-x)](https://travis-ci.org/thongphamthe/PAFit) | [![Build status](https://ci.appveyor.com/api/projects/status/ufje8pyddp42tbfu?svg=true)](https://ci.appveyor.com/project/thongphamthe/pafit)
+| [![Build Status](https://travis-ci.org/thongphamthe/PAFit.svg?branch=devel)](https://travis-ci.org/thongphamthe/PAFit) | [![Build Status](https://travis-ci.org/thongphamthe/PAFit.svg?branch=devel)](https://travis-ci.org/thongphamthe/PAFit) | [![Build status](https://ci.appveyor.com/api/projects/status/ufje8pyddp42tbfu?svg=true)](https://ci.appveyor.com/project/thongphamthe/pafit)
 
 
 
