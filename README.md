@@ -3,12 +3,14 @@
 [![Downloads from CRAN](https://cranlogs.r-pkg.org/badges/PAFit?color=brightgreen)](https://CRAN.R-project.org/package=PAFit)
 [![CRAN](https://www.r-pkg.org/badges/version/PAFit)](https://cran.rstudio.com/package=PAFit)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg)](https://www.gnu.org/licenses/gpl-3.0)
-====================
 
-| **`Linux` ** | **`Mac OS`** | **`Windows `** |
+| **`Linux` ** | **`Mac OS` ** | **`Windows` ** |
 |-----------------|---------------------|------------------|-------------------|---------------|
 | [![Build Status](https://travis-ci.org/thongphamthe/PAFit.svg?branch=devel)](https://travis-ci.org/thongphamthe/PAFit) | [![Build Status](https://travis-ci.org/thongphamthe/PAFit.svg?branch=os-x)](https://travis-ci.org/thongphamthe/PAFit) | [![Build status](https://ci.appveyor.com/api/projects/status/ufje8pyddp42tbfu?svg=true
-)](https://ci.appveyor.com/project/thongphamthe/pafit/branch/devel)|
+)](https://ci.appveyor.com/project/thongphamthe/pafit/branch/devel) |
+
+
+
 
 
 This package provides a framework for modelling and inferencing attachment mechanisms of temporal complex networks. For estimating the preferential attachment (PA) function in isolation, we implement Jeong's method, the corrected Newman's method and the PAFit method. For jointly estimating the PA function and node fitnesses, we implement the PAFit method. The package can quantify the remaining uncertainties by providing confidence intervals for the estimated results. We also provide flexible methods to generate a wide range of temporal networks based on PA and fitness.   
