@@ -2,5 +2,6 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^\.gitignore
+^shippable\.yml$
 ^appveyor\.yml$
 ^README\.md$

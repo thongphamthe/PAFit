@@ -500,7 +500,7 @@ double var_alpha(
   // printf("%d",N);
   // printf("%d",N2);
   
-  long K = offset_tk.ncol();  // maximum degree 
+  //long K = offset_tk.ncol();  // maximum degree 
   //long length_theta = theta.size();
   double var_alpha = 0; 
   
