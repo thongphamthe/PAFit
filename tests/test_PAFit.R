@@ -52,9 +52,9 @@ for (q in 1:3)
                                  Binning = TRUE, G = 10) 
       result <- PAFit(net_stats, r = 0.01, mode_reg_A = j, weight_PA_mode = uu,
                     stop_cond = 10^-2, q = q, normalized_f = TRUE, debug = TRUE)
-      plot(result,net_stats,high_deg = 1)
+      plot(result,net_stats,high_deg_A = 1)
       plot(result,net_stats)
-      plot(result,net_stats,plot = "f", high_deg = 1)
+      plot(result,net_stats,plot = "f", high_deg_f = 1)
       plot(result,net_stats,plot = "f")
    }
 
@@ -85,7 +85,7 @@ result <- PAFit(net_stats, r = 0,  mode_reg_A = 2,
 
 print(result)
 summary(result)
-plot(result,net_stats,high_deg = 1)
+plot(result,net_stats)
 
 result <- PAFit(net_stats, r = 0.01, only_PA = TRUE, 
                 stop_cond = 10^-2, q = 1, debug = TRUE)
@@ -107,19 +107,22 @@ result <- PAFit(net_stats, r = 0.01, only_f = TRUE,
 
 plot(result,net_stats, plot = "f",plot_true_degree = TRUE)
 
-plot(result,net_stats,plot = "f", high_deg = 2)
+plot(result,net_stats,plot = "f", high_deg_f = 2)
 
 plot(result,net_stats,plot = "f", f_min = 0.001)
 plot(result,net_stats,plot = "f", f_min = 0.001, f_max = 2)
 plot(result,net_stats,plot = "f", f_max = 2)
 
 
-plot(result,net_stats, true_f = net$fitness, plot = "true_f", high_deg = 2)
+plot(result,net_stats, true_f = net$fitness, plot = "true_f", high_deg_f = 2)
 
 plot(result,net_stats,true_f = net$fitness, plot = "true_f" , f_min = 0.001)
 plot(result,net_stats,true_f = net$fitness, plot = "true_f" , f_min = 0.001, f_max = 2)
 plot(result,net_stats,true_f = net$fitness, plot = "true_f" , f_max = 2)
 
+
+result <- PAFit(net_stats, r = 0.01, mode_f = "Log_linear",
+                stop_cond = 10^-2, q = 1, normalized_f = FALSE, debug = TRUE)
 plot(result,net_stats,line = TRUE)
 
 
@@ -135,8 +138,8 @@ result <- PAFit(net_stats, r = 0.01, only_f = TRUE,
 
 net_stats <- GetStatistics(net$graph,deg_threshold = 0, 
                            net_type = "directed",
-                           Binning = TRUE, G = 1, CompressMode = 1, start_deg = 10,
-                           CompressRatio = 2)
+                           Binning = TRUE, G = 1, CompressMode = 0, CompressRatio = 0.5)
+
 result <- PAFit(net_stats, r = 0.01, 
                 stop_cond = 10^-2, q = 1, normalized_f = TRUE, debug = TRUE, start_mode_A = "Random")
 
@@ -146,7 +149,7 @@ result <- PAFit(net_stats, r = 0.01, only_f = TRUE,
 
 net_stats <- GetStatistics(net$graph,deg_threshold = 0, 
                            net_type = "directed",
-                           Binning = TRUE, G = 10, CompressMode = 1, start_deg = 1,
+                           Binning = TRUE, G = 10, CompressMode = 0, 
                            CompressRatio = 2)
 result <- PAFit(net_stats, r = 0.01, 
                 stop_cond = 10^-2, q = 1, normalized_f = TRUE, debug = TRUE, start_mode_A = "Random")

@@ -22,11 +22,11 @@ int normalized_constant(      NumericVector& norm,
         double total = 0; 
         for (long j = 0; j < N; j++)
             if (degree(i,j) >= 0) {
-                total += theta(degree(i,j))*f(j);
+                total += theta(degree(i,j)) * f(j);
             }
         for (long k = 0; k < K; ++k) {
             //printf("%f",offset_tk(i,k));
-            total += offset * offset_tk(i,k)*theta(k);
+            total += offset * offset_tk(i,k) * theta(k);
         }
         norm(i) = total;
     }
@@ -45,20 +45,27 @@ int normalized_constant_alpha(      NumericVector& norm,
   long T = degree.nrow();     // number of time-steps
   long N = degree.ncol();     // number of nodes
   long K = offset_tk.ncol();  // maximum degree 
-  #pragma omp parallel for
+  //printf("alpha is: %f \n",alpha);
+  //#pragma omp parallel for
   for (long i = 0; i < T; i++) {
     double total = 0;
     for (long j = 0; j < N; j++)
       if (degree(i,j) >= 0) {
-          if  (degree(i,j) > 0) 
+          if  (degree(i,j) > 0)  {
               total += (pow(theta.at(degree.at(i,j)),alpha)) * f.at(j);
+          //printf("%f ",pow(theta.at(degree.at(i,j)),alpha));
+          }
           else 
               total += PA_offset * f.at(j);  
       }
+      //printf("%f \n",total);
       for (long k = 1; k < K; ++k)
           total += offset_tk.at(i,k) * pow(theta.at(k),alpha);
+      //printf("%f \n",total);
       total += offset_tk.at(i,0) * PA_offset;
       norm.at(i) = total;
+      //printf("%f \n",total);
+      //printf("------------------------\n");
   }
   return 0;
 }
@@ -82,23 +89,29 @@ int get_stats(CharacterVector    & time_stamp,
               NumericVector& z_j, 
               NumericMatrix& node_degree,
               NumericMatrix& offset_m_tk,
-              const int only_true_deg) {
+              const int      only_true_deg,
+              const long     deg_max,
+              NumericVector& center_bin,
+              NumericVector& appear_time) {
   long N     = all_node.size(); 
   long N_new = ok_node.size();
   long T     = time_vector.size();
   long K     = n_tk.ncol();
-  std::vector<long> node_array(max_node_id + 1,0); //the index used when indexing all arrays whose length is N
-  std::vector<int>  ok_array(max_node_id + 1,0);   //boolean check whether a node is used or not  
-  std::vector<int>  is_appear(N,0);
-  std::vector<int>  appear_onestep(N,0);
-  std::vector<long> ok_index(max_node_id + 1,0);//the index used when indexing all arrays whose length is N_new
-  std::vector<long> degree_vector(N,-1);
-  std::vector<long> degree_vector_onestep(N,-1);
-  std::vector<long> n_tk_vector(K,0);
-  std::vector<long> m_tk_vector(K,0);
-  std::vector<long> z_j_vector(N_new,0);
-  std::vector<long> offset_tk_vector(K,0);
-  std::vector<long> offset_m_tk_vector(K,0);
+  std::vector<long>   node_array(max_node_id + 1,0); //the index used when indexing all arrays whose length is N
+  std::vector<int>    ok_array(max_node_id + 1,0);   //boolean check whether a node is used or not  
+  std::vector<int>    is_appear(N,0);
+  std::vector<int>    appear_onestep(N,0);
+  std::vector<long>   ok_index(max_node_id + 1,0);//the index used when indexing all arrays whose length is N_new
+  std::vector<long>   degree_vector(N,-1);
+  std::vector<long>   degree_vector_onestep(N,-1);
+  std::vector<long>   n_tk_vector(K,0);
+  std::vector<long>   m_tk_vector(K,0);
+  std::vector<double>  count_bin(K,0);        // Number of degrees actually inside that bin
+  //std::vector<double>  center_bin(K,0);       // Logarithmic center of the bin
+  std::vector<long>   is_in_bin(deg_max,0);  // Mark a degree as appeared in bin
+  std::vector<long>   z_j_vector(N_new,0);
+  std::vector<long>   offset_tk_vector(K,0);
+  std::vector<long>   offset_m_tk_vector(K,0);
   
   
   for (long i = 0; i < N; ++ i) {
@@ -118,9 +131,9 @@ int get_stats(CharacterVector    & time_stamp,
           if (0 == only_PA) { 
               for (long j = 0; j < ok_node.size(); ++ j) {
                   if (degree_vector.at(node_array.at(ok_node(j))) >= 0) {
-                      node_degree(t - 1,ok_index.at(ok_node(j))) = bin_vector(degree_vector.at(node_array.at(ok_node(j))));
+                      node_degree.at(t - 1,ok_index.at(ok_node(j))) = bin_vector(degree_vector.at(node_array.at(ok_node(j))));
                   }else {
-                      node_degree(t - 1,ok_index.at(ok_node(j))) = -1;
+                      node_degree.at(t - 1,ok_index.at(ok_node(j))) = -1;
                   }
               }
           }
@@ -128,8 +141,8 @@ int get_stats(CharacterVector    & time_stamp,
               for (long k = 0; k < K; ++k) {
                   n_tk(t - 1,k)          = n_tk_vector.at(k);
                   if (0 == only_PA) {  
-                      offset_tk(t - 1,k)   = offset_tk_vector.at(k);
-                      offset_m_tk(t - 1,k) = offset_m_tk_vector.at(k);  
+                      offset_tk.at(t - 1,k)   = offset_tk_vector.at(k);
+                      offset_m_tk.at(t - 1,k) = offset_m_tk_vector.at(k);  
                       offset_m_tk_vector.at(k) = 0;
                   }
               }
@@ -149,7 +162,10 @@ int get_stats(CharacterVector    & time_stamp,
            long out_node_ind = node_array.at(out_node(edge_count)); 
           // consider the in-node first
           //the in-node has not appeared in the previous time step
-          if (0 == is_appear[in_node_ind]) {
+           if (0 == is_appear[in_node_ind]) {
+                 if (0 == only_true_deg)   
+                     if ((0 == only_PA) && (1 == ok_array.at(in_node(edge_count))))  
+                         appear_time.at(ok_index.at(in_node(edge_count))) = t + 1;  
               //the in-node has not appeared in previous edges of the current time step
               if (0 == appear_onestep.at(in_node_ind)) { 
                   appear_onestep.at(in_node_ind)  = 1;
@@ -180,11 +196,27 @@ int get_stats(CharacterVector    & time_stamp,
             if (0 == only_true_deg)  
                 if ((0 == only_PA) && (1 == ok_array.at(in_node(edge_count))))
                     z_j(ok_index.at(in_node(edge_count)))++;
-            if (0 == only_true_deg)    
-               ++m_tk_vector.at(bin_vector(degree_vector_onestep.at(in_node_ind))); 
+            if (0 == only_true_deg)    {
+                ++m_tk_vector.at(bin_vector(degree_vector_onestep.at(in_node_ind)));
+                  if (0 == is_in_bin.at(degree_vector_onestep.at(in_node_ind))) {
+                      is_in_bin.at(degree_vector_onestep.at(in_node_ind)) = 1;
+                      if (degree_vector_onestep.at(in_node_ind) > 0) {
+                          center_bin.at(bin_vector(degree_vector_onestep.at(in_node_ind))) += log10(degree_vector_onestep.at(in_node_ind));
+                          count_bin.at(bin_vector(degree_vector_onestep.at(in_node_ind)))  += 1;
+                      }
+                  }
+            }
             if (0 == only_true_deg)
-               if ((0 == only_PA) && (0 == ok_array.at(in_node(edge_count))))
-                   ++offset_m_tk_vector.at(bin_vector(degree_vector_onestep.at(in_node_ind)));         
+               if ((0 == only_PA) && (0 == ok_array.at(in_node(edge_count)))) {
+                   ++offset_m_tk_vector.at(bin_vector(degree_vector_onestep.at(in_node_ind)));    
+                   if (0 == is_in_bin.at(degree_vector_onestep.at(in_node_ind))) {
+                       is_in_bin.at(degree_vector_onestep.at(in_node_ind)) = 1;
+                       if (degree_vector_onestep.at(in_node_ind) > 0) {
+                           center_bin.at(bin_vector(degree_vector_onestep.at(in_node_ind))) += log10(degree_vector_onestep.at(in_node_ind));
+                           count_bin.at(bin_vector(degree_vector_onestep.at(in_node_ind)))  += 1;
+                       }
+                 }
+               }
             if (0 == only_true_deg)
                 --n_tk_vector.at(bin_vector(degree_vector.at(in_node_ind)));
             if (0 == only_true_deg)
@@ -202,6 +234,9 @@ int get_stats(CharacterVector    & time_stamp,
       //consider next the Out node
       //the out node has not appeared in the previous time step
       if (0 == is_appear.at(out_node_ind)) {
+           if (0 == only_true_deg)   
+              if ((0 == only_PA) && (1 == ok_array.at(out_node(edge_count))))  
+                   appear_time.at(ok_index.at(out_node(edge_count))) = t + 1;   
           //the network is undirected, so this out_node is also counted
           if (1 == undirected) {
               if (0 == appear_onestep.at(out_node_ind)) {
@@ -251,11 +286,27 @@ int get_stats(CharacterVector    & time_stamp,
               if (0 == only_true_deg)    
                   if ((0 == only_PA) && (1 == ok_array.at(out_node(edge_count))))
                       z_j(ok_index.at(out_node(edge_count)))++;
-              if (0 == only_true_deg)    
+              if (0 == only_true_deg) {    
                   ++m_tk_vector.at(bin_vector(degree_vector_onestep.at(out_node_ind))); 
+                  if (0 == is_in_bin.at(degree_vector_onestep.at(out_node_ind))) {
+                      is_in_bin.at(degree_vector_onestep.at(out_node_ind)) = 1;
+                      if (degree_vector_onestep.at(out_node_ind) > 0) {
+                          center_bin.at(bin_vector(degree_vector_onestep.at(out_node_ind))) += log10(degree_vector_onestep.at(out_node_ind));
+                          count_bin.at(bin_vector(degree_vector_onestep.at(out_node_ind)))  += 1;
+                      }
+                }
+              }
               if (0 == only_true_deg)
-                  if ((0 == only_PA) && (0 == ok_array.at(out_node(edge_count))))
+                  if ((0 == only_PA) && (0 == ok_array.at(out_node(edge_count)))) {
                       ++offset_m_tk_vector.at(bin_vector(degree_vector_onestep.at(out_node_ind)));
+                      if (0 == is_in_bin.at(degree_vector_onestep.at(out_node_ind))) {
+                          is_in_bin.at(degree_vector_onestep.at(out_node_ind)) = 1;
+                          if (degree_vector_onestep.at(out_node_ind) > 0) {
+                              center_bin.at(bin_vector(degree_vector_onestep.at(out_node_ind))) += log10(degree_vector_onestep.at(out_node_ind));
+                              count_bin.at(bin_vector(degree_vector_onestep.at(out_node_ind)))  += 1;
+                      }
+                    }
+                  }
               if (0 == only_true_deg)    
                   --n_tk_vector.at(bin_vector(degree_vector.at(out_node_ind)));
               
@@ -300,7 +351,13 @@ int get_stats(CharacterVector    & time_stamp,
          //appear_onestep_out.at(i) = 0;
      }
 }
-    return 0;
+   for (long k = 0; k < count_bin.size(); ++ k)
+       if (count_bin.at(k) != 0)  { 
+           center_bin.at(k) /= count_bin.at(k);  
+           center_bin.at(k)  = pow(10,center_bin.at(k));
+       } 
+       else center_bin.at(k) = 0; 
+   return 0;
 }
 // [[Rcpp::export(".update_f")]]
 int update_f(      NumericVector& f, 
@@ -323,12 +380,14 @@ int update_f(      NumericVector& f,
                 total += m_t(i) / normalized_const(i) * theta(degree(i,non_zero_f(j) - 1));
             }
     if (z_j(non_zero_f(j) - 1) + shape - 1 <= 0)
-        f(non_zero_f(j) - 1) = offset;
+        f(non_zero_f(j) - 1) = f(non_zero_f(j) - 1);
     else 
-        f(non_zero_f(j) - 1) = (z_j(non_zero_f(j) - 1) + shape - 1)/(total + rate);
+        f(non_zero_f(j) - 1) = (z_j(non_zero_f(j) - 1) + shape - 1) / (total + rate);
     }
     return 0;
 }
+
+
 
 // [[Rcpp::export(".update_offset")]]
 double update_offset(
@@ -405,37 +464,110 @@ int update_f_alpha(      NumericVector& f,
                    const double         rate
 ) {
   long T        = degree.nrow();        // number of time-steps
+  long N_nozero = non_zero_f.size();    // number of nodes
+  //long N_nozero = degree.ncol();    // number of nodes
+  //  printf("Alpha inside: %f \n",alpha);
+   #pragma omp parallel for
+   for (long j = 0; j < N_nozero; j++) {
+     double total = 0;
+     for (long i = 0; i < T; i++)
+         if ((degree.at(i,non_zero_f(j) - 1) >= 0) && (normalized_const.at(i) != 0)) {
+             if (degree.at(i,j) > 0)
+                 total += m_t.at(i) / normalized_const.at(i) * (pow(theta.at(degree.at(i,non_zero_f.at(j) - 1)),alpha)) ;
+              else
+                  total += m_t.at(i) / normalized_const.at(i) * (PA_offset);
+         }
+         if (z_j.at(non_zero_f(j) - 1) + shape - 1 <= 0)
+             f.at(non_zero_f.at(j) - 1) = f.at(non_zero_f.at(j) - 1);
+         else
+             f.at(non_zero_f.at(j) - 1) = (z_j.at(non_zero_f.at(j) - 1) + shape - 1)/(total + rate);
+   }
+  return 0;
+}
+
+
+// [[Rcpp::export(".update_f_new")]]
+int update_f_new(      NumericVector& f, 
+                       const NumericVector& non_zero_f,
+                       const NumericMatrix& degree, 
+                       const NumericVector& theta, 
+                       const NumericVector& z_j,
+                       const NumericVector& normalized_const, 
+                       const NumericVector& m_t, 
+                       const double         shape, 
+                       const double         rate,
+                       const double         offset,
+                       const NumericVector& weight_f) {
+  long T        = degree.nrow();        // number of time-steps
   long N_nozero = non_zero_f.size();   // number of nodes
   #pragma omp parallel for
   for (long j = 0; j < N_nozero; j++) {
     double total = 0;
     for (long i = 0; i < T; i++)
-        if ((degree.at(i,non_zero_f(j) - 1) >= 0) && (normalized_const.at(i) != 0)) {
-            if (degree(i,j) > 0)   
-                total += m_t.at(i) / normalized_const.at(i) * (pow(theta.at(degree.at(i,non_zero_f.at(j) - 1)),alpha));
-             else 
-                 total += m_t.at(i) / normalized_const.at(i) * (PA_offset);   
-        }
-        if (z_j(non_zero_f(j) - 1) + shape - 1 <= 0)
-            f(non_zero_f(j) - 1) = 1;
-        else 
-            f.at(non_zero_f.at(j) - 1) = (z_j.at(non_zero_f.at(j) - 1) + shape - 1)/(total + rate);
+      if ((degree(i,non_zero_f(j) - 1) >= 0) && (normalized_const(i) != 0)) {
+        total += m_t(i) / normalized_const(i) * theta(degree(i,non_zero_f(j) - 1));
+      }
+      if (z_j(non_zero_f(j) - 1) + shape / weight_f.at(non_zero_f(j) - 1) - 1 <= 0)
+        f(non_zero_f(j) - 1) = f(non_zero_f(j) - 1);
+      else 
+        f(non_zero_f(j) - 1) = (z_j(non_zero_f(j) - 1) + shape / weight_f.at(non_zero_f(j) - 1) - 1) / 
+          (total + rate / weight_f.at(non_zero_f(j) - 1));
   }
   return 0;
 }
 
-// [[Rcpp::export(".update_alpha")]]
-double update_alpha(
-                 const NumericVector& non_zero_theta,  
-                 const NumericVector& norm,
-                 const NumericVector& f, 
-                 const double       & PA_offset,
-                 const NumericVector& theta,
-                 const NumericMatrix& degree, 
-                 const NumericVector& m_t,
-                 const NumericVector& Sum_m_k,
-                 const NumericMatrix& offset_tk,
-                 const double&        offset
+
+// Using weighting of f
+// [[Rcpp::export(".update_f_alpha_new")]]
+int update_f_alpha_new(      NumericVector& f, 
+                         const NumericVector& non_zero_f,
+                         const double       & alpha,
+                         const double       & PA_offset,
+                         const NumericMatrix& degree, 
+                         const NumericVector& theta, 
+                         const NumericVector& z_j,
+                         const NumericVector& normalized_const, 
+                         const NumericVector& m_t, 
+                         const double         shape, 
+                         const double         rate,
+                         const NumericVector& weight_f) {
+  long T        = degree.nrow();        // number of time-steps
+  long N_nozero = non_zero_f.size();    // number of nodes
+  //long N_nozero = degree.ncol();    // number of nodes
+  //  printf("Alpha inside: %f \n",alpha);
+#pragma omp parallel for
+  for (long j = 0; j < N_nozero; j++) {
+    double total = 0;
+    for (long i = 0; i < T; i++)
+      if ((degree.at(i,non_zero_f(j) - 1) >= 0) && (normalized_const.at(i) != 0)) {
+        if (degree.at(i,non_zero_f(j) - 1) > 0)
+          total += m_t.at(i) / normalized_const.at(i) * (pow(theta.at(degree.at(i,non_zero_f.at(j) - 1)),alpha)) ;
+        else
+          total += m_t.at(i) / normalized_const.at(i) * (PA_offset);
+      }
+      if (z_j.at(non_zero_f(j) - 1) + shape /weight_f.at(non_zero_f.at(j) - 1) - 1 <= 0)
+          f.at(non_zero_f.at(j) - 1) = f.at(non_zero_f.at(j) - 1);
+      else
+          f.at(non_zero_f.at(j) - 1) = (z_j.at(non_zero_f.at(j) - 1) + 
+                                        shape / weight_f.at(non_zero_f.at(j) - 1) - 1)/(total + 
+                                        rate / weight_f.at(non_zero_f.at(j) - 1));
+  }
+  return 0;
+}
+
+// [[Rcpp::export(".update_alpha_fast")]]
+double update_alpha_fast(
+    const NumericVector& non_zero_theta,  
+    const NumericVector& norm,
+    const NumericVector& f, 
+    const double       & PA_offset,
+    const NumericVector& theta,
+    const NumericMatrix& degree, 
+    const NumericVector& m_t,
+    const NumericVector& Sum_m_k,
+    const NumericMatrix& offset_tk,
+    const double&        offset,
+    const double         alpha_old
 ) {
   long T = degree.nrow();     // number of time-steps
   long N  = degree.ncol();     // number of nodes
@@ -443,37 +575,42 @@ double update_alpha(
   
   // printf("%d",N);
   // printf("%d",N2);
-   
   long K = offset_tk.ncol();  // maximum degree 
-  //long length_theta = theta.size();
+  long length_theta = theta.size();
+  double first_temp = 0;
+  std::vector<double> coeff_degree(length_theta,0);
 
-  auto f_1 = [&](double x) {
-      double temp   = 0;
-      double first  = 0;
-      for(long k = 0; k < Sum_m_k.size(); ++k)
-          if (theta.at(k) > 0)
-              first += Sum_m_k.at(k) * log(theta.at(k)); 
-      
-      for (long t = 0; t < T; t++) {
-          double norm  = 0;
-          double upper = 0;
-          for (long i = 0; i < N; ++i)
-              if (degree(t,i) >= 0 && (theta.at(degree(t,i)) > 0))  {
-                  norm  += f.at(i) * pow(theta.at(degree(t,i)),x);
-                  upper += pow(theta.at(degree(t,i)),x) * log(theta.at(degree(t,i))) * f.at(i); 
-          }
-          // offset
-          for (long k = 0; k < K; ++k)
-              if (theta.at(k) > 0)  {
-                  norm  += offset_tk(t,k) * pow(theta.at(k),x);  
-                  upper += pow(theta.at(k),x) * log(theta.at(k)) *
-                           offset_tk(t,k);
-          }
-          if (norm > 0)
-              temp -= upper / norm * m_t.at(t);
+  for(long k = 0; k < Sum_m_k.size(); ++k) {
+    if (theta.at(k) > 0) {
+      first_temp += Sum_m_k.at(k) * log(theta.at(k)); //the log is due to taking log10, so we have to use 10-base   
+    }
+  }
+  
+  for (long t = 0; t < T; t++) {
+      for (long i = 0; i < N; ++i)
+          if (degree(t,i) > 0 && (theta.at(degree(t,i)) > 0) && (norm.at(t) > 0))  {
+              //if (theta.at(degree(t,i)) > 0) 
+                  //all the logs here are due to take derivative, so we have to use natural base  
+                  coeff_degree.at(degree(t,i)) += m_t.at(t) / norm.at(t) * f.at(i) * log(theta.at(degree(t,i))); 
       }
-      return(first + temp); };
-  double alpha = my_zeroin(0,2,f_1,DBL_EPSILON,500);    
+      for (long k = 1; k < K; ++k)
+          if (theta.at(k) > 0 && (norm.at(t) > 0)) {
+              coeff_degree.at(k) += m_t.at(t) / norm.at(t) * offset_tk(t,k) * log(theta.at(k));
+              //printf("%f ",coeff_degree.at(k));
+          }
+  }
+  //printf("\n %f ",first_temp);
+  
+  auto f_1 = [&](double x) {
+    double temp = 0;
+    for(long k = 1; k < Sum_m_k.size(); ++k) {
+        if (theta.at(k) >= 0) {
+            if (theta.at(k) > 0)  
+                temp += coeff_degree.at(k) * pow(theta.at(k),x);
+        }
+    }
+    return(first_temp - temp); };
+  double alpha = my_zeroin(-2, 2, f_1 , DBL_EPSILON,500);    
   //printf("alpha inside C: %f\n",alpha);    
   return alpha;
 }
@@ -512,8 +649,8 @@ double var_alpha(
       for (long i = 0; i < N; ++i)
           if (degree(t,i) >= 0 && (theta.at(degree(t,i)) > 0))  {
               norm  += f.at(i) * pow(theta.at(degree(t,i)) , alpha);
-              norm_derivative += pow(theta.at(degree(t,i)) , alpha) * log(theta.at(degree(t,i))) * f.at(i); 
-              norm_second_derivative +=  pow(theta.at(degree(t,i)) , alpha) * log(theta.at(degree(t,i))) * log(theta.at(degree(t,i))) * 
+              norm_derivative += pow(theta.at(degree(t,i)) , alpha) * log10(theta.at(degree(t,i))) * f.at(i); 
+              norm_second_derivative +=  pow(theta.at(degree(t,i)) , alpha) * log10(theta.at(degree(t,i))) * log10(theta.at(degree(t,i))) * 
                                          f.at(i);  
           }
       double upper = norm_second_derivative * norm - norm_derivative * norm_derivative;   
@@ -635,6 +772,32 @@ int cal_var_f(      NumericVector& cov_f,
     return 0;
 }
 
+// Using weighting of s
+// [[Rcpp::export(".cal_var_f_new")]]
+int cal_var_f_new(        NumericVector& cov_f, 
+                    const NumericVector& non_zero_f,
+                    const NumericMatrix& degree,
+                    const NumericVector& theta,
+                    const NumericVector& f,
+                    const NumericVector& z_j,
+                    const NumericVector& normalized_const,
+                    const NumericVector& m_t, 
+                    const double         shape,
+                    const NumericVector& weight_f) {
+  int T    = degree.nrow();
+  int N    = non_zero_f.size();
+  #pragma omp parallel for
+  for (int j = 0; j < N; j++) {
+    double total = 0;
+    for (int i = 0; i < T; i++)
+      if ((degree(i,non_zero_f(j) - 1) >= 0) && (normalized_const(i) != 0)) {
+        total += m_t(i) / pow(normalized_const(i),2) * pow(theta(degree(i,non_zero_f(j) - 1)),2);
+      }
+      cov_f(j) = 1/(z_j(non_zero_f(j) - 1)/pow(f(non_zero_f(j) - 1),2) + - total +
+        (shape / weight_f.at(non_zero_f.at(j)) - 1)*pow(f(non_zero_f(j) - 1),2));
+  }
+  return 0;
+}
 
 double my_zeroin(double ax,double bx,std::function <double (double)> f,double tol,long max_iter)    /* An estimate to the root	*/
 {
@@ -648,6 +811,7 @@ double my_zeroin(double ax,double bx,std::function <double (double)> f,double to
   long count = 0;
   for(;;)		/* Main iteration loop	*/
   { count++;
+    //printf("%ld ",count);
     if (count > max_iter)
       return b;
     double prev_step = b-a;		/* Distance from the last but one*/

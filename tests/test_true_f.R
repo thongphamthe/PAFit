@@ -14,8 +14,14 @@ net_stats <- GetStatistics(net$graph,deg_threshold = 1,
                            net_type = "directed",
                            Binning = TRUE, G = 10) 
 
-result <- PAFit(net_stats,mode_f = "Log_linear",s = 100, debug = TRUE)
+result <- PAFit(net_stats, mode_f = "Log_linear", 
+                true_f = rep(1,length(net_stats$f_position)),
+                s = 100, debug = TRUE)
 
-result_2 <- PAFit(net_stats, true_f = result$f, s = 100, debug = TRUE)
+result <- PAFit(net_stats, only_f = TRUE,
+                true_A = rep(1,net_stats$G),
+                s = 100, debug = TRUE)
+
+
 
 print(result)

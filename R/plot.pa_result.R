@@ -15,6 +15,13 @@ plot.PA_result <-
       x$k <- x$center_k
       x$A <- x$theta
     } 
+    
+    dots <- function(...) {
+      list(...)
+    }
+    additional_para <- dots(...)
+    
+    
     if (!is.null(min_A))
         if (min_A <= 0)
             stop("min_A must be positive")
@@ -31,8 +38,10 @@ plot.PA_result <-
         non_zero <- which(x$A > 10^-20 & x$k >= 1) 
       
       if (!is.null(high_deg)) {
-        x$A[non_zero] <- x$A[non_zero] / x$A[non_zero][1];  
-     
+        v                   <- which(x$k[non_zero] == high_deg)  
+        if (length(v) > 0) {
+            x$A[non_zero]       <- x$A[non_zero] / x$A[non_zero][v];  
+        }
       } 
       if ((!is.null(max_A)) && (!is.null(min_A)))
           limit <- c(min(min_A, x$A[non_zero]) , max(max_A,x$A[non_zero]))
@@ -43,17 +52,44 @@ plot.PA_result <-
       else 
           limit <- c(min(x$A[non_zero]) , max(x$A[non_zero]))
       
-      xlim  <- c(min(x$k[non_zero] + 1) , max(x$k[non_zero] + 1))
-      plot(x$k[non_zero][1] + 1 , x$A[non_zero][1] , xlab = ifelse(!is.null(label_x) , label_x , expression(k + 1)),
-           ylab = ifelse(!is.null(label_y) , label_y , expression(hat(A)[k])),
-           xlim = xlim, ylim = limit , log = "xy" , col = col_point , ...)
+      if (is.null(additional_para$ylim))
+          ylim <- limit  
+      else ylim <- additional_para$ylim
+      
+      if (is.null(additional_para$xlim))
+          xlim <- c(min(x$k[non_zero] + 1) , max(x$k[non_zero] + 1))  
+      else xlim <- additional_para$xlim
+      
+      
+    temp   <- names(additional_para)
+    ok_vec <- which(temp != "xlim" & temp != "ylim")
+    #print(additional_para)
+    additional_para_list <- ""
+    for (i in ok_vec) {
+      if (!is.character(additional_para[[i]]))  {
+        additional_para_list <- paste0(additional_para_list ,temp[i]," = ",additional_para[[i]],",");
+      } else  additional_para_list <- paste0(additional_para_list ,temp[i]," = '",additional_para[[i]],"',") 
+    }
+    final_para <- substr(additional_para_list,1,nchar(additional_para_list) - 1)
+    #print(final_para)
+    
+    eval(parse(text = paste('plot(x$k[non_zero][1] + 1 , x$A[non_zero][1] , xlab = ifelse(!is.null(label_x),label_x, "Degree k + 1"),
+           ylab = ifelse(!is.null(label_y) , label_y,"Attachment function"),
+           xlim = xlim , ylim = ylim , log = "xy" , axes = FALSE, col = col_point, type = "n",', final_para, ')')))
+    eval(parse(text = paste('magaxis(grid = TRUE, frame.plot = TRUE, usepar=TRUE, ',final_para,')')));
       #xtick = seq(from = xlim[1], to = xlim[2],5)
       #axis(side = 1, at = xtick, labels = NULL, xlim = xlim, log = "x")
       
       points(x$k[non_zero] + 1 , x$A[non_zero] , col = col_point ,...)
       if (TRUE == line) {
           alpha <- x$alpha
-          beta <-  x$loglinear_fit$coefficients[1]
+          if (!is.null(names(x$loglinear_fit)))
+              beta <-  x$loglinear_fit$coefficients[1]
+          else {
+              index_one <- which(x$A[non_zero] == 1 & x$k[non_zero] != 0)[1] 
+              beta      <- -alpha* log(x$k[non_zero][index_one])
+            #print(beta)
+          }
           lines(x$k[non_zero] , exp(beta) * (x$k[non_zero]) ^ alpha , lwd= 2)
       }
 }

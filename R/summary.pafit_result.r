@@ -2,12 +2,24 @@
 summary.PAFit_result <- function(object,...){
     cat("\nPAFit_result object \n");
     cat("Estimation results by the PAFit method. \n");
-    cat("Mode:","Only PA: ",object$only_PA,"; Only f:", object$only_f,"\n");
-    cat("Form of the PA function:",object$mode_f,"\n");
-    if (object$auto_lambda == TRUE) {
-        cat("Ratio (r): ", object$ratio,"\n");
-    } else cat("Lambda used: ", object$lambda,"\n");
-    cat("Prior of node fitness: shape: ",object$shape,"; rate: ",object$rate,"\n")
+  
+     if (object$only_PA == TRUE) {
+        cat("Mode: Only the PA function was estimated. \n")     
+    } else if (object$only_f == TRUE) {
+        cat("Mode: Only node fitnesses were estimated. \n")
+    }
+    else {
+        cat("Mode: Both the attachment kernel and node fitness were estimated. \n")
+    }
+    #cat("Form of the PA function:",object$mode_f,"\n");
+  
+    if (object$only_f == FALSE) {
+        if (object$auto_lambda == TRUE) {
+            cat("Ratio (r): ", object$ratio,"\n");
+        } else cat("Lambda used: ", object$lambda,"\n");
+    }
+    if (object$only_PA == FALSE)
+        cat("Prior of node fitness: shape: ",object$shape,"; rate: ",object$rate,"\n")
     cat("Estimated attachment exponent: ",object$alpha,"\n");
     if (object$ci[1] == "N") {
       cat("No possible confidence interval for the estimated attachment exponent.\n");
@@ -22,8 +34,6 @@ summary.PAFit_result <- function(object,...){
     cat("-------------------------------------------\n")
     cat("Additional information: \n");
     cat("Number of bins: ", object$G,"\n");
-    cat("Threshold of the number of new edges acquired: ", object$deg_thresh,"\n");
-    cat("Number of nodes satisfied the threshold: ",sum(object$f != 1),"\n");
     cat("Number of iterations: ",length(object$objective_value) - 1,"\n");
     cat("Stopping condition:", object$stop_cond,"\n");
 }

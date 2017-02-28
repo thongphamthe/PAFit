@@ -1,4 +1,4 @@
-Newman_corrected <- function(net_stat, start = 1, interpolate = FALSE){
+Newman <- function(net_stat, start = 1, interpolate = FALSE){
   deg.max          <- net_stat$deg.max
   T_time           <- dim(net_stat$n_tk)[1]      
   k                <- 0:deg.max
@@ -14,24 +14,33 @@ Newman_corrected <- function(net_stat, start = 1, interpolate = FALSE){
   
   theta[which(theta == "NaN")] <- 0
   theta[which(theta == "Inf")] <- 0 
-  center_k  <- rep(0, length(theta))
-  theta     <- theta/theta[1]
-  if (net_stat$start_deg > 0)
-    center_k[1:net_stat$start_deg]  <- 0:(net_stat$start_deg - 1)
-  for (i in 1:net_stat$G) {
-    if (net_stat$begin_deg[i] != 0) {
-      #              center_k[i]  <- round((net_stat$begin_deg[i] + net_stat$end_deg[i])/2)  
-      center_k[i] <- round(net_stat$begin_deg[i]*sqrt((net_stat$begin_deg[i] + net_stat$interval_length[i] - 1)/ net_stat$begin_deg[i]))
-    } else
-      center_k[i] <- net_stat$end_deg[i]  
-    #          center_k[i]  <- round((net_stat$begin_deg[i] + net_stat$end_deg[i])/2)   
-    #        
+  
+  center_k           <- net_stat$center_k
+  # center_k  <- rep(0, length(theta))
+  # theta     <- theta/theta[1]
+  # if (net_stat$start_deg > 0)
+  #   center_k[1:net_stat$start_deg]  <- 0:(net_stat$start_deg - 1)
+  # for (i in 1:net_stat$G) {
+  #   if (net_stat$begin_deg[i] != 0) {
+  #     #              center_k[i]  <- round((net_stat$begin_deg[i] + net_stat$end_deg[i])/2)  
+  #     center_k[i] <- round(net_stat$begin_deg[i]*sqrt((net_stat$begin_deg[i] + net_stat$interval_length[i] - 1)/ net_stat$begin_deg[i]))
+  #   } else
+  #     center_k[i] <- net_stat$end_deg[i]  
+  #   #          center_k[i]  <- round((net_stat$begin_deg[i] + net_stat$end_deg[i])/2)   
+  #   #        
+  # }
+  
+  center_k_degthresh <- which(center_k == net_stat$deg_thresh)[1]
+  if (length(center_k_degthresh) > 0) {
+    if (theta[center_k_degthresh] !=0 ) {
+        theta <- theta / theta[center_k_degthresh]  
+    }
   }
   
   #estimate the attachment exponent alpha
   non_zero     <- which(center_k > 0 & theta > 0)
-  log_A        <- log(theta[non_zero])
-  log_k        <- log(center_k[non_zero])
+  log_A        <- log10(theta[non_zero])
+  log_k        <- log10(center_k[non_zero])
   
   linear_fit   <- lm(log_A ~ log_k)
   alpha        <- linear_fit$coefficients[2]
@@ -56,19 +65,19 @@ Newman_corrected <- function(net_stat, start = 1, interpolate = FALSE){
                 if (center_k[theta_nonzero[i]] > 0 && center_k[theta_nonzero[i + 1]] > 0 &&
                     theta[theta_nonzero[i]] > 0 && theta[theta_nonzero[i + 1]] > 0){
                     regress_flag <- 1
-                    regress <- lm(c(log(theta[theta_nonzero[i]]),log(theta[theta_nonzero[i + 1]]))~ 
-                               c(log(center_k[theta_nonzero[i]]),log(center_k[theta_nonzero[i + 1]])))
+                    regress <- lm(c(log10(theta[theta_nonzero[i]]),log10(theta[theta_nonzero[i + 1]]))~ 
+                               c(log10(center_k[theta_nonzero[i]]),log10(center_k[theta_nonzero[i + 1]])))
                 } else {
                       if (center_k[theta_nonzero[i]] > 0 && center_k[theta_nonzero[i + 1]] > 0 &&
                           theta[theta_nonzero[i]] > 0 && theta[theta_nonzero[i + 1]] > 0) {
                           regress_flag <- 1
-                          regress <- lm(c(log(theta[theta_nonzero[i]]),log(theta[theta_nonzero[i + 1]]))~ 
-                                        c(log(center_k[theta_nonzero[i]] + 1), log(center_k[theta_nonzero[i + 1]] + 1)))
+                          regress <- lm(c(log10(theta[theta_nonzero[i]]),log10(theta[theta_nonzero[i + 1]]))~ 
+                                        c(log10(center_k[theta_nonzero[i]] + 1), log10(center_k[theta_nonzero[i + 1]] + 1)))
                       }
                 }   
                 if (1 == regress_flag)
                     for (j in (theta_nonzero[i] + 1):(theta_nonzero[i + 1]-1))
-                        theta[j] <- exp(log(center_k[j]) * regress$coefficients[2] + regress$coefficients[1])           
+                        theta[j] <- exp(log10(center_k[j]) * regress$coefficients[2] + regress$coefficients[1])           
         }  
     }
     if (length(theta_nonzero) > 0)

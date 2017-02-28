@@ -2,10 +2,10 @@
 \alias{NEWS}
 \title{Package News}
 
-\section{version 0.9.7 (Release date: 2017-02-15)}{
+\section{version 0.9.7.5 (Release date: 2017-02-15)}{
   \subsection{FIXED}{
     \itemize{
-     
+    \item{a bug in plotting the PA function when the degree threshold is set too high} 
     }
   }
     \subsection{CHANGED}{
@@ -16,7 +16,8 @@
   }
   \subsection{NEW}{
     \itemize{
-     
+    \item wrapper functions to generate networks from well-known models 
+    \item complete overhaul of the main functions. 
     }
   }
 }

@@ -38,14 +38,10 @@
   Thong Pham \email{thongpham@thongpham.net}
 }
 \references{
-  1. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Nonparametric Estimation of the Preferential Attachment Function in Complex Networks: Evidence of Deviations from Log Linearity, Proceedings of ECCS 2014, 141-153 (Springer International Publishing) (\url{http://dx.doi.org/10.1007/978-3-319-29228-1_13}).
-  
-  2. Pham, T., Sheridan, P. & Shimodaira, H. (2015). PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks. PLoS ONE 10(9): e0137796. doi:10.1371/journal.pone.0137796 (\url{http://dx.doi.org/10.1371/journal.pone.0137796}).
-  
-  3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
+  1. \enc{Erdös}{Erdos} P. & \enc{Rényi}{Renyi} A.. On random graphs. Publicationes Mathematicae Debrecen. 1959;6:290–297 (\url{http://snap.stanford.edu/class/cs224w-readings/erdos59random.pdf}).
 }
 \seealso{
-For subsequent estimation procedures, see \code{\link{GetStatistics}} and \code{\link{CreateDataCV}}.
+For subsequent estimation procedures, see \code{\link{GetStatistics}}.
 
 For other functions to generate networks, see \code{\link{GenerateNet}}, \code{\link{Generate_BA}}, \code{\link{Generate_BB}} and \code{\link{Generate_fitonly}}. }
 
@@ -58,8 +54,4 @@ For other functions to generate networks, see \code{\link{GenerateNet}}, \code{\
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{scale free}
-\keyword{BA network}
-\keyword{preferential attachment}
-\keyword{Bianconi-Barabasi model}
-\keyword{ fitness model }% __ONLY ONE__ keyword per line
+\concept{ER model}

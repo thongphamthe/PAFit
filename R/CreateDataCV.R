@@ -1,5 +1,5 @@
 
-CreateDataCV<- function(net                   , p          = 0.75 , G           = 50, 
+.CreateDataCV<- function(net                   , p          = 0.75 , G           = 50, 
                         net_type = "directed" , deg_thresh = 0    , exclude_end = FALSE) {
   net               <- net[order(net[,3] , decreasing = FALSE),]
   time_stamp        <- as.vector(net[,3])

@@ -1,26 +1,28 @@
 # function to generate simulated network  
 GenerateNet <-
 function(N, 
-         num_seed       = 2      , 
-         multiple_node  = 1      , 
-         specific_start = NULL   ,
-         m              = 1      ,
-         prob_m         = FALSE  ,
-         increase       = FALSE  , 
-         log            = FALSE  , 
-         custom_PA      = NULL   ,
-         mode           = 1      , 
-         alpha          = 1      , 
-         beta           = 2      , 
-         sat_at         = 100    ,
-         offset         = 1      ,
-         mode_f         = "gamma", 
-         rate           = 0      , 
-         shape          = 0      , 
-         meanlog        = 0      , 
-         sdlog          = 1      ,
-         scale_pareto   = 2      ,
-         shape_pareto   = 2      
+         num_seed        = 2      , 
+         multiple_node   = 1      , 
+         specific_start  = NULL   ,
+         m               = 1      ,
+         prob_m          = FALSE  ,
+         increase        = FALSE  , 
+         log             = FALSE  , 
+         noNewNodeStep   = NULL   ,
+         m_noNewNodeStep = m     ,
+         custom_PA       = NULL   ,
+         mode            = 1      , 
+         alpha           = 1      , 
+         beta            = 2      , 
+         sat_at          = 100    ,
+         offset          = 1      ,
+         mode_f          = "gamma", 
+         rate            = 0      , 
+         shape           = 0      , 
+         meanlog         = 0      , 
+         sdlog           = 1      ,
+         scale_pareto    = 2      ,
+         shape_pareto    = 2       
      ){
    # N: number of nodes
    # Number of time-step: (N  - num_seed) / multiple_node
@@ -33,14 +35,27 @@ function(N,
    if ((alpha < 0 && mode != 1) || (beta < 0) || (sat_at < 0) || (rate < 0) || (shape < 0) || (m <= 0))
        stop("The parameters must be non-negative")  
    if ((mode[1] != 1) && (mode[1] != 3) && (mode[1] != 2))
-       stop("Mode must be 1, 2 or 3 ")  
-    graph <- vector("list", N)
-    # Node weights in the BA model. 
-    switch(mode_f[1], 
-    gamma = {
-    # gamma distribution
-      if (shape*rate > 0) 
-          fitness <- rgamma(N,rate = rate,shape = shape)
+       stop("Mode must be 1, 2 or 3 ")
+  
+   if (!is.null(noNewNodeStep)) {
+      if (noNewNodeStep <= 0) 
+         stop("If noNewNodeStep is specified, it should be a positive integer.")  
+   }
+  
+   # a rough estimate, clearly not enough when increase = TRUE, or not exact when prob_m = TRUE
+  
+   num_of_edge          <- num_seed - 1 + m * (N - num_seed) + ifelse(is.null(noNewNodeStep),0,noNewNodeStep) * m_noNewNodeStep
+   
+   edge_list            <- matrix(nrow = num_of_edge, ncol = 3,0)
+  
+  
+   #graph <- vector("list", N)
+   # Node weights in the BA model. 
+   switch(mode_f[1], 
+       gamma = {
+       # gamma distribution
+       if (shape*rate > 0) 
+           fitness <- rgamma(N,rate = rate,shape = shape)
       else fitness <- rep(1,N)},
      log_normal ={
      # log_normal distribution
@@ -53,136 +68,169 @@ function(N,
     }
     )
     names(fitness) <- 1:N
-    for (n in 2:num_seed)
-         graph[[n]] <- n - 1
     
-    degree        <- rep(0,num_seed)
-    names(degree) <- 1:num_seed 
-    for (i in 1:num_seed) {
-        count_degree <-table(graph[[i]][graph[[i]] <= i])
-        degree[labels(count_degree)[[1]]] <- degree[labels(count_degree)[[1]]] + 
-                                             count_degree
+    edge_list_index <- 1
+    for (n in 2:num_seed) {
+         edge_list[edge_list_index,] <- c(n,n - 1,0);   
+         edge_list_index             <- edge_list_index + 1
     }
-    P         <- degree
-    P[P == 0] <- offset
+    #print(edge_list[1:(edge_list_index - 1),])
+    
+    degree                 <- rep(0,num_seed)
+    names(degree)          <- 1:num_seed 
+    u                      <- table(edge_list[1:(edge_list_index - 1),2])
+    degree[labels(u)[[1]]] <- degree[labels(u)[[1]]] + u 
+
+    P               <- degree
+    P[P == 0]       <- offset
     seed.graph.size <- length(P)
-    count <- 0
+    count           <- 0
+    
     # n is the size of the current network
     n <- seed.graph.size
-    while (n < N) {	
+    
+    sum_m                <- 0
+    current_time_step    <- 0                 # current time_step
+    current_length_edge  <- dim(edge_list)[1] # current size of the edge_list matrix
+    
+    i                    <- 1
+
+    break_flag           <- FALSE
+
+    while (!break_flag) {	
         # at each time_step: save n
         n_old <- n
         if (!is.null(custom_PA)) {
-            A                 <- custom_PA
-            final_A           <- A[length(A)]  
-            temp              <- A[P + 1]
-           #print(temp)
-            temp[is.na(temp)] <- final_A
-            P.sum             <- sum(temp*fitness[1:n_old])
-            node.weights      <- temp*fitness[1:n_old]/P.sum  
+             A                 <- custom_PA
+             final_A           <- A[length(A)]  
+             temp              <- A[P + 1]
+             #print(temp)
+             temp[is.na(temp)] <- final_A
+             P.sum             <- sum(temp * fitness[1:n_old])
+             node.weights      <- temp * fitness[1:n_old]/P.sum  
         }
         else
         if (mode[1] == 1) {
-            P.sum        <- sum(P^alpha*fitness[1:n_old])
-            node.weights <- P^alpha*fitness[1:n_old]/P.sum
+            P.sum         <- sum(P^alpha*fitness[1:n_old])
+            node.weights  <- P^alpha*fitness[1:n_old]/P.sum
         } else if (mode[1] == 2) {
-            temp         <- pmin(P,sat_at)^alpha
-            P.sum        <- sum(temp*fitness[1:n_old])
-            node.weights <- temp*fitness[1:n_old]/P.sum
+            temp          <- pmin(P,sat_at)^alpha
+            P.sum         <- sum(temp*fitness[1:n_old])
+            node.weights  <- temp*fitness[1:n_old]/P.sum
         } else {
-            temp         <- alpha*(log(P))^beta + 1 
-            P.sum        <- sum(temp*fitness[1:n_old])
-            node.weights <- temp*fitness[1:n_old]/P.sum
+            temp          <- alpha*(log(P))^beta + 1 
+            P.sum         <- sum(temp*fitness[1:n_old])
+            node.weights  <- temp*fitness[1:n_old]/P.sum
         }
+        current_time_step <- current_time_step + 1
+
         for (i in 1:multiple_node){
-        #Allow duplication:  
+            #Allow duplication in selectin destination nodes:  
             if (TRUE == increase) {
                 count <- count + 1  
                 nodes <- sort(sample(1:n_old,size = ifelse(log,max(round(log(count)),1),count),prob = node.weights, replace = TRUE))      
             } else {
-            if (prob_m == TRUE) {
-                num_edge_temp <- rpois(1,lambda = m)
-            if (num_edge_temp > 0)
-                nodes <- sort(sample(1:n_old,num_edge_temp,prob = node.weights, replace = TRUE))
-            else nodes <- NULL
-            }
-           else
-               nodes <- sort(sample(1:n_old,size = m,prob = node.weights, replace = TRUE)) 
+                if (prob_m == TRUE) {
+                    num_edge_temp <- rpois(1,lambda = m)
+                    if (num_edge_temp > 0)
+                        nodes <- sort(sample(1:n_old,num_edge_temp,prob = node.weights, replace = TRUE))
+                    else nodes <- NULL
+                } else
+                      nodes <- sort(sample(1:n_old,size = m,prob = node.weights, replace = TRUE)) 
             }
             ##########################################
             degree  <- c(degree,0)
             if (0 != length(nodes)) {
                 temp    <- table(nodes)
-                graph[[n+1]]  <- c(graph[[n+1]], nodes)
                 for(i in 1:length(temp)) { 
                     num_edge            <- as.numeric(temp[i]) 
                     node_name           <- as.numeric(labels(temp[i]))
                     degree[node_name]   <- degree[node_name] + num_edge # Update degrees.
                 }
             }
+            if (edge_list_index + length(nodes) - 1 > current_length_edge) {
+                edge_list           <- rbind(edge_list , matrix(0,nrow = edge_list_index + length(nodes) - current_length_edge, ncol = 3))
+                current_length_edge <- dim(edge_list)[1]
+            }     
+            if (is.null(specific_start))
+                final_time_step <- current_time_step
+                 else final_time_step <- max(current_time_step - specific_start,0)
+            
+            
+            edge_list[edge_list_index:(edge_list_index + length(nodes) - 1),] <- cbind(rep(n + 1 , length(nodes)),nodes, 
+                                                                                       rep(final_time_step, length(nodes)))
+            edge_list_index <- edge_list_index + length(nodes)
             n <- n + 1
-            if (n == N) break  
-        }
-        P <- degree
-        P[degree == 0] <- offset     
-    }
-    
-    
-    num_of_edge          <- sum(unlist(lapply(graph,function(x) length(as.vector(x)))))
-    edge_list            <- matrix(nrow = num_of_edge,ncol = 3,0)
-    sum_m                <- 0
-    current_time_step    <- 0
-    i                    <- 1
-    flag_specific_start  <- !is.null(specific_start)
-    break_flag           <- FALSE
-    while (i <= N) {
-        if (break_flag == TRUE)
-            break  
-        #print(i)
-        if (i <= num_seed) {  
-            m_t <- length(graph[[i]][graph[[i]] <= i])
-            if (m_t > 0) { 
-                temp  <- as.vector(graph[[i]])
-                edge_list[(sum_m + 1):(sum_m + m_t),3]   <-  0
-                edge_list[(sum_m + 1):(sum_m + m_t),1]   <-  i
-                edge_list[(sum_m + 1):(sum_m  +  m_t),2] <- temp 
-                sum_m                                    <- sum_m + m_t
+            if (n == N) {
+                break_flag <- TRUE  
+                break
             }
-           i <- i + 1 
-           if (i > N) { break_flag = TRUE;break}  
         }
-        else {
-            current_time_step <- current_time_step + 1;  
-            if (1 == flag_specific_start) {
-                for (j in 1:specific_start) {
-                    if (i > N) {break_flag = TRUE;break}  
-                    m_t <- length(graph[[i]][graph[[i]] <= i])
-                    if (m_t > 0) { 
-                      temp  <- as.vector(graph[[i]])
-                      edge_list[(sum_m + 1):(sum_m + m_t),3]   <-  current_time_step - 1
-                      edge_list[(sum_m + 1):(sum_m + m_t),1]   <-  i
-                      edge_list[(sum_m + 1):(sum_m  +  m_t),2] <- temp 
-                      sum_m                                    <- sum_m + m_t
+        P              <- degree
+        P[degree == 0] <- offset   
+        
+        # edges only step
+        if (!is.null(noNewNodeStep)) {
+            for (jjj in 1:noNewNodeStep) {
+                n_old <- n
+                if (!is.null(custom_PA)) {
+                    A                 <- custom_PA
+                    final_A           <- A[length(A)]  
+                    temp              <- A[P + 1]
+                #print(temp)
+                    temp[is.na(temp)] <- final_A
+                    P.sum             <- sum(temp * fitness[1:n_old])
+                    node.weights      <- temp * fitness[1:n_old]/P.sum  
+                 }
+               else
+                   if (mode[1] == 1) {
+                       P.sum         <- sum(P^alpha*fitness[1:n_old])
+                       node.weights  <- P^alpha*fitness[1:n_old]/P.sum
+                   } else if (mode[1] == 2) {
+                          temp          <- pmin(P,sat_at)^alpha
+                          P.sum         <- sum(temp*fitness[1:n_old])
+                          node.weights  <- temp*fitness[1:n_old]/P.sum
+                     } else {
+                           temp          <- alpha*(log(P))^beta + 1 
+                           P.sum         <- sum(temp*fitness[1:n_old])
+                           node.weights  <- temp*fitness[1:n_old]/P.sum
                     }
-                    i <- i + 1  
-                    if (i > N) { break_flag = TRUE;break}  
+                   current_time_step <- current_time_step + 1
+                   if (TRUE == increase) {
+                       count <- count + 1  
+                       nodes <- sort(sample(1:n_old,size = ifelse(log,max(round(log(count)),1),count),prob = node.weights, replace = TRUE))      
+                   } else {
+                         if (prob_m == TRUE) {
+                             num_edge_temp <- rpois(1,lambda = m)
+                         if (num_edge_temp > 0)
+                             nodes <- sort(sample(1:n_old,num_edge_temp,prob = node.weights, replace = TRUE))
+                      else nodes <- NULL
+                   } else
+                      nodes <- sort(sample(1:n_old,size = m,prob = node.weights, replace = TRUE)) 
+                   }
+                   if (0 != length(nodes)) {
+                    temp    <- table(nodes)
+                    for(i in 1:length(temp)) { 
+                       num_edge            <- as.numeric(temp[i]) 
+                       node_name           <- as.numeric(labels(temp[i]))
+                       degree[node_name]   <- degree[node_name] + num_edge # Update degrees.
+                    }
                 }
-              flag_specfific_start <- 0;
-            } else 
-            for (j in 1:multiple_node) {
-              if (i > N) {break_flag = TRUE; break}    
-              m_t <- length(graph[[i]][graph[[i]] <= i])
-                  if (m_t > 0) { 
-                      temp  <- as.vector(graph[[i]])
-                      edge_list[(sum_m + 1):(sum_m + m_t),3]   <-  current_time_step
-                      edge_list[(sum_m + 1):(sum_m + m_t),1]   <-  i
-                      edge_list[(sum_m + 1):(sum_m  +  m_t),2] <-  temp 
-                      sum_m                                    <- sum_m + m_t
-                  }
-            i <- i + 1
-            if (i > N) { break_flag = TRUE;break}  
-           }  
-      }
-  }
+                if (edge_list_index + length(nodes) - 1 > current_length_edge) {
+                    edge_list           <- rbind(edge_list,matrix(0,nrow = edge_list_index + length(nodes) - current_length_edge, ncol = 3))
+                    current_length_edge <- dim(edge_list)[1]
+                }     
+                if (is.null(specific_start))
+                    final_time_step <- current_time_step
+                else final_time_step <- max(current_time_step - specific_start,0)
+          
+                edge_list[edge_list_index:(edge_list_index + length(nodes) - 1),] <- cbind(rep(n , length(nodes)),nodes, rep(final_time_step, length(nodes)))
+                edge_list_index <- edge_list_index + length(nodes)
+                P <- degree
+                P[degree == 0] <- offset   
+            }
+    }
+    }
+    edge_list <- edge_list[-(edge_list_index:dim(edge_list)[1]),]
   return(list(graph = edge_list, fitness = fitness))
 }

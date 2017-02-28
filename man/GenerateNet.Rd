@@ -8,26 +8,28 @@ This function generates networks from the General Temporal model, a generative t
 }
 \usage{
 GenerateNet (N, 
-             num_seed       = 2      , 
-             multiple_node  = 1      , 
-             specific_start = NULL   ,
-             m              = 1      ,
-             prob_m         = FALSE  ,
-             increase       = FALSE  , 
-             log            = FALSE  , 
-             custom_PA      = NULL   ,
-             mode           = 1      , 
-             alpha          = 1      , 
-             beta           = 2      , 
-             sat_at         = 100    ,
-             offset         = 1      ,
-             mode_f         = "gamma", 
-             rate           = 0      , 
-             shape          = 0      , 
-             meanlog        = 0      , 
-             sdlog          = 1      ,
-             scale_pareto   = 2      ,
-             shape_pareto   = 2      )
+             num_seed        = 2      , 
+             multiple_node   = 1      , 
+             specific_start  = NULL   ,
+             m               = 1      ,
+             prob_m          = FALSE  ,
+             increase        = FALSE  , 
+             log             = FALSE  , 
+             noNewNodeStep   = NULL   ,
+             m_noNewNodeStep = m      ,
+             custom_PA       = NULL   ,
+             mode            = 1      , 
+             alpha           = 1      , 
+             beta            = 2      , 
+             sat_at          = 100    ,
+             offset          = 1      ,
+             mode_f          = "gamma", 
+             rate            = 0      , 
+             shape           = 0      , 
+             meanlog         = 0      , 
+             sdlog           = 1      ,
+             scale_pareto    = 2      ,
+             shape_pareto    = 2      )
 }
 
 %- maybe also 'usage' for other objects documented here.
@@ -60,6 +62,14 @@ Logical. Indicates whether we increase the mean of the Poisson distribution over
 \item{log}{
 Logical. Indicates how to increase the mean of the Poisson distribution. If \code{log == TRUE}, the mean increases logarithmically with the number of current nodes. If \code{log == FALSE}, the mean increases linearly with the number of current nodes. Default value is \code{FALSE}.
 }
+\item{noNewNodeStep}{
+Positive integer. The number of time-steps in which no new node is added, while new edges are added between existing nodes. Default value is \code{NULL}.
+}
+\item{m_noNewNodeStep}{
+Positive integer. The number of new edges in the no-new-node steps. Default value is equal to \code{m}.
+}
+
+
 The third group of parameters specifies the preferential attachment function:
 \item{custom_PA}{
 Numeric vector. This is the user-input PA function: \eqn{A_0, A_1,..., A_K}. If \code{custom_PA} is specified, then \code{mode} is ignored, and we grow the network using the PA function \code{custom_PA}. Degree greater than \eqn{K} will have attachment value \eqn{A_k}. Default value is \code{NULL}.
@@ -112,15 +122,8 @@ The output is a List contains the following two fields:
 \author{
 Thong Pham \email{thongpham@thongpham.net}
 }
-\references{
-1. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Nonparametric Estimation of the Preferential Attachment Function in Complex Networks: Evidence of Deviations from Log Linearity, Proceedings of ECCS 2014, 141-153 (Springer International Publishing) (\url{http://dx.doi.org/10.1007/978-3-319-29228-1_13}).
-
-2. Pham, T., Sheridan, P. & Shimodaira, H. (2015). PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks. PLoS ONE 10(9): e0137796. doi:10.1371/journal.pone.0137796 (\url{http://dx.doi.org/10.1371/journal.pone.0137796}).
-
-3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
-}
 \seealso{
-For subsequent estimation procedures, see \code{\link{GetStatistics}} and \code{\link{CreateDataCV}}.
+For subsequent estimation procedures, see \code{\link{GetStatistics}}.
 
 For simpler functions to generate networks from well-known models, see \code{\link{Generate_BA}}, \code{\link{Generate_ER}}, \code{\link{Generate_BB}} and \code{\link{Generate_fitonly}}. }
 
@@ -131,10 +134,6 @@ net <- GenerateNet(N = 100,m = 1,mode = 1, alpha = 1, shape = 0)
 str(net)
 }
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{scale free}
-\keyword{BA network}
-\keyword{preferential attachment}
-\keyword{Bianconi-Barabasi model}
-\keyword{ fitness model }% __ONLY ONE__ keyword per line
+\concept{fitness model}
+\concept{\enc{Barabási}{Barabasi}-Albert model}
+\concept{Bianconi-\enc{Barabási}{Barabasi} model}

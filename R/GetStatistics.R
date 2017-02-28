@@ -2,8 +2,8 @@
 GetStatistics <-
 function(net ,
          net_type      = "directed" , only_PA       = FALSE , only_true_deg_matrix = FALSE,
-         Binning       = TRUE       , G             = 50    , start_deg            = 0,  
-         deg_threshold = 1          , 
+         Binning       = TRUE       , G             = 50    ,
+         deg_threshold = 0          , 
          CompressMode  = 0          , CompressRatio = 0.5   , CustomTime           = NULL){
 
     net               <- net[order(net[,3], decreasing = FALSE),]
@@ -19,7 +19,7 @@ function(net ,
     if (net_type[1] == "undirected")
         deg           <- table(c(in_node,out_node))     
         #deg           <- table(as.vector(as.matrix(net[,1:2])))        
-    
+    start_deg         <- 0
     deg_new           <- rep(0,length(node_id))
     names(deg_new)    <- node_id
     deg_new[labels(deg)[[1]]] <- deg
@@ -132,10 +132,12 @@ function(net ,
             offset_tk               <- matrix(0,nrow = T_compressed - 1, ncol = start_deg + G) 
             offset_m_tk             <- matrix(0,nrow = T_compressed - 1, ncol = start_deg + G) 
             z_j                     <- rep(0,N_new)
+            appear_time             <- rep(0,N_new) #index of m_t, start from 1
         } else {
           offset_tk               <- matrix(0,0,0)
           offset_m_tk             <- matrix(0,0,0) 
           z_j                     <- vector()    
+          appear_time             <- vector() #index of m_t, start from 1
         }
         node_degree <- matrix(-1,nrow = T_compressed - 1, ncol = N_new) 
     } else {
@@ -143,6 +145,7 @@ function(net ,
         offset_m_tk             <- matrix(0,0,0) 
         z_j                     <- vector()  
         node_degree             <- matrix(0,0,0)
+        appear_time             <- vector() #index of m_t, start from 1
     }
     if (net_type[1] == "directed")
         undirected  = 0
@@ -152,15 +155,39 @@ function(net ,
     only_true_deg_matrix_num = ifelse(only_true_deg_matrix,1,0)
     #print(time_stamp)
     #print(unique_time)
+    center_k <- rep(0,G)
+    
+    #print(bin_vector)
+    
+    #print(length(bin_vector))
+    
+    #print(dim(node_degree))
+    #print(length(Sum_m_k))
+    #print(dim(m_tk))
+    #print(dim(n_tk))
+    
     .get_stats(time_stamp,unique_time,in_node,out_node,node_id_old,node_id,bin_vector, max_node_id, undirected, 
               only_PA_num,              
               compressed_unique_time,
-              Sum_m_k,n_tk,m_tk,m_t,offset_tk,z_j,node_degree,offset_m_tk,only_true_deg_matrix_num)
-
+              Sum_m_k,n_tk,m_tk,m_t,offset_tk,z_j,node_degree,offset_m_tk,only_true_deg_matrix_num, deg.max, center_k,
+              appear_time)
+    
+    center_k[center_k == 0] <- begin_deg[center_k == 0]
+    #if (center_k[length(center_k)] == 0)
+    #    center_k[length(center_k)] <- center_k[length(center_k) - 1]  
+    
     if (FALSE == only_PA) {
-      if (only_true_deg_matrix == FALSE)   
+      if (only_true_deg_matrix == FALSE) {   
           names(z_j)            <- node_id
+          #print(only_true_deg_matrix)
+          #print("start:")
+          #print(z_j)
+          names(appear_time)    <- node_id
+          #print(appear_time)
+          #print("Stop!")
+      }
       colnames(node_degree) <- node_id
+      
     }
    
     names(node_id)    <- node_id
@@ -181,7 +208,7 @@ function(net ,
     
 
     result  <- list(offset_tk = offset_tk, offset_m_tk = offset_m_tk, net_type = net_type[1], 
-                    n_tk = n_tk,m_tk = m_tk, bin_vector = bin_vector, 
+                    n_tk = n_tk,m_tk = m_tk, bin_vector = bin_vector, center_k = center_k, 
                     Sum_m_k = Sum_m_k,
                     node_degree = node_degree,m_t = m_t,z_j = z_j, initial_nodes = initial_nodes,
                 deg_thresh = deg_threshold, final_deg = final_deg, only_PA = only_PA, 
@@ -189,7 +216,9 @@ function(net ,
                 Binning = Binning, G = G, 
                 CompressMode = CompressMode[1], f_position = f_position, compressed_unique_time = compressed_unique_time, begin_deg = begin_deg, end_deg = end_deg,
                 interval_length = interval_length,node_id = node_id_old, N = N, T = T, T_compressed = T_compressed,
-                deg.max = deg.max, CompressRatio = CompressRatio , CustomTime = CustomTime, only_true_deg_matrix = only_true_deg_matrix)
+                deg.max = deg.max, CompressRatio = CompressRatio , CustomTime = CustomTime, 
+                only_true_deg_matrix = only_true_deg_matrix,
+                appear_time = appear_time)
     class(result) <- "PAFit_data"
    
     return(result)

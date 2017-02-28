@@ -9,8 +9,8 @@
     .Call('PAFit_normalized_constant_alpha', PACKAGE = 'PAFit', norm, alpha, PA_offset, degree, theta, f, offset_tk, offset)
 }
 
-.get_stats <- function(time_stamp, unique_stamp, in_node, out_node, all_node, ok_node, bin_vector, max_node_id, undirected, only_PA, time_vector, Sum_m_k, n_tk, m_tk, m_t, offset_tk, z_j, node_degree, offset_m_tk, only_true_deg) {
-    .Call('PAFit_get_stats', PACKAGE = 'PAFit', time_stamp, unique_stamp, in_node, out_node, all_node, ok_node, bin_vector, max_node_id, undirected, only_PA, time_vector, Sum_m_k, n_tk, m_tk, m_t, offset_tk, z_j, node_degree, offset_m_tk, only_true_deg)
+.get_stats <- function(time_stamp, unique_stamp, in_node, out_node, all_node, ok_node, bin_vector, max_node_id, undirected, only_PA, time_vector, Sum_m_k, n_tk, m_tk, m_t, offset_tk, z_j, node_degree, offset_m_tk, only_true_deg, deg_max, center_bin, appear_time) {
+    .Call('PAFit_get_stats', PACKAGE = 'PAFit', time_stamp, unique_stamp, in_node, out_node, all_node, ok_node, bin_vector, max_node_id, undirected, only_PA, time_vector, Sum_m_k, n_tk, m_tk, m_t, offset_tk, z_j, node_degree, offset_m_tk, only_true_deg, deg_max, center_bin, appear_time)
 }
 
 .update_f <- function(f, non_zero_f, degree, theta, z_j, normalized_const, m_t, shape, rate, offset) {
@@ -25,8 +25,16 @@
     .Call('PAFit_update_f_alpha', PACKAGE = 'PAFit', f, non_zero_f, alpha, PA_offset, degree, theta, z_j, normalized_const, m_t, shape, rate)
 }
 
-.update_alpha <- function(non_zero_theta, norm, f, PA_offset, theta, degree, m_t, Sum_m_k, offset_tk, offset) {
-    .Call('PAFit_update_alpha', PACKAGE = 'PAFit', non_zero_theta, norm, f, PA_offset, theta, degree, m_t, Sum_m_k, offset_tk, offset)
+.update_f_new <- function(f, non_zero_f, degree, theta, z_j, normalized_const, m_t, shape, rate, offset, weight_f) {
+    .Call('PAFit_update_f_new', PACKAGE = 'PAFit', f, non_zero_f, degree, theta, z_j, normalized_const, m_t, shape, rate, offset, weight_f)
+}
+
+.update_f_alpha_new <- function(f, non_zero_f, alpha, PA_offset, degree, theta, z_j, normalized_const, m_t, shape, rate, weight_f) {
+    .Call('PAFit_update_f_alpha_new', PACKAGE = 'PAFit', f, non_zero_f, alpha, PA_offset, degree, theta, z_j, normalized_const, m_t, shape, rate, weight_f)
+}
+
+.update_alpha_fast <- function(non_zero_theta, norm, f, PA_offset, theta, degree, m_t, Sum_m_k, offset_tk, offset, alpha_old) {
+    .Call('PAFit_update_alpha_fast', PACKAGE = 'PAFit', non_zero_theta, norm, f, PA_offset, theta, degree, m_t, Sum_m_k, offset_tk, offset, alpha_old)
 }
 
 .var_alpha <- function(alpha, non_zero_theta, norm, f, PA_offset, theta, degree, m_t, Sum_m_k, offset_tk, offset) {
@@ -43,5 +51,9 @@
 
 .cal_var_f <- function(cov_f, non_zero_f, degree, theta, f, z_j, normalized_const, m_t, shape) {
     .Call('PAFit_cal_var_f', PACKAGE = 'PAFit', cov_f, non_zero_f, degree, theta, f, z_j, normalized_const, m_t, shape)
+}
+
+.cal_var_f_new <- function(cov_f, non_zero_f, degree, theta, f, z_j, normalized_const, m_t, shape, weight_f) {
+    .Call('PAFit_cal_var_f_new', PACKAGE = 'PAFit', cov_f, non_zero_f, degree, theta, f, z_j, normalized_const, m_t, shape, weight_f)
 }
 

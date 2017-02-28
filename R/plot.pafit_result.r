@@ -1,13 +1,15 @@
 # function to plot estimation results  2015-3-12 Thong Pham
 plot.PAFit_result <-
-function(x,
-         net_stat              ,
-         true_f      = NULL    , plot             = "A"   , plot_bin     = TRUE             ,
-         line        = FALSE   , confidence       = TRUE  , high_deg     = 1                , 
-         shade_point = 0.5     , shade_interval   = 0.5   , col_interval = "lightsteelblue" ,
-         col_point   = "black" , label_x          = NULL  , label_y      = NULL             ,
-         max_A       = NULL    , min_A            = NULL  , f_min        = NULL             , 
-         f_max       = NULL    , plot_true_degree = FALSE , 
+function(x                       ,
+         net_stat                ,
+         true_f         = NULL   , plot             = "A"              , plot_bin     = TRUE  ,
+         line           = FALSE  , confidence       = TRUE             , high_deg_A   = 0     , 
+         high_deg_f     = 1      ,   
+         shade_point    = 0.5    , col_point        = "grey25"         , pch          = 16    , 
+         shade_interval = 0.5    , col_interval     = "lightsteelblue" ,
+         label_x        = NULL   , label_y          = NULL             ,
+         max_A          = NULL   , min_A            = NULL             , f_min        = NULL  , 
+         f_max          = NULL   , plot_true_degree = FALSE            , 
          ...) {
   if (plot_bin == TRUE) {
       x$k       <- x$center_k
@@ -15,18 +17,38 @@ function(x,
       x$upper_A <- x$upper_bin
       x$lower_A <- x$lower_bin
   } 
+  dots <- function(...) {
+      list(...)
+  }
+  additional_para <- dots(...)
+  #print(additional_para)
+  
+  gg_color_hue = function( n ) {
+    hues = seq( 15 , 375 , length = n + 1 )
+    hcl( h = hues , l = 65 , c = 100 )[ 1 : n ]
+  }
+  cols = c( "grey25" , gg_color_hue( n = 3 ) )
+  gray25 = cols[ 1 ]; red = cols[ 2 ]; green = cols[ 3 ]; blue = cols[ 4 ]
+  
   if ("A" == plot[1]) {
-      if (!is.null(high_deg))
-          non_zero <- which(x$A > 10^-20 & x$k >= max(x$deg_threshold,high_deg))
+      if (!is.null(high_deg_A))
+          non_zero <- which(x$A > 10^-20 & x$k >= high_deg_A)
       else 
           non_zero <- which(x$A > 10^-20 & x$k >= x$deg_threshold) 
-      new_var_log <- x$var_logA[non_zero] * (x$A[non_zero][1]) ^ 2;
-      if (!is.null(high_deg)) {
-          x$A[non_zero]       <- x$A[non_zero] / x$A[non_zero][1];    
-          x$lower_A[non_zero] <- exp(log(x$A[non_zero]) - 2 * sqrt(new_var_log));
-          x$upper_A[non_zero] <- exp(log(x$A[non_zero]) + 2 * sqrt(new_var_log));
-          non_zero            <- x$A > 10^-20 & x$k >= max(x$deg_threshold,high_deg) &
-                                 (!is.na(x$upper_A)) & (!is.infinite(x$upper_A))
+     
+      if (!is.null(high_deg_A)) {
+          v                   <- which(x$k[non_zero] == high_deg_A)  
+          if (length(v) > 0) {
+              new_var_log         <- x$var_logA[non_zero] * (x$A[non_zero][v]) ^ 2;
+              x$A[non_zero]       <- x$A[non_zero] / x$A[non_zero][v];    
+              #print(x$var_logA[non_zero])
+              #print(non_zero)
+              #print(v)
+              x$lower_A[non_zero] <- exp(log(x$A[non_zero]) - 2 * sqrt(new_var_log));
+              x$upper_A[non_zero] <- exp(log(x$A[non_zero]) + 2 * sqrt(new_var_log));
+              non_zero            <- x$A > 10^-20 & x$k >= high_deg_A &
+                                   (!is.na(x$upper_A)) & (!is.infinite(x$upper_A))
+          }
       } 
      if ((!is.null(max_A)) && (!is.null(min_A)))
           limit <- c(min(min_A,x$lower_A[non_zero]) , max(max_A,x$upper_A[non_zero]))
@@ -40,84 +62,119 @@ function(x,
           limit <- c(min(x$lower_A[non_zero]) , max(x$upper_A[non_zero]))
       }
       
-      xlim  <- c(min(x$k[non_zero] + 1) , max(x$k[non_zero] + 1))
-      plot(x$k[non_zero][1] + 1 , x$A[non_zero][1] , xlab = ifelse(!is.null(label_x),label_x,expression(k + 1)),
-           ylab = ifelse(!is.null(label_y) , label_y,expression(hat(A)[k])),
-           xlim = xlim , ylim = limit , log = "xy" , col = col_point , ...)
+      if (is.null(additional_para$ylim))
+        ylim <- limit  
+      else ylim <- additional_para$ylim
+   
+      
+      if (is.null(additional_para$xlim))
+          xlim <- c(min(x$k[non_zero] + 1) , max(x$k[non_zero] + 1))  
+      else xlim <- additional_para$xlim
+      #print(xlim)
+      
+      temp   <- names(additional_para)
+      ok_vec <- which(temp != "xlim" & temp != "ylim")
+      #print(additional_para)
+      additional_para_list <- ""
+      for (i in ok_vec) {
+          if (!is.character(additional_para[[i]]))  {
+              additional_para_list <- paste0(additional_para_list ,temp[i]," = ",additional_para[[i]],",");
+          } else  additional_para_list <- paste0(additional_para_list ,temp[i]," = '",additional_para[[i]],"',") 
+      }
+      final_para <- substr(additional_para_list,1,nchar(additional_para_list) - 1)
+      #print(final_para)
+      col_pa <- as.vector(col2rgb(col_point)) / 255
+      
+      eval(parse(text = paste('plot(x$k[non_zero][1] + 1 , x$A[non_zero][1] , xlab = ifelse(!is.null(label_x),label_x, "Degree k + 1"),
+           ylab = ifelse(!is.null(label_y) , label_y,"Attachment function"),
+           xlim = xlim , ylim = ylim , axes = FALSE, log = "xy" , 
+           col = rgb(col_pa[1],col_pa[2],col_pa[3], shade_point), 
+           mgp = c( 2.5 , 1 , 0 ),
+           type = "n",', final_para, ')')))
+      #magaxis(grid = TRUE, frame.plot = TRUE)
+      eval(parse(text = paste('magaxis(grid = TRUE, frame.plot = TRUE,',final_para,')')));
       #xtick = seq(from = xlim[1], to = xlim[2],5)
       #axis(side = 1, at = xtick, labels = NULL, xlim = xlim, log = "x")
       if (TRUE == confidence) {
-          order    <- order(x$k[non_zero] + 1)
-          upper_f  <- x$upper_A[non_zero][order]
-          lower_f  <- x$lower_A[non_zero][order]
-          unique_x <- unique((x$k[non_zero] + 1)[order])
-          upper_u  <- rep(0,length(unique_x))
-          lower_u  <- upper_u    
-          for (jjj in 1:length(unique_x)) {
-              uu           <- which((x$k[non_zero] + 1)[order] == unique_x[jjj])
-            #print(uu)
-              upper_u[jjj] <- max(upper_f[uu])
-              lower_u[jjj] <- min(lower_f[uu])
-          }
-          my_col <- as.vector(col2rgb(col_interval))
-          my_col <- my_col / 255
-          polygon(c(unique_x,rev(unique_x)) , c(upper_u,rev(lower_u)) , col = rgb(my_col[1],my_col[2],my_col[3],shade_interval),border = NA) 
-          #arrows(x0 = x$k[non_zero] + 1, y0 = x$lower_A[non_zero], 
-          #       x1 = x$k[non_zero] + 1, y1 = x$upper_A[non_zero], code = 3,angle = 90, 
-          #       length = 0,
-          #       col = rgb(0,0,0,shade_interval))
+        order    <- order(x$k[non_zero] + 1)
+        upper_f  <- x$upper_A[non_zero][order]
+        lower_f  <- x$lower_A[non_zero][order]
+        unique_x <- unique((x$k[non_zero] + 1)[order])
+        upper_u  <- rep(0,length(unique_x))
+        lower_u  <- upper_u    
+        for (jjj in 1:length(unique_x)) {
+          uu           <- which((x$k[non_zero] + 1)[order] == unique_x[jjj])
+          #print(uu)
+          upper_u[jjj] <- max(upper_f[uu])
+          lower_u[jjj] <- min(lower_f[uu])
+        }
+        my_col <- as.vector(col2rgb(col_interval))
+        my_col <- my_col / 255
+        polygon(c(unique_x,rev(unique_x)) , c(upper_u,rev(lower_u)) , col = rgb(my_col[1],my_col[2],my_col[3],shade_interval),border = NA) 
+        #arrows(x0 = x$k[non_zero] + 1, y0 = x$lower_A[non_zero], 
+        #       x1 = x$k[non_zero] + 1, y1 = x$upper_A[non_zero], code = 3,angle = 90, 
+        #       length = 0,
+        #       col = rgb(0,0,0,shade_interval))
       }
-          points(x$k[non_zero] + 1 , x$A[non_zero] , col = col_point,...)
+      points(x$k[non_zero] + 1 , x$A[non_zero] , pch = pch, col = rgb(col_pa[1],col_pa[2],col_pa[3], shade_point),...)
       if (TRUE == line) {
           alpha <- x$alpha
-          beta <-  x$loglinear_fit$coefficients[1]
-          lines(x$k[non_zero],exp(beta) * (x$k[non_zero]) ^ alpha , lwd= 2)
+          if (!is.null(names(x$loglinear_fit)))
+              beta <-  x$loglinear_fit$coefficients[1]
+          else {
+              index_one <- which(x$A[non_zero] == 1 & x$k[non_zero] != 0)[1] 
+              beta      <- -alpha* log(x$k[non_zero][index_one])
+              #print(beta)
+          }
+          lines(x$k[non_zero] + 1, exp(beta) * (x$k[non_zero]) ^ alpha, lwd = 2, col = blue)
+          
+          #lines(c(1,x$k[non_zero] + 1),c(x$PA_offset , exp(beta) * (x$k[non_zero]) ^ alpha), lwd = 2, col = green)
       }
+      
+
   }
   else if ("f" == plot[1]) {
-      if (FALSE == is.null(high_deg))
-          non_zero <- x$lower_f > 10^-20 & net_stat$increase >= high_deg
+      if (FALSE == is.null(high_deg_f))
+          non_zero <- x$lower_f > 10^-20 & net_stat$increase >= high_deg_f
       else
           non_zero <- x$lower_f > 10^-20 & net_stat$increase > 0
       if (length(non_zero) <= 0)
         stop("There is no data. Please decrease high_deg") 
-      if (TRUE == confidence)
-          lim_y = c(min(x$lower_f[non_zero]), 
-                    max(x$upper_f[non_zero]))
-      else lim_y = c(min(x$f[non_zero]) , max(x$f[non_zero]))
-      xlim <- c(min(net_stat$increase[non_zero]) + 1 , max(net_stat$increase[non_zero]))
-      plot(net_stat$increase[non_zero][1] , x$f[non_zero][1] , log="xy",ylab = "Estimated fitness" , xlim = xlim, 
-           ylim = lim_y , xlab = "Number of edges acquired",...)
-      if (TRUE == confidence) {
-          order    <- order(net_stat$increase[non_zero])
-          upper_f  <- x$upper_f[non_zero][order]
-          lower_f  <- x$lower_f[non_zero][order]
-          unique_x <- unique(net_stat$increase[non_zero][order])
-          upper_u  <- rep(0,length(unique_x))
-          lower_u  <- upper_u  
-        for (jjj in 1:length(unique_x)) {
-          uu           <- which(net_stat$increase[non_zero][order] == unique_x[jjj])
-          #print(uu)
-          upper_u[jjj] <- max(upper_f[uu])
-          lower_u[jjj] <- min(lower_f[uu])
-        }  
-          my_col <- as.vector(col2rgb(col_interval))
-          my_col <- my_col / 255
-          polygon(c(unique_x,rev(unique_x)) , c(upper_u,rev(lower_u)) , col = rgb(my_col[1] , my_col[2] , my_col[3] , shade_interval),
-                  border = NA)    
-          #arrows(x0 = net_stat$increase[non_zero], y0 = x$lower_f[non_zero], x1 = net_stat$increase[non_zero], 
-          #       y1 = x$upper_f[non_zero], code = 3,angle = 90, length = 0,col = rgb(0,0,0,shade_interval))
-      }
-      points(net_stat$increase[non_zero] , x$f[non_zero] , pch = 20 , col = rgb(0,0,0,shade_point) , ...)
-      abline(h = 1)
+      # Plot the density of node fitnesses
+      
+      f_non <- x$f[non_zero]
+      d     <- density(f_non)
+      ok_d  <- d$x > 0
+      
+      plot(d$x[ok_d] , d$y[ok_d], col  = 2 , log = "x", lwd = 0, main = "", xlab = "Fitness", ylab = "Density",
+           cex.axis = 1 , cex.lab = 1)
+      #x <- c(format(min(f_non),digits = 1),1,5,10,15,format(max(f_non),digits = 4))
+      u    <- smooth.spline(d$x, d$y, spar = 0.01)
+      #polygon(d$x, d$y, col = red_fade, border=NA)
+      ok_u <- u$x > 0 & u$y > 0 
+      lines(u$x[ok_u], u$y[ok_u], col = "grey50",lwd = 2.5);
+      #axis(3, at = 1,labels = "Mean = 1", las = 0,cex.axis = 2)
+      gray <- rgb(0,0,0,1)
+      abline(v = median(f_non), lty = 5, lwd = 1.5,col = green)
+      abline(v = quantile(f_non,0.99), lty = 4, lwd = 1.5, col = blue)
+      legend(legend = c("99th percentile" , "Median"), 
+             text.col = c(gray),
+             "topleft", col = c(green,blue),lwd = 1.5,
+             lty = c(5,4),cex = 1, bty = "n")
+     
+      mtext(at = median(f_non), side = 3,  
+            format(round(median(f_non), 2), nsmall = 2), cex = 1)
+      mtext(at = quantile(f_non,0.99), side = 3,
+            format(round(quantile(f_non,0.99), 2), nsmall = 2), 
+            cex = 1)
   }
   else if ("true_f" == plot[1]) {
           #names(true_f) <- net_stat$node_id 
           #true_f        <-  true_f[names(x$f)] 
           true_f1   <- length(true_f[net_stat$node_id][net_stat$f_position]) * true_f[net_stat$node_id][net_stat$f_position]/
                        sum(true_f[net_stat$node_id][net_stat$f_position])
-          if (FALSE == is.null(high_deg)) {
-              non_zero <- x$lower_f[net_stat$f_position] > 10^-20 & true_f1 > 10^-20 & net_stat$increase[net_stat$f_position] > high_deg
+          if (FALSE == is.null(high_deg_f)) {
+              non_zero <- x$lower_f[net_stat$f_position] > 10^-20 & true_f1 > 10^-20 & net_stat$increase[net_stat$f_position] > high_deg_f
           } else
               non_zero <- x$lower_f[net_stat$f_position] > 10^-20 & true_f1 > 10^-20 
           if (length(non_zero) <= 0)
@@ -130,30 +187,59 @@ function(x,
           #print(lower_f)
           #print("---")
           #print(upper_f)
-          if ((!is.null(f_min)) && (!is.null(f_max))) {
-              if (TRUE == confidence)  
-                  xlim <- c(min(c(f_min,lower_f,true_f1[non_zero])) , max(c(f_max,upper_f,true_f1)))
-              else xlim <- c(min(c(f_min,true_f1[non_zero])) , max(c(f_max,true_f1)))
+          
+          if (is.null(additional_para$xlim)) {
+              if ((!is.null(f_min)) && (!is.null(f_max))) {
+                  if (TRUE == confidence)  
+                      xlim <- c(min(c(f_min,lower_f,true_f1[non_zero])) , max(c(f_max,upper_f,true_f1)))
+                  else xlim <- c(min(c(f_min,true_f1[non_zero])) , max(c(f_max,true_f1)))
+              }
+              else  if (!is.null(f_max)) {
+                  if (TRUE == confidence)    
+                      xlim <- c(min(c(lower_f,true_f1[non_zero])) , max(c(f_max,upper_f,true_f1)))
+                  else xlim <- c(min(c(true_f1[non_zero])) , max(c(f_max,true_f1)))
+              }    
+              else if (!is.null(f_min)) {
+                  if (TRUE == confidence)  
+                      xlim <- c(min(c(f_min,lower_f,true_f1[non_zero])) , max(c(upper_f,true_f1)))  
+                  else xlim <- c(min(c(f_min,true_f1[non_zero])) , max(c(true_f1)))  
+              }
+              else {   
+                  if (TRUE == confidence)  
+                      xlim <- c(min(c(lower_f,true_f1[non_zero])) , max(c(upper_f,true_f1)))  
+                  else  xlim <- c(min(c(true_f1[non_zero])) , max(c(true_f1)))  
+              }
           }
-          else  if (!is.null(f_max)) {
-              if (TRUE == confidence)    
-                  xlim <- c(min(c(lower_f,true_f1[non_zero])) , max(c(f_max,upper_f,true_f1)))
-              else xlim <- c(min(c(true_f1[non_zero])) , max(c(f_max,true_f1)))
-          }    
-          else if (!is.null(f_min)) {
-              if (TRUE == confidence)  
-                  xlim <- c(min(c(f_min,lower_f,true_f1[non_zero])) , max(c(upper_f,true_f1)))  
-              else xlim <- c(min(c(f_min,true_f1[non_zero])) , max(c(true_f1)))  
+          else {
+              xlim <- additional_para$xlim  
           }
-          else {   
-              if (TRUE == confidence)  
-                  xlim <- c(min(c(lower_f,true_f1[non_zero])) , max(c(upper_f,true_f1)))  
-              else  xlim <- c(min(c(true_f1[non_zero])) , max(c(true_f1)))  
+          #print(xlim)  
+          if (is.null(additional_para$ylim)) 
+              ylim <- xlim
+          else ylim <- additional_para$ylim
+          temp   <- names(additional_para)
+          ok_vec <- which(temp != "xlim" & temp != "ylim")
+          #print(additional_para)
+          additional_para_list <- ""
+          for (i in ok_vec) {
+            if (!is.character(additional_para[[i]]))  {
+              additional_para_list <- paste0(additional_para_list ,temp[i]," = ",additional_para[[i]],",");
+            } else  additional_para_list <- paste0(additional_para_list ,temp[i]," = '",additional_para[[i]],"',") 
           }
-          #print(xlim)          
-          ylim <- xlim
-          plot(true_f1[non_zero][1], b * x$f[net_stat$f_position][non_zero][1] , xlim= xlim , ylim = ylim,
-                ylab= "Estimated fitness" , xlab = "True fitness" , log = "xy" , pch ="",...)
+          final_para <- substr(additional_para_list,1,nchar(additional_para_list) - 1)
+          
+          #print(final_para)
+          
+          eval(parse(text = paste('plot(true_f1[non_zero][1], b * x$f[net_stat$f_position][non_zero][1] , xlim= xlim , 
+                                   ylim = ylim,
+                ylab = "Estimated fitness" , xlab = "True fitness" , log = "xy" , type = "n", axes = FALSE,
+                                  ,
+                 	mgp = c( 2.5 , 1 , 0 ) ', 
+                                  final_para, ')')))
+          #magaxis(grid = TRUE, frame.plot = TRUE)
+          eval(parse(text = paste('magaxis(grid = TRUE, frame.plot = TRUE,',final_para,')')));
+          
+         
           if (TRUE == confidence) {
               #x_point <- c(true_f1[non_zero],rev(true_f1[non_zero]))
               #y_point <- c(upper_f, rev(lower_f))
@@ -177,7 +263,10 @@ function(x,
           }
           abline(a=0,b = 1)
           if (FALSE == plot_true_degree) {
-              points(true_f1[non_zero],b * x$f[net_stat$f_position][non_zero] , pch = 20 , col = rgb(0,0,0,shade_point),...) 
+              col_fit <- as.vector(col2rgb(col_point)) / 255
+              points(true_f1[non_zero],b * x$f[net_stat$f_position][non_zero] , pch = pch , col = rgb(col_fit[1],col_fit[2],
+                                                                                                      col_fit[3],
+                                                                                                      shade_point),...) 
           }
           else {  
               points(b * x$f[net_stat$f_position][non_zero],true_f1[non_zero] , pch = "" , ...)

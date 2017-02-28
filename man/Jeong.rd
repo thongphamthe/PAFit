@@ -8,7 +8,13 @@
   This function estimates the preferential attachment function by Jeong's method. 
 }
 \usage{
-    Jeong(raw_net, net_stat, T_0, T_1 , interpolate = FALSE)
+Jeong(raw_net       , 
+      net_stat      , 
+      T_0_start = 0 ,
+      T_0_end       ,
+      T_1_start     ,
+      T_1_end       ,
+      interpolate = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,32 +24,46 @@
   \item{net_stat}{
     An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{GetStatistics}}.
   }
-  \item{T_0}{Positive integer. The starting time-step at which the degree sequence is freezed.}
-  \item{T_1}{Positive integer. The ending time-step.
-  } 
+  \item{T_0_start}{Positive integer. The starting time-step of the \eqn{T_0_interval}.}
+  \item{T_0_end}{Positive integer. The ending time-step of \eqn{T_0_interval}.}
+  
+  \item{T_1_start}{Positive integer. The starting time-step of the \eqn{T_1_interval}.}
+  \item{T_1_end}{Positive integer. The ending time-step of \eqn{T_1_interval}.}
+   
   \item{interpolate}{
     Logical. If \code{TRUE} then all the gaps in the estimated PA function are interpolated by linear interpolating in logarithm scale. Default value is \code{FALSE}.
   }
 }
 \value{
-  Outputs an \code{PA_result} object which contains the estimated PA function. It also includes the estimated attachment exponenent \eqn{\alpha} and the confidence interval of \eqn{\alpha} when possible.
+  Outputs an \code{PA_result} object which contains the estimated attachment function. It also includes the estimated attachment exponenent \eqn{\alpha} (the field \code{alpha}) and the confidence interval of \eqn{\alpha} (the field \code{ci}) when possible.
 }
 \author{
   Thong Pham \email{thongpham@thongpham.net}
 }
 \references{
-  1. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Nonparametric Estimation of the Preferential Attachment Function in Complex Networks: Evidence of Deviations from Log Linearity, Proceedings of ECCS 2014, 141-153 (Springer International Publishing) (\url{http://dx.doi.org/10.1007/978-3-319-29228-1_13}).
-  
-  2. Pham, T., Sheridan, P. & Shimodaira, H. (2015). PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks. PLoS ONE 10(9): e0137796. doi:10.1371/journal.pone.0137796 (\url{http://dx.doi.org/10.1371/journal.pone.0137796}).
-  
-  3. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
+  1. Jeong, H., \enc{Néda}{Neda}, Z. & \enc{Barabási}{Barabasi}, A. . Measuring preferential attachment in evolving networks. Europhysics Letters. 2003;61(61):567–572. doi: 10.1209/epl/i2003-00166-9 (\url{http://iopscience.iop.org/article/10.1209/epl/i2003-00166-9/fulltext/}) .
 }
-\seealso{\code{\link{Newman_corrected}}, \code{\link{PAFit}}}
+\seealso{
+
+ See \code{\link{GetStatistics}} for how to create summerized statistics needed in this function.
+
+See \code{\link{Newman}} and \code{\link{OnlyA_Estimate}} for other methods to estimate the attachment function in isolation.
+
+}
 
 \examples{
   library("PAFit")
-  net        <- GenerateNet(N = 1000 , m = 30 , mode = 1 , alpha = 1 , shape = 0) # no fitness
+  net        <- GenerateNet(N = 1000 , m = 1 , mode = 1 , alpha = 1 , shape = 0)
   net_stats  <- GetStatistics(net$graph)
-  result     <- Jeong(net$graph, net_stats, T_0 = 500, T_1 = 900)
-  summary(result)
+  result     <- Jeong(net$graph       , net_stats, 
+                      T_0_start = 0   , T_0_end = 700, 
+                      T_1_start = 800 , T_1_end = 900)
+  # true function
+  true_A     <- result$center_k
+  #plot the estimated PA function
+  plot(result , net_stats)
+  lines(result$center_k + 1, true_A, col = "red") # true line
+  legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
 }
+\concept{preferential attachment}
+\concept{attachment function}
