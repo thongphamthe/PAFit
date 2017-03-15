@@ -8,20 +8,20 @@
   This function estimates node fitnesses \eqn{\eta_i} assusming either \eqn{A_k = k} (i.e. linear preferential attachment) or \eqn{A_k = 1} (i.e. no preferential attachment). It first performs a cross-validation to select the optimal parameter \eqn{s} for the prior of \eqn{\eta_i}, then estimates \eqn{eta_i} (Ref. 1).
 }
 \usage{
-OnlyF_Estimate(raw_net, 
-               net_stat, 
-               stop.cond = 10^-8  , 
-               model_A   = "Linear",
+OnlyF_Estimate(raw_net               , 
+               net_stat              , 
+               stop.cond = 10^-8     , 
+               model_A   = "Linear"  ,
                ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{raw_net}{
-    a three-column matrix that contains the network.
-  }
-  \item{net_stat}{
-    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{GetStatistics}}.
-  }
+\item{raw_net}{
+  a three-column matrix that contains the network.
+}
+\item{net_stat}{
+   An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{GetStatistics}}.
+}
   \item{stop.cond}{Numeric. The iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop.cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose \code{stop.cond} at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-8}. This is a good enough convergence threshold for most applications. The careful user can try with \code{10^-9}.}
   
   \item{model_A}{String. Indicates which attachment function \eqn{A_k} we assume:
@@ -64,8 +64,17 @@ OnlyF_Estimate(raw_net,
 \examples{
 \dontrun{
   library("PAFit")
-  net        <- GenerateNet(N = 1000 , m = 10 , mode = 1 , alpha = 1 , shape = 5, rate = 5)
+  # size of initial network = 100
+  # number of new nodes at each time-step = 100
+  # Ak = k; prior of node fitnesses = 5
+  net        <- GenerateNet(N        = 1000 , m             = 50 , 
+                            num_seed = 100  , multiple_node = 100,
+                            mode     = 1    , alpha         = 1  , 
+                            shape    = 5    , rate          = 5)
+                            
   net_stats  <- GetStatistics(net$graph)
+  
+  # estimate node fitnesses in isolation, assuming Ak = k
   result     <- OnlyF_Estimate(net$graph, net_stats)
  
   #plot the estimated node fitnesses and true node fitnesses

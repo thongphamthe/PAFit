@@ -9,11 +9,16 @@
   This function jointly estimates the attachment function \eqn{A_k} and node fitnesses \eqn{\eta_i}. It first performs a cross-validation to select the optimal parameters \eqn{r} and \eqn{s}, then estimates \eqn{A_k} and \eqn{eta_i} using that optimal pair (Ref. 1).
 }
 \usage{
-JointEstimate(raw_net, 
-              net_stat, 
+JointEstimate(raw_net             , 
+              net_stat            , 
               stop.cond   = 10^-8 ,
               mode_reg_A  = 0     , 
               print.out   = FALSE ,
+              cv_deg_thresh = c(1,10)  ,
+              normal_start_f = FALSE   ,
+              weight_f       = 1       ,
+              deg_thresh     = net_stat$deg_thresh,
+              p              = 0.75               ,
               ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -24,7 +29,7 @@ JointEstimate(raw_net,
   \item{net_stat}{
     An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{GetStatistics}}.
   }
-  \item{stop.cond}{Numeric. The iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop.cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose \code{stop.cond} at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-8}. This is a good enough convergence threshold for most applications. The careful user can try with \code{10^-9}.}
+\item{stop.cond}{Numeric. The iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop.cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose \code{stop.cond} at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-8}. This is a good enough convergence threshold for most applications. The careful user can try with \code{10^-9}.}
 
 \item{mode_reg_A}{Binary. Indicates which regularization term is used for \eqn{A_k}:
 \itemize{
@@ -33,6 +38,11 @@ JointEstimate(raw_net,
 }
 }
 \item{print.out}{Logical. Indicated whether to print out middle results of the cross-validation process or not. Default value is \code{FALSE}.}
+\item{cv_deg_thresh}{Integer. Default value is \code{0}.}
+\item{normal_start_f}{Logical. Default value is \code{FALSE}.}
+\item{weight_f}{Numeric. Default value is \code{1}.}
+\item{deg_thresh}{Numeric. Default value is \code{net_stat$deg_thresh}.}
+\item{p}{Numeric. Default value is \code{p}.}
 \item{...}{Other parameters to pass to the internal estimation algorithm.}
 }
 
@@ -66,15 +76,25 @@ JointEstimate(raw_net,
 \examples{
 \dontrun{
   library("PAFit")
-  net        <- GenerateNet(N = 1000 , m = 10 , mode = 1 , alpha = 1 , shape = 5, rate = 5)
+  # size of initial network = 100
+  # number of new nodes at each time-step = 100
+  # Ak = k; prior of node fitnesses = 5
+  net        <- GenerateNet(N        = 1000 , m             = 50 , 
+                            num_seed = 100  , multiple_node = 100,
+                            mode     = 1    , alpha         = 1  , 
+                            shape    = 5    , rate          = 5)
   net_stats  <- GetStatistics(net$graph)
+  
+  #Joint estimation of attachment function Ak and node fitness
   result     <- JointEstimate(net$graph, net_stats)
   
-   # true function
+  summary(result$estimate_result)
+  
+  # true function
   true_A     <- pmax(result$estimate_result$center_k,1)
   #plot the estimated PA function
   plot(result$estimate_result , net_stats)
-  lines(result$estimate_result$center_k + 1, true_A, col = "red") # true line
+  lines(result$estimate_result$center_k, true_A, col = "red") # true line
   legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
   #plot distribution of estimated node fitnesses
   plot(result$estimate_result , net_stats, plot = "f")

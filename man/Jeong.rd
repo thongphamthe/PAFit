@@ -10,10 +10,10 @@
 \usage{
 Jeong(raw_net       , 
       net_stat      , 
-      T_0_start = 0 ,
-      T_0_end       ,
-      T_1_start     ,
-      T_1_end       ,
+      T_0_start = 0                        ,
+      T_0_end   = round(net_stat$T * 0.75) ,
+      T_1_start = T_0_end + 1              ,
+      T_1_end   = net_stat$T               ,
       interpolate = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -24,11 +24,11 @@ Jeong(raw_net       ,
   \item{net_stat}{
     An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{GetStatistics}}.
   }
-  \item{T_0_start}{Positive integer. The starting time-step of the \eqn{T_0_interval}.}
-  \item{T_0_end}{Positive integer. The ending time-step of \eqn{T_0_interval}.}
+  \item{T_0_start}{Positive integer. The starting time-step of the \code{T_0_interval}. Default value is \code{0}.}
+  \item{T_0_end}{Positive integer. The ending time-step of \code{T_0_interval}. Default value is \code{round(net_stat$T * 0.75)}.}
   
-  \item{T_1_start}{Positive integer. The starting time-step of the \eqn{T_1_interval}.}
-  \item{T_1_end}{Positive integer. The ending time-step of \eqn{T_1_interval}.}
+  \item{T_1_start}{Positive integer. The starting time-step of the \code{T_1_interval}. Default value is \code{T_0_end + 1}.}
+  \item{T_1_end}{Positive integer. The ending time-step of \code{T_1_interval}. Default value is \code{net_stat$T}.}
    
   \item{interpolate}{
     Logical. If \code{TRUE} then all the gaps in the estimated PA function are interpolated by linear interpolating in logarithm scale. Default value is \code{FALSE}.
@@ -62,7 +62,7 @@ See \code{\link{Newman}} and \code{\link{OnlyA_Estimate}} for other methods to e
   true_A     <- result$center_k
   #plot the estimated PA function
   plot(result , net_stats)
-  lines(result$center_k + 1, true_A, col = "red") # true line
+  lines(result$center_k, true_A, col = "red") # true line
   legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
 }
 \concept{preferential attachment}

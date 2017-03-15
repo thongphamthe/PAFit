@@ -15,7 +15,7 @@
 \docType{package} 
 \title{Joint Inference of Preferential Attachment and Node Fitness in Temporal Complex Networks}
 \description{
-An implementation of a framework for modelling and inferencing the attachment mechanisms of temporal complex networks. For estimating the preferential attachment (PA) function in isolation, we implement Jeong's method, the corrected Newman's method and the PAFit method. For jointly estimating the PA function and node fitnesses, we implement the PAFit method. The package also provides flexible methods to generate a wide range of temporal networks based on PA and fitness. See the accompanying vignette for a tutorial. For a list of references, please run the command: \code{citation("PAFit")}.
+An implementation of a framework for modelling and inferencing the attachment mechanisms of temporal complex networks. For estimating the attachment function in isolation, we implement Jeong's method, the corrected Newman's method and the PAFit method. For estimating node fitnesses in isolation, we implement the PAFit method. For jointly estimating the attachment function and node fitnesses, we implement the PAFit method. The package also provides flexible methods to generate a wide range of temporal networks based on PA and fitness. See the accompanying vignette for a tutorial. For a list of references, please run the command: \code{citation("PAFit")}.
 }
 \details{
 \tabular{ll}{
@@ -29,22 +29,22 @@ The main functions are as follows.
 
 Basic utilities:
 \itemize{
-\item \code{\link{GenerateNet}}: generates a wide range of networks based on the preferential attachment and fitness mechanisms.
+\item \code{\link{GenerateNet}}: generates a wide range of networks based on the preferential attachment and fitness mechanisms. See the manual for wrappers of this function to generate well-known network models.
 \item \code{\link{GetStatistics}}: summarizes a matrix of edges into summary statistics ready for estimating the preferential attachment function or node fitness
 }
 Functions to estimate the attachment function in isolation:
 \itemize{
-\item \code{\link{Jeong}}: estimates the preferential attachment in isolation by Jeong's method (Ref. 1)
-\item \code{\link{Newman}}: estimates the preferential attachment in isolation by the corrected Newman's method (Refs. 2, 3)
-\item \code{\link{OnlyA_Estimate}}: estimates the preferential attachment in isolation by PAFit method (Ref. 3)
+\item \code{\link{Jeong}}: by Jeong's method (Ref. 1)
+\item \code{\link{Newman}}: by the corrected Newman's method (Refs. 2, 3)
+\item \code{\link{OnlyA_Estimate}}: by PAFit method (Ref. 3)
 }
 Function to estimate node fitnesses in isolation:
 \itemize{
-\item \code{\link{OnlyF_Estimate}}: estimates the preferential attachment in isolation by Jeong's method (Ref. 4)
+\item \code{\link{OnlyF_Estimate}}: by PAFit method (Ref. 3)
 }
 Function to estimate the attachment function and node fitnesses jointly:
 \itemize{
-\item \code{\link{JointEstimate}}: jointly estimates the preferential attachment function and node fitness by PAFit method (Ref. 4)
+\item \code{\link{JointEstimate}}: by PAFit method (Ref. 4)
 }
 
 }
@@ -77,18 +77,30 @@ Maintainer: Thong Pham \email{thongpham@thongpham.net}
 
 \examples{
 \dontrun{
-### Jointly estimate the attachment function and node fitnesses
-library("PAFit")
-  net        <- GenerateNet(N = 1000 , m = 10 , mode = 1 , alpha = 1 , shape = 5, rate = 5)
+  ### Jointly estimate the attachment function and node fitnesses
+   library("PAFit")
+  # size of initial network = 100
+  # number of new nodes at each time-step = 100
+  # Ak = k; prior of node fitnesses = 5
+  net        <- GenerateNet(N        = 1000 , m             = 50 , 
+                            num_seed = 100  , multiple_node = 100,
+                            mode     = 1    , alpha         = 1  , 
+                            shape    = 5    , rate          = 5)
   net_stats  <- GetStatistics(net$graph)
+  
+  #Joint estimation of attachment function Ak and node fitness
   result     <- JointEstimate(net$graph, net_stats)
   
-   # true function
+  summary(result$estimate_result)
+  
+  # true function
   true_A     <- pmax(result$estimate_result$center_k,1)
   #plot the estimated PA function
   plot(result$estimate_result , net_stats)
-  lines(result$estimate_result$center_k + 1, true_A, col = "red") # true line
+  lines(result$estimate_result$center_k, true_A, col = "red") # true line
   legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
+  #plot distribution of estimated node fitnesses
+  plot(result$estimate_result , net_stats, plot = "f")
   
   #plot the estimated node fitnesses and true node fitnesses
   plot(result$estimate_result , net_stats, true = net$fitness, plot = "true_f")

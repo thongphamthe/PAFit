@@ -63,10 +63,10 @@ Logical. Indicates whether we increase the mean of the Poisson distribution over
 Logical. Indicates how to increase the mean of the Poisson distribution. If \code{log == TRUE}, the mean increases logarithmically with the number of current nodes. If \code{log == FALSE}, the mean increases linearly with the number of current nodes. Default value is \code{FALSE}.
 }
 \item{noNewNodeStep}{
-Positive integer. The number of time-steps in which no new node is added, while new edges are added between existing nodes. Default value is \code{NULL}.
+Positive integer. The number of time-steps in which no new node is added, while new edges are added between existing nodes. Default value is \code{NULL}, i.e. new nodes are added at each time-step.
 }
 \item{m_noNewNodeStep}{
-Positive integer. The number of new edges in the no-new-node steps. Default value is equal to \code{m}.
+Positive integer. The number of new edges in the no-new-node steps. Default value is equal to \code{m}. 
 }
 
 
@@ -75,16 +75,16 @@ The third group of parameters specifies the preferential attachment function:
 Numeric vector. This is the user-input PA function: \eqn{A_0, A_1,..., A_K}. If \code{custom_PA} is specified, then \code{mode} is ignored, and we grow the network using the PA function \code{custom_PA}. Degree greater than \eqn{K} will have attachment value \eqn{A_k}. Default value is \code{NULL}.
 }
 \item{mode}{
-Integer. Indicates the attachment function to be used in generating the network. If \code{mode == 1}, the attachment function is \eqn{A_k = k^\alpha}. If \code{mode == 2}, the attachment function is \eqn{A_k = min(k,sat_at)^\alpha}. If \code{mode == 3}, the attachment function is \eqn{A_k = \alpha log (k)^\beta}. Default value is \code{1}.
+Integer. Indicates the attachment function to be used in generating the network. If \code{mode == 1}, the attachment function is \eqn{A_k = k^\alpha}. If \code{mode == 2}, the attachment function is \eqn{A_k = min(k,sat.at)^\alpha}. If \code{mode == 3}, the attachment function is \eqn{A_k = \alpha log (k)^\beta}. Default value is \code{1}.
 } 
   \item{alpha}{
-Numeric. If \code{mode == 1}, this is the attachment exponent in the attachment function \eqn{A_k = k^\alpha}. If \code{mode == 2}, this is the attachment exponenet in the attachment function \eqn{A_k = min(k,sat_at)^\alpha}. If \code{mode == 3}, this is the \eqn{\alpha} in the attachment function \eqn{A_k = \alpha log (k)^\beta + 1}.
+Numeric. If \code{mode == 1}, this is the attachment exponent in the attachment function \eqn{A_k = k^\alpha}. If \code{mode == 2}, this is the attachment exponenet in the attachment function \eqn{A_k = min(k,sat.at)^\alpha}. If \code{mode == 3}, this is the \eqn{\alpha} in the attachment function \eqn{A_k = \alpha log (k)^\beta + 1}.
 }
 \item{beta}{
 Numeric. This is the beta in the attachment function \eqn{A_k = \alpha log (k)^\beta + 1}.
 }
 \item{sat_at}{
-Integer. This is the saturation position sat_at in the attachment function \eqn{A_k = min(k,sat_at)^\alpha}.
+Integer. This is the saturation position \eqn{sat.at} in the attachment function \eqn{A_k = min(k,sat.at)^\alpha}.
 }
 
 \item{offset}{

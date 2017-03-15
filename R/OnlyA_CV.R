@@ -1,5 +1,5 @@
-.OnlyA_CV <- function(cv_data                                         ,
-                     r         = c(0,10^c(-6, -5, -4, -3,-2,-1)) ,
+.OnlyA_CV <- function(cv_data                                    ,
+                     r         = c(0,10^c(-6, -5, -4, -3,-2))    ,
                      stop_cond = 10^-6                           ,
                      print_out = FALSE                           ,     
                      rough     = TRUE                            ,  
@@ -63,7 +63,7 @@
   if (rough == FALSE) {
       ratio_vec_PAFit <- c(0.2 , 0.5, 2 , 5) * r_optimal 
   
-      ratio_vec_PAFit <- ratio_vec_PAFit[ratio_vec_PAFit <= 10^-1]
+      ratio_vec_PAFit <- ratio_vec_PAFit[ratio_vec_PAFit <= 10^-2]
   
       PA_each         <- rep(0,length(ratio_vec_PAFit))
       names(PA_each)  <- ratio_vec_PAFit

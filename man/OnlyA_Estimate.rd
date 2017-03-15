@@ -8,10 +8,10 @@
 This function estimates the attachment function \eqn{A_k} by PAFit method. It first performs a cross-validation step to select the optimal parameter \eqn{r} for the regularization of \eqn{A_k}, then uses that \eqn{r} to estimate the attachment function. 
 }
 \usage{
-OnlyA_Estimate(raw_net             , 
-               net_stat            , 
-               stop.cond  = 10^-8  , 
-               mode_reg_A = 0      ,
+OnlyA_Estimate(raw_net                , 
+               net_stat               , 
+               stop.cond  = 10^-8     , 
+               mode_reg_A = 0         ,
                ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -69,7 +69,7 @@ OnlyA_Estimate(raw_net             ,
   true_A     <- result$estimate_result$center_k
   #plot the estimated PA function
   plot(result$estimate_result , net_stats)
-  lines(result$estimate_result$center_k + 1, true_A, col = "red") # true line
+  lines(result$estimate_result$center_k, true_A, col = "red") # true line
   legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
   }
 }

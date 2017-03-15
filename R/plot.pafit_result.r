@@ -3,8 +3,8 @@ plot.PAFit_result <-
 function(x                       ,
          net_stat                ,
          true_f         = NULL   , plot             = "A"              , plot_bin     = TRUE  ,
-         line           = FALSE  , confidence       = TRUE             , high_deg_A   = 0     , 
-         high_deg_f     = 1      ,   
+         line           = FALSE  , confidence       = TRUE             , high_deg_A   = 1     , 
+         high_deg_f     = 5      ,   
          shade_point    = 0.5    , col_point        = "grey25"         , pch          = 16    , 
          shade_interval = 0.5    , col_interval     = "lightsteelblue" ,
          label_x        = NULL   , label_y          = NULL             ,
@@ -32,15 +32,15 @@ function(x                       ,
   
   if ("A" == plot[1]) {
       if (!is.null(high_deg_A))
-          non_zero <- which(x$A > 10^-20 & x$k >= high_deg_A)
+          non_zero <- which(x$A > 10^-20 & x$k >= high_deg_A & x$k > 0)
       else 
-          non_zero <- which(x$A > 10^-20 & x$k >= x$deg_threshold) 
+          non_zero <- which(x$A > 10^-20 & x$k >= x$deg_threshold & x$k > 0) 
      
       if (!is.null(high_deg_A)) {
           v                   <- which(x$k[non_zero] == high_deg_A)  
           if (length(v) > 0) {
-              new_var_log         <- x$var_logA[non_zero] * (x$A[non_zero][v]) ^ 2;
-              x$A[non_zero]       <- x$A[non_zero] / x$A[non_zero][v];    
+              new_var_log         <- x$var_logA[non_zero] #* (x$A[non_zero][v[1]]) ^ 2;
+              x$A[non_zero]       <- x$A[non_zero] / x$A[non_zero][v[1]];    
               #print(x$var_logA[non_zero])
               #print(non_zero)
               #print(v)
@@ -68,7 +68,7 @@ function(x                       ,
    
       
       if (is.null(additional_para$xlim))
-          xlim <- c(min(x$k[non_zero] + 1) , max(x$k[non_zero] + 1))  
+          xlim <- c(min(x$k[non_zero]) , max(x$k[non_zero]))  
       else xlim <- additional_para$xlim
       #print(xlim)
       
@@ -85,7 +85,7 @@ function(x                       ,
       #print(final_para)
       col_pa <- as.vector(col2rgb(col_point)) / 255
       
-      eval(parse(text = paste('plot(x$k[non_zero][1] + 1 , x$A[non_zero][1] , xlab = ifelse(!is.null(label_x),label_x, "Degree k + 1"),
+      eval(parse(text = paste('plot(x$k[non_zero][1], x$A[non_zero][1] , xlab = ifelse(!is.null(label_x),label_x, "Degree k"),
            ylab = ifelse(!is.null(label_y) , label_y,"Attachment function"),
            xlim = xlim , ylim = ylim , axes = FALSE, log = "xy" , 
            col = rgb(col_pa[1],col_pa[2],col_pa[3], shade_point), 
@@ -96,14 +96,14 @@ function(x                       ,
       #xtick = seq(from = xlim[1], to = xlim[2],5)
       #axis(side = 1, at = xtick, labels = NULL, xlim = xlim, log = "x")
       if (TRUE == confidence) {
-        order    <- order(x$k[non_zero] + 1)
+        order    <- order(x$k[non_zero])
         upper_f  <- x$upper_A[non_zero][order]
         lower_f  <- x$lower_A[non_zero][order]
-        unique_x <- unique((x$k[non_zero] + 1)[order])
+        unique_x <- unique((x$k[non_zero])[order])
         upper_u  <- rep(0,length(unique_x))
         lower_u  <- upper_u    
         for (jjj in 1:length(unique_x)) {
-          uu           <- which((x$k[non_zero] + 1)[order] == unique_x[jjj])
+          uu           <- which((x$k[non_zero])[order] == unique_x[jjj])
           #print(uu)
           upper_u[jjj] <- max(upper_f[uu])
           lower_u[jjj] <- min(lower_f[uu])
@@ -116,17 +116,17 @@ function(x                       ,
         #       length = 0,
         #       col = rgb(0,0,0,shade_interval))
       }
-      points(x$k[non_zero] + 1 , x$A[non_zero] , pch = pch, col = rgb(col_pa[1],col_pa[2],col_pa[3], shade_point),...)
+      points(x$k[non_zero], x$A[non_zero] , pch = pch, col = rgb(col_pa[1],col_pa[2],col_pa[3], shade_point),...)
       if (TRUE == line) {
           alpha <- x$alpha
-          if (!is.null(names(x$loglinear_fit)))
-              beta <-  x$loglinear_fit$coefficients[1]
-          else {
+          #if (!is.null(names(x$loglinear_fit)))
+          #    beta <-  x$loglinear_fit$coefficients[1]
+          #else {
               index_one <- which(x$A[non_zero] == 1 & x$k[non_zero] != 0)[1] 
               beta      <- -alpha* log(x$k[non_zero][index_one])
               #print(beta)
-          }
-          lines(x$k[non_zero] + 1, exp(beta) * (x$k[non_zero]) ^ alpha, lwd = 2, col = blue)
+          #}
+          lines(x$k[non_zero], exp(beta) * (x$k[non_zero]) ^ alpha, lwd = 2, col = blue)
           
           #lines(c(1,x$k[non_zero] + 1),c(x$PA_offset , exp(beta) * (x$k[non_zero]) ^ alpha), lwd = 2, col = green)
       }
@@ -134,10 +134,8 @@ function(x                       ,
 
   }
   else if ("f" == plot[1]) {
-      if (FALSE == is.null(high_deg_f))
-          non_zero <- x$lower_f > 10^-20 & net_stat$increase >= high_deg_f
-      else
-          non_zero <- x$lower_f > 10^-20 & net_stat$increase > 0
+      
+      non_zero <- x$lower_f > 10^-20 & net_stat$increase > 0
       if (length(non_zero) <= 0)
         stop("There is no data. Please decrease high_deg") 
       # Plot the density of node fitnesses
@@ -146,8 +144,11 @@ function(x                       ,
       d     <- density(f_non)
       ok_d  <- d$x > 0
       
+      #layout(cbind(1,2), width = c(4,1))
       plot(d$x[ok_d] , d$y[ok_d], col  = 2 , log = "x", lwd = 0, main = "", xlab = "Fitness", ylab = "Density",
-           cex.axis = 1 , cex.lab = 1)
+           cex.axis = 1 , cex.lab = 1, 
+           mgp = c( 2.5 , 1 , 0 ),
+           pch = "",...)
       #x <- c(format(min(f_non),digits = 1),1,5,10,15,format(max(f_non),digits = 4))
       u    <- smooth.spline(d$x, d$y, spar = 0.01)
       #polygon(d$x, d$y, col = red_fade, border=NA)
@@ -155,18 +156,21 @@ function(x                       ,
       lines(u$x[ok_u], u$y[ok_u], col = "grey50",lwd = 2.5);
       #axis(3, at = 1,labels = "Mean = 1", las = 0,cex.axis = 2)
       gray <- rgb(0,0,0,1)
-      abline(v = median(f_non), lty = 5, lwd = 1.5,col = green)
-      abline(v = quantile(f_non,0.99), lty = 4, lwd = 1.5, col = blue)
-      legend(legend = c("99th percentile" , "Median"), 
-             text.col = c(gray),
-             "topleft", col = c(green,blue),lwd = 1.5,
-             lty = c(5,4),cex = 1, bty = "n")
-     
-      mtext(at = median(f_non), side = 3,  
-            format(round(median(f_non), 2), nsmall = 2), cex = 1)
-      mtext(at = quantile(f_non,0.99), side = 3,
-            format(round(quantile(f_non,0.99), 2), nsmall = 2), 
-            cex = 1)
+      #abline(v = median(f_non), lty = 5, lwd = 1.5,col = green)
+      #abline(v = quantile(f_non,0.99), lty = 4, lwd = 1.5, col = blue)
+      #mtext(at = median(f_non), side = 3,  
+      #      format(round(median(f_non), 2), nsmall = 2), cex = 1)
+      #mtext(at = quantile(f_non,0.99), side = 3,
+      #      format(round(quantile(f_non,0.99), 2), nsmall = 2), 
+      #      cex = 1)
+      
+      
+      #plot.new()
+      #par(mar=c(0, 0, 0, 0))
+      #legend(legend = c("99th percentile" , "Median"), 
+      #       text.col = c(gray),
+      #       x = "left", col = c(green,blue),lwd = 1.5,
+      #       lty = c(5,4),cex = 1, bty = "n")
   }
   else if ("true_f" == plot[1]) {
           #names(true_f) <- net_stat$node_id 
@@ -234,7 +238,7 @@ function(x                       ,
                                    ylim = ylim,
                 ylab = "Estimated fitness" , xlab = "True fitness" , log = "xy" , type = "n", axes = FALSE,
                                   ,
-                 	mgp = c( 2.5 , 1 , 0 ) ', 
+                 	mgp = c( 2.5 , 1 , 0 ) ,', 
                                   final_para, ')')))
           #magaxis(grid = TRUE, frame.plot = TRUE)
           eval(parse(text = paste('magaxis(grid = TRUE, frame.plot = TRUE,',final_para,')')));

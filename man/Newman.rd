@@ -44,7 +44,7 @@ See \code{\link{Jeong}}, \code{\link{OnlyA_Estimate}} for other methods to estim
   true_A     <- result$center_k
   #plot the estimated PA function
   plot(result , net_stats)
-  lines(result$center_k + 1, true_A, col = "red") # true line
+  lines(result$center_k, true_A, col = "red") # true line
   legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
 }
 

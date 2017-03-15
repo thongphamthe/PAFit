@@ -8,6 +8,4 @@ summary.PAFit_data <- function(object,...){
   cat("Numbef of time-steps:",  object$T,"\n");
   cat("Maximum degree: ", object$deg.max,"\n");
   cat("Number of bins:", object$G,"\n");
-  cat("Threshold of the number of new edges acquired: ", object$deg_thresh,"\n")
-  cat("Number of nodes satisfied the threshold: ", length(object$f_position),"\n")
 }

@@ -1,15 +1,16 @@
 # function to plot estimation results  2015-3-12 Thong Pham
 plot.PA_result <-
   function(x, net_stat,
-           plot_bin    = TRUE,
-           high_deg    = NULL,
-           line        = FALSE, 
+           plot_bin    = TRUE   ,
+           high_deg    = 1      ,
+           line        = FALSE  , 
            col_point   = "black",
-           shade_point = 0.5, 
-           max_A       = NULL, 
-           min_A       = NULL, 
-           label_x     = NULL, 
-           label_y     = NULL,
+           shade_point = 0.5    , 
+           pch         = 16     ,
+           max_A       = NULL   , 
+           min_A       = NULL   , 
+           label_x     = NULL   , 
+           label_y     = NULL   ,
            ...) {
     if (plot_bin == TRUE) {
       x$k <- x$center_k
@@ -20,6 +21,15 @@ plot.PA_result <-
       list(...)
     }
     additional_para <- dots(...)
+    
+    
+    gg_color_hue = function( n ) {
+      hues = seq( 15 , 375 , length = n + 1 )
+      hcl( h = hues , l = 65 , c = 100 )[ 1 : n ]
+    }
+    cols = c( "grey25" , gg_color_hue( n = 3 ) )
+    gray25 = cols[ 1 ]; red = cols[ 2 ]; green = cols[ 3 ]; blue = cols[ 4 ]
+    
     
     
     if (!is.null(min_A))
@@ -40,7 +50,7 @@ plot.PA_result <-
       if (!is.null(high_deg)) {
         v                   <- which(x$k[non_zero] == high_deg)  
         if (length(v) > 0) {
-            x$A[non_zero]       <- x$A[non_zero] / x$A[non_zero][v];  
+            x$A[non_zero]       <- x$A[non_zero] / x$A[non_zero][v[1]];  
         }
       } 
       if ((!is.null(max_A)) && (!is.null(min_A)))
@@ -57,10 +67,11 @@ plot.PA_result <-
       else ylim <- additional_para$ylim
       
       if (is.null(additional_para$xlim))
-          xlim <- c(min(x$k[non_zero] + 1) , max(x$k[non_zero] + 1))  
+          xlim <- c(min(x$k[non_zero]) , max(x$k[non_zero]))  
       else xlim <- additional_para$xlim
       
-      
+    col_pa <- as.vector(col2rgb(col_point)) / 255
+    
     temp   <- names(additional_para)
     ok_vec <- which(temp != "xlim" & temp != "ylim")
     #print(additional_para)
@@ -73,23 +84,23 @@ plot.PA_result <-
     final_para <- substr(additional_para_list,1,nchar(additional_para_list) - 1)
     #print(final_para)
     
-    eval(parse(text = paste('plot(x$k[non_zero][1] + 1 , x$A[non_zero][1] , xlab = ifelse(!is.null(label_x),label_x, "Degree k + 1"),
-           ylab = ifelse(!is.null(label_y) , label_y,"Attachment function"),
+    eval(parse(text = paste('plot(x$k[non_zero][1], x$A[non_zero][1] , xlab = ifelse(!is.null(label_x),label_x, "Degree k"),
+           ylab = ifelse(!is.null(label_y) , label_y,"Attachment function"), pch =pch,  mgp = c( 2.5 , 1 , 0 ),
            xlim = xlim , ylim = ylim , log = "xy" , axes = FALSE, col = col_point, type = "n",', final_para, ')')))
     eval(parse(text = paste('magaxis(grid = TRUE, frame.plot = TRUE, usepar=TRUE, ',final_para,')')));
       #xtick = seq(from = xlim[1], to = xlim[2],5)
       #axis(side = 1, at = xtick, labels = NULL, xlim = xlim, log = "x")
       
-      points(x$k[non_zero] + 1 , x$A[non_zero] , col = col_point ,...)
+      points(x$k[non_zero], x$A[non_zero] , pch = pch, col = rgb(col_pa[1],col_pa[2],col_pa[3], shade_point),...)
       if (TRUE == line) {
           alpha <- x$alpha
-          if (!is.null(names(x$loglinear_fit)))
-              beta <-  x$loglinear_fit$coefficients[1]
-          else {
+          #if (!is.null(names(x$loglinear_fit)))
+          #    beta <-  x$loglinear_fit$coefficients[1]
+          #else {
               index_one <- which(x$A[non_zero] == 1 & x$k[non_zero] != 0)[1] 
               beta      <- -alpha* log(x$k[non_zero][index_one])
             #print(beta)
-          }
-          lines(x$k[non_zero] , exp(beta) * (x$k[non_zero]) ^ alpha , lwd= 2)
+          #}
+          lines(x$k[non_zero] , exp(beta) * (x$k[non_zero]) ^ alpha , lwd= 2, col = blue)
       }
 }

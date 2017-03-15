@@ -1,11 +1,11 @@
-OnlyA_Estimate <- function(raw_net             , 
-                           net_stat            , 
-                           stop.cond  = 10^-8  , 
-                           mode_reg_A = 0      ,
+OnlyA_Estimate <- function(raw_net            , 
+                           net_stat           , 
+                           stop.cond  = 10^-8 , 
+                           mode_reg_A = 0     ,
                            ...) {
   
-  
-  data_cv      <- .CreateDataCV_onlyA(net = raw_net, deg_thresh = 0)
+  net_type     <- net_stat$net_type
+  data_cv      <- .CreateDataCV_onlyA(net = raw_net, deg_thresh = 0, net_type = net_type)
   cv_result    <- .OnlyA_CV(data_cv, stop_cond = stop.cond * 10, mode_reg_A = mode_reg_A,...)
   # find a rough estimate of the attachment function based on the model Ak = k^alpha
   result_temp  <- PAFit(net_stat, 

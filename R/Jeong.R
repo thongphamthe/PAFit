@@ -1,9 +1,9 @@
 Jeong <- function(raw_net                   , 
-                  net_stat                  , 
-                  T_0_start   = 0           ,
-                  T_0_end                   ,
-                  T_1_start   = T_0_end + 1 ,
-                  T_1_end     = net_stat$T  ,
+                  net_stat                                , 
+                  T_0_start   = 0                         ,
+                  T_0_end     =  round(net_stat$T * 0.75) ,
+                  T_1_start   = T_0_end + 1               ,
+                  T_1_end     = net_stat$T                ,
                   interpolate = FALSE) {
     #check the class 
     if (is.null(raw_net))

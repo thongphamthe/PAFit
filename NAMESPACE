@@ -1,5 +1,16 @@
-useDynLib(PAFit)
-exportPattern("^[[:alpha:]]+")
+useDynLib(PAFit,.registration = TRUE)
+export("Generate_BA","Generate_BB", "Generate_ER", "Generate_fitonly",
+       "GenerateNet", "GetStatistics",
+       "Jeong",
+       "JointEstimate",
+       "Newman",
+       "OnlyA_Estimate",
+       "OnlyF_Estimate",
+        "plot.PA_result",
+        "plot.PAFit_result",
+        "PAFit")
+
+
 importFrom(Rcpp, evalCpp)
 importFrom("grDevices", "rgb")
 importFrom("grDevices", "hcl")
@@ -15,6 +26,8 @@ importFrom("graphics", "polygon")
 importFrom("graphics", "plot")
 importFrom("stats", "runif")
 importFrom("MASS","ginv")
+importFrom("stats", "var")
+
 
 importFrom("magicaxis","magaxis")
 

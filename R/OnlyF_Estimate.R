@@ -1,7 +1,7 @@
 OnlyF_Estimate <- function(raw_net, 
                            net_stat, 
-                           stop.cond = 10^-8   , 
-                           model_A   = "Linear",
+                           stop.cond = 10^-8     , 
+                           model_A   = "Linear"  ,
                            ...) {
   mode_f <- "Log_linear"
   if (model_A == "Linear")
@@ -9,7 +9,9 @@ OnlyF_Estimate <- function(raw_net,
   else if (model_A == "Constant")
       alpha_start   <- 0  
   
-  data_cv      <- .CreateDataCV(net = raw_net, deg_thresh = 0)
+  net_type     <- net_stat$net_type
+  
+  data_cv      <- .CreateDataCV(net = raw_net, deg_thresh = 0, net_type = net_type)
   cv_result    <- .OnlyF_CV(data_cv, 
                            stop_cond   = stop.cond, 
                            alpha       = alpha_start,

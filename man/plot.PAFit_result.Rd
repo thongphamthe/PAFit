@@ -11,8 +11,8 @@ This function plots the estimated attachment function \eqn{A_k} and node fitness
 \method{plot}{PAFit_result}(x,
      net_stat                 ,
      true_f         = NULL    , plot             = "A"              , plot_bin   = TRUE ,
-     line           = FALSE   , confidence       = TRUE             , high_deg_A = 0    ,
-     high_deg_f     = 1       ,
+     line           = FALSE   , confidence       = TRUE             , high_deg_A = 1    ,
+     high_deg_f     = 5       ,
      shade_point    = 0.5     , col_point        = "grey25"         , pch        = 16   ,
      shade_interval = 0.5     , col_interval     = "lightsteelblue" , label_x    = NULL , 
      label_y        = NULL    ,
@@ -47,9 +47,9 @@ Logical. Indicates whether to plot the line fitted from the log-linear model or 
 \item{confidence}{
 Logical. Indicates whether to plot the confidence intervals of \eqn{A_k} and \eqn{eta_i} or not. If confidence == TRUE, a 2-sigma confidence interval will be plotted at each \eqn{A_k} and \eqn{eta_i}.
 }
-\item{high_deg_A}{Integer. The estimated PA function is plotted starting from \code{high_deg_A}. Default value is \code{0}.}
+\item{high_deg_A}{Integer. The estimated PA function is plotted starting from \code{high_deg_A}. Default value is \code{1}.}
 
-\item{high_deg_f}{Integer. If \code{plot == "true_f"}, only nodes whose number of edges acquired is not less than \code{high_deg_f} are plotted. Default value is \code{1}.}
+\item{high_deg_f}{Integer. If \code{plot == "true_f"}, only nodes whose number of edges acquired is not less than \code{high_deg_f} are plotted. Default value is \code{5}.}
 
 \item{col_point}{String. The name of the color of the points. Default value is \code{"black"}.}
 
