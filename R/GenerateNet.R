@@ -148,17 +148,20 @@ function(N,
                     degree[node_name]   <- degree[node_name] + num_edge # Update degrees.
                 }
             }
-            if (edge_list_index + length(nodes) - 1 > current_length_edge) {
-                edge_list           <- rbind(edge_list , matrix(0,nrow = edge_list_index + length(nodes) - current_length_edge, ncol = 3))
-                current_length_edge <- dim(edge_list)[1]
-            }     
-            if (is.null(specific_start))
+            if (0 != length(nodes)) {
+                if (edge_list_index + length(nodes) - 1 > current_length_edge) {
+                    edge_list           <- rbind(edge_list , matrix(0,nrow = edge_list_index + length(nodes) - current_length_edge, ncol = 3))
+                    current_length_edge <- dim(edge_list)[1]
+                }
+            }
+            if (is.null(specific_start)) {
                 final_time_step <- current_time_step
-                 else final_time_step <- max(current_time_step - specific_start,0)
+            } else final_time_step <- max(current_time_step - specific_start,0)
             
-            
-            edge_list[edge_list_index:(edge_list_index + length(nodes) - 1),] <- cbind(rep(n + 1 , length(nodes)),nodes, 
-                                                                                       rep(final_time_step, length(nodes)))
+            if (0 != length(nodes)) {
+                edge_list[edge_list_index:(edge_list_index + length(nodes) - 1),] <- cbind(rep(n + 1 , length(nodes)),nodes, 
+                                                                                          rep(final_time_step, length(nodes)))
+            }
             edge_list_index <- edge_list_index + length(nodes)
             n <- n + 1
             if (n == N) {
@@ -223,8 +226,9 @@ function(N,
                 if (is.null(specific_start))
                     final_time_step <- current_time_step
                 else final_time_step <- max(current_time_step - specific_start,0)
-          
-                edge_list[edge_list_index:(edge_list_index + length(nodes) - 1),] <- cbind(rep(n , length(nodes)),nodes, rep(final_time_step, length(nodes)))
+                   
+                if (length(nodes) >= 1)
+                    edge_list[edge_list_index:(edge_list_index + length(nodes) - 1),] <- cbind(rep(n , length(nodes)),nodes, rep(final_time_step, length(nodes)))
                 edge_list_index <- edge_list_index + length(nodes)
                 P <- degree
                 P[degree == 0] <- offset   

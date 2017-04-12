@@ -66,19 +66,18 @@ OnlyF_Estimate(raw_net               ,
   library("PAFit")
   # size of initial network = 100
   # number of new nodes at each time-step = 100
-  # Ak = k; prior of node fitnesses = 5
-  net        <- GenerateNet(N        = 1000 , m             = 50 , 
+  # Ak = k; inverse variance of the distribution of node fitnesse = 5
+  net        <- Generate_BB(N        = 1000 , m             = 50 , 
                             num_seed = 100  , multiple_node = 100,
-                            mode     = 1    , alpha         = 1  , 
-                            shape    = 5    , rate          = 5)
+                            s        = 5)
                             
   net_stats  <- GetStatistics(net$graph)
   
   # estimate node fitnesses in isolation, assuming Ak = k
   result     <- OnlyF_Estimate(net$graph, net_stats)
  
-  #plot the estimated node fitnesses and true node fitnesses
-  plot(result$estimate_result , net_stats, true = net$fitness, plot = "true_f")
+  # plot the estimated node fitnesses and true node fitnesses
+  plot(result, net_stats, true = net$fitness, plot = "true_f")
   }
 }
 

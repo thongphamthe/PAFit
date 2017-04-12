@@ -62,13 +62,17 @@ OnlyA_Estimate(raw_net                ,
 \examples{
 \dontrun{
   library("PAFit")
-  net        <- GenerateNet(N = 1000 , m = 1 , mode = 1 , alpha = 1 , shape = 0)
+  # a network from BA model
+  net        <- Generate_BB(N = 1000 , m = 1 , mode = 1)
+  
   net_stats  <- GetStatistics(net$graph)
   result     <- OnlyA_Estimate(net$graph, net_stats)
+ 
+  # plot the estimated PA function
+  plot(result, net_stats)
+  
   # true function
   true_A     <- result$estimate_result$center_k
-  #plot the estimated PA function
-  plot(result$estimate_result , net_stats)
   lines(result$estimate_result$center_k, true_A, col = "red") # true line
   legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
   }

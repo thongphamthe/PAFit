@@ -78,8 +78,9 @@ Jeong <- function(raw_net                   ,
   center_k           <- net_stat$center_k
   center_k_degthresh <- which(center_k == net_stat$deg_thresh)[1]
   if (length(center_k_degthresh) > 0) {
-      if (theta[center_k_degthresh] !=0 ) {
-          theta <- theta / theta[center_k_degthresh]  
+      if (!is.na(theta[center_k_degthresh]))    
+          if (theta[center_k_degthresh] !=0 ) {
+              theta <- theta / theta[center_k_degthresh]  
       }
   }
   

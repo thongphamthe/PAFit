@@ -1,8 +1,8 @@
-.OnlyA_CV <- function(cv_data                                    ,
-                     r         = c(0,10^c(-6, -5, -4, -3,-2))    ,
-                     stop_cond = 10^-6                           ,
-                     print_out = FALSE                           ,     
-                     rough     = TRUE                            ,  
+.OnlyA_CV <- function(cv_data                                      ,
+                     r         = c(0,10^c(-6, -5, -4, -3,-2,-1,0)) ,
+                     stop_cond = 10^-6                             ,
+                     print_out = FALSE                             ,     
+                     rough     = TRUE                              ,  
                     ...) { 
   
   FitMultinomial         <- function(true,dat){

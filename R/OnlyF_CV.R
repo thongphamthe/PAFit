@@ -1,4 +1,4 @@
-.OnlyF_CV <- function(cv_data                                              ,
+.OnlyF_CV <- function(cv_data                                             ,
                      s              = 10^c(-1 , 0 ,  1 ,  2 ,  3 , 4)     , 
                      stop_cond      = 10^-5                               ,
                      print_out      = FALSE                               ,
@@ -124,7 +124,9 @@
                             start_f = estimated_fitness, 
                             alpha_start = alpha,
                             only_f      = TRUE,
-                            auto_stop   = TRUE, stop_cond = stop_cond, normalized_f = FALSE,...);
+                            auto_stop   = TRUE, 
+                            stop_cond = stop_cond, 
+                            normalized_f = FALSE,...);
       alpha_each[j] <- 0;
 
       if (TRUE == result_PAFit$diverge_zero)

@@ -10,19 +10,20 @@
 \alias{print.PA_result}
 \alias{print.PAFit_result}
 \alias{print.CV_Result}
+\alias{plot.PAFit_result}
 \alias{PAFit}
 \alias{PAFit_new}
 \docType{package} 
-\title{Joint Inference of Preferential Attachment and Node Fitness in Temporal Complex Networks}
+\title{Modeling and Estimating Preferential Attachment and Node Fitness in Temporal Complex Networks}
 \description{
-An implementation of a framework for modelling and inferencing the attachment mechanisms of temporal complex networks. For estimating the attachment function in isolation, we implement Jeong's method, the corrected Newman's method and the PAFit method. For estimating node fitnesses in isolation, we implement the PAFit method. For jointly estimating the attachment function and node fitnesses, we implement the PAFit method. The package also provides flexible methods to generate a wide range of temporal networks based on PA and fitness. See the accompanying vignette for a tutorial. For a list of references, please run the command: \code{citation("PAFit")}.
+An implementation of a framework for modeling and estimating the attachment mechanisms of temporal complex networks. For estimating the attachment function in isolation, we implement Jeong's method, the corrected Newman's method and the PAFit method. For estimating node fitnesses in isolation, we implement the PAFit method. For jointly estimating the attachment function and node fitnesses, we implement the PAFit method. The package also provides flexible methods to generate a wide range of temporal networks based on PA and fitness. See the accompanying vignette for a tutorial. For a list of references, please run the command: \code{citation("PAFit")}.
 }
 \details{
 \tabular{ll}{
 Package: \tab PAFit\cr
 Type: \tab Package\cr
-Version: \tab 0.9.7.5\cr
-Date: \tab 2017-03-01\cr
+Version: \tab 0.9.8.4\cr
+Date: \tab 2017-04-11\cr
 License: \tab GPL-3 \cr
 }
 The main functions are as follows. 
@@ -79,30 +80,31 @@ Maintainer: Thong Pham \email{thongpham@thongpham.net}
 \dontrun{
   ### Jointly estimate the attachment function and node fitnesses
    library("PAFit")
+  # a Bianconi-Barabasi network 
   # size of initial network = 100
   # number of new nodes at each time-step = 100
-  # Ak = k; prior of node fitnesses = 5
-  net        <- GenerateNet(N        = 1000 , m             = 50 , 
+  # Ak = k; inverse variance of distribution of fitness: s = 5
+  net        <- Generate_BB(N        = 1000 , m             = 50 , 
                             num_seed = 100  , multiple_node = 100,
-                            mode     = 1    , alpha         = 1  , 
-                            shape    = 5    , rate          = 5)
+                            s        = 5)
   net_stats  <- GetStatistics(net$graph)
   
   #Joint estimation of attachment function Ak and node fitness
   result     <- JointEstimate(net$graph, net_stats)
   
-  summary(result$estimate_result)
+  summary(result)
+  
+  # plot the estimated PA function
+  plot(result, net_stats)
   
   # true function
   true_A     <- pmax(result$estimate_result$center_k,1)
-  #plot the estimated PA function
-  plot(result$estimate_result , net_stats)
   lines(result$estimate_result$center_k, true_A, col = "red") # true line
   legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
   #plot distribution of estimated node fitnesses
-  plot(result$estimate_result , net_stats, plot = "f")
+  plot(result, net_stats, plot = "f")
   
   #plot the estimated node fitnesses and true node fitnesses
-  plot(result$estimate_result , net_stats, true = net$fitness, plot = "true_f")
+  plot(result, net_stats, true = net$fitness, plot = "true_f")
 }
 }

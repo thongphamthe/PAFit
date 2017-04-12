@@ -62,10 +62,10 @@
   library("PAFit")
   net        <- GenerateNet(N = 1000 , m = 1 , mode = 1 , alpha = 1 , shape = 0)
   net_stats  <- GetStatistics(net$graph)
-  result     <- Newman(net_stats)
+  result     <- Newman(net$graph, net_stats)
   # true function
   true_A     <- result$center_k
-  #plot the estimated PA function
+  # plot the estimated PA function
   plot(result , net_stats)
   lines(result$center_k, true_A, col = "red") # true attachment function
   legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")

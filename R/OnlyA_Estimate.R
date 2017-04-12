@@ -24,6 +24,7 @@ OnlyA_Estimate <- function(raw_net            ,
                    stop_cond   = stop.cond               ,
                    mode_reg_A  = mode_reg_A              ,  
                    ...) 
-  
-  return(list(cv_data = data_cv, cv_result = cv_result, estimate_result = result))
+  combined_result        <- list(cv_data = data_cv, cv_result = cv_result, estimate_result = result) 
+  class(combined_result) <- "Full_PAFit_result"
+  return(combined_result)
 }

@@ -1,4 +1,7 @@
-Newman <- function(net_stat, start = 1, interpolate = FALSE){
+Newman <- function(raw_net           , 
+                   net_stat          ,
+                   start       = 1   , 
+                   interpolate = FALSE){
   deg.max          <- net_stat$deg.max
   T_time           <- dim(net_stat$n_tk)[1]      
   k                <- 0:deg.max
@@ -32,8 +35,9 @@ Newman <- function(net_stat, start = 1, interpolate = FALSE){
   
   center_k_degthresh <- which(center_k == net_stat$deg_thresh)[1]
   if (length(center_k_degthresh) > 0) {
-    if (theta[center_k_degthresh] !=0 ) {
-        theta <- theta / theta[center_k_degthresh]  
+    if (!is.na(theta[center_k_degthresh]))   
+        if (theta[center_k_degthresh] !=0 ) {
+            theta <- theta / theta[center_k_degthresh]  
     }
   }
   

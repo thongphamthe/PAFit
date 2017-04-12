@@ -53,8 +53,8 @@ for (mode_f_value in c("Constant_PA", "Log_linear")) {
                         plot(result_Jeong,net_stats)
                         plot(result_Jeong,net_stats, line = TRUE)
                         plot(result_Jeong,net_stats, high_deg = 5)
-                        result_Newman <- Newman(net_stats)
-                        result_Newman <- Newman(net_stats, interpolate = TRUE)
+                        result_Newman <- Newman(net$graph, net_stats)
+                        result_Newman <- Newman(net$graph, net_stats, interpolate = TRUE)
                       
 }
 net_stats <- GetStatistics(net$graph,deg_threshold = deg_thresh, Binning = FALSE, G = 10) 
@@ -84,7 +84,7 @@ for (mode_f_value in c("Constant_PA", "Log_linear")) {
   plot(result_Jeong,net_stats)
   plot(result_Jeong,net_stats, line = TRUE)
   plot(result_Jeong,net_stats, high_deg = 5)
-  result_Newman <- Newman(net_stats)
-  result_Newman <- Newman(net_stats, interpolate = TRUE)
+  result_Newman <- Newman(net$graph, net_stats)
+  result_Newman <- Newman(net$graph, net_stats, interpolate = TRUE)
 }
 

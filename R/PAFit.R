@@ -18,7 +18,7 @@ PAFit <- function(net_stat,
                   step_size      = 0.5         ,
                   
                   normalized_f   = FALSE       , interpolate    = FALSE        ,
-                  weight_power   = 1           , normal_start_f = FALSE        ) {
+                  weight_power   = 0           , normal_start_f = FALSE        ) {
   if ((net_stat$only_PA == TRUE) & (only_PA == FALSE)) {
     warning("The net_stat does not support estimation of node fitness. It will be run with option 'only_PA = TRUE'.
             Please re-run GetStatistics again with the option 'only_PA = FALSE' if you also want to estimate fitnesses.")
@@ -97,20 +97,18 @@ PAFit <- function(net_stat,
   if (!is.null(start_f))
       f             <- start_f  
   else if ("Constant" == start_mode_f) {
-      if (normal_start_f == FALSE) {
-          max_time_temp <- max(net_stat$appear_time)
-          weight_f_temp <- max_time_temp/ (max_time_temp - net_stat$appear_time[as.character(net_stat$f_position)] + 1)
-          max_f         <- max(weight_f_temp)
-          f             <- weight_f_temp / max_f 
-          f             <- f/sqrt(var(f))*sqrt(1/s) # variance = 1/s
-      } else  f <- rep(1,length(net_stat$f_position)) 
-      # reasoning: the final nodes with z_j = 0 should have fitness 1
-      # earlier nodes with z_j = 0 should have fitness less than 1
+      f <- rep(1,length(net_stat$f_position)) 
+      # f <- runif(length(net_stat$f_position))
+      # f <- length(f) * f / sum(f)
+      # f <- rgamma(n = length(net_stat$f_position), shape = s, rate = s);
+      # f <- length(f) * f / sum(f)
   }
   else if ("Random" == start_mode_f) {
       f <- rgamma(n = length(net_stat$f_position), shape = s, rate = s);
       f <- length(f) * f / sum(f)
   }
+  if (length(non_zero_f) > 0 && length(non_zero_f) < length(f))
+      f[-non_zero_f] <- 1
   # if (shape < 1 & rate < 1)
   # f[net_stat$z_j == 0] <- 0
   
@@ -331,20 +329,22 @@ PAFit <- function(net_stat,
         sum(net_stat$offset_m_tk) * log(offset) +   
         (sum((shape / weight_f[non_zero_f_temp] - 1) * log(f[non_zero_f_temp])) - 
            sum(rate / weight_f[non_zero_f_temp]  * (f[non_zero_f_temp])));  
+       #print(1)
     } else if (FALSE == only_PA) {
-      value <- sum(net_stat$z_j[non_zero_f_temp] * log(f[non_zero_f_temp])) + 
-        sum(net_stat$offset_m_tk)*log(offset) +  
-        (shape - 1) * log(offset) - rate * offset +    
-        sum(net_stat$Sum_m_k[non_zero_theta_temp] * log(theta[non_zero_theta_temp])) - 
-        sum(net_stat$m_t[time_non_zero] * log(normalized_const[time_non_zero])) + 
-        (sum((shape / weight_f[non_zero_f_temp] - 1) * log(f[non_zero_f_temp])) - 
+      #value <- -1000
+      value <- sum(net_stat$z_j[non_zero_f_temp] * log(f[non_zero_f_temp])) +
+        sum(net_stat$offset_m_tk)*log(offset) +
+        (shape - 1) * log(offset) - rate * offset +
+        sum(net_stat$Sum_m_k[non_zero_theta_temp] * log(theta[non_zero_theta_temp])) -
+        sum(net_stat$m_t[time_non_zero] * log(normalized_const[time_non_zero])) +
+        (sum((shape / weight_f[non_zero_f_temp] - 1) * log(f[non_zero_f_temp])) -
            sum(rate / weight_f[non_zero_f_temp]  * (f[non_zero_f_temp]))) - cal_reg_A()
-      #print(log10_likelihood)
+      #print(2)
     }  else if ((TRUE == only_PA) && (!is.null(true_f))) {
       value <- sum(net_stat$z_j[non_zero_f_temp] * log(f[non_zero_f_temp])) + 
         sum(net_stat$Sum_m_k[non_zero_theta_temp] * log(theta[non_zero_theta_temp])) - 
         sum(net_stat$m_t[time_non_zero] * log(normalized_const[time_non_zero])) - cal_reg_A()
-      
+       #print(3)
     }  else if (is.null(true_f) && (TRUE == only_PA))  { 
       #print("Go inside here!")  
       value <- sum(net_stat$Sum_m_k[non_zero_theta_temp] * log(theta[non_zero_theta_temp])) - 
@@ -352,6 +352,7 @@ PAFit <- function(net_stat,
       
       #print(paste0("value: ",value));  
       value <- value - cal_reg_A()
+       #print(4)
     }
     
     return(value)
@@ -887,7 +888,7 @@ PAFit <- function(net_stat,
         .normalized_constant_alpha(normalized_const, alpha,
                                    PA_offset,net_stat$node_degree,theta,f,net_stat$offset_tk,offset)
       #print(normalized_const)
-      time_non_zero     <- which(normalized_const != 0)
+      time_non_zero     <- which(normalized_const > 0)
       #non_zero_f        <- which(f > 0) 
       #print(alpha)
       #print(normalized_const[time_non_zero])
@@ -897,10 +898,13 @@ PAFit <- function(net_stat,
       
       #print(paste("log normalized_const:",log(normalized_const[time_non_zero])));
       
+      non_zero_theta_temp <- which(theta > 0)
+      
       upper_f_term <- net_stat$z_j[non_zero_f] * log(f[non_zero_f])
       
       log10_likelihood    <- c(log10_likelihood, sum(upper_f_term) +
-                                 alpha * sum(net_stat$Sum_m_k * log(theta)) -
+                                 alpha * sum(net_stat$Sum_m_k[non_zero_theta_temp] * 
+                                             log(theta[non_zero_theta_temp])) -
                                  sum(net_stat$m_t[time_non_zero] * log(normalized_const[time_non_zero])) +
                                  (sum((shape / weight_f[non_zero_f] - 1) * log(f[non_zero_f])) - 
                                     sum(rate / weight_f[non_zero_f]  * (f[non_zero_f]))) +

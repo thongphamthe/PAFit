@@ -4,14 +4,15 @@ JointEstimate <- function(raw_net                  ,
                           mode_reg_A     = 0       ,
                           print.out      = FALSE   ,
                           cv_deg_thresh  = c(1,10) ,
-                          normal_start_f = FALSE   ,
-                          weight_f       = 1       ,
-                          deg_thresh     = net_stat$deg_thresh,
-                          p              = 0.75               ,
+                          p              = 0.75    ,
                           ...) {
   
   # first finding the optima r and s by cross validation
   #print("start")
+  
+  normal_start_f <- 1
+  weight_f       <- 0
+  deg_thresh     <- net_stat$deg_thresh
   
   #cv_deg_thresh <- c(1,5);
   net_type  <-  net_stat$net_type
@@ -78,7 +79,8 @@ JointEstimate <- function(raw_net                  ,
                                         mode_reg_A   = mode_reg_A         ,
                                         ...) 
   
-  return(list(cv_data = data_cv, cv_result = cv_result, 
-              estimate_result = result,
-              estimate_result_pow0 = result_pow_0))
+  combined_result        <- list(cv_data = data_cv, cv_result = cv_result, 
+                                 estimate_result = result, estimate_result_pow0 = result_pow_0) 
+  class(combined_result) <- "Full_PAFit_result"
+  return(combined_result)
 }

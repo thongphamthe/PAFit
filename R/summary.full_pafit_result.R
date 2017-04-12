@@ -1,0 +1,46 @@
+# function to summarize estimation results
+summary.Full_PAFit_result <- function(object,...){
+  cat("\nFull_PAFit_result object \n");
+  cat("Estimation results by the PAFit method. \n");
+  mode <- 0
+  object_estimate_result <- object$estimate_result
+  if (object_estimate_result$only_PA == TRUE) {
+    cat("Mode: Only the PA function was estimated. \n") 
+    mode <- 0
+  } else if (object_estimate_result$only_f == TRUE) {
+    cat("Mode: Only node fitnesses were estimated. \n")
+    mode <- 1
+  }
+  else {
+    cat("Mode: Both the attachment kernel and node fitness were estimated. \n")
+    mode <- 2
+  }
+  #cat("Form of the PA function:",object_estimate_result$mode_f,"\n");
+  
+  if (mode == 0 || mode == 2) {
+    if (object_estimate_result$auto_lambda == TRUE) {
+      cat("Estimated r parameter: ", object_estimate_result$ratio,"\n");
+    } else cat("Lambda used: ", object_estimate_result$lambda,"\n");
+  }
+  if (mode == 1 || mode == 2)
+    cat("Estimated s parameter:",object_estimate_result$shape,"\n")
+  if (mode == 0 || mode == 2)
+      cat("Estimated attachment exponent: ",object_estimate_result$alpha,"\n");
+  if (mode == 0 || mode == 2) {
+      if (object_estimate_result$ci[1] == "N") {
+          cat("No possible confidence interval for the estimated attachment exponent.\n");
+      } else if (object_estimate_result$mode_f != "Log_linear") {
+            cat("95% confidence interval of the attachment exponent: (", object_estimate_result$ci[1], ",", 
+                object_estimate_result$ci[2],")\n");
+         }
+      else {
+          cat("Two-sigma confidence interval of the attachment exponent: (", object_estimate_result$ci[1], ",", 
+              object_estimate_result$ci[2],")\n");  
+      }
+  }
+  cat("-------------------------------------------\n")
+  cat("Additional information: \n");
+  cat("Number of bins: ", object_estimate_result$G,"\n");
+  cat("Number of iterations: ",length(object_estimate_result$objective_value) - 1,"\n");
+  cat("Stopping condition:", object_estimate_result$stop_cond,"\n");
+}

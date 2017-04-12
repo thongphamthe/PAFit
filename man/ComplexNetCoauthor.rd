@@ -19,7 +19,4 @@ The original dataset is available for download at www.paulsheridan.net
 }
 \usage{data(ComplexNetCoauthor)}
 \format{\code{coauthor.net} is a matrix with 2849 rows and 3 columns. Each row is an edge with the format (author id 1, author id 2, time_stamp). \code{coauthor.truetime} is a two-column matrix whose each row is (time_stamp, real time). \code{coauthor.author_id} is a two-column matrix whose each row is (author id, author name).}
-\source{www.paulsheridan.net}
-\references{
-  www.paulsheridan.net
-}
+\source{http://www.paulsheridan.net/files/collabnet.zip}

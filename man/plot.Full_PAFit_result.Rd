@@ -1,5 +1,5 @@
-\name{plot.PAFit_result}
-\alias{plot.PAFit_result}
+\name{plot.Full_PAFit_result}
+\alias{plot.Full_PAFit_result}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Plotting the estimated attachment function and node fitness
@@ -8,7 +8,7 @@ Plotting the estimated attachment function and node fitness
 This function plots the estimated attachment function \eqn{A_k} and node fitness \eqn{eta_i}, together with additional information such as their confidence intervals or the estimated attachment exponent (\eqn{\alpha} when assuming \eqn{A_k = k^\alpha}). 
 }
 \usage{
-\method{plot}{PAFit_result}(x,
+\method{plot}{Full_PAFit_result}(x,
      net_stat                 ,
      true_f         = NULL    , plot             = "A"              , plot_bin   = TRUE ,
      line           = FALSE   , confidence       = TRUE             , high_deg_A = 1    ,
@@ -23,7 +23,7 @@ This function plots the estimated attachment function \eqn{A_k} and node fitness
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-An object of class \code{PAFit_result}, containing the estimated results from \code{\link{PAFit}}.
+An object of class \code{Full_PAFit_result}, containing the estimated results from \code{\link{OnlyA_Estimate}}, \code{\link{OnlyF_Estimate}} or \code{\link{JointEstimate}}.
 }
   \item{net_stat}{
 An object of class \code{PAFit_data}, containing the summerized statistics.
@@ -89,9 +89,10 @@ Thong Pham \email{thongpham@thongpham.net}
 ## Since the runtime is long, we do not let this example run on CRAN
 \dontrun{
 library("PAFit")
-net        <- GenerateNet(N = 50 , m = 10 , mode = 1 , alpha = 1 , shape = 10 , rate = 10)
+# a network from Bianconi-Barabasi model
+net        <- Generate_BB(N = 50 , m = 10 , s = 10)
 net_stats  <- GetStatistics(net$graph)
-result     <- PAFit(net_stats)
+result     <- JointEstimate(net$graph, net_stats)
 #plot A
 plot(result , net_stats , plot = "A")
 true_A     <- c(1,result$center_k[-1])

@@ -1,5 +1,5 @@
 #testing GenerateNet, GetStatistics, Jeong, Newman_corrected and PAFit
-
+#set.seed(1)
 library(PAFit)
 for (prob_m in c("TRUE", "FALSE"))
   for (inc in c("TRUE","FALSE"))
@@ -21,12 +21,12 @@ for (prob_m in c("TRUE", "FALSE"))
         plot(result_Jeong,net_stats)
         plot(result_Jeong,net_stats, line = TRUE)
        
-        result_Newman <- Newman(net_stats)
+        result_Newman <- Newman(net$graph, net_stats)
         print(result_Newman)
         summary(result_Newman)
         plot(result_Newman,net_stats)
         plot(result_Newman,net_stats, line = TRUE)
-       result_Newman <- Newman(net_stats, interpolate = TRUE)
+       result_Newman <- Newman(net$graph, net_stats, interpolate = TRUE)
         print(result_Newman)
         summary(result_Newman)
         plot(result_Newman,net_stats)

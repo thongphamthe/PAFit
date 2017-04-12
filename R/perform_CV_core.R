@@ -1,11 +1,11 @@
 .performCV_core <- function(cv_data                                                 ,
-                            r              = 10^c(-6 , -5 , -4 , -3 , -2 )          ,
-                            s              = 10^c(-2 , -1 ,  0 ,  1 ,  2 ,  3 ,  4) , 
+                            r              = 10^c(-6 , -5 , -4 , -3 , -2 , -1, 0)   ,
+                            s              = 10^c(-2 , -1 ,  0 ,  1 ,  2 ,  3 ,4)   , 
                             stop_cond      = 10^-6                                  ,
                             print_out      = FALSE                                  ,
                             cv_deg_thresh  = c(1,5)                                 ,
-                            normal_start_f = normal_start_f                         ,
-                            weight_f       = weight_f                               ,
+                            normal_start_f = 1                                      ,
+                            weight_f       = 0                                      ,
                            ...) { 
   
   FitMultinomial         <- function(true,dat){
@@ -58,8 +58,7 @@
                     PA              <-  cv_data$deg_each[k,chosen_node]^alpha_temp
                     #print(PA)
                     PA[PA == 0]     <- 1
-                    fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node])[2])
-                    names(fitness)  <- colnames(cv_data$deg_each[,chosen_node])
+                    fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node,drop = FALSE])[2])
                     fitness[chosen_node] <- result_PAFit$f[chosen_node] 
         
                     prob_PAFit      <- PA * fitness
@@ -128,8 +127,8 @@
               PA              <-  cv_data$deg_each[k,chosen_node]^alpha_temp
               #print(PA)
               PA[PA == 0]     <- 1
-              fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node])[2])
-              names(fitness)  <- colnames(cv_data$deg_each[,chosen_node])
+              fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node,drop = FALSE])[2])
+              names(fitness)  <- colnames(cv_data$deg_each[,chosen_node,drop = FALSE])
               fitness[chosen_node] <- result_PAFit$f[chosen_node] 
               prob_PAFit      <- PA * fitness
               prob_PAFit      <- prob_PAFit / sum(prob_PAFit,na.rm = TRUE) 
@@ -197,7 +196,7 @@
               PA              <-  cv_data$deg_each[k,chosen_node]^alpha_temp
               #print(PA)
               PA[PA == 0]     <- 1
-              fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node])[2])
+              fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node,drop = FALSE])[2])
               names(fitness)  <- colnames(cv_data$deg_each[,chosen_node])
               fitness[chosen_node] <- result_PAFit$f[chosen_node] 
               prob_PAFit      <- PA * fitness
@@ -278,7 +277,7 @@
         PA[is.na(PA)]   <- cv_data$deg_each[k,chosen_node][is.na(PA)]^alpha_temp
         #print(PA)
         PA[PA == 0]     <- 1
-        fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node])[2])
+        fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node,drop = FALSE])[2])
         names(fitness)  <- colnames(cv_data$deg_each[,chosen_node])
         fitness[chosen_node] <- result_PAFit$f[chosen_node] 
         
@@ -332,7 +331,7 @@
   #       if (cv_data$m_each[k] != 0) { 
   #           PA              <- result_PAFit$A[cv_data$deg_each[k,chosen_node]]
   #           PA[is.na(PA)]   <- cv_data$deg_each[k,chosen_node][is.na(PA)]^alpha_temp
-  #         fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node])[2])
+  #         fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node,drop = FALSE])[2])
   #         names(fitness)  <- colnames(cv_data$deg_each[,chosen_node])
   #         fitness[chosen_node] <- result_PAFit$f[chosen_node] 
   #         

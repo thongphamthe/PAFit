@@ -8,10 +8,13 @@
 This function implements a correction of Newman's method to estimate the preferential attachment function. 
 }
 \usage{
-  Newman(net_stat , start = 1 , interpolate = FALSE)
+  Newman(raw_net, net_stat , start = 1 , interpolate = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+  \item{raw_net}{
+    a three-column matrix that contains the network.
+}
   \item{net_stat}{
     An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{GetStatistics}}.
   }
@@ -39,7 +42,7 @@ See \code{\link{Jeong}}, \code{\link{OnlyA_Estimate}} for other methods to estim
   library("PAFit")
   net        <- GenerateNet(N = 1000 , m = 1 , mode = 1 , alpha = 1 , shape = 0)
   net_stats  <- GetStatistics(net$graph)
-  result     <- Newman(net_stats)
+  result     <- Newman(net$graph,net_stats)
   # true function
   true_A     <- result$center_k
   #plot the estimated PA function

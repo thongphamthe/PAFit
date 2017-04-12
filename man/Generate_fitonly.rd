@@ -12,8 +12,7 @@ Generate_fitonly(N,
                  multiple_node  = 1      , 
                  m              = 1      ,
                  mode_f         = "gamma", 
-                 rate           = 10     , 
-                 shape          = 10     , 
+                 s              = 10     , 
                  meanlog        = 0      , 
                  sdlog          = 1      ,
                  scale_pareto   = 2      ,
@@ -42,11 +41,8 @@ Generate_fitonly(N,
     \item{mode_f}{
       String. Possible values:\code{"gamma"}, \code{"log_normal"} or \code{"power_law"}. This parameter indicates the true distribution for node fitness. \code{"gamma"} = gamma distribution, \code{"log_normal"} = log-normal distribution. \code{"power_law"} = power-law (pareto) distribution. Default value is "gamma".
     }
-  \item{rate}{
-    Positive numeric. The rate parameter in the Gamma prior for node fitness. If either rate or shape is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e. Barabasi-Albert model)
-  }
-  \item{shape}{
-    Positive numeric. The shape parameter in the Gamma prior for node fitness. If either rate or shape is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e. Barabasi-Albert model)
+\item{s}{
+    Positive numeric. The inverse variance of the Gamma prior for node fitness. If \code{s} is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e. Barabasi-Albert model)
   }
   \item{meanlog}{
     Numeric. Mean of the log-normal distribution in log scale. Default value is \code{0}.
@@ -80,8 +76,9 @@ Generate_fitonly(N,
 
 \examples{
   library("PAFit")
-  #Generate a network from the original BA model with alpha = 1, N = 100, m = 1
-  net <- Generate_fitonly(N = 100,m = 1,mode = 1, shape = 10, rate = 10)
+  # Generate a network from the Caldarelli model with alpha = 1, N = 100, m = 1
+  # The inverse variance of distribution of node fitnesses is s = 10
+  net <- Generate_fitonly(N = 100,m = 1,mode = 1, s = 10)
   str(net)
 }
 
