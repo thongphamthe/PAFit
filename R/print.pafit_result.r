@@ -1,6 +1,6 @@
 # function to display estimation results  2015-3-11 Thong Pham
 print.PAFit_result <- function(x,...) {
-  cat("\nPAFit_result object contains the estimation results by the PAFit method. \n")
+  cat("\nContaining the estimation results by the PAFit method. \n")
   if (x$only_PA == TRUE) {
       cat("Mode: Only the PA function was estimated. \n")     
   } else if (x$only_f == TRUE) {

@@ -1,6 +1,5 @@
 # function to summarize estimation results
 summary.PAFit_result <- function(object,...){
-    cat("\nPAFit_result object \n");
     cat("Estimation results by the PAFit method. \n");
   
      if (object$only_PA == TRUE) {

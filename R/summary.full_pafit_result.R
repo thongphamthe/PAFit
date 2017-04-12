@@ -1,6 +1,5 @@
 # function to summarize estimation results
 summary.Full_PAFit_result <- function(object,...){
-  cat("\nFull_PAFit_result object \n");
   cat("Estimation results by the PAFit method. \n");
   mode <- 0
   object_estimate_result <- object$estimate_result
