@@ -1,5 +1,5 @@
 # function to generate generalized Erdos-Renyi network 
-Generate_fitonly <-
+generate_fit_only <-
   function(N, 
            num_seed       = 2      , 
            multiple_node  = 1      , 
@@ -24,6 +24,6 @@ Generate_fitonly <-
     if (sdlog <= 0)
         stop("sdlog must be positive")   
     
-    return(GenerateNet(N = N , num_seed = num_seed , multiple_node = multiple_node , m = m , alpha = 0, mode_f = mode_f, 
+    return(generate_net(N = N , num_seed = num_seed , multiple_node = multiple_node , m = m , alpha = 0, mode_f = mode_f, 
                        rate = s, shape = s,meanlog = meanlog, sdlog = sdlog, scale_pareto = scale_pareto, shape_pareto = shape_pareto))
   }

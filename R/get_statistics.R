@@ -1,10 +1,10 @@
 # function to summarize statistics from a growing network 
-GetStatistics <-
+get_statistics <-
 function(net ,
-         net_type      = "directed" , only_PA       = FALSE , only_true_deg_matrix = FALSE,
-         Binning       = TRUE       , G             = 50    ,
+         net_type      = "directed" , only_PA        = FALSE , only_true_deg_matrix = FALSE,
+         binning       = TRUE       , g              = 50    ,
          deg_threshold = 0          , 
-         CompressMode  = 0          , CompressRatio = 0.5   , CustomTime           = NULL){
+         compress_mode = 0          , compress_ratio = 0.5   , custom_time           = NULL){
 
     net               <- net[order(net[,3], decreasing = FALSE),]
     time_stamp        <- as.vector(net[,3])
@@ -34,55 +34,55 @@ function(net ,
     T                 <- length(unique_time)
     N                 <- length(node_id)
     if (only_true_deg_matrix == TRUE)
-        Binning <- FALSE  
-    ##############  Binning #########################
+        binning <- FALSE  
+    ##############  binning #########################
     #We have to cover from start_deg degree to deg.max degree, that is an interval with length deg.max - start_deg + 1
-    if ((TRUE == Binning) && (G > 0) && (G <= deg.max - start_deg + 1)) {
-        if (1 == G) {
+    if ((TRUE == binning) && (g > 0) && (g <= deg.max - start_deg + 1)) {
+        if (1 == g) {
             base            <- deg.max - start_deg + 1
             interval_length <- deg.max - start_deg + 1
         } else {
-            #find the base that gives exactly G bin
+            #find the base that gives exactly g bin
             is.warn <- options()$warn 
             options(warn = -1) #temporily supress warning
-            ff <- function(x){deg.max - start_deg + 1.0 - sum(floor(x^(0:(G - 1))))}
-            base      <- uniroot(ff,interval = c(1 + 1e-15,deg.max - start_deg + G + 1.1),tol = .Machine$double.eps)$root
+            ff <- function(x){deg.max - start_deg + 1.0 - sum(floor(x^(0:(g - 1))))}
+            base      <- uniroot(ff,interval = c(1 + 1e-15,deg.max - start_deg + g + 1.1),tol = .Machine$double.eps)$root
             options(warn = is.warn)
-            interval_length <- floor(base^(0:(G-1)))
+            interval_length <- floor(base^(0:(g-1)))
         }
-    } else if ((FALSE == Binning) || (0 == G) || (G > deg.max - start_deg + 1)) {
-        G               <- deg.max - start_deg + 1
-        interval_length <- rep(1,G)
+    } else if ((FALSE == binning) || (0 == g) || (g > deg.max - start_deg + 1)) {
+        g               <- deg.max - start_deg + 1
+        interval_length <- rep(1,g)
         base            <- 1
     }
     
-    bin_vector   <-rep(G + start_deg - 1, deg.max + 1)  # degree 0 to deg.max
+    bin_vector   <-rep(g + start_deg - 1, deg.max + 1)  # degree 0 to deg.max
     # The right-end degree of the bins
-    begin_deg   <- c(start_deg,start_deg + cumsum(interval_length)[-G])
+    begin_deg   <- c(start_deg,start_deg + cumsum(interval_length)[-g])
     end_deg     <- begin_deg + interval_length - 1
     if (start_deg > 0)
         bin_vector[1:start_deg]  <- 0:(start_deg - 1)
-    for (i in 1:G) 
+    for (i in 1:g) 
         bin_vector[(begin_deg[i]:end_deg[i]) + 1]  <- i + start_deg - 1
     ########### Compress Time stamp #########################
     
-    if (1 == CompressMode[1]) {
-        T_compressed           <- round(CompressRatio*(T - 1))
+    if (1 == compress_mode[1]) {
+        T_compressed           <- round(compress_ratio*(T - 1))
         compressed_unique_time <- unique_time[floor(seq(1,T - 1,length.out = T_compressed))]
-    } else if (2 == CompressMode[1]){
+    } else if (2 == compress_mode[1]){
         edge_cumsum             <- cumsum(as.vector(table(time_stamp))) 
         edge_ratio              <- edge_cumsum/edge_cumsum[T]
-        compressed_unique_time  <- unique_time[which(edge_ratio >= 1 - CompressRatio)]
-        temp                    <- edge_ratio[which(edge_ratio < 1 - CompressRatio)]
-        CompressRatio           <- temp[length(temp)]
+        compressed_unique_time  <- unique_time[which(edge_ratio >= 1 - compress_ratio)]
+        temp                    <- edge_ratio[which(edge_ratio < 1 - compress_ratio)]
+        compress_ratio           <- temp[length(temp)]
         T_compressed            <- length(compressed_unique_time)
-    }  else if (3 == CompressMode[1]) {
-        compressed_unique_time <- sort(unique(CustomTime))
+    }  else if (3 == compress_mode[1]) {
+        compressed_unique_time <- sort(unique(custom_time))
         T_compressed           <- length(compressed_unique_time)
-        CompressRatio          <- length(compressed_unique_time)/(T - 1)
+        compress_ratio          <- length(compressed_unique_time)/(T - 1)
     } else {
         #No Time compression
-        CompressRatio   <- 1
+        compress_ratio   <- 1
         T_compressed    <- T
         compressed_unique_time <- unique_time
     }
@@ -121,16 +121,16 @@ function(net ,
         m_tk             <- matrix(0,0,0)
         m_t              <- vector() 
     } else {
-        Sum_m_k          <- rep(0,start_deg + G)
-        n_tk             <- matrix(0,nrow = T_compressed - 1, ncol = start_deg + G)
-        m_tk             <- matrix(0,nrow = T_compressed - 1, ncol = start_deg + G)
+        Sum_m_k          <- rep(0,start_deg + g)
+        n_tk             <- matrix(0,nrow = T_compressed - 1, ncol = start_deg + g)
+        m_tk             <- matrix(0,nrow = T_compressed - 1, ncol = start_deg + g)
         m_t              <- rep(0,T_compressed - 1)  
     }
 
     if (FALSE == only_PA) {
         if (only_true_deg_matrix == FALSE)  {
-            offset_tk               <- matrix(0,nrow = T_compressed - 1, ncol = start_deg + G) 
-            offset_m_tk             <- matrix(0,nrow = T_compressed - 1, ncol = start_deg + G) 
+            offset_tk               <- matrix(0,nrow = T_compressed - 1, ncol = start_deg + g) 
+            offset_m_tk             <- matrix(0,nrow = T_compressed - 1, ncol = start_deg + g) 
             z_j                     <- rep(0,N_new)
             appear_time             <- rep(0,N_new) #index of m_t, start from 1
         } else {
@@ -155,7 +155,7 @@ function(net ,
     only_true_deg_matrix_num = ifelse(only_true_deg_matrix,1,0)
     #print(time_stamp)
     #print(unique_time)
-    center_k <- rep(0,G)
+    center_k <- rep(0,g)
     
     #print(bin_vector)
     
@@ -209,16 +209,22 @@ function(net ,
 
     result  <- list(offset_tk = offset_tk, offset_m_tk = offset_m_tk, net_type = net_type[1], 
                     n_tk = n_tk,m_tk = m_tk, bin_vector = bin_vector, center_k = center_k, 
-                    Sum_m_k = Sum_m_k,
+                    sum_m_k = Sum_m_k,
                     node_degree = node_degree,m_t = m_t,z_j = z_j, initial_nodes = initial_nodes,
-                deg_thresh = deg_threshold, final_deg = final_deg, only_PA = only_PA, 
-                increase = increase, start_deg = start_deg, 
-                Binning = Binning, G = G, 
-                CompressMode = CompressMode[1], f_position = f_position, compressed_unique_time = compressed_unique_time, begin_deg = begin_deg, end_deg = end_deg,
-                interval_length = interval_length,node_id = node_id_old, N = N, T = T, T_compressed = T_compressed,
-                deg.max = deg.max, CompressRatio = CompressRatio , CustomTime = CustomTime, 
-                only_true_deg_matrix = only_true_deg_matrix,
-                appear_time = appear_time)
+                    deg_thresh = deg_threshold, final_deg = final_deg, only_PA = only_PA, 
+                    increase = increase, start_deg = start_deg, 
+                    binning = binning, g = g, 
+                    compress_mode = compress_mode[1], 
+                    f_position = f_position, 
+                    compressed_unique_time = compressed_unique_time, 
+                    begin_deg = begin_deg, end_deg = end_deg,
+                    interval_length = interval_length,
+                    node_id = node_id_old, N = N, T = T, 
+                    t_compressed = T_compressed,
+                    deg_max = deg.max, compress_ratio = compress_ratio , 
+                    custom_time = custom_time, 
+                    only_true_deg_matrix = only_true_deg_matrix,
+                    appear_time = appear_time)
     class(result) <- "PAFit_data"
    
     return(result)

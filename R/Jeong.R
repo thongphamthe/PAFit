@@ -42,10 +42,10 @@ Jeong <- function(raw_net                   ,
     to_node       <- in_node[time %in% T_1_interval]
     from_node     <- out_node[time %in% T_1_interval]
     
-   #if (net_stat$Sum_m_k[length(net_stat$Sum_m_k)] != 0)
-    count            <- rep(0,net_stat$G + net_stat$start_deg)
+   #if (net_stat$sum_m_k[length(net_stat$sum_m_k)] != 0)
+    count            <- rep(0,net_stat$g + net_stat$start_deg)
   #else 
-  #    count            <- rep(0,net_stat$G + net_stat$start_deg - 1)
+  #    count            <- rep(0,net_stat$g + net_stat$start_deg - 1)
   
     normalized_const <- rep(0,length(count))
   
@@ -66,7 +66,7 @@ Jeong <- function(raw_net                   ,
   # center_k  <- rep(0, length(theta))
   # if (net_stat$start_deg > 0)
   #   center_k[1:net_stat$start_deg]  <- 0:(net_stat$start_deg - 1)
-  # for (i in 1:net_stat$G) {
+  # for (i in 1:net_stat$g) {
   #   if (net_stat$begin_deg[i] != 0) {
   #     #              center_k[i]  <- round((net_stat$begin_deg[i] + net_stat$end_deg[i])/2)  
   #     center_k[i] <- round(net_stat$begin_deg[i]*sqrt((net_stat$begin_deg[i] + net_stat$interval_length[i] - 1)/ net_stat$begin_deg[i]))
@@ -131,16 +131,16 @@ Jeong <- function(raw_net                   ,
   }
   
   count <- theta
-  if (net_stat$Binning == TRUE) {
-      A                             <- rep(0,net_stat$deg.max)
+  if (net_stat$binning == TRUE) {
+      A                             <- rep(0,net_stat$deg_max)
       A[1:(net_stat$start_deg + 1)] <- theta[1:(net_stat$start_deg + 1)] 
-      for (i in 1:net_stat$G) {
+      for (i in 1:net_stat$g) {
           A[(net_stat$begin_deg[i]:net_stat$end_deg[i]) + 1]        <- theta[net_stat$start_deg + i]
       }
   } else 
       A <- theta
   
-  if (net_stat$Sum_m_k[length(net_stat$Sum_m_k)] == 0) 
+  if (net_stat$sum_m_k[length(net_stat$sum_m_k)] == 0) 
       A <- A[-length(A)]
   
   A[which(A == "NaN")] <- 0
@@ -149,7 +149,7 @@ Jeong <- function(raw_net                   ,
 
   result        <- list(A      = A          , k     = k     , center_k      = center_k , 
                         theta  = count      , alpha = alpha , loglinear_fit = linear_fit,
-                        G      = net_stat$G ,
+                        g      = net_stat$g ,
                         ci     = ci) 
   class(result) <- "PA_result"
   return(result)

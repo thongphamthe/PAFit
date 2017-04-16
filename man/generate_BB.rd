@@ -1,5 +1,5 @@
-\name{Generate_BB}
-\alias{Generate_BB}
+\name{generate_BB}
+\alias{generate_BB}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Simulating networks from the Bianconi-\enc{Barabási}{Barabasi} model}
@@ -7,7 +7,7 @@
   This function generates networks from the Bianconi-\enc{Barabási}{Barabasi} model. It is a \sQuote{preferential attachment with fitness} model. In this model, the preferential attachment function is linear, i.e. \eqn{A_k = k}, and node fitnesses are sampled from some probability distribution.  
 }
 \usage{
-Generate_BB(N, 
+generate_BB(N, 
             num_seed       = 2      , 
             multiple_node  = 1      , 
             m              = 1      ,
@@ -42,7 +42,7 @@ The final group of parameters specifies the distribution from which node fitness
       String. Possible values:\code{"gamma"}, \code{"log_normal"} or \code{"power_law"}. This parameter indicates the true distribution for node fitness. \code{"gamma"} = gamma distribution, \code{"log_normal"} = log-normal distribution. \code{"power_law"} = power-law (pareto) distribution. Default value is "gamma".
     }
 \item{s}{
-    Positive numeric. The inverse variance of the Gamma prior for node fitness. If \code{s} is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e. Barabasi-Albert model)
+    Positive numeric. The inverse variance of the Gamma prior for node fitness. If \code{s} is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e. \enc{Barabási}{Barabasi}-Albert model)
 }
   \item{meanlog}{
     Numeric. Mean of the log-normal distribution in log scale. Default value is \code{0}.
@@ -70,15 +70,15 @@ The final group of parameters specifies the distribution from which node fitness
   1. Bianconni, G. & \enc{Barabási}{Barabasi}, A. (2001). Competition and multiscaling in evolving networks. Europhys. Lett., 54, 436 (\url{http://iopscience.iop.org/article/10.1209/epl/i2001-00260-6/meta}).
 }
 \seealso{
-  For subsequent estimation procedures, see \code{\link{GetStatistics}}.
+  For subsequent estimation procedures, see \code{\link{get_statistics}}.
   
-  For other functions to generate networks, see \code{\link{GenerateNet}}, \code{\link{Generate_BA}}, \code{\link{Generate_ER}} and \code{\link{Generate_fitonly}}. }
+  For other functions to generate networks, see \code{\link{generate_net}}, \code{\link{generate_BA}}, \code{\link{generate_ER}} and \code{\link{generate_fit_only}}. }
 
 \examples{
   library("PAFit")
   # Generate a network from the BB model with alpha = 1, N = 100, m = 1
   # The inverse variance of distribution of node fitnesses is s = 10
-  net <- Generate_BB(N = 100,m = 1,mode = 1, s = 10)
+  net <- generate_BB(N = 100,m = 1,mode = 1, s = 10)
   str(net)
 }
 \concept{Bianconi-\enc{Barabási}{Barabasi} model}

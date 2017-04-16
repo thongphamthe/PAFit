@@ -14,7 +14,7 @@ If you make use of these data, please cite M. E. J. Newman, Finding
 community structure in networks using the eigenvectors of matrices,
 Preprint physics/0605087 (2006).
 
-The original dataset is available for download at www.paulsheridan.net
+The original dataset is available for download at \url{http://www.paulsheridan.net/files/collabnet.zip}
 
 }
 \usage{data(ComplexNetCoauthor)}

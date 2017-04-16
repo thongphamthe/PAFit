@@ -1,14 +1,14 @@
 useDynLib(PAFit,.registration = TRUE)
-export("Generate_BA","Generate_BB", "Generate_ER", "Generate_fitonly",
-       "GenerateNet", "GetStatistics",
+export("generate_BA","generate_BB", "generate_ER", 
+       "generate_fit_only",
+       "generate_net", "get_statistics",
        "Jeong",
-       "JointEstimate",
+       "joint_estimate",
        "Newman",
-       "OnlyA_Estimate",
-       "OnlyF_Estimate",
+       "only_A_estimate",
+       "only_F_estimate",
         "plot.PA_result",
-        "plot.PAFit_result",
-        "PAFit")
+        "plot.PAFit_result")
 
 
 importFrom(Rcpp, evalCpp)

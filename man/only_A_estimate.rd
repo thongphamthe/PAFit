@@ -1,5 +1,5 @@
-\name{OnlyA_Estimate}
-\alias{OnlyA_Estimate}
+\name{only_A_estimate}
+\alias{only_A_estimate}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Estimating the attachment function in isolation by PAFit method  
@@ -8,9 +8,9 @@
 This function estimates the attachment function \eqn{A_k} by PAFit method. It first performs a cross-validation step to select the optimal parameter \eqn{r} for the regularization of \eqn{A_k}, then uses that \eqn{r} to estimate the attachment function. 
 }
 \usage{
-OnlyA_Estimate(raw_net                , 
+only_A_estimate(raw_net                , 
                net_stat               , 
-               stop.cond  = 10^-8     , 
+               stop_cond  = 10^-9     , 
                mode_reg_A = 0         ,
                ...)
 }
@@ -20,9 +20,9 @@ OnlyA_Estimate(raw_net                ,
     a three-column matrix that contains the network.
   }
   \item{net_stat}{
-    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{GetStatistics}}.
+    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}.
   }
-  \item{stop.cond}{Numeric. The iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop.cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose \code{stop.cond} at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-8}. This is a good enough convergence threshold for most applications. The careful user can try with \code{10^-9}.}
+\item{stop_cond}{Numeric. The iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop.cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose \code{stop.cond} at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-9}. This threshold is more than good enough for most applications.}
 
 \item{mode_reg_A}{Binary. Indicates which regularization term is used for \eqn{A_k}:
 \itemize{
@@ -53,7 +53,7 @@ OnlyA_Estimate(raw_net                ,
   2. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
 }
 \seealso{
-  See \code{\link{GetStatistics}} for how to create summerized statistics needed in this function.
+  See \code{\link{get_statistics}} for how to create summerized statistics needed in this function.
   
   See \code{\link{Newman}} and \code{\link{Jeong}} for other methods to estimate the attachment function \eqn{A_k} in isolation.
   
@@ -63,10 +63,10 @@ OnlyA_Estimate(raw_net                ,
 \dontrun{
   library("PAFit")
   # a network from BA model
-  net        <- Generate_BB(N = 1000 , m = 1 , mode = 1)
+  net        <- generate_BB(N = 1000 , m = 1 , mode = 1)
   
-  net_stats  <- GetStatistics(net$graph)
-  result     <- OnlyA_Estimate(net$graph, net_stats)
+  net_stats  <- get_statistics(net$graph)
+  result     <- only_A_estimate(net$graph, net_stats)
  
   # plot the estimated PA function
   plot(result, net_stats)

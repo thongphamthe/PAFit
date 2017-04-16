@@ -1,6 +1,5 @@
-\name{JointEstimate}
-\alias{JointEstimate}
-\alias{JointEstimate_new}
+\name{joint_estimate}
+\alias{joint_estimate}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
  Joint inference of attachment function and node fitnesses   
@@ -9,12 +8,10 @@
   This function jointly estimates the attachment function \eqn{A_k} and node fitnesses \eqn{\eta_i}. It first performs a cross-validation to select the optimal parameters \eqn{r} and \eqn{s}, then estimates \eqn{A_k} and \eqn{eta_i} using that optimal pair (Ref. 1).
 }
 \usage{
-JointEstimate(raw_net                  , 
+joint_estimate(raw_net                 , 
               net_stat                 , 
-              stop.cond     = 10^-8    ,
+              stop_cond     = 10^-9    ,
               mode_reg_A    = 0        , 
-              print.out     = FALSE    ,
-              cv_deg_thresh = c(1,10)  ,
               p             = 0.75     ,
               ...)
 }
@@ -24,9 +21,9 @@ JointEstimate(raw_net                  ,
     a three-column matrix that contains the network.
   }
   \item{net_stat}{
-    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{GetStatistics}}.
+    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}.
   }
-\item{stop.cond}{Numeric. The iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop.cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose \code{stop.cond} at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-8}. This is a good enough convergence threshold for most applications. The careful user can try with \code{10^-9}.}
+\item{stop_cond}{Numeric. The iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop.cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose \code{stop.cond} at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-9}. This threshold is more than good enough for most applications.}
 
 \item{mode_reg_A}{Binary. Indicates which regularization term is used for \eqn{A_k}:
 \itemize{
@@ -34,8 +31,6 @@ JointEstimate(raw_net                  ,
 \item \code{1}: Unlike the default, this regularization term exactly enforces the functional form \eqn{A_k = k^\alpha}. Its main drawback is it is significantly slower to converge, while its gain over the default one is marginal in most cases.  
 }
 }
-\item{print.out}{Logical. Indicated whether to print out middle results of the cross-validation process or not. Default value is \code{FALSE}.}
-\item{cv_deg_thresh}{Integer vector. Default value is \code{c(1,10)}.}
 \item{p}{Numeric. Default value is \code{0.75}.}
 \item{...}{Other parameters to pass to the internal estimation algorithm.}
 }
@@ -60,11 +55,11 @@ JointEstimate(raw_net                  ,
     
 }
 \seealso{
-  See \code{\link{GetStatistics}} for how to create summerized statistics needed in this function.
+  See \code{\link{get_statistics}} for how to create summerized statistics needed in this function.
   
-  See \code{\link{Jeong}}, \code{\link{Newman}} and \code{\link{OnlyA_Estimate}} for functions to estimate the attachment function in isolation.
+  See \code{\link{Jeong}}, \code{\link{Newman}} and \code{\link{only_A_estimate}} for functions to estimate the attachment function in isolation.
   
-    See \code{\link{OnlyF_Estimate}} for a function to estimate node fitnesses in isolation.
+    See \code{\link{only_F_estimate}} for a function to estimate node fitnesses in isolation.
 }
 
 \examples{
@@ -73,13 +68,13 @@ JointEstimate(raw_net                  ,
   # size of initial network = 100
   # number of new nodes at each time-step = 100
   # Ak = k; inverse variance of the distribution of node fitnesse = 5
-  net        <- Generate_BB(N        = 1000 , m             = 50 , 
+  net        <- generate_BB(N        = 1000 , m             = 50 , 
                             num_seed = 100  , multiple_node = 100,
                             s        = 5)
-  net_stats  <- GetStatistics(net$graph)
+  net_stats  <- get_statistics(net$graph)
   
   # Joint estimation of attachment function Ak and node fitness
-  result     <- JointEstimate(net$graph, net_stats)
+  result     <- joint_estimate(net$graph, net_stats)
   
   summary(result)
   

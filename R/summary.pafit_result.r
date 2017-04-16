@@ -3,12 +3,12 @@ summary.PAFit_result <- function(object,...){
     cat("Estimation results by the PAFit method. \n");
   
      if (object$only_PA == TRUE) {
-        cat("Mode: Only the PA function was estimated. \n")     
+        cat("Mode: Only the attachment function was estimated. \n")     
     } else if (object$only_f == TRUE) {
         cat("Mode: Only node fitnesses were estimated. \n")
     }
     else {
-        cat("Mode: Both the attachment kernel and node fitness were estimated. \n")
+        cat("Mode: Both the attachment function and node fitness were estimated. \n")
     }
     #cat("Form of the PA function:",object$mode_f,"\n");
   
@@ -32,7 +32,7 @@ summary.PAFit_result <- function(object,...){
     }
     cat("-------------------------------------------\n")
     cat("Additional information: \n");
-    cat("Number of bins: ", object$G,"\n");
+    cat("Number of bins: ", object$g,"\n");
     cat("Number of iterations: ",length(object$objective_value) - 1,"\n");
     cat("Stopping condition:", object$stop_cond,"\n");
 }

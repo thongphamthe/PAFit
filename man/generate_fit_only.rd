@@ -1,5 +1,5 @@
-\name{Generate_fitonly}
-\alias{Generate_fitonly}
+\name{generate_fit_only}
+\alias{generate_fit_only}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Simulating networks from the Caldarelli model}
@@ -7,7 +7,7 @@
   This function generates networks from the Caldarelli model. In this model, the preferential attachment function is constant, i.e. \eqn{A_k = 1}, and node fitnesses are sampled from some probability distribution.  
 }
 \usage{
-Generate_fitonly(N, 
+generate_fit_only(N, 
                  num_seed       = 2      , 
                  multiple_node  = 1      , 
                  m              = 1      ,
@@ -42,7 +42,7 @@ Generate_fitonly(N,
       String. Possible values:\code{"gamma"}, \code{"log_normal"} or \code{"power_law"}. This parameter indicates the true distribution for node fitness. \code{"gamma"} = gamma distribution, \code{"log_normal"} = log-normal distribution. \code{"power_law"} = power-law (pareto) distribution. Default value is "gamma".
     }
 \item{s}{
-    Positive numeric. The inverse variance of the Gamma prior for node fitness. If \code{s} is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e. Barabasi-Albert model)
+    Positive numeric. The inverse variance of the Gamma prior for node fitness. If \code{s} is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1}.
   }
   \item{meanlog}{
     Numeric. Mean of the log-normal distribution in log scale. Default value is \code{0}.
@@ -70,15 +70,15 @@ Generate_fitonly(N,
   1. Caldarelli, G., Capocci, A. , De Los Rios, P. & \enc{Muñoz}{Munoz}, M.A. (2002). Scale-Free Networks from Varying Vertex Intrinsic Fitness. Phys. Rev. Lett., 89, 258702 (\url{http://link.aps.org/doi/10.1103/PhysRevLett.89.258702}).
 }
 \seealso{
-  For subsequent estimation procedures, see \code{\link{GetStatistics}}.
+  For subsequent estimation procedures, see \code{\link{get_statistics}}.
   
-  For other functions to generate networks, see \code{\link{GenerateNet}}, \code{\link{Generate_BA}}, \code{\link{Generate_ER}} and \code{\link{Generate_BB}}. }
+  For other functions to generate networks, see \code{\link{generate_net}}, \code{\link{generate_BA}}, \code{\link{generate_ER}} and \code{\link{generate_BB}}. }
 
 \examples{
   library("PAFit")
   # Generate a network from the Caldarelli model with alpha = 1, N = 100, m = 1
   # The inverse variance of distribution of node fitnesses is s = 10
-  net <- Generate_fitonly(N = 100,m = 1,mode = 1, s = 10)
+  net <- generate_fit_only(N = 100,m = 1,mode = 1, s = 10)
   str(net)
 }
 

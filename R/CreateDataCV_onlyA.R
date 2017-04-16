@@ -1,5 +1,5 @@
 
-.CreateDataCV_onlyA <- function(net                   , p          = 0.75 , G           = 50, 
+.CreateDataCV_onlyA <- function(net                   , p          = 0.75 , g           = 50, 
                                net_type = "directed" , deg_thresh = 0    ) {
   net               <- net[order(net[,3] , decreasing = FALSE),]
   time_stamp        <- as.vector(net[,3])
@@ -21,10 +21,10 @@
   use_time          <- unique_time[which(edge_ratio >= p)[1]]
   
   data_new          <- net[time_stamp <= use_time, ]
-  stats             <- GetStatistics(data_new , net_type = net_type, 
-                                     Binning = TRUE , G = G , deg_threshold = deg_thresh)
+  stats             <- get_statistics(data_new , net_type = net_type, 
+                                     binning = TRUE , g = g , deg_threshold = deg_thresh)
   
-  final_stat        <- GetStatistics(net, Binning = TRUE, G = G, net_type = net_type, deg_threshold = 0)
+  final_stat        <- get_statistics(net, binning = TRUE, g = g, net_type = net_type, deg_threshold = 0)
   
   n_tk_each         <- final_stat$n_tk[unique_time[unique_time > use_time & unique_time < T],]
   

@@ -12,58 +12,56 @@
 \alias{print.CV_Result}
 \alias{plot.PAFit_result}
 \alias{PAFit}
-\alias{PAFit_new}
 \docType{package} 
-\title{Modeling and Estimating Preferential Attachment and Node Fitness in Temporal Complex Networks}
+\title{Generative Mechanism Estimation in Temporal Complex Networks}
 \description{
-An implementation of a framework for modeling and estimating the attachment mechanisms of temporal complex networks. For estimating the attachment function in isolation, we implement Jeong's method, the corrected Newman's method and the PAFit method. For estimating node fitnesses in isolation, we implement the PAFit method. For jointly estimating the attachment function and node fitnesses, we implement the PAFit method. The package also provides flexible methods to generate a wide range of temporal networks based on PA and fitness. See the accompanying vignette for a tutorial. For a list of references, please run the command: \code{citation("PAFit")}.
-}
+A package for estimating preferential attachment and node fitness generative mechanisms in temporal complex networks.}
 \details{
 \tabular{ll}{
 Package: \tab PAFit\cr
 Type: \tab Package\cr
-Version: \tab 0.9.8.4\cr
-Date: \tab 2017-04-11\cr
+Version: \tab 0.9.8.7\cr
+Authors: \tab Thong Pham, Paul Sheridan, Hidetoshi Shimodaira\cr
+Maintainer: \tab Thong Pham \email{thongpham@thongpham.net}\cr
+Date: \tab 2017-04-16\cr
 License: \tab GPL-3 \cr
 }
-The main functions are as follows. 
+The PAFit package provides a comprehensive framework to deal with growth mechanisms of temporal complex networks. In particular, it implements functions to simulate various temporal network models, gather essential network statistics from raw input data, and use these summarized statistics in the estimation of the attachment function \eqn{A_k} and node fitnesses \eqn{\eta_i}. The heavy computational parts of the package are implemented in \code{C++} through the use of the Rcpp package. Furthermore, users with a multi-core machine can enjoy a hassle-free speed up through OpenMP parallelization mechanisms implemented in the code. Apart from the main functions, the package also includes a real-world collaboration network dataset between scientists in the field of complex networks (\code{\link{coauthor.net}}). The main package functionalities are as follows. 
 
-Basic utilities:
+Firstly, most well-known temporal network models based on the preferential attachment (PA) and node fitness mechanisms can be easily simulated using the package. PAFit implements \code{\link{generate_BA}} for the \enc{Barabási}{Barabasi}-Albert (BA) model, \code{\link{generate_ER}} for the growing \enc{Erdős–Rényi}{Erdos-Renyi} (ER) model, \code{\link{generate_BB}} for the Bianconi-\enc{Barabási}{Barabasi} (BB) model and \code{\link{generate_fit_only}} for the Caldarelli model. These functions have many customizable options, for example the number of new edges at each time-step are tunable stochastic variables. They are actually wrappers of the more powerful \code{\link{generate_net}} function, which simulates networks with more flexible attachment function and node fitness settings. In any case, the output of these functions is a list with two fields: \code{graph} and \code{fitness}.  The first field contains the temporal network in a three-column matrix format. Each row of this matrix is of the form \code{(id of source node, id of destination node, time_stamp)}. The remaining \code{fitness} field contains the true node fitnesses. 
+
+Secondly, the function \code{\link{get_statistics}} efficiently collects all temporal network summary statistics. The  input network is assumed to be stored as a three-column matrix where each row is of the form \code{(id of source node, id of destination node, time_stamp)}, which is the same output format of simulation functions in the package. We note that \code{\link{get_statistics}} automatically handles both directed and undirected networks. It returns a list containing many statistics that can be used to characterize the network growth process. Notable fields are \code{m_tk} containing the number of new edges that connect to a degree-\eqn{k} node at time-step \eqn{t}, and \code{node_degree} containing the degree sequence, i.e., the degree of each node at each time-step.
+
+The most important functionality of the package is estimating the attachment function and node fitnesses of a temporal network. This is implemented through various methods. There are three usages: estimation of the attachment function in isolation, estimation of the node fitnesses in isolation, and the joint estimation of the attachment function and node fitnesses. 
 \itemize{
-\item \code{\link{GenerateNet}}: generates a wide range of networks based on the preferential attachment and fitness mechanisms. See the manual for wrappers of this function to generate well-known network models.
-\item \code{\link{GetStatistics}}: summarizes a matrix of edges into summary statistics ready for estimating the preferential attachment function or node fitness
+\item The functions for estimating the attachment function in isolation are: \code{\link{Jeong}} for Jeong's method (Ref. 1), \code{\link{Newman}} for Newman's method (Ref. 2), and \code{\link{only_A_estimate}} for the PAFit method (Ref. 3). 
+\item For estimation of node fitnesses in isolation, \code{\link{only_F_estimate}} implements a variant of the PAFit method (Ref. 4). 
+\item For the joint estimation of the attachment function and node fitnesses, we implement the full version of the PAFit method in \code{\link{joint_estimate}} (Ref. 4). 
 }
-Functions to estimate the attachment function in isolation:
-\itemize{
-\item \code{\link{Jeong}}: by Jeong's method (Ref. 1)
-\item \code{\link{Newman}}: by the corrected Newman's method (Refs. 2, 3)
-\item \code{\link{OnlyA_Estimate}}: by PAFit method (Ref. 3)
-}
-Function to estimate node fitnesses in isolation:
-\itemize{
-\item \code{\link{OnlyF_Estimate}}: by PAFit method (Ref. 3)
-}
-Function to estimate the attachment function and node fitnesses jointly:
-\itemize{
-\item \code{\link{JointEstimate}}: by PAFit method (Ref. 4)
-}
+In all cases, the input of these functions is the output object of the function \code{\link{get_statistics}}. The output object of these functions contains the estimation results as well as some additional information pertaining to the estimation process. The estimated attachment function and/or node fitnesses can be plotted by using the \code{plot} command directly on this output object. This will visualize not only the estimated results but also the remaining uncertainties when possible.
 
 }
 
 \author{
-Thong Pham, Paul Sheridan, Hidetoshi Shimodaira.
-Maintainer: Thong Pham \email{thongpham@thongpham.net}
+Thong Pham \email{thongpham@thongpham.net}, Paul Sheridan, and Hidetoshi Shimodaira. 
 }
 
-
 \references{
-1. Jeong, H., \enc{Néda}{Neda}, Z. & \enc{Barabási}{Barabasi}, A. . Measuring preferential attachment in evolving networks. Europhysics Letters. 2003;61(61):567–572. doi: 10.1209/epl/i2003-00166-9 (\url{http://iopscience.iop.org/article/10.1209/epl/i2003-00166-9/fulltext/}).
+1. Jeong, H., \enc{Néda}{Neda}, Z. & \enc{Barabási}{Barabasi}, A. (2003). Measuring Preferential Attachment in Evolving Networks. Europhysics Letters 61(61):567-572. doi:10.1209/epl/i2003-00166-9 (\url{http://iopscience.iop.org/article/10.1209/epl/i2003-00166-9/fulltext/}).
 
-2. Newman, M.. Clustering and preferential attachment in growing networks. Physical Review E. 2001;64(2):025102 (\url{https://journals.aps.org/pre/abstract/10.1103/PhysRevE.64.025102}).
+2. Newman, M. (2001). Clustering and Preferential Attachment in Growing Networks. Physical Review E 64(2):025102. doi:10.1103/PhysRevE.64.025102 (\url{https://journals.aps.org/pre/abstract/10.1103/PhysRevE.64.025102}).
 
-3. Pham, T., Sheridan, P. & Shimodaira, H. (2015). PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks. PLoS ONE 10(9): e0137796. doi:10.1371/journal.pone.0137796 (\url{http://dx.doi.org/10.1371/journal.pone.0137796}).
+3. Pham, T., Sheridan, P. & Shimodaira, H. (2015). PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks. PLoS ONE 10(9):e0137796. doi:10.1371/journal.pone.0137796 (\url{http://dx.doi.org/10.1371/journal.pone.0137796}).
 
-4. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
+4. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558 (\url{www.nature.com/articles/srep32558}).
+}
+
+\seealso{
+
+ See the acompanying vignette for a tutorial.
+
+ See also the \href{https://github.com/thongphamthe/PAFit}{GitHub page}.
+
 }
 
 
@@ -84,13 +82,13 @@ Maintainer: Thong Pham \email{thongpham@thongpham.net}
   # size of initial network = 100
   # number of new nodes at each time-step = 100
   # Ak = k; inverse variance of distribution of fitness: s = 5
-  net        <- Generate_BB(N        = 1000 , m             = 50 , 
+  net        <- generate_BB(N        = 1000 , m             = 50 , 
                             num_seed = 100  , multiple_node = 100,
                             s        = 5)
-  net_stats  <- GetStatistics(net$graph)
+  net_stats  <- get_statistics(net$graph)
   
   #Joint estimation of attachment function Ak and node fitness
-  result     <- JointEstimate(net$graph, net_stats)
+  result     <- joint_estimate(net$graph, net_stats)
   
   summary(result)
   

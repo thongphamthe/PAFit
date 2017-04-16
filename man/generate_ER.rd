@@ -1,13 +1,13 @@
-\name{Generate_ER}
-\alias{Generate_ER}
+\name{generate_ER}
+\alias{generate_ER}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Simulating networks from the \enc{Erdős–Rényi}{Erdos-Renyi} model}
 \description{
-  This function generates networks from the \enc{Erdős–Rényi}{Erdos-Renyi} model. In this model, the preferential attachment function is a constant function, i.e. \eqn{A_k = 1}, and node fitnesses are all equal to \eqn{1}. It is a wrapper of the more powerful function \code{\link{GenerateNet}}.
+  This function generates networks from the \enc{Erdős–Rényi}{Erdos-Renyi} model. In this model, the preferential attachment function is a constant function, i.e. \eqn{A_k = 1}, and node fitnesses are all equal to \eqn{1}. It is a wrapper of the more powerful function \code{\link{generate_net}}.
 }
 \usage{
-  Generate_ER(N                  , 
+  generate_ER(N                  , 
               num_seed       = 2 , 
               multiple_node  = 1 , 
               m              = 1)
@@ -41,14 +41,14 @@
   1. \enc{Erdös}{Erdos} P. & \enc{Rényi}{Renyi} A.. On random graphs. Publicationes Mathematicae Debrecen. 1959;6:290–297 (\url{http://snap.stanford.edu/class/cs224w-readings/erdos59random.pdf}).
 }
 \seealso{
-For subsequent estimation procedures, see \code{\link{GetStatistics}}.
+For subsequent estimation procedures, see \code{\link{get_statistics}}.
 
-For other functions to generate networks, see \code{\link{GenerateNet}}, \code{\link{Generate_BA}}, \code{\link{Generate_BB}} and \code{\link{Generate_fitonly}}. }
+For other functions to generate networks, see \code{\link{generate_net}}, \code{\link{generate_BA}}, \code{\link{generate_BB}} and \code{\link{generate_fit_only}}. }
 
 \examples{
   library("PAFit")
   #Generate a network from the ER model with N = 1000 nodes
-  net <- Generate_ER(N = 1000)
+  net <- generate_ER(N = 1000)
   str(net)
 }
 

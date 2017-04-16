@@ -23,7 +23,7 @@ This function plots the estimated attachment function \eqn{A_k} and node fitness
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-An object of class \code{Full_PAFit_result}, containing the estimated results from \code{\link{OnlyA_Estimate}}, \code{\link{OnlyF_Estimate}} or \code{\link{JointEstimate}}.
+An object of class \code{Full_PAFit_result}, containing the estimated results from \code{\link{only_A_estimate}}, \code{\link{only_F_estimate}} or \code{\link{joint_estimate}}.
 }
   \item{net_stat}{
 An object of class \code{PAFit_data}, containing the summerized statistics.
@@ -90,9 +90,9 @@ Thong Pham \email{thongpham@thongpham.net}
 \dontrun{
 library("PAFit")
 # a network from Bianconi-Barabasi model
-net        <- Generate_BB(N = 50 , m = 10 , s = 10)
-net_stats  <- GetStatistics(net$graph)
-result     <- JointEstimate(net$graph, net_stats)
+net        <- generate_BB(N = 50 , m = 10 , s = 10)
+net_stats  <- get_statistics(net$graph)
+result     <- joint_estimate(net$graph, net_stats)
 #plot A
 plot(result , net_stats , plot = "A")
 true_A     <- c(1,result$center_k[-1])

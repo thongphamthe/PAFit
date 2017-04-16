@@ -5,14 +5,14 @@ print.Full_PAFit_result <- function(x,...){
   mode <- 0
   object_estimate_result <- object$estimate_result
   if (object_estimate_result$only_PA == TRUE) {
-    cat("Mode: Only the PA function was estimated. \n") 
+    cat("Mode: Only the attachment function was estimated. \n") 
     mode <- 0
   } else if (object_estimate_result$only_f == TRUE) {
     cat("Mode: Only node fitnesses were estimated. \n")
     mode <- 1
   }
   else {
-    cat("Mode: Both the attachment kernel and node fitness were estimated. \n")
+    cat("Mode: Both the attachment function and node fitness were estimated. \n")
     mode <- 2
   }
   #cat("Form of the PA function:",object_estimate_result$mode_f,"\n");

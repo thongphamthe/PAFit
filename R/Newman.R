@@ -2,9 +2,9 @@ Newman <- function(raw_net           ,
                    net_stat          ,
                    start       = 1   , 
                    interpolate = FALSE){
-  deg.max          <- net_stat$deg.max
+  deg_max          <- net_stat$deg_max
   T_time           <- dim(net_stat$n_tk)[1]      
-  k                <- 0:deg.max
+  k                <- 0:deg_max
   temp             <- net_stat$m_tk[start:T_time,]/net_stat$n_tk[start:T_time,]
   temp[which(temp == "NaN")] <- 0
   temp[which(temp == "Inf")] <- 0
@@ -23,7 +23,7 @@ Newman <- function(raw_net           ,
   # theta     <- theta/theta[1]
   # if (net_stat$start_deg > 0)
   #   center_k[1:net_stat$start_deg]  <- 0:(net_stat$start_deg - 1)
-  # for (i in 1:net_stat$G) {
+  # for (i in 1:net_stat$g) {
   #   if (net_stat$begin_deg[i] != 0) {
   #     #              center_k[i]  <- round((net_stat$begin_deg[i] + net_stat$end_deg[i])/2)  
   #     center_k[i] <- round(net_stat$begin_deg[i]*sqrt((net_stat$begin_deg[i] + net_stat$interval_length[i] - 1)/ net_stat$begin_deg[i]))
@@ -91,20 +91,20 @@ Newman <- function(raw_net           ,
   }
   
   
-  if (net_stat$Binning == TRUE) {
+  if (net_stat$binning == TRUE) {
     
-    A                                <- rep(0,net_stat$deg.max)
-    #weight_A                         <- rep(0,net_stat$deg.max)  
+    A                                <- rep(0,net_stat$deg_max)
+    #weight_A                         <- rep(0,net_stat$deg_max)  
     #weight_A[1:(net_stat$start_deg + 1)] <- 1
     A[1:(net_stat$start_deg + 1)]       <- theta[1:(net_stat$start_deg + 1)] 
-    for (i in 1:net_stat$G) {
+    for (i in 1:net_stat$g) {
       #weight_A[(net_stat$begin_deg[i]:net_stat$end_deg[i]) + 1] <- net_stat$theta_w[net_stat$start_deg + i]
       A[(net_stat$begin_deg[i]:net_stat$end_deg[i]) + 1]        <- theta[net_stat$start_deg + i]
     }
     #A <- A/weight_A  
   }   
   else A <- theta
-  if (net_stat$Sum_m_k[length(net_stat$Sum_m_k)] == 0) 
+  if (net_stat$sum_m_k[length(net_stat$sum_m_k)] == 0) 
       A <- A[-length(A)]
   
   A[which(A == "NaN")] <- 0
@@ -113,7 +113,7 @@ Newman <- function(raw_net           ,
 
   result        <- list(A     = A    , k     = k     , center_k      = center_k   , 
                         theta = theta, alpha = alpha , loglinear_fit = linear_fit ,
-                        G     = net_stat$G,
+                        g     = net_stat$g,
                         ci    = ci) 
   class(result) <- "PA_result"
   

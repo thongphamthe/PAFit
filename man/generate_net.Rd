@@ -1,5 +1,5 @@
-\name{GenerateNet}
-\alias{GenerateNet}
+\name{generate_net}
+\alias{generate_net}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Simulating networks from preferential attachment and fitness mechanisms}
@@ -7,29 +7,29 @@ Simulating networks from preferential attachment and fitness mechanisms}
 This function generates networks from the General Temporal model, a generative temporal network model that includes many well-known models such as the \enc{Erdős–Rényi}{Erdos-Renyi} model, the \enc{Barabási}{Barabasi}-Albert model or the Bianconi-\enc{Barabási}{Barabasi} model as special cases. This function also includes some flexible mechanisms to vary the number of new nodes and new edges at each time-step in order to generate realistic networks. 
 }
 \usage{
-GenerateNet (N, 
-             num_seed        = 2      , 
-             multiple_node   = 1      , 
-             specific_start  = NULL   ,
-             m               = 1      ,
-             prob_m          = FALSE  ,
-             increase        = FALSE  , 
-             log             = FALSE  , 
-             noNewNodeStep   = NULL   ,
-             m_noNewNodeStep = m      ,
-             custom_PA       = NULL   ,
-             mode            = 1      , 
-             alpha           = 1      , 
-             beta            = 2      , 
-             sat_at          = 100    ,
-             offset          = 1      ,
-             mode_f          = "gamma", 
-             rate            = 0      , 
-             shape           = 0      , 
-             meanlog         = 0      , 
-             sdlog           = 1      ,
-             scale_pareto    = 2      ,
-             shape_pareto    = 2      )
+generate_net (N, 
+             num_seed           = 2      , 
+             multiple_node      = 1      , 
+             specific_start     = NULL   ,
+             m                  = 1      ,
+             prob_m             = FALSE  ,
+             increase           = FALSE  , 
+             log                = FALSE  , 
+             no_new_node_step   = NULL   ,
+             m_no_new_node_step = m      ,
+             custom_PA          = NULL   ,
+             mode               = 1      , 
+             alpha              = 1      , 
+             beta               = 2      , 
+             sat_at             = 100    ,
+             offset             = 1      ,
+             mode_f             = "gamma", 
+             rate               = 0      , 
+             shape              = 0      , 
+             meanlog            = 0      , 
+             sdlog              = 1      ,
+             scale_pareto       = 2      ,
+             shape_pareto       = 2      )
 }
 
 %- maybe also 'usage' for other objects documented here.
@@ -62,10 +62,10 @@ Logical. Indicates whether we increase the mean of the Poisson distribution over
 \item{log}{
 Logical. Indicates how to increase the mean of the Poisson distribution. If \code{log == TRUE}, the mean increases logarithmically with the number of current nodes. If \code{log == FALSE}, the mean increases linearly with the number of current nodes. Default value is \code{FALSE}.
 }
-\item{noNewNodeStep}{
+\item{no_new_node_step}{
 Positive integer. The number of time-steps in which no new node is added, while new edges are added between existing nodes. Default value is \code{NULL}, i.e. new nodes are added at each time-step.
 }
-\item{m_noNewNodeStep}{
+\item{m_no_new_node_step}{
 Positive integer. The number of new edges in the no-new-node steps. Default value is equal to \code{m}. 
 }
 
@@ -123,14 +123,14 @@ The output is a List contains the following two fields:
 Thong Pham \email{thongpham@thongpham.net}
 }
 \seealso{
-For subsequent estimation procedures, see \code{\link{GetStatistics}}.
+For subsequent estimation procedures, see \code{\link{get_statistics}}.
 
-For simpler functions to generate networks from well-known models, see \code{\link{Generate_BA}}, \code{\link{Generate_ER}}, \code{\link{Generate_BB}} and \code{\link{Generate_fitonly}}. }
+For simpler functions to generate networks from well-known models, see \code{\link{generate_BA}}, \code{\link{generate_ER}}, \code{\link{generate_BB}} and \code{\link{generate_fit_only}}. }
 
 \examples{
 library("PAFit")
 #Generate a network from the original BA model with alpha = 1, N = 100, m = 1
-net <- GenerateNet(N = 100,m = 1,mode = 1, alpha = 1, shape = 0)
+net <- generate_net(N = 100,m = 1,mode = 1, alpha = 1, shape = 0)
 str(net)
 }
 

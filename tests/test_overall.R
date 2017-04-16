@@ -1,4 +1,4 @@
-#testing GenerateNet, GetStatistics, Jeong, Newman_corrected and PAFit
+#testing generate_net, get_statistics, Jeong, Newman_corrected and PAFit
 
 library(PAFit)
 for (prob_m in c("TRUE", "FALSE"))
@@ -6,46 +6,32 @@ for (prob_m in c("TRUE", "FALSE"))
       for (log in c("TRUE", "FALSE"))
  
               for (i in 1:3) {
-                  net  <- GenerateNet(N = 50, m = 10,prob_m = prob_m, increase = inc, log = log,
+                  net  <- generate_net(N = 50, m = 10,prob_m = prob_m, increase = inc, log = log,
                                       mode = i, shape = 100, rate = 100)
                   for (bin in c("TRUE","FALSE"))
                     
                     for (deg_thresh in c(0)) {  
-                        net_stats <- GetStatistics(net$graph,deg_threshold = deg_thresh, Binning = bin, G = 10) 
+                        net_stats <- get_statistics(net$graph,deg_threshold = deg_thresh, binning = bin, g = 10) 
                         #check stats
-                        if (sum(net_stats$m_t) != sum(net_stats$Sum_m_k))
+                        if (sum(net_stats$m_t) != sum(net_stats$sum_m_k))
                             stop("wrong at m_t and sum_m_k")
-                        if (sum(abs(colSums(net_stats$m_tk) - net_stats$Sum_m_k)) != 0)
+                        if (sum(abs(colSums(net_stats$m_tk) - net_stats$sum_m_k)) != 0)
                             stop("wrong at m_tk and sum_m_k")
                         temp <- sapply(1:(net_stats$T-1),function(x) sum(net_stats$node_degree[x,] != -1))
                         if (sum(abs(rowSums(net_stats$n_tk) - (rowSums(net_stats$offset_tk) + temp))))
                             stop("wrong at node_degree, n_tk, offset_tk") 
                         if (sum(net_stats$z_j) > sum(net_stats$m_t))
                             stop("wrong at z_j")   
-                        if (sum(net_stats$z_j) + sum(net_stats$offset_m_tk) - sum(net_stats$Sum_m_k))
+                        if (sum(net_stats$z_j) + sum(net_stats$offset_m_tk) - sum(net_stats$sum_m_k))
                             stop("Wrong at offset_m_tk") 
-                        net_stats <- GetStatistics(net$graph,deg_threshold = deg_thresh, Binning = bin, G = 10,only_PA = TRUE)
-                        net_stats <- GetStatistics(net$graph,deg_threshold = deg_thresh, Binning = bin, G = 10,only_true_deg_matrix = TRUE)
+                        net_stats <- get_statistics(net$graph,deg_threshold = deg_thresh, binning = bin, g = 10,only_PA = TRUE)
+                        net_stats <- get_statistics(net$graph,deg_threshold = deg_thresh, binning = bin, g = 10,only_true_deg_matrix = TRUE)
                     }
               }
-net_stats <- GetStatistics(net$graph,deg_threshold = deg_thresh, Binning = TRUE, G = 10) 
+net_stats <- get_statistics(net$graph,deg_threshold = deg_thresh, binning = TRUE, g = 10) 
 print(net_stats)
 summary(net_stats)
 for (mode_f_value in c("Constant_PA", "Log_linear")) {
-                        result <- PAFit(net_stats, mode_f = mode_f_value,
-                                        stop_cond = 10^-3, debug = TRUE)
-                        print(result)
-                        summary(result)
-                        
-                        plot(result,net_stats,plot = "A")
-                        plot(result,net_stats,plot = "f")
-                        plot(result,net_stats,true_f = net$fitness,plot = "true_f")
-                        result <- PAFit(net_stats, 
-                                        mode_f = mode_f_value,
-                                        stop_cond = 10^-2, only_PA = TRUE, debug = TRUE)
-                        summary(result)
-                        print(result)
-                        
                         result_Jeong  <- Jeong(net$graph,net_stats, T_0_start = 0, T_0_end = 20, T_1_start = 30 , T_1_end = 40)
                         result_Jeong  <- Jeong(net$graph,net_stats, T_0_start = 0, T_0_end = 20, T_1_start = 30 , T_1_end = 40, interpolate = TRUE)
                         print(result_Jeong)
@@ -57,26 +43,11 @@ for (mode_f_value in c("Constant_PA", "Log_linear")) {
                         result_Newman <- Newman(net$graph, net_stats, interpolate = TRUE)
                       
 }
-net_stats <- GetStatistics(net$graph,deg_threshold = deg_thresh, Binning = FALSE, G = 10) 
+net_stats <- get_statistics(net$graph,deg_threshold = deg_thresh, binning = FALSE, g = 10) 
 print(net_stats)
 summary(net_stats)
 for (mode_f_value in c("Constant_PA", "Log_linear")) {
-  result <- PAFit(net_stats, mode_f = mode_f_value,
-                  stop_cond = 10^-3, debug = TRUE)
-  print(result)
-  summary(result)
-  
-  plot(result,net_stats,plot = "A")
-  plot(result,net_stats,plot = "f")
-  plot(result,net_stats,true_f = net$fitness,plot = "true_f", confidence = FALSE)
-  plot(result,net_stats,true_f = net$fitness,plot = "true_f", confidence = TRUE)
-  plot(result,net_stats,true_f = net$fitness,plot = "true_f", confidence = TRUE, plot_true_degree = TRUE)
-  result <- PAFit(net_stats, 
-                  mode_f = mode_f_value,
-                  stop_cond = 10^-2, only_PA = TRUE, debug = TRUE)
-  summary(result)
-  print(result)
-  
+
   result_Jeong  <- Jeong(net$graph,net_stats, T_0_start = 0, T_0_end = 20, T_1_start = 30 , T_1_end = 40)
   result_Jeong  <- Jeong(net$graph,net_stats, T_0_start = 0, T_0_end = 20, T_1_start = 30 , T_1_end = 40, interpolate = TRUE)
   print(result_Jeong)

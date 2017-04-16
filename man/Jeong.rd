@@ -22,7 +22,7 @@ Jeong(raw_net       ,
     a three-column matrix that contains the network.
   }
   \item{net_stat}{
-    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{GetStatistics}}.
+    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}.
   }
   \item{T_0_start}{Positive integer. The starting time-step of the \code{T_0_interval}. Default value is \code{0}.}
   \item{T_0_end}{Positive integer. The ending time-step of \code{T_0_interval}. Default value is \code{round(net_stat$T * 0.75)}.}
@@ -45,19 +45,17 @@ Jeong(raw_net       ,
 }
 \seealso{
 
- See \code{\link{GetStatistics}} for how to create summerized statistics needed in this function.
+ See \code{\link{get_statistics}} for how to create summerized statistics needed in this function.
 
-See \code{\link{Newman}} and \code{\link{OnlyA_Estimate}} for other methods to estimate the attachment function in isolation.
+See \code{\link{Newman}} and \code{\link{only_A_estimate}} for other methods to estimate the attachment function in isolation.
 
 }
 
 \examples{
   library("PAFit")
-  net        <- GenerateNet(N = 1000 , m = 1 , mode = 1 , alpha = 1 , shape = 0)
-  net_stats  <- GetStatistics(net$graph)
-  result     <- Jeong(net$graph       , net_stats, 
-                      T_0_start = 0   , T_0_end = 700, 
-                      T_1_start = 800 , T_1_end = 900)
+  net        <- generate_net(N = 1000 , m = 1 , mode = 1 , alpha = 1 , shape = 0)
+  net_stats  <- get_statistics(net$graph)
+  result     <- Jeong(net$graph, net_stats)
   # true function
   true_A     <- result$center_k
   #plot the estimated PA function

@@ -1,5 +1,5 @@
 # function to generate generalized BA network 
-Generate_BA <-
+generate_BA <-
   function(N, 
            num_seed       = 2      , 
            multiple_node  = 1      , 
@@ -17,5 +17,5 @@ Generate_BA <-
     if ((alpha < 0) || (m <= 0) || (num_seed <= 0) || (multiple_node <= 0))
         stop("The parameters must be positive")  
 
-    return(GenerateNet(N = N , num_seed = num_seed , multiple_node = multiple_node , m = m , alpha = alpha, shape = 0))
+    return(generate_net(N = N , num_seed = num_seed , multiple_node = multiple_node , m = m , alpha = alpha, shape = 0))
 }

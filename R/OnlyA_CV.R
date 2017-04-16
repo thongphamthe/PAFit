@@ -1,8 +1,8 @@
-.OnlyA_CV <- function(cv_data                                      ,
-                     r         = c(0,10^c(-6, -5, -4, -3,-2,-1,0)) ,
-                     stop_cond = 10^-6                             ,
-                     print_out = FALSE                             ,     
-                     rough     = TRUE                              ,  
+.OnlyA_CV <- function(cv_data                                   ,
+                     r         = c(0,10^c(-6, -5, -4, -3,-2,-1)),
+                     stop_cond = 10^-6                          ,
+                     print_out = FALSE                          ,     
+                     rough     = TRUE                           ,  
                     ...) { 
   
   FitMultinomial         <- function(true,dat){
@@ -12,7 +12,7 @@
   count <- 0
   
   ### Two passes to find optimal r #######
-  ratio_vec_PAFit        <- r
+  ratio_vec_PAFit        <- sort(r,decreasing = TRUE)
   PA_each                <- rep(0,length(ratio_vec_PAFit))
   names(PA_each)         <- ratio_vec_PAFit
   max_val                <- -Inf 
@@ -52,18 +52,24 @@
         PA_each[i]      <- PA_each[i] + 
           FitMultinomial(true = as.vector(prob_PAFit), dat = as.vector(cv_data$prob_em_each[k,] * cv_data$m_each[k])) ;
       }
-    if (PA_each[i] > max_val) {
-      r_optimal         <- ratio_vec_PAFit[i]
-      max_val           <- PA_each[i]
-      estimated_PA      <- result_PAFit$theta
-    }    
+    if (i == 1) {
+        r_optimal         <- ratio_vec_PAFit[i]
+        max_val           <- PA_each[i]
+        estimated_PA      <- result_PAFit$theta
+    } else if (PA_each[i] < PA_each[i - 1])    {
+        break  
+    } else {
+        r_optimal         <- ratio_vec_PAFit[i]
+        max_val           <- PA_each[i]
+        estimated_PA      <- result_PAFit$theta  
+    }
   }
   #r_index    <- which.max(PA_each)[1]
   #r_optimal  <- ratio_vec_PAFit[r_index]
   if (rough == FALSE) {
-      ratio_vec_PAFit <- c(0.2 , 0.5, 2 , 5) * r_optimal 
+      ratio_vec_PAFit <- sort(c(0.2 , 0.5, 2 , 5) * r_optimal,decreasing = TRUE)
   
-      ratio_vec_PAFit <- ratio_vec_PAFit[ratio_vec_PAFit <= 10^-2]
+      ratio_vec_PAFit <- ratio_vec_PAFit[ratio_vec_PAFit <= 10^-1]
   
       PA_each         <- rep(0,length(ratio_vec_PAFit))
       names(PA_each)  <- ratio_vec_PAFit

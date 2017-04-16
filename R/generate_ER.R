@@ -1,5 +1,5 @@
 # function to generate generalized Erdos-Renyi network 
-Generate_ER <-
+generate_ER <-
   function(N                       , 
            num_seed       = 2      , 
            multiple_node  = 1      , 
@@ -16,5 +16,5 @@ Generate_ER <-
     if ((m <= 0) || (num_seed <= 0) || (multiple_node <= 0))
         stop("The parameters must be positive")   
     
-    return(GenerateNet(N = N , num_seed = num_seed , multiple_node = multiple_node , m = m , alpha = 0, shape = 0))
+    return(generate_net(N = N , num_seed = num_seed , multiple_node = multiple_node , m = m , alpha = 0, shape = 0))
   }

@@ -28,7 +28,7 @@
     An object of class \code{PA_result}, containing the estimated attachment function and the estimated attachment exponenet from either \code{\link{Newman}} or \code{\link{Jeong}} functions. 
   }
   \item{net_stat}{
-    An object of class \code{PA_data}, containing the summerized statistics. This object is created from the function \code{\link{GetStatistics}}.
+    An object of class \code{PA_data}, containing the summerized statistics. This object is created from the function \code{\link{get_statistics}}.
   }
   \item{plot_bin}{Logical. If \code{TRUE} then only the center of each bin is plotted. Default is \code{TRUE}.}
   \item{high_deg}{Integer. Specifies the starting degree from which \eqn{A_k} is plotted. If this parameter is specified, the estimated attachment function is plotted from \code{k = high_deg}}
@@ -60,8 +60,8 @@
 
 \examples{
   library("PAFit")
-  net        <- GenerateNet(N = 1000 , m = 1 , mode = 1 , alpha = 1 , shape = 0)
-  net_stats  <- GetStatistics(net$graph)
+  net        <- generate_net(N = 1000 , m = 1 , mode = 1 , alpha = 1 , shape = 0)
+  net_stats  <- get_statistics(net$graph)
   result     <- Newman(net$graph, net_stats)
   # true function
   true_A     <- result$center_k

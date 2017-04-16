@@ -1,6 +1,6 @@
-OnlyF_Estimate <- function(raw_net, 
+only_F_estimate <- function(raw_net, 
                            net_stat, 
-                           stop.cond = 10^-8     , 
+                           stop_cond = 10^-9     , 
                            model_A   = "Linear"  ,
                            ...) {
   mode_f <- "Log_linear"
@@ -13,7 +13,7 @@ OnlyF_Estimate <- function(raw_net,
   
   data_cv      <- .CreateDataCV(net = raw_net, deg_thresh = 0, net_type = net_type)
   cv_result    <- .OnlyF_CV(data_cv, 
-                            stop_cond   = stop.cond, 
+                            stop_cond   = stop_cond, 
                             alpha       = alpha_start,
                            ...)
   f_vector        <- rep(1,length(net_stat$f_position))
@@ -26,7 +26,7 @@ OnlyF_Estimate <- function(raw_net,
                    start_f     = f_vector             ,
                    s           = cv_result$s_optimal  , 
                    alpha_start = alpha_start          ,
-                   stop_cond   = stop.cond            , 
+                   stop_cond   = stop_cond            , 
                    ...) 
   combined_result        <- list(cv_data = data_cv, cv_result = cv_result, estimate_result = result) 
   class(combined_result) <- "Full_PAFit_result"

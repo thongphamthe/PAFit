@@ -1,27 +1,27 @@
 # function to generate simulated network  
-GenerateNet <-
+generate_net <-
 function(N, 
-         num_seed        = 2      , 
-         multiple_node   = 1      , 
-         specific_start  = NULL   ,
-         m               = 1      ,
-         prob_m          = FALSE  ,
-         increase        = FALSE  , 
-         log             = FALSE  , 
-         noNewNodeStep   = NULL   ,
-         m_noNewNodeStep = m     ,
-         custom_PA       = NULL   ,
-         mode            = 1      , 
-         alpha           = 1      , 
-         beta            = 2      , 
-         sat_at          = 100    ,
-         offset          = 1      ,
-         mode_f          = "gamma", 
-         rate            = 0      , 
-         shape           = 0      , 
-         meanlog         = 0      , 
-         sdlog           = 1      ,
-         scale_pareto    = 2      ,
+         num_seed           = 2     , 
+         multiple_node      = 1     , 
+         specific_start     = NULL  ,
+         m                  = 1     ,
+         prob_m             = FALSE ,
+         increase           = FALSE , 
+         log                = FALSE , 
+         no_new_node_step   = NULL  ,
+         m_no_new_node_step = m     ,
+         custom_PA           = NULL ,
+         mode                = 1    , 
+         alpha           = 1        , 
+         beta            = 2        , 
+         sat_at          = 100      ,
+         offset          = 1        ,
+         mode_f          = "gamma"  , 
+         rate            = 0        , 
+         shape           = 0        , 
+         meanlog         = 0        , 
+         sdlog           = 1        ,
+         scale_pareto    = 2        ,
          shape_pareto    = 2       
      ){
    # N: number of nodes
@@ -37,14 +37,14 @@ function(N,
    if ((mode[1] != 1) && (mode[1] != 3) && (mode[1] != 2))
        stop("Mode must be 1, 2 or 3 ")
   
-   if (!is.null(noNewNodeStep)) {
-      if (noNewNodeStep <= 0) 
-         stop("If noNewNodeStep is specified, it should be a positive integer.")  
+   if (!is.null(no_new_node_step)) {
+      if (no_new_node_step <= 0) 
+         stop("If no_new_node_step is specified, it should be a positive integer.")  
    }
   
    # a rough estimate, clearly not enough when increase = TRUE, or not exact when prob_m = TRUE
   
-   num_of_edge          <- num_seed - 1 + m * (N - num_seed) + ifelse(is.null(noNewNodeStep),0,noNewNodeStep) * m_noNewNodeStep
+   num_of_edge          <- num_seed - 1 + m * (N - num_seed) + ifelse(is.null(no_new_node_step),0,no_new_node_step) * m_no_new_node_step
    
    edge_list            <- matrix(nrow = num_of_edge, ncol = 3,0)
   
@@ -173,8 +173,8 @@ function(N,
         P[degree == 0] <- offset   
         
         # edges only step
-        if (!is.null(noNewNodeStep)) {
-            for (jjj in 1:noNewNodeStep) {
+        if (!is.null(no_new_node_step)) {
+            for (jjj in 1:no_new_node_step) {
                 n_old <- n
                 if (!is.null(custom_PA)) {
                     A                 <- custom_PA

@@ -1,13 +1,13 @@
-\name{Generate_BA}
-\alias{Generate_BA}
+\name{generate_BA}
+\alias{generate_BA}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Simulating networks from the generalized \enc{Barabási}{Barabasi}-Albert model}
 \description{
-  This function generates networks from the generalized \enc{Barabási}{Barabasi}-Albert model. In this model, the preferential attachment function is power-law, i.e. \eqn{A_k = k^\alpha}, and node fitnesses are all equal to \eqn{1}. It is a wrapper of the more powerful function \code{\link{GenerateNet}}. 
+  This function generates networks from the generalized \enc{Barabási}{Barabasi}-Albert model. In this model, the preferential attachment function is power-law, i.e. \eqn{A_k = k^\alpha}, and node fitnesses are all equal to \eqn{1}. It is a wrapper of the more powerful function \code{\link{generate_net}}. 
 }
 \usage{
-Generate_BA(N                  , 
+generate_BA(N                  , 
             num_seed       = 2 , 
             multiple_node  = 1 , 
             m              = 1 ,
@@ -45,14 +45,14 @@ Numeric. This is the attachment exponent in the attachment function \eqn{A_k = k
   1. Albert, R. & \enc{Barabási}{Barabasi}, A. (1999). Emergence of scaling in random networks. Science, 286,509–512 (\url{http://science.sciencemag.org/content/286/5439/509}).
 }
 \seealso{
-For subsequent estimation procedures, see \code{\link{GetStatistics}}.
+For subsequent estimation procedures, see \code{\link{get_statistics}}.
 
-For other functions to generate networks, see \code{\link{GenerateNet}}, \code{\link{Generate_ER}}, \code{\link{Generate_BB}} and \code{\link{Generate_fitonly}}. }
+For other functions to generate networks, see \code{\link{generate_net}}, \code{\link{generate_ER}}, \code{\link{generate_BB}} and \code{\link{generate_fit_only}}. }
 
 \examples{
   library("PAFit")
   #Generate a network from the original BA model with alpha = 1, N = 100, m = 1
-  net <- Generate_BA(N = 100)
+  net <- generate_BA(N = 100)
   str(net)
 }
 
