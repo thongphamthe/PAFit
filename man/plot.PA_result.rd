@@ -65,7 +65,7 @@
   result     <- Newman(net$graph, net_stats)
   # true function
   true_A     <- result$center_k
-  # plot the estimated PA function
+  # plot the estimated attachment function
   plot(result , net_stats)
   lines(result$center_k, true_A, col = "red") # true attachment function
   legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")

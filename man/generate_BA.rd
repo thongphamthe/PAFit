@@ -2,7 +2,7 @@
 \alias{generate_BA}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Simulating networks from the generalized \enc{Barabási}{Barabasi}-Albert model}
+  Simulating networks from the generalized Barabasi-Albert model}
 \description{
   This function generates networks from the generalized \enc{Barabási}{Barabasi}-Albert model. In this model, the preferential attachment function is power-law, i.e. \eqn{A_k = k^\alpha}, and node fitnesses are all equal to \eqn{1}. It is a wrapper of the more powerful function \code{\link{generate_net}}. 
 }
@@ -51,7 +51,7 @@ For other functions to generate networks, see \code{\link{generate_net}}, \code{
 
 \examples{
   library("PAFit")
-  #Generate a network from the original BA model with alpha = 1, N = 100, m = 1
+  # generate a network from the BA model with alpha = 1, N = 100, m = 1
   net <- generate_BA(N = 100)
   str(net)
 }

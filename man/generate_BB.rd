@@ -2,7 +2,7 @@
 \alias{generate_BB}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Simulating networks from the Bianconi-\enc{Barabási}{Barabasi} model}
+  Simulating networks from the Bianconi-Barabasi model}
 \description{
   This function generates networks from the Bianconi-\enc{Barabási}{Barabasi} model. It is a \sQuote{preferential attachment with fitness} model. In this model, the preferential attachment function is linear, i.e. \eqn{A_k = k}, and node fitnesses are sampled from some probability distribution.  
 }
@@ -76,7 +76,7 @@ The final group of parameters specifies the distribution from which node fitness
 
 \examples{
   library("PAFit")
-  # Generate a network from the BB model with alpha = 1, N = 100, m = 1
+  # generate a network from the BB model with alpha = 1, N = 100, m = 1
   # The inverse variance of distribution of node fitnesses is s = 10
   net <- generate_BB(N = 100,m = 1,mode = 1, s = 10)
   str(net)

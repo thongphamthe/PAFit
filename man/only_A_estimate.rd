@@ -68,7 +68,7 @@ only_A_estimate(raw_net                ,
   net_stats  <- get_statistics(net$graph)
   result     <- only_A_estimate(net$graph, net_stats)
  
-  # plot the estimated PA function
+  # plot the estimated attachment function
   plot(result, net_stats)
   
   # true function

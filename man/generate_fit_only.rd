@@ -76,8 +76,8 @@ generate_fit_only(N,
 
 \examples{
   library("PAFit")
-  # Generate a network from the Caldarelli model with alpha = 1, N = 100, m = 1
-  # The inverse variance of distribution of node fitnesses is s = 10
+  # generate a network from the Caldarelli model with alpha = 1, N = 100, m = 1
+  # the inverse variance of distribution of node fitnesses is s = 10
   net <- generate_fit_only(N = 100,m = 1,mode = 1, s = 10)
   str(net)
 }

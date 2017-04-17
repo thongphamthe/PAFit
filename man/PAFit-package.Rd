@@ -20,7 +20,7 @@ A package for estimating preferential attachment and node fitness generative mec
 \tabular{ll}{
 Package: \tab PAFit\cr
 Type: \tab Package\cr
-Version: \tab 0.9.8.7\cr
+Version: \tab 0.9.8.8\cr
 Authors: \tab Thong Pham, Paul Sheridan, Hidetoshi Shimodaira\cr
 Maintainer: \tab Thong Pham \email{thongpham@thongpham.net}\cr
 Date: \tab 2017-04-16\cr
@@ -92,7 +92,7 @@ Thong Pham \email{thongpham@thongpham.net}, Paul Sheridan, and Hidetoshi Shimoda
   
   summary(result)
   
-  # plot the estimated PA function
+  # plot the estimated attachment function
   plot(result, net_stats)
   
   # true function

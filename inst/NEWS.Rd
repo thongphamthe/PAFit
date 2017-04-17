@@ -2,7 +2,7 @@
 \alias{NEWS}
 \title{Package News}
 
-\section{version 0.9.8.7 (Release date: 2017-04-17)}{
+\section{version 0.9.8.8 (Release date: 2017-04-17)}{
   \subsection{NEW}{
     \itemize{
     \item a new interface for almost every main functionality of the package

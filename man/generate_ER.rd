@@ -2,7 +2,7 @@
 \alias{generate_ER}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Simulating networks from the \enc{Erdős–Rényi}{Erdos-Renyi} model}
+  Simulating networks from the Erdos-Renyi model}
 \description{
   This function generates networks from the \enc{Erdős–Rényi}{Erdos-Renyi} model. In this model, the preferential attachment function is a constant function, i.e. \eqn{A_k = 1}, and node fitnesses are all equal to \eqn{1}. It is a wrapper of the more powerful function \code{\link{generate_net}}.
 }
@@ -47,7 +47,7 @@ For other functions to generate networks, see \code{\link{generate_net}}, \code{
 
 \examples{
   library("PAFit")
-  #Generate a network from the ER model with N = 1000 nodes
+  # generate a network from the ER model with N = 1000 nodes
   net <- generate_ER(N = 1000)
   str(net)
 }

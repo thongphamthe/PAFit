@@ -78,7 +78,7 @@ joint_estimate(raw_net                 ,
   
   summary(result)
   
-  # plot the estimated PA function
+  # plot the estimated attachment function
   plot(result , net_stats)
   
   # true function
