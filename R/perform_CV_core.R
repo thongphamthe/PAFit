@@ -58,8 +58,8 @@
                     PA              <-  cv_data$deg_each[k,chosen_node]^alpha_temp
                     #print(PA)
                     PA[PA == 0]     <- 1
-                    fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node])[2])
-                    names(fitness)  <- colnames(cv_data$deg_each[,chosen_node])
+                    fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node, drop = FALSE])[2])
+                    names(fitness)  <- colnames(cv_data$deg_each[,chosen_node, drop = FALSE])
                     fitness[chosen_node] <- result_PAFit$f[chosen_node] 
         
                     prob_PAFit      <- PA * fitness
@@ -128,8 +128,8 @@
               PA              <-  cv_data$deg_each[k,chosen_node]^alpha_temp
               #print(PA)
               PA[PA == 0]     <- 1
-              fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node])[2])
-              names(fitness)  <- colnames(cv_data$deg_each[,chosen_node])
+              fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node, drop = FALSE])[2])
+              names(fitness)  <- colnames(cv_data$deg_each[,chosen_node, drop = FALSE])
               fitness[chosen_node] <- result_PAFit$f[chosen_node] 
               prob_PAFit      <- PA * fitness
               prob_PAFit      <- prob_PAFit / sum(prob_PAFit,na.rm = TRUE) 
@@ -197,8 +197,8 @@
               PA              <-  cv_data$deg_each[k,chosen_node]^alpha_temp
               #print(PA)
               PA[PA == 0]     <- 1
-              fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node])[2])
-              names(fitness)  <- colnames(cv_data$deg_each[,chosen_node])
+              fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node, drop = FALSE])[2])
+              names(fitness)  <- colnames(cv_data$deg_each[,chosen_node, drop = FALSE])
               fitness[chosen_node] <- result_PAFit$f[chosen_node] 
               prob_PAFit      <- PA * fitness
               prob_PAFit      <- prob_PAFit / sum(prob_PAFit,na.rm = TRUE) 
@@ -280,8 +280,8 @@
         PA[is.na(PA)]   <- cv_data$deg_each[k,chosen_node][is.na(PA)]^alpha_temp
         #print(PA)
         PA[PA == 0]     <- mean(result_PAFit$A)
-        fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node])[2])
-        names(fitness)  <- colnames(cv_data$deg_each[,chosen_node])
+        fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node, drop = FALSE])[2])
+        names(fitness)  <- colnames(cv_data$deg_each[,chosen_node, drop = FALSE])
         fitness[chosen_node] <- result_PAFit$f[chosen_node] 
         
         prob_PAFit      <- PA * fitness

@@ -2,6 +2,15 @@
 \alias{NEWS}
 \title{Package News}
 
+\section{version 0.9.8.9 (Release date: 2017-04-18)}{
+  \subsection{FIXED}{
+    \itemize{
+    \item a bug in the \code{joint_estimate} when the cv data contains only one node.
+    }
+  }
+}
+
+
 \section{version 0.9.8.8 (Release date: 2017-04-17)}{
   \subsection{NEW}{
     \itemize{

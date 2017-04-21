@@ -5,3 +5,4 @@
 ^shippable\.yml$
 ^appveyor\.yml$
 ^README\.md$
+^\ICON$
