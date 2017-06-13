@@ -30,9 +30,11 @@
 }
 
 \value{
-  The output is a List contains the following two fields:
+  The output is a \code{PAFit_net} object, which is a List contains the following four fields:
     \item{graph}{a three-column matrix, where each row contains information of one edge, in the form of \code{(from_id, to_id, time_stamp)}. \code{from_id} is the id of the source, \code{to_id} is the id of the destination.}
-  \item{fitness}{fitness values of nodes in the network. The fitnesses are all equal to \eqn{1}.}
+    \item{type}{a string indicates whether the network is \code{"directed"} or \code{"undirected"}.}
+    \item{PA}{a numeric vector contains the true PA function.}
+    \item{fitness}{fitness values of nodes in the network. The fitnesses are all equal to \eqn{1}.}
 }
 \author{
   Thong Pham \email{thongpham@thongpham.net}
@@ -50,6 +52,7 @@ For other functions to generate networks, see \code{\link{generate_net}}, \code{
   # generate a network from the ER model with N = 1000 nodes
   net <- generate_ER(N = 1000)
   str(net)
+  plot(net)
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

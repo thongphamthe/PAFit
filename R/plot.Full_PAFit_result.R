@@ -148,15 +148,16 @@ plot.Full_PAFit_result <-
       #layout(cbind(1,2), width = c(4,1))
       plot(d$x[ok_d] , d$y[ok_d], col  = 2 , log = "x", lwd = 0, main = "", xlab = "Fitness", ylab = "Density",
            cex.axis = 1 , cex.lab = 1, 
-           mgp = c( 2.5 , 1 , 0 ),
+           mgp = c( 2.5 , 1 , 0 ), axes = FALSE,
            pch = "",...)
+      magaxis(grid = TRUE, frame.plot = TRUE)
       #x <- c(format(min(f_non),digits = 1),1,5,10,15,format(max(f_non),digits = 4))
       u    <- smooth.spline(d$x, d$y, spar = 0.01)
       #polygon(d$x, d$y, col = red_fade, border=NA)
       ok_u <- u$x > 0 & u$y > 0 
       lines(u$x[ok_u], u$y[ok_u], col = "grey50",lwd = 2.5);
       #axis(3, at = 1,labels = "Mean = 1", las = 0,cex.axis = 2)
-      gray <- rgb(0,0,0,1)
+      
       #abline(v = median(f_non), lty = 5, lwd = 1.5,col = green)
       #abline(v = quantile(f_non,0.99), lty = 4, lwd = 1.5, col = blue)
       #mtext(at = median(f_non), side = 3,  

@@ -17,12 +17,14 @@
   names(PA_each)         <- ratio_vec_PAFit
   max_val                <- -Inf 
   # A quick run to estimate the attachment exponent
+  #print("Reached here")
   result_temp  <-  PAFit(cv_data$stats,
                          mode_f       = "Log_linear",  
                          only_PA      = TRUE, 
                          alpha_start  = 0.5,
                          stop_cond    = stop_cond,
                          ...)
+  #print("Not yet reached here")
   
   for (i in 1:length(ratio_vec_PAFit)) {
     count <- count + 1

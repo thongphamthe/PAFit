@@ -115,9 +115,11 @@ Numeric. The shape parameter of the Pareto distribution. Default value is \code{
 }
 
 \value{
-The output is a List contains the following two fields:
-\item{graph}{a three-column matrix, where each row contains information of one edge, in the form of \code{(from_id, to_id, time_stamp)}. \code{from_id} is the id of the source, \code{to_id} is the id of the destination.}
-\item{fitness}{fitness values of nodes in the network. The name of each value is the ID of the node.}
+ The output is a \code{PAFit_net} object, which is a List contains the following four fields:
+    \item{graph}{a three-column matrix, where each row contains information of one edge, in the form of \code{(from_id, to_id, time_stamp)}. \code{from_id} is the id of the source, \code{to_id} is the id of the destination.}
+    \item{type}{a string indicates whether the network is \code{"directed"} or \code{"undirected"}.}
+    \item{PA}{a numeric vector contains the true PA function.}
+    \item{fitness}{fitness values of nodes in the network. The name of each value is the ID of the node.}
 }
 \author{
 Thong Pham \email{thongpham@thongpham.net}
@@ -132,6 +134,7 @@ library("PAFit")
 #Generate a network from the original BA model with alpha = 1, N = 100, m = 1
 net <- generate_net(N = 100,m = 1,mode = 1, alpha = 1, shape = 0)
 str(net)
+plot(net)
 }
 
 \concept{fitness model}

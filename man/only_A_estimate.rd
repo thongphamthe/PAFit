@@ -8,21 +8,21 @@
 This function estimates the attachment function \eqn{A_k} by PAFit method. It first performs a cross-validation step to select the optimal parameter \eqn{r} for the regularization of \eqn{A_k}, then uses that \eqn{r} to estimate the attachment function. 
 }
 \usage{
-only_A_estimate(raw_net                , 
+only_A_estimate(net_object            , 
                net_stat               , 
-               stop_cond  = 10^-9     , 
+               stop_cond  = 10^-8     , 
                mode_reg_A = 0         ,
                ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{raw_net}{
-    a three-column matrix that contains the network.
+ \item{net_object}{
+    an object of class \code{PAFit_net} that contains the network.
   }
   \item{net_stat}{
     An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}.
   }
-\item{stop_cond}{Numeric. The iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop.cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose \code{stop.cond} at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-9}. This threshold is more than good enough for most applications.}
+\item{stop_cond}{Numeric. The iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop.cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose \code{stop.cond} at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-8}. This threshold is good enough for most applications.}
 
 \item{mode_reg_A}{Binary. Indicates which regularization term is used for \eqn{A_k}:
 \itemize{
@@ -65,8 +65,8 @@ only_A_estimate(raw_net                ,
   # a network from BA model
   net        <- generate_BB(N = 1000 , m = 1 , mode = 1)
   
-  net_stats  <- get_statistics(net$graph)
-  result     <- only_A_estimate(net$graph, net_stats)
+  net_stats  <- get_statistics(net)
+  result     <- only_A_estimate(net, net_stats)
  
   # plot the estimated attachment function
   plot(result, net_stats)

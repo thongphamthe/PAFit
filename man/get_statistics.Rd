@@ -9,24 +9,21 @@ Getting summarized statistics from input data
 The function summarizes input data into sufficient statistics for estimating the attachment function and node fitness, together with additional information about the data, such as total number of nodes, number of time-steps, maximum degree, and the final degree of the network, etc. .  It also provides mechanisms to automatically deal with very large datasets by binning the degree, setting a degree threshold, or grouping time-steps. 
 }
 \usage{
-get_statistics(net ,
-              net_type             = "directed" , only_PA       = FALSE , 
-              only_true_deg_matrix = FALSE      ,
-              binning              = TRUE       , g             = 50    , 
-              deg_threshold        = 0          , 
-              compress_mode         = 0         , compress_ratio = 0.5   , 
-              custom_time           = NULL)
+get_statistics(net_object, only_PA  = FALSE , 
+               only_true_deg_matrix = FALSE ,
+               binning              = TRUE  , g             = 50    , 
+               deg_threshold        = 0     , 
+               compress_mode        = 0     , compress_ratio = 0.5   , 
+               custom_time          = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 
 The parameters can be divided into four groups. The first group specifies input data and how the data will be summerized:
 
-  \item{net}{
-A three-column matrix whose each row contains information of one edge in the form \code{(from_node id, to_node id, time_stamp)}. \code{from_node id} is the id of the source node. \code{to_node id} is the id of the destination node. \code{time_stamp} is the arrival time of the edge. \code{from_node id} and \code{to_node id} are assumed to be integers starting from \eqn{0}. \code{time_stamp} can be either numeric or string. The value of a time-stamp can be arbitrary, but we assume that a smaller time_stamp (regarded so by the \code{sort} function in \code{R}) represents an earlier arrival time.}
-\item{net_type}{
-String. Possible values: \code{"directed"} or \code{"undirected"}. Indicates the type of network. Default value is \code{"directed"}.
-}
+  \item{net_object}{
+An object of class \code{PAFit_net}. You can use the function \code{\link{as.PAFit_net}} to convert from an edgelist matrix, function \code{\link{from_igraph}} to convert from an \code{igraph} object, function \code{\link{from_networkDynamic}} to convert from a \code{networkDynamic} object, and function \code{\link{graph_from_file}} to read from a file.}
+
 \item{only_PA}{
 Logical. Indicates whether only the statistics for estimating \eqn{A_k} are summarized. if \code{TRUE}, the statistics for estimating \eqn{\eta_i} are NOT collected. This will save memory at the cost of unable to estimate node fitness). Default value is \code{FALSE}. 
 }
@@ -97,6 +94,7 @@ Vector. Custom time stamps. This vector is a subset of the vector that contains 
 Thong Pham \email{thongpham@thongpham.net}
 }
 \seealso{
+For creating the needed input for this function (a \code{PAFit_net} object), see \code{\link{as.PAFit_net}}, \code{\link{from_igraph}}, \code{\link{from_networkDynamic}}, and \code{\link{graph_from_file}}. 
 
 For the next step, see \code{\link{Newman}}, \code{\link{Jeong}} or \code{\link{only_A_estimate}} for estimating the attachment function in isolation, \code{\link{only_F_estimate}} for estimating node fitnesses in isolation, and \code{\link{joint_estimate}} for joint estimation of the attachment function and node fitnesses.
 }
@@ -106,7 +104,7 @@ For the next step, see \code{\link{Newman}}, \code{\link{Jeong}} or \code{\link{
 \examples{
 library("PAFit")
 net        <- generate_BA(N = 100 , m = 1)
-net_stats  <- get_statistics(net$graph)
+net_stats  <- get_statistics(net)
 summary(net_stats)
 }
 

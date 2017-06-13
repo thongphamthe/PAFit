@@ -1,9 +1,9 @@
 .performCV_core <- function(cv_data                                                  ,
-                            r              = c(0, 10^c(-6 , -5 , -4 , -3 , -2, - 1)) ,
+                            r              = 10^c(-5 , -4 , -3 , -2, - 1, 0)       ,
                             s              = 10^c(-2 , -1 ,  0 ,  1 ,  2 ,  3 ,  4)  , 
                             stop_cond      = 10^-6                                   ,
                             print_out      = FALSE                                   ,
-                            cv_deg_thresh  = c(1,5)                                  ,
+                            cv_deg_thresh  = c(1,10)                                 ,
                             normal_start_f = TRUE                                    ,
                             weight_f       = 0                                       ,
                            ...) { 
@@ -95,7 +95,7 @@
   
       rate_PAFit <- rate_PAFit[rate_PAFit <= 10^4]
   
-      rate_PAFit <- rate_PAFit[rate_PAFit >= 10^-3]
+      rate_PAFit <- rate_PAFit[rate_PAFit >= 10^-2]
 
   
       alpha_each           <- rep(0,length(rate_PAFit))
@@ -159,7 +159,7 @@
   
       rate_PAFit <- rate_PAFit[rate_PAFit <= 10^4]
   
-      rate_PAFit <- rate_PAFit[rate_PAFit >= 10^-3]
+      rate_PAFit <- rate_PAFit[rate_PAFit >= 10^-2]
   
   
        chosen_node      <- names(cv_data$stats$z_j[cv_data$stats$z_j >= cv_deg_thresh[dd]]) 

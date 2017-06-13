@@ -145,10 +145,13 @@ function(x                       ,
       ok_d  <- d$x > 0
       
       #layout(cbind(1,2), width = c(4,1))
-      plot(d$x[ok_d] , d$y[ok_d], col  = 2 , log = "x", lwd = 0, main = "", xlab = "Fitness", ylab = "Density",
+      plot(d$x[ok_d] , d$y[ok_d], col  = 2 , log = "x", lwd = 0, main = "", 
+           xlab = "Fitness", ylab = "Density",
            cex.axis = 1 , cex.lab = 1, 
-           mgp = c( 2.5 , 1 , 0 ),
+           mgp = c( 2.5 , 1 , 0 ), axes = FALSE,
            pch = "",...)
+      magaxis(grid = TRUE, frame.plot = TRUE)
+      
       #x <- c(format(min(f_non),digits = 1),1,5,10,15,format(max(f_non),digits = 4))
       u    <- smooth.spline(d$x, d$y, spar = 0.01)
       #polygon(d$x, d$y, col = red_fade, border=NA)

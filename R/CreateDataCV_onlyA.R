@@ -1,14 +1,17 @@
 
-.CreateDataCV_onlyA <- function(net                   , p          = 0.75 , g           = 50, 
-                               net_type = "directed" , deg_thresh = 0    ) {
+.CreateDataCV_onlyA <- function(net_object , p = 0.75 , g = 50 , deg_thresh = 0    ) {
+  #net               <- as.matrix(net)
+  
+  net               <- net_object$graph
+  net_type          <- net_object$type
   net               <- net[order(net[,3] , decreasing = FALSE),]
   time_stamp        <- as.vector(net[,3])
   in_node           <- as.vector(net[,2])
   
   out_node          <- as.vector(net[,1])
-  node_id           <- sort(union(in_node,out_node))
+  node_id           <- as.integer(sort(union(in_node,out_node)))
   
-  names(node_id)    <- node_id
+  names(node_id)    <- as.integer(node_id)
   unique_time       <- sort(unique(time_stamp))
   
   T                 <- length(unique_time)
@@ -21,16 +24,17 @@
   use_time          <- unique_time[which(edge_ratio >= p)[1]]
   
   data_new          <- net[time_stamp <= use_time, ]
-  stats             <- get_statistics(data_new , net_type = net_type, 
-                                     binning = TRUE , g = g , deg_threshold = deg_thresh)
+  net_new           <- as.PAFit_net(graph = data_new, type = net_type)
+  stats             <- get_statistics(net_new,
+                                      binning = TRUE , g = g , deg_threshold = deg_thresh)
   
-  final_stat        <- get_statistics(net, binning = TRUE, g = g, net_type = net_type, deg_threshold = 0)
+  final_stat        <- get_statistics(net_object, binning = TRUE, g = g, deg_threshold = 0)
   
-  n_tk_each         <- final_stat$n_tk[unique_time[unique_time > use_time & unique_time < T],]
+  n_tk_each         <- final_stat$n_tk[unique_time[-1] > use_time,,drop = FALSE]
   
-  m_each            <- final_stat$m_t[unique_time[unique_time > use_time & unique_time < T]]
+  m_each            <- final_stat$m_t[unique_time[-1] > use_time]
   
-  m_tk_each         <- final_stat$m_tk[unique_time[unique_time > use_time & unique_time < T],]
+  m_tk_each         <- final_stat$m_tk[unique_time[-1] > use_time,, drop = FALSE]
   
   prob_em_each      <- m_tk_each / m_each
  

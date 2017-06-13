@@ -1,7 +1,14 @@
-Newman <- function(raw_net           , 
+Newman <- function(net_object        , 
                    net_stat          ,
                    start       = 1   , 
                    interpolate = FALSE){
+  if (class(net_object) != "PAFit_net")
+      stop("net_object should be of PAFit_net class.")
+  
+  raw_net          <- net_object$graph
+  if (class(net_stat) != "PAFit_data")
+    stop("Please input a proper net summary of class PAFit_data");
+  
   deg_max          <- net_stat$deg_max
   T_time           <- dim(net_stat$n_tk)[1]      
   k                <- 0:deg_max

@@ -8,21 +8,21 @@
   This function estimates node fitnesses \eqn{\eta_i} assusming either \eqn{A_k = k} (i.e. linear preferential attachment) or \eqn{A_k = 1} (i.e. no preferential attachment). It first performs a cross-validation to select the optimal parameter \eqn{s} for the prior of \eqn{\eta_i}, then estimates \eqn{eta_i} (Ref. 1).
 }
 \usage{
-only_F_estimate(raw_net               , 
+only_F_estimate(net_object           , 
                net_stat              , 
-               stop_cond = 10^-9     , 
+               stop_cond = 10^-8     , 
                model_A   = "Linear"  ,
                ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-\item{raw_net}{
-  a three-column matrix that contains the network.
-}
+ \item{net_object}{
+    an object of class \code{PAFit_net} that contains the network.
+  }
 \item{net_stat}{
    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}.
 }
-\item{stop_cond}{Numeric. The iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop.cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose \code{stop.cond} at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-9}. This threshold is more than good enough for most applications.}
+\item{stop_cond}{Numeric. The iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop.cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose \code{stop.cond} at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-8}. This threshold is good enough for most applications.}
   
   \item{model_A}{String. Indicates which attachment function \eqn{A_k} we assume:
       \itemize{
@@ -64,17 +64,18 @@ only_F_estimate(raw_net               ,
 \examples{
 \dontrun{
   library("PAFit")
+  set.seed(1)
   # size of initial network = 100
   # number of new nodes at each time-step = 100
-  # Ak = k; inverse variance of the distribution of node fitnesse = 5
+  # Ak = k; inverse variance of the distribution of node fitnesse = 10
   net        <- generate_BB(N        = 1000 , m             = 50 , 
                             num_seed = 100  , multiple_node = 100,
-                            s        = 5)
+                            s        = 10)
                             
-  net_stats  <- get_statistics(net$graph)
+  net_stats  <- get_statistics(net)
   
   # estimate node fitnesses in isolation, assuming Ak = k
-  result     <- only_F_estimate(net$graph, net_stats)
+  result     <- only_F_estimate(net, net_stats)
  
   # plot the estimated node fitnesses and true node fitnesses
   plot(result, net_stats, true = net$fitness, plot = "true_f")

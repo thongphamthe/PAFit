@@ -41,11 +41,12 @@ PAFit <- function(net_stat,
     if ((mode_f[1] == "Constant_PA") & (only_f == TRUE)) {
       theta[ii] <- 1;  
     } else if ((only_f == TRUE) & (!is.null(true_A))) {
+      #print("reached here")
       theta[ii] <- true_A[ii];    
     }
-  else if (!is.null(start_A)) {
-    theta[ii] <- start_A[ii];  
-  } else if ("Log_linear" != mode_f) {
+    else if (!is.null(start_A)) {
+        theta[ii] <- start_A[ii];  
+     } else if ("Log_linear" != mode_f) {
     if ("Log_linear" == start_mode_A[1]){    
       if (ii <= net_stat$start_deg & ii %in% non_zero_theta) {
         theta[ii] <- ii^alpha_start
@@ -72,6 +73,8 @@ PAFit <- function(net_stat,
         else     theta[ii] <- 1 
       }
   }
+  #print(paste0("Max theta inside PAFit at start: ",max(theta)))
+  
   #print(theta)
   #print(alpha_start)
   alpha <- 1.0
@@ -87,23 +90,33 @@ PAFit <- function(net_stat,
   if (mode_f[1] == "Log_linear") {
     alpha <- 1.0 * alpha_start; #starting value of alpha
   }
-  else theta         <- theta/sum(theta)
+  #else theta         <- theta/sum(theta)
   #print(theta)
   #if (include_zero == 0)
   non_zero_f    <- which(net_stat$z_j > 0)
   
   #if (shape <= 1 & rate <= 1)
   #    non_zero_f <- which(net_stat$z_j > 0)
-  if (!is.null(start_f))
-      f             <- start_f  
-  else if ("Constant" == start_mode_f) {
+  
+  if (!is.null(true_f)) {
+      f <- true_f  
+  }
+  else if (TRUE == only_PA) {
+      f <- rep(1,length(net_stat$f_position)) 
+  } else if (!is.null(start_f)) {
+      f <- start_f  
+  } else if ("Constant" == start_mode_f) {
       #print(normal_start_f)
       if (normal_start_f == FALSE) {
           max_time_temp <- max(net_stat$appear_time)
-          weight_f_temp <- max_time_temp/ (max_time_temp - net_stat$appear_time[as.character(net_stat$f_position)] + 1)
+          weight_f_temp <- max_time_temp/ (max_time_temp - net_stat$appear_time[as.character(as.integer(net_stat$f_position))] + 1)
           max_f         <- max(weight_f_temp)
+          #print(weight_f_temp)
+          #print(max_f)
           f             <- weight_f_temp / max_f 
-          f             <- f/sqrt(var(f))*sqrt(1/s) # variance = 1/s
+          #print(var(f))
+          if (s > 0 && var(f) > 0)
+              f             <- f/sqrt(var(f))*sqrt(1/s) # variance = 1/s
       } else  f <- rep(1,length(net_stat$f_position)) 
       # reasoning: the final nodes with z_j = 0 should have fitness 1
       # earlier nodes with z_j = 0 should have fitness less than 1
@@ -112,6 +125,18 @@ PAFit <- function(net_stat,
       f <- rgamma(n = length(net_stat$f_position), shape = s, rate = s);
       f <- length(f) * f / sum(f)
   }
+  
+  #print(s)
+  #print(normal_start_f)
+  #print(start_mode_f)
+  #print(start_f)
+  
+  #print("++++")
+  #print(length(f))
+  #print(length(net_stat$f_position))
+  #print(length(start_f))
+  #print("----")
+  
   # if (shape < 1 & rate < 1)
   # f[net_stat$z_j == 0] <- 0
   
@@ -123,8 +148,10 @@ PAFit <- function(net_stat,
     else
       f[] <- true_f  
   }
+  #print(f)
+  
   max_time <- max(net_stat$appear_time)
-  weight_f <- max_time/ (max_time - net_stat$appear_time[as.character(net_stat$f_position)] + 1)
+  weight_f <- max_time/ (max_time - net_stat$appear_time[as.character(as.integer(net_stat$f_position))] + 1)
   #print(weight)
   weight_f <- weight_f^0
   #weight_f <- rep(1,length(net_stat$f_position))
@@ -368,8 +395,11 @@ PAFit <- function(net_stat,
   candidate_ok     <- 0
   candidate_accept <- 0
   
+  #print(paste0("Max theta inside PAFit: ", max(theta)))
   
   for (i in 1:iteration) {
+    #print(i);
+     #print(theta)  
     if (mode_f[1] != "Log_linear") {
       if ((FALSE == only_PA) || ((TRUE == only_PA) && (!is.null(true_f)))) {
         .normalized_constant(normalized_const,net_stat$node_degree,theta,f,net_stat$offset_tk,offset) 
@@ -545,7 +575,7 @@ PAFit <- function(net_stat,
           temp5  <- .coeff_theta(net_stat$node_degree, f, normalized_const,net_stat$m_t,net_stat$start_deg + net_stat$g)   
           if (length(time_non_zero) > 1 && length(non_zero_theta) > 1) {
             temp4  <- temp5[non_zero_theta] + colSums(net_stat$m_t[time_non_zero] / normalized_const[time_non_zero] * offset *
-                                                        net_stat$offset_tk[time_non_zero,non_zero_theta])
+                                                        net_stat$offset_tk[time_non_zero,non_zero_theta, drop = FALSE])
           } else {
             temp4  <- temp5[non_zero_theta] + net_stat$m_t[time_non_zero] / normalized_const[time_non_zero] * offset *
               net_stat$offset_tk[time_non_zero,non_zero_theta]  
@@ -556,7 +586,7 @@ PAFit <- function(net_stat,
               #print(time_non_zero)
               #print(non_zero_theta)
               temp4 <- colSums(net_stat$m_t[time_non_zero]/normalized_const[time_non_zero] * 
-                               net_stat$n_tk[time_non_zero,non_zero_theta])
+                               net_stat$n_tk[time_non_zero,non_zero_theta, drop = FALSE])
           } else {
             temp4 <- net_stat$m_t[time_non_zero]/normalized_const[time_non_zero] * 
                        net_stat$n_tk[time_non_zero,non_zero_theta]  
@@ -880,11 +910,12 @@ PAFit <- function(net_stat,
         if (TRUE == diverge_zero_theta)
           break;   
       }
-    } else { # log-linear PA
-      #print(f);
+    } else {
+      # log-linear PA
+      # print(f);
       #print(PA_offset)
       #print(theta)
-      if (i == 1 || only_f == FALSE)
+      #if (i == 1 || only_f == FALSE)
         .normalized_constant_alpha(normalized_const, alpha,
                                    PA_offset,net_stat$node_degree,theta,f,net_stat$offset_tk,offset)
       #print(normalized_const)
@@ -899,6 +930,8 @@ PAFit <- function(net_stat,
       #print(paste("log normalized_const:",log(normalized_const[time_non_zero])));
       
       upper_f_term <- net_stat$z_j[non_zero_f] * log(f[non_zero_f])
+      #print(upper_f_term)
+      #print(log10_likelihood)
       
       log10_likelihood    <- c(log10_likelihood, sum(upper_f_term) +
                                  alpha * sum(net_stat$sum_m_k * log(theta)) -
@@ -910,7 +943,9 @@ PAFit <- function(net_stat,
       
       #print(log10_likelihood)
       log10_likelihood[length(log10_likelihood)] <- log10_likelihood[length(log10_likelihood)] + net_stat$sum_m_k[1] * 
-        log(PA_offset);
+                                                    log(PA_offset);
+      #print(log10_likelihood);
+      
       names(log10_likelihood) <- NULL
       
       if ((TRUE == debug) && (length(log10_likelihood) > 0)){
@@ -918,7 +953,7 @@ PAFit <- function(net_stat,
       }
       if (length(log10_likelihood) > 1) {
         if (abs(log10_likelihood[length(log10_likelihood)] - log10_likelihood[length(log10_likelihood) - 1]) /
-            abs(log10_likelihood[length(log10_likelihood)]) > 10^-15)  
+            abs(log10_likelihood[length(log10_likelihood)] + 1) > 10^-15)  
           if (log10_likelihood[length(log10_likelihood)] < log10_likelihood[length(log10_likelihood) - 1]) {
             print(log10_likelihood[length(log10_likelihood)])
             print(log10_likelihood[length(log10_likelihood) - 1])
@@ -930,14 +965,20 @@ PAFit <- function(net_stat,
           }
       }
       #print("---------")
+
+      
+      
       break_flag <- FALSE
       if (TRUE == auto_stop)
         if (length(log10_likelihood) > 1)
-          tryCatch({if (abs(log10_likelihood[length(log10_likelihood)] - log10_likelihood[length(log10_likelihood) - 1]) / 
-                        (abs(log10_likelihood[length(log10_likelihood) - 1]) + 1) < stop_cond)
-            break_flag <- TRUE;},error = function(e) { #print(as.vector(normalized_const));print(f[non_zero_f]);
+            tryCatch({if (abs(log10_likelihood[length(log10_likelihood)] - log10_likelihood[length(log10_likelihood) - 1]) / 
+                         (abs(log10_likelihood[length(log10_likelihood) - 1]) + 1) < stop_cond)
+              break_flag <- TRUE;},error = function(e) { #print(as.vector(normalized_const));print(f[non_zero_f]);
               #print(non_zero_f);
               break_flag <- TRUE;})
+      
+      
+      
       if (break_flag)
         break;   
       #print(theta);
@@ -948,6 +989,7 @@ PAFit <- function(net_stat,
       #print(paste0("Outside alpha:", alpha))
       #.normalized_constant_alpha(normalized_const, alpha,PA_offset, net_stat$node_degree,theta,f,net_stat$offset_tk,offset)
       if (FALSE == only_PA)  {
+           # print("Update f")  
           .update_f_alpha_new(f,non_zero_f,alpha,PA_offset,net_stat$node_degree,theta,
                               net_stat$z_j,normalized_const,net_stat$m_t,shape,rate,
                               weight_f)
@@ -1005,10 +1047,12 @@ PAFit <- function(net_stat,
     }
   }
   
-  if (mode_f == "Log_linear")   
-    theta    <- theta^alpha  
-  if (only_f == TRUE)
-    theta[1] <- PA_offset  
+  if (is.null(true_A)) {
+      if (mode_f == "Log_linear")   
+          theta    <- theta^alpha  
+      if (only_f == TRUE)
+          theta[1] <- PA_offset  
+  }
   
   ############################################   ############################################   
   ############################################   ############################################   
@@ -1245,7 +1289,7 @@ PAFit <- function(net_stat,
     temp4 <- temp4[non_zero]
   }
   else {
-    temp4 <- colSums(net_stat$n_tk[time_non_zero,non_zero_theta]^2 * net_stat$m_t[time_non_zero] / normalized_const[time_non_zero]^2)
+    temp4 <- colSums(net_stat$n_tk[time_non_zero,non_zero_theta, drop = FALSE]^2 * net_stat$m_t[time_non_zero] / normalized_const[time_non_zero]^2)
   }
   if (0 == mode_reg_A) {
     aa <- 1 / (net_stat$sum_m_k[non_zero_theta] /theta[non_zero_theta] ^ 2 + - temp4 + 
@@ -1403,14 +1447,14 @@ PAFit <- function(net_stat,
   #   f[-non_zero_f] <- 0
   
   f_new                                        <- rep(offset,net_stat$N)
-  names(f_new)                                 <- net_stat$node_id
+  names(f_new)                                 <- as.integer(net_stat$node_id)
   #      print("In ending:")
   #print(length(f))
   #print(length(net_stat$f_position))
-  f_new[as.character(net_stat$f_position)]     <- f
+  f_new[as.character(as.integer(net_stat$f_position))]     <- f
   cov_f_new                                    <- rep(0,net_stat$N)
-  names(cov_f_new)                             <- net_stat$node_id
-  cov_f_new[as.character(net_stat$f_position)] <- abs(cov_f)
+  names(cov_f_new)                             <- as.integer(net_stat$node_id)
+  cov_f_new[as.character(as.integer(net_stat$f_position))] <- abs(cov_f)
   non_zero_f                                   <- f_new > 10^-10 & cov_f_new > 10^-10
   
   upper_f                                  <- rep(0,net_stat$N)

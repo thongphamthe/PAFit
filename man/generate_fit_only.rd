@@ -59,8 +59,10 @@ generate_fit_only(N,
 }
 
 \value{
-  The output is a List contains the following two fields:
+  The output is a \code{PAFit_net} object, which is a List contains the following four fields:
     \item{graph}{a three-column matrix, where each row contains information of one edge, in the form of \code{(from_id, to_id, time_stamp)}. \code{from_id} is the id of the source, \code{to_id} is the id of the destination.}
+    \item{type}{a string indicates whether the network is \code{"directed"} or \code{"undirected"}.}
+    \item{PA}{a numeric vector contains the true PA function.}
   \item{fitness}{fitness values of nodes in the network. The name of each value is the ID of the node.}
 }
 \author{
@@ -80,6 +82,7 @@ generate_fit_only(N,
   # the inverse variance of distribution of node fitnesses is s = 10
   net <- generate_fit_only(N = 100,m = 1,mode = 1, s = 10)
   str(net)
+  plot(net)
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

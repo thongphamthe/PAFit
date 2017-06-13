@@ -67,7 +67,7 @@ function(N,
     stop('mode_f must be either "gamma", "log_normal" or "power_law"')
     }
     )
-    names(fitness) <- 1:N
+    names(fitness) <- as.integer(1:N)
     
     edge_list_index <- 1
     for (n in 2:num_seed) {
@@ -77,9 +77,9 @@ function(N,
     #print(edge_list[1:(edge_list_index - 1),])
     
     degree                 <- rep(0,num_seed)
-    names(degree)          <- 1:num_seed 
+    names(degree)          <- as.integer(1:num_seed) 
     u                      <- table(edge_list[1:(edge_list_index - 1),2])
-    degree[labels(u)[[1]]] <- degree[labels(u)[[1]]] + u 
+    degree[as.character(as.integer(labels(u)[[1]]))] <- degree[as.character(as.integer(labels(u)[[1]]))] + u 
 
     P               <- degree
     P[P == 0]       <- offset
@@ -96,7 +96,8 @@ function(N,
     i                    <- 1
 
     break_flag           <- FALSE
-
+    PA_vector            <- vector()
+    
     while (!break_flag) {	
         # at each time_step: save n
         n_old <- n
@@ -104,14 +105,17 @@ function(N,
              A                 <- custom_PA
              final_A           <- A[length(A)]  
              temp              <- A[P + 1]
+            
              #print(temp)
              temp[is.na(temp)] <- final_A
+             PA_vector         <- temp
              P.sum             <- sum(temp * fitness[1:n_old])
              node.weights      <- temp * fitness[1:n_old]/P.sum  
         }
         else
         if (mode[1] == 1) {
             P.sum         <- sum(P^alpha*fitness[1:n_old])
+            
             node.weights  <- P^alpha*fitness[1:n_old]/P.sum
         } else if (mode[1] == 2) {
             temp          <- pmin(P,sat_at)^alpha
@@ -144,7 +148,7 @@ function(N,
                 temp    <- table(nodes)
                 for(i in 1:length(temp)) { 
                     num_edge            <- as.numeric(temp[i]) 
-                    node_name           <- as.numeric(labels(temp[i]))
+                    node_name           <- as.integer(labels(temp[i]))
                     degree[node_name]   <- degree[node_name] + num_edge # Update degrees.
                 }
             }
@@ -215,7 +219,7 @@ function(N,
                     temp    <- table(nodes)
                     for(i in 1:length(temp)) { 
                        num_edge            <- as.numeric(temp[i]) 
-                       node_name           <- as.numeric(labels(temp[i]))
+                       node_name           <- as.integer(labels(temp[i]))
                        degree[node_name]   <- degree[node_name] + num_edge # Update degrees.
                     }
                 }
@@ -235,6 +239,17 @@ function(N,
             }
     }
     }
+    if (is.null(custom_PA)) {
+        if (mode[1] == 1) {
+            PA_vector <- c(1,1:max(degree))^alpha
+        } else if (mode[1] == 2) {
+            PA_vector <- pmin(c(1,1:max(degree)),sat_at)^alpha
+        } else {
+            PA_vector <- alpha*(log(c(1,1:max(degree))))^beta + 1 
+        }
+    }
     edge_list <- edge_list[-(edge_list_index:dim(edge_list)[1]),]
-  return(list(graph = edge_list, fitness = fitness))
+    result <- list(graph = edge_list, fitness = fitness, PA = PA_vector, type = "directed")
+    class(result) <- "PAFit_net"
+  return(result)
 }

@@ -89,16 +89,19 @@ Thong Pham \email{thongpham@thongpham.net}
 ## Since the runtime is long, we do not let this example run on CRAN
 \dontrun{
 library("PAFit")
+set.seed(1)
 # a network from Bianconi-Barabasi model
-net        <- generate_BB(N = 50 , m = 10 , s = 10)
-net_stats  <- get_statistics(net$graph)
-result     <- joint_estimate(net$graph, net_stats)
+net        <- generate_BB(N        = 1000 , m             = 50 , 
+                          num_seed = 100  , multiple_node = 100,
+                          s        = 10)
+net_stats  <- get_statistics(net)
+result     <- joint_estimate(net, net_stats)
 #plot A
 plot(result , net_stats , plot = "A")
-true_A     <- c(1,result$center_k[-1])
-lines(result$center_k + 1 , true_A , col = "red") # true line
+true_A     <- c(1,result$estimate_result$center_k[-1])
+lines(result$estimate_result$center_k + 1 , true_A , col = "red") # true line
 legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
 #plot true_f
-plot(result , net_stats , net$fitness, plot = "true_f")
+plot(result, net_stats , net$fitness, plot = "true_f")
 }
 }

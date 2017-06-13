@@ -1,28 +1,34 @@
 # function to summarize statistics from a growing network 
 get_statistics <-
-function(net ,
-         net_type      = "directed" , only_PA        = FALSE , only_true_deg_matrix = FALSE,
-         binning       = TRUE       , g              = 50    ,
-         deg_threshold = 0          , 
-         compress_mode = 0          , compress_ratio = 0.5   , custom_time           = NULL){
-
+function(net_object ,
+         only_PA       = FALSE , only_true_deg_matrix = FALSE,
+         binning       = TRUE  , g                    = 50   ,
+         deg_threshold = 0     , 
+         compress_mode = 0     , compress_ratio       = 0.5  , 
+         custom_time   = NULL){
+    #net               <- as.matrix(net)
+    if (class(net_object) != "PAFit_net")
+        stop("Error: net_object should be a PAFit_net object.")
+    net               <- net_object$graph
+    net_type          <- net_object$type
     net               <- net[order(net[,3], decreasing = FALSE),]
     time_stamp        <- as.vector(net[,3])
     in_node           <- as.vector(net[,2])
     out_node          <- as.vector(net[,1])
-    out_node          <- out_node[out_node != -1]
-    node_id           <- sort(union(in_node,out_node))
-   
+    out_node          <- out_node
+    node_id           <- as.integer(sort(union(in_node[in_node !=  -1],out_node[out_node != - 1])))
+    
+    ok_id <- which(in_node != -1 & out_node != -1)
     if (net_type[1] == "directed") {
-        deg           <- table(in_node)
+        deg           <- table(in_node[ok_id])
     } else
     if (net_type[1] == "undirected")
-        deg           <- table(c(in_node,out_node))     
+        deg           <- table(c(in_node[ok_id],out_node[ok_id]))     
         #deg           <- table(as.vector(as.matrix(net[,1:2])))        
     start_deg         <- 0
     deg_new           <- rep(0,length(node_id))
-    names(deg_new)    <- node_id
-    deg_new[labels(deg)[[1]]] <- deg
+    names(deg_new)    <- as.integer(node_id)
+    deg_new[as.character(as.integer(labels(deg)[[1]]))] <- deg
     deg               <- deg_new
     final_deg         <- deg
     deg.max           <- as.numeric(max(deg))
@@ -87,15 +93,18 @@ function(net ,
         compressed_unique_time <- unique_time
     }
     if (net_type[1] == "directed")
-        first_edge       <- table(in_node[time_stamp == unique_time[1]]) else 
-    if (net_type[1] == "undirected")
-        first_edge       <- table(as.vector(as.matrix(net[time_stamp == unique_time[1],1:2])))
+        first_edge       <- table(in_node[ok_id][time_stamp[ok_id] == unique_time[1]]) else 
+    if (net_type[1] == "undirected") {
+        net_temp   <- as.matrix(net[ok_id,][time_stamp[ok_id] == unique_time[1],1:2])
+        #net_temp   <- net_temp[ok_id,1:2]
+        first_edge <- table(as.vector(net_temp))
+    }
        
     first_deg        <- rep(0,N)
     increase         <- rep(0,N)
-    names(increase)  <- node_id
-    names(first_deg) <- node_id
-    first_deg[labels(first_edge)[[1]]] <- first_edge
+    names(increase)  <- as.integer(node_id)
+    names(first_deg) <- as.integer(node_id)
+    first_deg[as.character(as.integer(labels(first_edge)[[1]]))] <- first_edge
     # this is not the true number of new edges, due to the first appearance of a node together with some edges
     # but this can be used as an crude first step selection
     # the accurate selection can be done after
@@ -178,19 +187,19 @@ function(net ,
     
     if (FALSE == only_PA) {
       if (only_true_deg_matrix == FALSE) {   
-          names(z_j)            <- node_id
+          names(z_j)            <- as.integer(node_id)
           #print(only_true_deg_matrix)
           #print("start:")
           #print(z_j)
-          names(appear_time)    <- node_id
+          names(appear_time)    <- as.integer(node_id)
           #print(appear_time)
           #print("Stop!")
       }
-      colnames(node_degree) <- node_id
+      colnames(node_degree) <- as.integer(node_id)
       
     }
    
-    names(node_id)    <- node_id
+    names(node_id)    <- as.integer(node_id)
     #now perform the final selection
     true                           <- which(z_j >= deg_threshold)
     
@@ -215,11 +224,11 @@ function(net ,
                     increase = increase, start_deg = start_deg, 
                     binning = binning, g = g, 
                     compress_mode = compress_mode[1], 
-                    f_position = f_position, 
+                    f_position = as.integer(f_position), 
                     compressed_unique_time = compressed_unique_time, 
                     begin_deg = begin_deg, end_deg = end_deg,
                     interval_length = interval_length,
-                    node_id = node_id_old, N = N, T = T, 
+                    node_id = as.integer(node_id_old), N = N, T = T, 
                     t_compressed = T_compressed,
                     deg_max = deg.max, compress_ratio = compress_ratio , 
                     custom_time = custom_time, 

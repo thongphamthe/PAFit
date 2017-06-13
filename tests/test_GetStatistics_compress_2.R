@@ -5,13 +5,11 @@ net  <- generate_net(N = 50, m = 10,prob_m = TRUE, increase = TRUE, log = TRUE,
 
 for (bin in c("FALSE","TRUE")) {
   deg_thresh <- 0
-  net_stats <- get_statistics(net$graph,deg_threshold = deg_thresh, binning = bin, g = 10, compress_mode = 2,
-                             net_type = "undirected")
-  net_stats <- get_statistics(net$graph,deg_threshold = deg_thresh, binning = bin, g = 10, compress_mode = 3, custom_time = 0:20,
-                             net_type = "directed") 
+  net_stats <- get_statistics(net,deg_threshold = deg_thresh, binning = bin, g = 10, compress_mode = 2)
+  net_stats <- get_statistics(net,deg_threshold = deg_thresh, binning = bin, g = 10, compress_mode = 3, 
+                              custom_time = 0:20) 
   
-  net_stats <- get_statistics(net$graph,deg_threshold = deg_thresh, binning = bin, g = 10, compress_mode = 3, custom_time = 0:20,
-                             net_type = "undirected")
+  net_stats <- get_statistics(net,deg_threshold = deg_thresh, binning = bin, g = 10, compress_mode = 3, custom_time = 0:20)
   #check stats
   
   if (sum(net_stats$m_t) != sum(net_stats$sum_m_k))

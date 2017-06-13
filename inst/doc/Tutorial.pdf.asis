@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{PAFit: An R Package for Estimating Preferential Attachment and Node Fitness in Temporal Complex Networks}
+%\VignetteIndexEntry{PAFit: an R Package for Estimating Preferential Attachment and Node Fitness in Temporal Complex Networks}
 %\VignetteEngine{R.rsp::asis}
 %\VignetteKeyword{PDF}
 %\VignetteKeyword{vignette}

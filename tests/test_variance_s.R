@@ -13,8 +13,7 @@ if (FALSE) {
                         increase = inc, log = log,
                         mode = 1, shape = 100, rate = 100,alpha = 0.5)
     
-    net_stats <- get_statistics(net$graph,deg_threshold = 0, 
-                               net_type = "directed",
+    net_stats <- get_statistics(net,deg_threshold = 0, 
                                binning = TRUE, g = 50) 
     
   

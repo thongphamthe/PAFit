@@ -1,4 +1,4 @@
-Jeong <- function(raw_net                   , 
+Jeong <- function(net_object                              , 
                   net_stat                                , 
                   T_0_start   = 0                         ,
                   T_0_end     =  round(net_stat$T * 0.75) ,
@@ -6,10 +6,13 @@ Jeong <- function(raw_net                   ,
                   T_1_end     = net_stat$T                ,
                   interpolate = FALSE) {
     #check the class 
-    if (is.null(raw_net))
-        stop("Please input a 3-column matrix (see references for more information)");
-    if (is.null(net_stat))
-        stop("Please input a proper net summary (see the class pafit_summary in references for more information)");
+    if (class(net_object) != "PAFit_net")
+      stop("net_object should be of PAFit_net class.")
+    
+    raw_net <- net_object$graph
+  
+    if (class(net_stat) != "PAFit_data")
+        stop("Please input a proper net summary of class PAFit_data");
     
     if (T_0_end < T_0_start) 
         stop(cat("T_0_end must be at least T_0_start"))    

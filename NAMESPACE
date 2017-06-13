@@ -7,18 +7,24 @@ export("generate_BA","generate_BB", "generate_ER",
        "Newman",
        "only_A_estimate",
        "only_F_estimate",
-        "plot.PA_result",
-        "plot.PAFit_result")
-
+       "plot.PA_result",
+       "plot.PAFit_result", "as.PAFit_net",
+       "print.PAFit_net", "summary.PAFit_net", "plot.PAFit_net",
+       "to_igraph", "from_igraph",
+       "to_networkDynamic", "from_networkDynamic",
+       "graph_from_file", "graph_to_file")
 
 importFrom(Rcpp, evalCpp)
 importFrom("grDevices", "rgb")
 importFrom("grDevices", "hcl")
 importFrom("RColorBrewer","brewer.pal")
 importFrom("graphics", "abline", "arrows", "lines", "points", "text")
-importFrom("stats", "lm", "rgamma", "rpois", "uniroot","rlnorm","confint","df.residual","density")
+importFrom("stats", "lm", "rgamma", "rpois", "uniroot","rlnorm","confint","df.residual",
+           "density")
 importFrom("graphics", "legend", "mtext")
+importFrom("utils","head", "write.table", "read.table")
 importFrom("stats", "median", "quantile", "smooth.spline")
+importFrom("plyr","ddply",".")
 
 importFrom("VGAM", "rpareto")
 importFrom("grDevices", "col2rgb")
@@ -28,19 +34,25 @@ importFrom("stats", "runif")
 importFrom("MASS","ginv")
 importFrom("stats", "var")
 
+importFrom("networkDynamic", "networkDynamic", "as.data.frame.networkDynamic")
+
+importFrom("network", "as.network", "is.directed","network", "plot.network.default")
+
+importFrom("igraph","graph.data.frame","as_data_frame","is_directed",
+           "vertex_attr","E","read_graph","V","ends")
 
 importFrom("magicaxis","magaxis")
-
 S3method(print, PAFit_result)
 S3method(print, PA_result)
 S3method(print, PAFit_data)
 S3method(print, CV_Data)
 S3method(print, CV_Result)
+S3method(print, PAFit_net)
 S3method(print, Full_PAFit_result)
-
 S3method(plot, PAFit_result)
 S3method(plot, PA_result)
 S3method(plot, Full_PAFit_result)
+S3method(plot, PAFit_net)
 
 S3method(summary, PA_result)
 S3method(summary, PAFit_result)
@@ -48,3 +60,7 @@ S3method(summary, PAFit_data)
 S3method(summary, CV_Data)
 S3method(summary, CV_Result)
 S3method(summary, Full_PAFit_result)
+S3method(summary, PAFit_net)
+
+
+

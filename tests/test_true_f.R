@@ -10,8 +10,7 @@ net  <- generate_net(N = 50, m = 10,prob_m = prob_m, increase = inc, log = log,
 
 
 
-net_stats <- get_statistics(net$graph,deg_threshold = 1, 
-                           net_type = "directed",
+net_stats <- get_statistics(net,deg_threshold = 1, 
                            binning = TRUE, g = 10) 
 
 

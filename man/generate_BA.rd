@@ -34,8 +34,10 @@ Numeric. This is the attachment exponent in the attachment function \eqn{A_k = k
 
 
 \value{
-  The output is a List contains the following two fields:
+   The output is a \code{PAFit_net} object, which is a List contains the following four fields:
     \item{graph}{a three-column matrix, where each row contains information of one edge, in the form of \code{(from_id, to_id, time_stamp)}. \code{from_id} is the id of the source, \code{to_id} is the id of the destination.}
+    \item{type}{a string indicates whether the network is \code{"directed"} or \code{"undirected"}.}
+    \item{PA}{a numeric vector contains the true PA function.}
   \item{fitness}{fitness values of nodes in the network. The fitnesses are all equal to \eqn{1}.}
 }
 \author{
@@ -54,6 +56,7 @@ For other functions to generate networks, see \code{\link{generate_net}}, \code{
   # generate a network from the BA model with alpha = 1, N = 100, m = 1
   net <- generate_BA(N = 100)
   str(net)
+  plot(net)
 }
 
 \concept{\enc{Barabási}{Barabasi}-Albert model}
