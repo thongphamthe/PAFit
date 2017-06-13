@@ -23,6 +23,10 @@ build_script:
   - travis-tool.sh install_github cran/VGAM
   - travis-tool.sh install_github HenrikBengtsson/R.rsp
   - travis-tool.sh install_github cran/magicaxis
+  - travis-tool.sh install_github cran/networkDynamic
+  - travis-tool.sh install_github cran/network
+  - travis-tool.sh install_github cran/plyr
+  - travis-tool.sh install_github cran/igraph
 
 test_script:
   - travis-tool.sh run_tests
