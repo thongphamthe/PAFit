@@ -1,0 +1,20 @@
+# function to generate generalized BA network 
+generate_BA <- function(N, 
+           num_seed       = 2      , 
+           multiple_node  = 1      , 
+           m              = 1      ,
+           alpha          = 1      
+  ){
+    # N: number of nodes
+    # Number of time-step: (N  - num_seed) / multiple_node
+    if (num_seed >= N)
+        stop("num_seed too large")
+    if (num_seed < 2)
+        stop("num_seed too small")
+    if (multiple_node > N - num_seed)
+        stop("Multiple node and/or num_seed are too large")   
+    if ((alpha < 0) || (m <= 0) || (num_seed <= 0) || (multiple_node <= 0))
+        stop("The parameters must be positive")  
+
+    return(generate_net(N = N , num_seed = num_seed , multiple_node = multiple_node , m = m , alpha = alpha, shape = 0))
+}
