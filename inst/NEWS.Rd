@@ -3,6 +3,14 @@
 \title{Package News}
 
 
+\section{version 1.0.0.1 (Release date: 2017-07-01)}{
+  \subsection{CHANGED}{
+    \itemize{
+    \item updated the tutorial
+    }
+  }
+}
+
 \section{version 1.0.0.0 (Release date: 2017-06-12)}{
   \subsection{NEW}{
     \itemize{

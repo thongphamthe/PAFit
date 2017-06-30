@@ -7,9 +7,7 @@ export("generate_BA","generate_BB", "generate_ER",
        "Newman",
        "only_A_estimate",
        "only_F_estimate",
-       "plot.PA_result",
-       "plot.PAFit_result", "as.PAFit_net",
-       "print.PAFit_net", "summary.PAFit_net", "plot.PAFit_net",
+       "as.PAFit_net",
        "to_igraph", "from_igraph",
        "to_networkDynamic", "from_networkDynamic",
        "graph_from_file", "graph_to_file")
@@ -42,6 +40,7 @@ importFrom("igraph","graph.data.frame","as_data_frame","is_directed",
            "vertex_attr","E","read_graph","V","ends")
 
 importFrom("magicaxis","magaxis")
+
 S3method(print, PAFit_result)
 S3method(print, PA_result)
 S3method(print, PAFit_data)

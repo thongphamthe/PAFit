@@ -2,17 +2,13 @@
 \alias{PAFit-package}
 \alias{summary.CV_Data}
 \alias{summary.PAFit_data}
-\alias{summary.PA_result}
 \alias{summary.PAFit_result}
 \alias{summary.CV_Result}
 \alias{print.CV_Data}
 \alias{print.PAFit_data}
-\alias{print.PA_result}
 \alias{print.PAFit_result}
 \alias{print.CV_Result}
 \alias{plot.PAFit_result}
-\alias{print.PAFit_net}
-\alias{summary.PAFit_net}
 \alias{PAFit}
 \docType{package} 
 \title{Generative Mechanism Estimation in Temporal Complex Networks}
@@ -22,10 +18,10 @@ A package for estimating preferential attachment and node fitness generative mec
 \tabular{ll}{
 Package: \tab PAFit\cr
 Type: \tab Package\cr
-Version: \tab 1.0.0.0\cr
+Version: \tab 1.0.0.1\cr
 Authors: \tab Thong Pham, Paul Sheridan, Hidetoshi Shimodaira\cr
 Maintainer: \tab Thong Pham \email{thongpham@thongpham.net}\cr
-Date: \tab 2017-06-12\cr
+Date: \tab 2017-07-01\cr
 License: \tab GPL-3 \cr
 }
 The PAFit package provides a comprehensive framework to deal with growth mechanisms of temporal complex networks. In particular, it implements functions to simulate various temporal network models, gather essential network statistics from raw input data, and use these summarized statistics in the estimation of the attachment function \eqn{A_k} and node fitnesses \eqn{\eta_i}. The heavy computational parts of the package are implemented in \code{C++} through the use of the Rcpp package. Furthermore, users with a multi-core machine can enjoy a hassle-free speed up through OpenMP parallelization mechanisms implemented in the code. Apart from the main functions, the package also includes a real-world collaboration network dataset between scientists in the field of complex networks (\code{\link{coauthor.net}}). The main package functionalities are as follows. 

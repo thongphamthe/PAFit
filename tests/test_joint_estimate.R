@@ -11,9 +11,9 @@ inc    <- "FALSE"
 log    <-  c("FALSE")
 i      <- 1
 
-net  <- generate_net(N = 1000, m = 5,prob_m = prob_m, 
+net  <- generate_net(N = 1000, m = 15,prob_m = prob_m, 
                     increase = inc, log = log, multiple_node = 100, num_seed = 100,
-                    mode = i, shape = 10, rate = 10,alpha = 1)
+                    mode = i, shape = 10, rate = 10,alpha = 0.5)
 
 net_stats <- get_statistics(net,deg_threshold = 1, 
                            binning = TRUE, g = 50) 

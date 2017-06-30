@@ -54,9 +54,6 @@
 \author{
   Thong Pham \email{thongpham@thongpham.net}
 }
-\references{
-  1. Pham, T., Sheridan, P. & Shimodaira, H. (2015). PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks. PLoS ONE 10(9): e0137796. doi:10.1371/journal.pone.0137796 (\url{http://dx.doi.org/10.1371/journal.pone.0137796}).
-}
 
 \examples{
   library("PAFit")

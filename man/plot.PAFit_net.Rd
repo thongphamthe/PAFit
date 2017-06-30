@@ -2,7 +2,7 @@
 \alias{plot.PAFit_net}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Plot a PAFit_net object
+  Plot a \code{PAFit_net} object
 }
 \description{
   This function plots a \code{PAFit_net} object. There are four options of \code{plot} to specify the type of plot. 

@@ -107,17 +107,19 @@ PAFit <- function(net_stat,
       f <- start_f  
   } else if ("Constant" == start_mode_f) {
       #print(normal_start_f)
-      if (normal_start_f == FALSE) {
-          max_time_temp <- max(net_stat$appear_time)
-          weight_f_temp <- max_time_temp/ (max_time_temp - net_stat$appear_time[as.character(as.integer(net_stat$f_position))] + 1)
-          max_f         <- max(weight_f_temp)
-          #print(weight_f_temp)
-          #print(max_f)
-          f             <- weight_f_temp / max_f 
-          #print(var(f))
-          if (s > 0 && var(f) > 0)
-              f             <- f/sqrt(var(f))*sqrt(1/s) # variance = 1/s
-      } else  f <- rep(1,length(net_stat$f_position)) 
+      # if (normal_start_f == FALSE) {
+      #     max_time_temp <- max(net_stat$appear_time)
+      #     weight_f_temp <- max_time_temp/ (max_time_temp - net_stat$appear_time[as.character(as.integer(net_stat$f_position))] + 1)
+      #     max_f         <- max(weight_f_temp)
+      #     #print(weight_f_temp)
+      #     #print(max_f)
+      #     f             <- weight_f_temp / max_f 
+      #     #print(var(f))
+      #     if (s > 0 && var(f) > 0)
+      #         f             <- f/sqrt(var(f))*sqrt(1/s) # variance = 1/s
+      # } else  f <- rep(1,length(net_stat$f_position)) 
+      f <- rep(1,length(net_stat$f_position)) 
+      
       # reasoning: the final nodes with z_j = 0 should have fitness 1
       # earlier nodes with z_j = 0 should have fitness less than 1
   }

@@ -4,7 +4,7 @@ if (FALSE) {
   #setwd("tests")
   rm(list = ls())
   library(PAFit)
-  set.seed(1)
+  set.seed(4)
   prob_m <- "FALSE"
   inc    <- "FALSE"
   log    <-  c("FALSE")
@@ -22,7 +22,7 @@ if (FALSE) {
                           s = 1) 
                           #shape = 1, rate = 1)
   
-      net_stats <- get_statistics(net) 
+      net_stats <- get_statistics(net, deg_threshold = 1) 
   
       print(result <- joint_estimate(net, net_stats))
       

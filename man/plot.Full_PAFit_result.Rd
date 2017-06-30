@@ -81,10 +81,6 @@ Outputs the desired plot.
 \author{
 Thong Pham \email{thongpham@thongpham.net}
 }
-\references{
-1. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{www.nature.com/articles/srep32558}).
-}
-
 \examples{
 ## Since the runtime is long, we do not let this example run on CRAN
 \dontrun{
