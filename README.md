@@ -22,7 +22,7 @@ This package is hosted on [CRAN](https://CRAN.R-project.org/package=PAFit) and c
 install.packages("PAFit")
 ```
 
-This developmental version on GitHub can be installed as follows:
+This dev version on GitHub can be installed as follows:
 ```r
 require(devtools)
 install_github("thongphamthe/PAFit@devel")
