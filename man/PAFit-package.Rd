@@ -1,14 +1,5 @@
 \name{PAFit-package}
 \alias{PAFit-package}
-\alias{summary.CV_Data}
-\alias{summary.PAFit_data}
-\alias{summary.PAFit_result}
-\alias{summary.CV_Result}
-\alias{print.CV_Data}
-\alias{print.PAFit_data}
-\alias{print.PAFit_result}
-\alias{print.CV_Result}
-\alias{plot.PAFit_result}
 \alias{PAFit}
 \docType{package} 
 \title{Generative Mechanism Estimation in Temporal Complex Networks}

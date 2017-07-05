@@ -35,7 +35,7 @@ only_A_estimate(net_object            ,
 }
 
 \value{
-  Outputs a list, which contains the following fields.
+   Outputs a \code{Full_PAFit_result} object, which is a list containing the following fields:
   \itemize{
   \item \code{cv_data}: a \code{CV_Data} object which contains the cross-validation data. Normally the user does not need to pay attention to this data.
   

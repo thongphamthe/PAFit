@@ -4,6 +4,9 @@ os:
   - linux
   - osx
   
+compiler:
+  - gcc
+  
 cache: packages
 
 r_github_packages:
