@@ -17,7 +17,7 @@ This package provides a framework for modelling and inferencing attachment mecha
 Installation
 ------------
 
-This package is hosted on [CRAN](https://CRAN.R-project.org/package=PAFit) and can be installed in the usual way:
+The release version of the package is hosted on [CRAN](https://CRAN.R-project.org/package=PAFit) and can be installed in the usual way:
 ```r
 install.packages("PAFit")
 ```
