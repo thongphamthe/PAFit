@@ -18,7 +18,7 @@ environment:
     USE_RTOOLS: true
 
 build_script:
-  - travis-tool.sh install_github hadley/devtools, TRUE
+  - travis-tool.sh install_github hadley/devtools, force = TRUE
   - travis-tool.sh install_github cran/RColorBrewer
   - travis-tool.sh install_github cran/VGAM
   - travis-tool.sh install_github HenrikBengtsson/R.rsp
