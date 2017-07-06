@@ -6,6 +6,3 @@
 .Rdata
 *.o
 *.so
-*.so
-*.so
-*.o
