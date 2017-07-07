@@ -21,7 +21,11 @@
   first_time        <- unique_time[1]
   edge_cumsum       <- cumsum(as.vector(table(time_stamp[time_stamp != first_time]))) 
   edge_ratio        <- edge_cumsum/edge_cumsum[length(edge_cumsum)]
-  use_time          <- unique_time[which(edge_ratio >= p)[1] + 1]
+  ok_time           <- which(edge_ratio >= p)
+  if (length(ok_time) == 1) {
+      use_time      <- unique_time[length(unique_time) - 1]
+  } else
+      use_time      <- unique_time[which(edge_ratio >= p)[1] + 1]
   
   data_new          <- net[time_stamp <= use_time, ]
   net_new           <- as.PAFit_net(graph = data_new, type = net_type)
