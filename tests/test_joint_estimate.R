@@ -11,14 +11,14 @@ inc    <- "FALSE"
 log    <-  c("FALSE")
 i      <- 1
 
-net  <- generate_net(N = 800, m = 15,prob_m = prob_m, 
-                    increase = inc, log = log, multiple_node = 200, num_seed = 200,
+net  <- generate_net(N = 100, m = 15,prob_m = prob_m, 
+                    increase = inc, log = log, multiple_node = 20, num_seed = 20,
                     mode = i, shape = 10, rate = 10,alpha = 0.5)
 
 net_stats <- get_statistics(net,deg_threshold = 5, 
                            binning = TRUE, g = 50) 
 
-result <- joint_estimate(net, net_stats)
+result <- joint_estimate(net, net_stats, stop_cond = 10^-5)
 plot(result,net_stats)
 
 
