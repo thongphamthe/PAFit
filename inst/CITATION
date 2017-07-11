@@ -1,5 +1,14 @@
-citHeader("To cite PAFit in your publications please use:")
-citEntry("article", "Pham T, Sheridan P and Shimodaira H (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558", 
+citHeader("To cite the PAFit package in your publications, please cite Ref. 1. Additionally, depending on which method you use, please cite more accordingly: if you jointly estimate the PA function and node fitnesses, please cite Ref. 2, or if you estimate the PA function in isolation, please cite Ref. 3.")
+
+citEntry("article","1. Pham T, Sheridan P and Shimodaira H (2017). PAFit: an R Package for Estimating Preferential Attachment and Node Fitness in Temporal Complex Networks. arXiv preprint arXiv:1704.06017",
+  header = NULL, footer = NULL, 
+  title={"PAFit: an R Package for Modeling and Estimating Preferential Attachment and Node Fitness in Temporal Complex Networks"},
+  Author={"Thong Pham and Paul Sheridan and Hidetoshi Shimodaira"},
+  journal={"arXiv preprint arXiv:1704.06017"},
+  year={2017}
+)
+
+citEntry("article", "2. Pham T, Sheridan P and Shimodaira H (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558", 
         header = NULL, footer = NULL, 
 	Author = {"Thong Pham and Paul Sheridan and Hidetoshi Shimodaira"},
 	Journal = {"Scientific Reports"},
@@ -11,4 +20,18 @@ citEntry("article", "Pham T, Sheridan P and Shimodaira H (2016). Joint Estimatio
  publisher = {"Nature Publishing Group"},
  doi = {"10.1038/srep32558"},
  url= {"http://www.nature.com/articles/srep32558"}
+)
+
+citEntry("article", "3. Pham T, Sheridan P and Shimodaira H (2015). PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks. PLOS ONE 10(9): e0137796. doi:10.1371/journal.pone.0137796", 
+        header = NULL, footer = NULL, 
+	Author = {"Thong Pham and Paul Sheridan and Hidetoshi Shimodaira"},
+	Journal = {"PLOS ONE"},
+	Title = {"PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks"},
+ year = {2015},
+ month = {09},
+ volumn = {10},
+ pages = {"1-18"},
+ publisher = {"Public Library of Science"},
+ doi = {"10.1371/journal.pone.0137796"},
+ url= {"https://doi.org/10.1371/journal.pone.0137796"}
 )
