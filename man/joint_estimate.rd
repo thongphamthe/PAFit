@@ -71,10 +71,10 @@ joint_estimate(net_object              ,
   net        <- generate_BB(N        = 1000 , m             = 50 , 
                             num_seed = 100  , multiple_node = 100,
                             s        = 5)
-  net_stats  <- get_statistics(net$graph)
+  net_stats  <- get_statistics(net)
   
   # Joint estimation of attachment function Ak and node fitness
-  result     <- joint_estimate(net$graph, net_stats)
+  result     <- joint_estimate(net, net_stats)
   
   summary(result)
   

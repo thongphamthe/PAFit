@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // normalized_constant
 int normalized_constant(NumericVector& norm, const NumericMatrix& degree, const NumericVector& theta, const NumericVector& f, const NumericMatrix& offset_tk, const double& offset);
-RcppExport SEXP PAFit_normalized_constant(SEXP normSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP fSEXP, SEXP offset_tkSEXP, SEXP offsetSEXP) {
+RcppExport SEXP _PAFit_normalized_constant(SEXP normSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP fSEXP, SEXP offset_tkSEXP, SEXP offsetSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -23,7 +23,7 @@ END_RCPP
 }
 // normalized_constant_alpha
 int normalized_constant_alpha(NumericVector& norm, const double& alpha, const double& PA_offset, const NumericMatrix& degree, const NumericVector& theta, const NumericVector& f, const NumericMatrix& offset_tk, const double& offset);
-RcppExport SEXP PAFit_normalized_constant_alpha(SEXP normSEXP, SEXP alphaSEXP, SEXP PA_offsetSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP fSEXP, SEXP offset_tkSEXP, SEXP offsetSEXP) {
+RcppExport SEXP _PAFit_normalized_constant_alpha(SEXP normSEXP, SEXP alphaSEXP, SEXP PA_offsetSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP fSEXP, SEXP offset_tkSEXP, SEXP offsetSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -41,7 +41,7 @@ END_RCPP
 }
 // get_stats
 int get_stats(CharacterVector& time_stamp, CharacterVector& unique_stamp, const NumericVector& in_node, const NumericVector& out_node, const NumericVector& all_node, const NumericVector& ok_node, const NumericVector& bin_vector, const long max_node_id, const int undirected, const int only_PA, CharacterVector& time_vector, NumericVector& Sum_m_k, NumericMatrix& n_tk, NumericVector& m_tk, NumericVector& m_t, NumericMatrix& offset_tk, NumericVector& z_j, NumericMatrix& node_degree, NumericMatrix& offset_m_tk, const int only_true_deg, const long deg_max, NumericVector& center_bin, NumericVector& appear_time);
-RcppExport SEXP PAFit_get_stats(SEXP time_stampSEXP, SEXP unique_stampSEXP, SEXP in_nodeSEXP, SEXP out_nodeSEXP, SEXP all_nodeSEXP, SEXP ok_nodeSEXP, SEXP bin_vectorSEXP, SEXP max_node_idSEXP, SEXP undirectedSEXP, SEXP only_PASEXP, SEXP time_vectorSEXP, SEXP Sum_m_kSEXP, SEXP n_tkSEXP, SEXP m_tkSEXP, SEXP m_tSEXP, SEXP offset_tkSEXP, SEXP z_jSEXP, SEXP node_degreeSEXP, SEXP offset_m_tkSEXP, SEXP only_true_degSEXP, SEXP deg_maxSEXP, SEXP center_binSEXP, SEXP appear_timeSEXP) {
+RcppExport SEXP _PAFit_get_stats(SEXP time_stampSEXP, SEXP unique_stampSEXP, SEXP in_nodeSEXP, SEXP out_nodeSEXP, SEXP all_nodeSEXP, SEXP ok_nodeSEXP, SEXP bin_vectorSEXP, SEXP max_node_idSEXP, SEXP undirectedSEXP, SEXP only_PASEXP, SEXP time_vectorSEXP, SEXP Sum_m_kSEXP, SEXP n_tkSEXP, SEXP m_tkSEXP, SEXP m_tSEXP, SEXP offset_tkSEXP, SEXP z_jSEXP, SEXP node_degreeSEXP, SEXP offset_m_tkSEXP, SEXP only_true_degSEXP, SEXP deg_maxSEXP, SEXP center_binSEXP, SEXP appear_timeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -74,7 +74,7 @@ END_RCPP
 }
 // update_f
 int update_f(NumericVector& f, const NumericVector& non_zero_f, const NumericMatrix& degree, const NumericVector& theta, const NumericVector& z_j, const NumericVector& normalized_const, const NumericVector& m_t, const double shape, const double rate, const double offset);
-RcppExport SEXP PAFit_update_f(SEXP fSEXP, SEXP non_zero_fSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP z_jSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP, SEXP rateSEXP, SEXP offsetSEXP) {
+RcppExport SEXP _PAFit_update_f(SEXP fSEXP, SEXP non_zero_fSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP z_jSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP, SEXP rateSEXP, SEXP offsetSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -94,7 +94,7 @@ END_RCPP
 }
 // update_offset
 double update_offset(const NumericMatrix& offset_n_tk, const NumericMatrix& offset_m_tk, const NumericVector& theta, const NumericVector& normalized_const, const NumericVector& m_t, const double shape, const double rate);
-RcppExport SEXP PAFit_update_offset(SEXP offset_n_tkSEXP, SEXP offset_m_tkSEXP, SEXP thetaSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP, SEXP rateSEXP) {
+RcppExport SEXP _PAFit_update_offset(SEXP offset_n_tkSEXP, SEXP offset_m_tkSEXP, SEXP thetaSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP, SEXP rateSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -111,7 +111,7 @@ END_RCPP
 }
 // update_f_alpha
 int update_f_alpha(NumericVector& f, const NumericVector& non_zero_f, const double& alpha, const double& PA_offset, const NumericMatrix& degree, const NumericVector& theta, const NumericVector& z_j, const NumericVector& normalized_const, const NumericVector& m_t, const double shape, const double rate);
-RcppExport SEXP PAFit_update_f_alpha(SEXP fSEXP, SEXP non_zero_fSEXP, SEXP alphaSEXP, SEXP PA_offsetSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP z_jSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP, SEXP rateSEXP) {
+RcppExport SEXP _PAFit_update_f_alpha(SEXP fSEXP, SEXP non_zero_fSEXP, SEXP alphaSEXP, SEXP PA_offsetSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP z_jSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP, SEXP rateSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -132,7 +132,7 @@ END_RCPP
 }
 // update_f_new
 int update_f_new(NumericVector& f, const NumericVector& non_zero_f, const NumericMatrix& degree, const NumericVector& theta, const NumericVector& z_j, const NumericVector& normalized_const, const NumericVector& m_t, const double shape, const double rate, const double offset, const NumericVector& weight_f);
-RcppExport SEXP PAFit_update_f_new(SEXP fSEXP, SEXP non_zero_fSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP z_jSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP, SEXP rateSEXP, SEXP offsetSEXP, SEXP weight_fSEXP) {
+RcppExport SEXP _PAFit_update_f_new(SEXP fSEXP, SEXP non_zero_fSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP z_jSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP, SEXP rateSEXP, SEXP offsetSEXP, SEXP weight_fSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -153,7 +153,7 @@ END_RCPP
 }
 // update_f_alpha_new
 int update_f_alpha_new(NumericVector& f, const NumericVector& non_zero_f, const double& alpha, const double& PA_offset, const NumericMatrix& degree, const NumericVector& theta, const NumericVector& z_j, const NumericVector& normalized_const, const NumericVector& m_t, const double shape, const double rate, const NumericVector& weight_f);
-RcppExport SEXP PAFit_update_f_alpha_new(SEXP fSEXP, SEXP non_zero_fSEXP, SEXP alphaSEXP, SEXP PA_offsetSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP z_jSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP, SEXP rateSEXP, SEXP weight_fSEXP) {
+RcppExport SEXP _PAFit_update_f_alpha_new(SEXP fSEXP, SEXP non_zero_fSEXP, SEXP alphaSEXP, SEXP PA_offsetSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP z_jSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP, SEXP rateSEXP, SEXP weight_fSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -175,7 +175,7 @@ END_RCPP
 }
 // update_alpha_fast
 double update_alpha_fast(const NumericVector& non_zero_theta, const NumericVector& norm, const NumericVector& f, const double& PA_offset, const NumericVector& theta, const NumericMatrix& degree, const NumericVector& m_t, const NumericVector& Sum_m_k, const NumericMatrix& offset_tk, const double& offset, const double alpha_old);
-RcppExport SEXP PAFit_update_alpha_fast(SEXP non_zero_thetaSEXP, SEXP normSEXP, SEXP fSEXP, SEXP PA_offsetSEXP, SEXP thetaSEXP, SEXP degreeSEXP, SEXP m_tSEXP, SEXP Sum_m_kSEXP, SEXP offset_tkSEXP, SEXP offsetSEXP, SEXP alpha_oldSEXP) {
+RcppExport SEXP _PAFit_update_alpha_fast(SEXP non_zero_thetaSEXP, SEXP normSEXP, SEXP fSEXP, SEXP PA_offsetSEXP, SEXP thetaSEXP, SEXP degreeSEXP, SEXP m_tSEXP, SEXP Sum_m_kSEXP, SEXP offset_tkSEXP, SEXP offsetSEXP, SEXP alpha_oldSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -196,7 +196,7 @@ END_RCPP
 }
 // var_alpha
 double var_alpha(const double alpha, const NumericVector& non_zero_theta, const NumericVector& norm, const NumericVector& f, const double& PA_offset, const NumericVector& theta, const NumericMatrix& degree, const NumericVector& m_t, const NumericVector& Sum_m_k, const NumericMatrix& offset_tk, const double& offset);
-RcppExport SEXP PAFit_var_alpha(SEXP alphaSEXP, SEXP non_zero_thetaSEXP, SEXP normSEXP, SEXP fSEXP, SEXP PA_offsetSEXP, SEXP thetaSEXP, SEXP degreeSEXP, SEXP m_tSEXP, SEXP Sum_m_kSEXP, SEXP offset_tkSEXP, SEXP offsetSEXP) {
+RcppExport SEXP _PAFit_var_alpha(SEXP alphaSEXP, SEXP non_zero_thetaSEXP, SEXP normSEXP, SEXP fSEXP, SEXP PA_offsetSEXP, SEXP thetaSEXP, SEXP degreeSEXP, SEXP m_tSEXP, SEXP Sum_m_kSEXP, SEXP offset_tkSEXP, SEXP offsetSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -217,7 +217,7 @@ END_RCPP
 }
 // coeff_theta
 NumericVector coeff_theta(const NumericMatrix& degree, const NumericVector& f, const NumericVector& normalized_const, const NumericVector& m_t, const int length_theta);
-RcppExport SEXP PAFit_coeff_theta(SEXP degreeSEXP, SEXP fSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP length_thetaSEXP) {
+RcppExport SEXP _PAFit_coeff_theta(SEXP degreeSEXP, SEXP fSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP length_thetaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -232,7 +232,7 @@ END_RCPP
 }
 // coeff_var
 NumericVector coeff_var(const NumericMatrix& degree, const NumericVector& f, const NumericVector& normalized_const, const NumericVector& m_t, const NumericMatrix& offset, const int length_theta);
-RcppExport SEXP PAFit_coeff_var(SEXP degreeSEXP, SEXP fSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP offsetSEXP, SEXP length_thetaSEXP) {
+RcppExport SEXP _PAFit_coeff_var(SEXP degreeSEXP, SEXP fSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP offsetSEXP, SEXP length_thetaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -248,7 +248,7 @@ END_RCPP
 }
 // cal_var_f
 int cal_var_f(NumericVector& cov_f, const NumericVector& non_zero_f, const NumericMatrix& degree, const NumericVector& theta, const NumericVector& f, const NumericVector& z_j, const NumericVector& normalized_const, const NumericVector& m_t, const double shape);
-RcppExport SEXP PAFit_cal_var_f(SEXP cov_fSEXP, SEXP non_zero_fSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP fSEXP, SEXP z_jSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP) {
+RcppExport SEXP _PAFit_cal_var_f(SEXP cov_fSEXP, SEXP non_zero_fSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP fSEXP, SEXP z_jSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -267,7 +267,7 @@ END_RCPP
 }
 // cal_var_f_new
 int cal_var_f_new(NumericVector& cov_f, const NumericVector& non_zero_f, const NumericMatrix& degree, const NumericVector& theta, const NumericVector& f, const NumericVector& z_j, const NumericVector& normalized_const, const NumericVector& m_t, const double shape, const NumericVector& weight_f);
-RcppExport SEXP PAFit_cal_var_f_new(SEXP cov_fSEXP, SEXP non_zero_fSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP fSEXP, SEXP z_jSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP, SEXP weight_fSEXP) {
+RcppExport SEXP _PAFit_cal_var_f_new(SEXP cov_fSEXP, SEXP non_zero_fSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP fSEXP, SEXP z_jSEXP, SEXP normalized_constSEXP, SEXP m_tSEXP, SEXP shapeSEXP, SEXP weight_fSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;

@@ -9,59 +9,59 @@
 
 /* .Call calls */
 
-extern SEXP PAFit_normalized_constant(SEXP , SEXP , SEXP , SEXP , 
+extern SEXP _PAFit_normalized_constant(SEXP , SEXP , SEXP , SEXP , 
                                       SEXP , SEXP); 
-extern SEXP PAFit_normalized_constant_alpha(SEXP , SEXP , SEXP , SEXP , 
+extern SEXP _PAFit_normalized_constant_alpha(SEXP , SEXP , SEXP , SEXP , 
                                      SEXP , SEXP , SEXP , SEXP );
 
-extern SEXP PAFit_get_stats(SEXP , SEXP , SEXP , SEXP , 
+extern SEXP _PAFit_get_stats(SEXP , SEXP , SEXP , SEXP , 
                      SEXP , SEXP , SEXP , SEXP , 
                      SEXP , SEXP , SEXP , SEXP , 
                      SEXP , SEXP , SEXP , SEXP , SEXP , 
                      SEXP , SEXP , SEXP , SEXP , 
                      SEXP , SEXP ); 
 
-extern SEXP PAFit_update_f(SEXP , SEXP , SEXP , SEXP , SEXP , 
+extern SEXP _PAFit_update_f(SEXP , SEXP , SEXP , SEXP , SEXP , 
                     SEXP , SEXP , SEXP , SEXP , 
                     SEXP ); 
 
-extern SEXP PAFit_update_offset(SEXP , SEXP , 
+extern SEXP _PAFit_update_offset(SEXP , SEXP , 
                          SEXP , SEXP , SEXP , 
                          SEXP , SEXP ); 
 
-extern SEXP PAFit_update_f_alpha(SEXP , SEXP , SEXP , 
+extern SEXP _PAFit_update_f_alpha(SEXP , SEXP , SEXP , 
                           SEXP , SEXP , SEXP , 
                           SEXP , SEXP , SEXP , 
                           SEXP , SEXP );
 
-extern SEXP PAFit_update_f_alpha_new(SEXP , SEXP , SEXP , 
+extern SEXP _PAFit_update_f_alpha_new(SEXP , SEXP , SEXP , 
                               SEXP , SEXP , SEXP , 
                               SEXP , SEXP , SEXP , 
                               SEXP, SEXP , SEXP ); 
 
-extern SEXP PAFit_update_alpha_fast(SEXP , SEXP , SEXP , 
+extern SEXP _PAFit_update_alpha_fast(SEXP , SEXP , SEXP , 
                              SEXP , SEXP , SEXP , SEXP , 
                              SEXP , SEXP , SEXP , SEXP ); 
 
-extern SEXP PAFit_var_alpha(SEXP , SEXP , SEXP , 
+extern SEXP _PAFit_var_alpha(SEXP , SEXP , SEXP , 
                      SEXP , SEXP , SEXP , SEXP , 
                      SEXP , SEXP , SEXP , SEXP ); 
 
-extern SEXP PAFit_coeff_theta(SEXP , SEXP , SEXP , 
+extern SEXP _PAFit_coeff_theta(SEXP , SEXP , SEXP , 
                        SEXP , SEXP ); 
 
-extern SEXP PAFit_coeff_var(SEXP , SEXP , SEXP , 
+extern SEXP _PAFit_coeff_var(SEXP , SEXP , SEXP , 
                      SEXP , SEXP , SEXP ); 
 
 
-extern SEXP PAFit_cal_var_f(SEXP , SEXP , SEXP , 
+extern SEXP _PAFit_cal_var_f(SEXP , SEXP , SEXP , 
                      SEXP , SEXP , SEXP , SEXP , 
                      SEXP , SEXP );
 
-extern SEXP PAFit_cal_var_f_new(SEXP , SEXP , SEXP , 
+extern SEXP _PAFit_cal_var_f_new(SEXP , SEXP , SEXP , 
                          SEXP , SEXP , SEXP , SEXP , 
                          SEXP, SEXP , SEXP );
-extern SEXP PAFit_update_f_new(SEXP , SEXP , 
+extern SEXP _PAFit_update_f_new(SEXP , SEXP , 
                                SEXP , SEXP , 
                                SEXP , SEXP , 
                                SEXP , SEXP , 
@@ -70,20 +70,20 @@ extern SEXP PAFit_update_f_new(SEXP , SEXP ,
 
   
 static const R_CallMethodDef CallEntries[] = {
-  {"PAFit_cal_var_f_new", (DL_FUNC) &PAFit_cal_var_f_new,10},
-  {"PAFit_cal_var_f", (DL_FUNC) &PAFit_cal_var_f, 9},
-  {"PAFit_coeff_var", (DL_FUNC) &PAFit_coeff_var, 6},
-  {"PAFit_coeff_theta", (DL_FUNC) &PAFit_coeff_theta, 5},
-  {"PAFit_var_alpha", (DL_FUNC) &PAFit_var_alpha, 11},
-  {"PAFit_update_alpha_fast", (DL_FUNC) &PAFit_update_alpha_fast, 11},
-  {"PAFit_update_f_alpha_new", (DL_FUNC) &PAFit_update_f_alpha_new, 12},
-  {"PAFit_update_f_alpha", (DL_FUNC) &PAFit_update_f_alpha, 11},
-  {"PAFit_update_offset", (DL_FUNC) &PAFit_update_offset, 7},
-  {"PAFit_update_f", (DL_FUNC) &PAFit_update_f, 10},
-  {"PAFit_get_stats", (DL_FUNC) &PAFit_get_stats, 23},
-  {"PAFit_normalized_constant_alpha", (DL_FUNC) &PAFit_normalized_constant_alpha, 8},
-  {"PAFit_normalized_constant", (DL_FUNC) &PAFit_normalized_constant, 6},
-  {"PAFit_update_f_new", (DL_FUNC) &PAFit_update_f_new, 11},
+  {"_PAFit_cal_var_f_new", (DL_FUNC) &_PAFit_cal_var_f_new,10},
+  {"_PAFit_cal_var_f", (DL_FUNC) &_PAFit_cal_var_f, 9},
+  {"_PAFit_coeff_var", (DL_FUNC) &_PAFit_coeff_var, 6},
+  {"_PAFit_coeff_theta", (DL_FUNC) &_PAFit_coeff_theta, 5},
+  {"_PAFit_var_alpha", (DL_FUNC) &_PAFit_var_alpha, 11},
+  {"_PAFit_update_alpha_fast", (DL_FUNC) &_PAFit_update_alpha_fast, 11},
+  {"_PAFit_update_f_alpha_new", (DL_FUNC) &_PAFit_update_f_alpha_new, 12},
+  {"_PAFit_update_f_alpha", (DL_FUNC) &_PAFit_update_f_alpha, 11},
+  {"_PAFit_update_offset", (DL_FUNC) &_PAFit_update_offset, 7},
+  {"_PAFit_update_f", (DL_FUNC) &_PAFit_update_f, 10},
+  {"_PAFit_get_stats", (DL_FUNC) &_PAFit_get_stats, 23},
+  {"_PAFit_normalized_constant_alpha", (DL_FUNC) &_PAFit_normalized_constant_alpha, 8},
+  {"_PAFit_normalized_constant", (DL_FUNC) &_PAFit_normalized_constant, 6},
+  {"_PAFit_update_f_new", (DL_FUNC) &_PAFit_update_f_new, 11},
   {NULL, NULL, 0}
 };
 

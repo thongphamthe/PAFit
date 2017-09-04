@@ -12,6 +12,7 @@ only_A_estimate(net_object            ,
                net_stat               , 
                stop_cond  = 10^-8     , 
                mode_reg_A = 0         ,
+               MLE        = FALSE     ,
                ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -30,6 +31,7 @@ only_A_estimate(net_object            ,
 \item \code{1}: Unlike the default, this regularization term exactly enforces the functional form \eqn{A_k = k^\alpha}. Its main drawback is it is significantly slower to converge, while its gain over the default one is marginal in most cases.  
 }
 }
+\item{MLE}{Logical. If \code{TRUE}, then not perform cross-validation and estimate the PA function with \code{r = 0},i.e. maximum likelihood estimation. Default is \code{FALSE}.}
 \item{...}{Other parameters to pass to the internal estimation algorithm.}
 
 }
@@ -37,9 +39,9 @@ only_A_estimate(net_object            ,
 \value{
    Outputs a \code{Full_PAFit_result} object, which is a list containing the following fields:
   \itemize{
-  \item \code{cv_data}: a \code{CV_Data} object which contains the cross-validation data. Normally the user does not need to pay attention to this data.
+  \item \code{cv_data}: a \code{CV_Data} object which contains the cross-validation data. Normally the user does not need to pay attention to this data. \code{NULL} if \code{MLE = TRUE}.
   
- \item \code{cv_result}: a \code{CV_Result} object which contains the cross-validation result. Normally the user does not need to pay attention to this data.
+ \item \code{cv_result}: a \code{CV_Result} object which contains the cross-validation result. Normally the user does not need to pay attention to this data. \code{NULL} if \code{MLE = TRUE}.
  
  \item \code{estimate_result}: this is a \code{PAFit_result} object which contains the estimated PA function and its confidence interval. It also includes the estimated attachment exponenent \eqn{\alpha} (assuming the model \eqn{A_k = k^\alpha}) in the field \code{alpha}, and the confidence interval of \eqn{\alpha} (in the field \code{ci}) when possible.
 }
