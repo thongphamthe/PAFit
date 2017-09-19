@@ -5,7 +5,9 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 [//]: # | **`Linux`** | **`Mac OS`** | **`Windows`** |
+
 [//]: # |-----------------|---------------------|------------------|
+
 [//]: # | [![Build Status](https://travis-ci.org/thongphamthe/PAFit.svg?branch=devel)](https://travis-ci.org/thongphamthe/PAFit) | [![Build Status](https://travis-ci.org/thongphamthe/PAFit.svg?branch=devel)](https://travis-ci.org/thongphamthe/PAFit) | [![Build status](https://ci.appveyor.com/api/projects/status/ufje8pyddp42tbfu?svg=true)](https://ci.appveyor.com/project/thongphamthe/pafit)
 
 
