@@ -7,6 +7,7 @@ function(net_object ,
          compress_mode = 0     , compress_ratio       = 0.5  , 
          custom_time   = NULL){
     #net               <- as.matrix(net)
+    options(scipen=999)
     if (class(net_object) != "PAFit_net")
         stop("Error: net_object should be a PAFit_net object.")
     net               <- net_object$graph
@@ -16,7 +17,7 @@ function(net_object ,
     in_node           <- as.vector(net[,2])
     out_node          <- as.vector(net[,1])
     out_node          <- out_node
-    node_id           <- as.integer(sort(union(in_node[in_node !=  -1],out_node[out_node != - 1])))
+    node_id           <- as.numeric(sort(union(in_node[in_node !=  -1],out_node[out_node != - 1])))
     
     ok_id <- which(in_node != -1 & out_node != -1)
     if (net_type[1] == "directed") {
@@ -27,8 +28,8 @@ function(net_object ,
         #deg           <- table(as.vector(as.matrix(net[,1:2])))        
     start_deg         <- 0
     deg_new           <- rep(0,length(node_id))
-    names(deg_new)    <- as.integer(node_id)
-    deg_new[as.character(as.integer(labels(deg)[[1]]))] <- deg
+    names(deg_new)    <- as.numeric(node_id)
+    deg_new[as.character(as.numeric(labels(deg)[[1]]))] <- deg
     deg               <- deg_new
     final_deg         <- deg
     deg.max           <- as.numeric(max(deg))
@@ -102,9 +103,9 @@ function(net_object ,
        
     first_deg        <- rep(0,N)
     increase         <- rep(0,N)
-    names(increase)  <- as.integer(node_id)
-    names(first_deg) <- as.integer(node_id)
-    first_deg[as.character(as.integer(labels(first_edge)[[1]]))] <- first_edge
+    names(increase)  <- as.numeric(node_id)
+    names(first_deg) <- as.numeric(node_id)
+    first_deg[as.character(as.numeric(labels(first_edge)[[1]]))] <- first_edge
     # this is not the true number of new edges, due to the first appearance of a node together with some edges
     # but this can be used as an crude first step selection
     # the accurate selection can be done after
@@ -174,8 +175,22 @@ function(net_object ,
     #print(length(Sum_m_k))
     #print(dim(m_tk))
     #print(dim(n_tk))
+    #print(max_node_id)
+    #print(length(node_id_old))
     
-    .get_stats(time_stamp,unique_time,in_node,out_node,node_id_old,node_id,bin_vector, max_node_id, undirected, 
+    
+    #print(system.time({
+    #for (j in 1:length(new_id)) {
+    #    in_node[in_node == node_id_old[j]]   <- j
+    #    out_node[out_node == node_id_old[j]] <- j
+    #}
+    #  .my_replace(in_node,out_node,node_id_old)
+    #}))
+    
+    #node_id_old <- new_id
+
+    
+    .get_stats(time_stamp,unique_time, in_node, out_node, node_id_old, node_id,bin_vector, max_node_id, undirected, 
               only_PA_num,              
               compressed_unique_time,
               Sum_m_k,n_tk,m_tk,m_t,offset_tk,z_j,node_degree,offset_m_tk,only_true_deg_matrix_num, deg.max, center_k,
@@ -187,19 +202,19 @@ function(net_object ,
     
     if (FALSE == only_PA) {
       if (only_true_deg_matrix == FALSE) {   
-          names(z_j)            <- as.integer(node_id)
+          names(z_j)            <- as.numeric(node_id)
           #print(only_true_deg_matrix)
           #print("start:")
           #print(z_j)
-          names(appear_time)    <- as.integer(node_id)
+          names(appear_time)    <- as.numeric(node_id)
           #print(appear_time)
           #print("Stop!")
       }
-      colnames(node_degree) <- as.integer(node_id)
+      colnames(node_degree) <- as.numeric(node_id)
       
     }
    
-    names(node_id)    <- as.integer(node_id)
+    names(node_id)    <- as.numeric(node_id)
     #now perform the final selection
     true                           <- which(z_j >= deg_threshold)
     
@@ -224,11 +239,11 @@ function(net_object ,
                     increase = increase, start_deg = start_deg, 
                     binning = binning, g = g, 
                     compress_mode = compress_mode[1], 
-                    f_position = as.integer(f_position), 
+                    f_position = as.numeric(f_position), 
                     compressed_unique_time = compressed_unique_time, 
                     begin_deg = begin_deg, end_deg = end_deg,
                     interval_length = interval_length,
-                    node_id = as.integer(node_id_old), N = N, T = T, 
+                    node_id = as.numeric(node_id_old), N = N, T = T, 
                     t_compressed = T_compressed,
                     deg_max = deg.max, compress_ratio = compress_ratio , 
                     custom_time = custom_time, 

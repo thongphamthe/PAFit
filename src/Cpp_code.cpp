@@ -1,5 +1,9 @@
 //// Cpp functions 2015-3-11 Thong Pham
 #include <Rcpp.h>
+#include <iostream>    
+#include <algorithm>    
+#include <vector>      
+
 using namespace Rcpp;
 
 // [[Rcpp::plugins("cpp11")]]
@@ -17,7 +21,7 @@ int normalized_constant(      NumericVector& norm,
     long T = degree.nrow();     // number of time-steps
     long N = degree.ncol();     // number of nodes
     long K = offset_tk.ncol();  // maximum degree
-    #pragma omp parallel for 
+    #pragma omp parallel for
     for (long i = 0; i < T; i++) {
         double total = 0; 
         for (long j = 0; j < N; j++)
@@ -69,6 +73,8 @@ int normalized_constant_alpha(      NumericVector& norm,
   }
   return 0;
 }
+
+
 // [[Rcpp::export(".get_stats")]]
 int get_stats(CharacterVector    & time_stamp,
               CharacterVector    & unique_stamp,
@@ -95,33 +101,39 @@ int get_stats(CharacterVector    & time_stamp,
               NumericVector& appear_time) {
   long N     = all_node.size(); 
   long N_new = ok_node.size();
-  long T     = time_vector.size();
-  long K     = n_tk.ncol();
-  std::vector<long>   node_array(max_node_id + 1,0); //the index used when indexing all arrays whose length is N
-  std::vector<int>    ok_array(max_node_id + 1,0);   //boolean check whether a node is used or not  
-  std::vector<int>    is_appear(N,0);
-  std::vector<int>    appear_onestep(N,0);
-  std::vector<long>   ok_index(max_node_id + 1,0);//the index used when indexing all arrays whose length is N_new
-  std::vector<long>   degree_vector(N,-1);
-  std::vector<long>   degree_vector_onestep(N,-1);
-  std::vector<long>   n_tk_vector(K,0);
-  std::vector<long>   m_tk_vector(K,0);
-  std::vector<double>  count_bin(K,0);        // Number of degrees actually inside that bin
+  long T          = time_vector.size();
+  long K          = n_tk.ncol();
+  //std::cout << "Begin the program /n";
+  
+  std::vector<long>      node_array(max_node_id + 1,0); //the index used when indexing all arrays whose length is N
+  std::vector<int>       ok_array(max_node_id + 1,0);   //boolean check whether a node is used or not  
+  std::vector<int>       is_appear(N,0);
+  std::vector<int>       appear_onestep(N,0);
+  std::vector<long>      ok_index(max_node_id + 1,0);   //the index used when indexing all arrays whose length is N_new
+  std::vector<long>      degree_vector(N,-1);
+  std::vector<long>      degree_vector_onestep(N,-1);
+  std::vector<long>      n_tk_vector(K,0);
+  std::vector<long>      m_tk_vector(K,0);
+  std::vector<double>    count_bin(K,0);        // Number of degrees actually inside that bin
   //std::vector<double>  center_bin(K,0);       // Logarithmic center of the bin
-  std::vector<long>   is_in_bin(deg_max,0);  // Mark a degree as appeared in bin
-  std::vector<long>   z_j_vector(N_new,0);
-  std::vector<long>   offset_tk_vector(K,0);
-  std::vector<long>   offset_m_tk_vector(K,0);
+  std::vector<long>      is_in_bin(deg_max,0);  // Mark a degree as appeared in bin
+  std::vector<long>      z_j_vector(N_new,0);
+  std::vector<long>      offset_tk_vector(K,0);
+  std::vector<long>      offset_m_tk_vector(K,0);
   
-  
-  for (long i = 0; i < N; ++ i) {
+  //std::cout << "start first loop here /n";
+  for (long long i = 0; i < N; ++ i) {
       node_array[all_node(i)] = i; 
   }
-  for (long i = 0; i < N_new; ++ i) {
+  //std::cout << "finished first loop here /n";
+  
+  for (long long i = 0; i < N_new; ++ i) {
       ok_array[ok_node(i)] = 1; 
       ok_index[ok_node(i)] = i;
      
   }
+  //std::cout << "Passed here /n";
+  
   long t  = 0;
   long edge_count = 0;
 
@@ -129,7 +141,7 @@ int get_stats(CharacterVector    & time_stamp,
       checkUserInterrupt();  
       if (t > 0)  {
           if (0 == only_PA) { 
-              for (long j = 0; j < ok_node.size(); ++ j) {
+              for (long long j = 0; j < ok_node.size(); ++ j) {
                   if (degree_vector.at(node_array.at(ok_node(j))) >= 0) {
                       node_degree.at(t - 1,ok_index.at(ok_node(j))) = bin_vector(degree_vector.at(node_array.at(ok_node(j))));
                   }else {
@@ -153,7 +165,7 @@ int get_stats(CharacterVector    & time_stamp,
       
       if (0 == only_true_deg)
           if (0 == only_PA)      
-              for (long j = 0; j < N_new; ++j)
+              for (long long j = 0; j < N_new; ++j)
                   z_j_vector.at(j) = 0;    
       
       while ((edge_count < in_node.size()) && (time_stamp(edge_count) == time_vector(t))) {
@@ -165,7 +177,7 @@ int get_stats(CharacterVector    & time_stamp,
            if (-1 == in_node_id || -1 == out_node_id) {
              //std::cout << "in isolated node when crash / ";   
               if (-1 != in_node_id) {
-                  long in_node_ind               = node_array.at(in_node(edge_count));   
+                  long in_node_ind = node_array.at(in_node(edge_count));   
                 
                   if (0 == appear_onestep.at(in_node_ind)) {    
                       degree_vector.at(in_node_ind)  = 0;
@@ -642,7 +654,7 @@ int update_f_alpha_new(      NumericVector& f,
   long N_nozero = non_zero_f.size();    // number of nodes
   //long N_nozero = degree.ncol();    // number of nodes
   //  printf("Alpha inside: %f \n",alpha);
-#pragma omp parallel for
+  #pragma omp parallel for
   for (long j = 0; j < N_nozero; j++) {
     double total = 0;
     for (long i = 0; i < T; i++)

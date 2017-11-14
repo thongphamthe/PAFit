@@ -1,7 +1,7 @@
 
 .CreateDataCV_onlyA <- function(net_object , p = 0.75 , g = 50 , deg_thresh = 0    ) {
   #net               <- as.matrix(net)
-  
+  options(scipen=999)
   net               <- net_object$graph
   net_type          <- net_object$type
   net               <- net[order(net[,3] , decreasing = FALSE),]
@@ -9,9 +9,9 @@
   in_node           <- as.vector(net[,2])
   
   out_node          <- as.vector(net[,1])
-  node_id           <- as.integer(sort(union(in_node,out_node)))
+  node_id           <- as.numeric(sort(union(in_node,out_node)))
   
-  names(node_id)    <- as.integer(node_id)
+  names(node_id)    <- as.numeric(node_id)
   unique_time       <- sort(unique(time_stamp))
   
   T                 <- length(unique_time)

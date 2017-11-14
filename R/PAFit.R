@@ -25,7 +25,7 @@ PAFit <- function(net_stat,
     only_PA <- TRUE  
   }
 
-
+  options(scipen=999)
   shape          <- s
   rate           <- s
   ratio          <- r

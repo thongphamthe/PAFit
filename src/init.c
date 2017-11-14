@@ -21,6 +21,7 @@ extern SEXP _PAFit_get_stats(SEXP , SEXP , SEXP , SEXP ,
                      SEXP , SEXP , SEXP , SEXP , 
                      SEXP , SEXP ); 
 
+
 extern SEXP _PAFit_update_f(SEXP , SEXP , SEXP , SEXP , SEXP , 
                     SEXP , SEXP , SEXP , SEXP , 
                     SEXP ); 
