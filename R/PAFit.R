@@ -36,11 +36,11 @@ PAFit <- function(net_stat,
   
   non_zero_theta     <- which(net_stat$sum_m_k > 0)
   num_nonzero        <- length(non_zero_theta)
-  if ((non_zero_theta == 1) && (only_f == FALSE)) {
+  if ((num_nonzero == 1) && (only_f == FALSE)) {
      # only one non-zero bin
-      stop(paste0("Error: There is only one bin that has a non-zero number of new edges (bin number ",which(net_stat$sum_m_k > 0),"). To estimate the PA function, we need at least two bins with non-zero number of new edges."))  
+      stop(paste0("Error: There is only one bin that has a non-zero number of new edges (bin ",which(net_stat$sum_m_k > 0),"). To estimate the PA function, we need at least two bins with non-zero number of new edges."))  
   }
-  if ((non_zero_theta == 0) && (only_f == FALSE)) {
+  if ((num_nonzero == 0) && (only_f == FALSE)) {
     # no non-zero bin
     stop(paste0("Error: There is no bin that has a non-zero number of new edges. To estimate the PA function, we need at least two bins with non-zero number of new edges."))  
   }
