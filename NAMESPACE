@@ -22,7 +22,20 @@ importFrom("stats", "lm", "rgamma", "rpois", "uniroot","rlnorm","confint","df.re
 importFrom("graphics", "legend", "mtext")
 importFrom("utils","head", "write.table", "read.table")
 importFrom("stats", "median", "quantile", "smooth.spline")
-importFrom("plyr","ddply",".")
+importFrom("plyr","ddply",".", "a_ply","aaply","alply","amv_dimnames", "arrange","as.quoted",
+           "catcolwise", "colwise", "compact", "count", "create_progress_bar", "d_ply", 
+           "daply", "defaults", 
+           "desc", "each", "empty", "eval.quoted", "failwith", "here", "id", "idata.frame", 
+           "is.discrete", 
+           "is.formula", "is.quoted", "isplit2", "join", "join.keys", "join_all", "l_ply", "laply", "ldply", 
+           "liply", "llply", 
+           "m_ply", "maply", "mapvalues", "match_df", "mdply", "mlply", "mutate", "name_rows", "numcolwise", 
+           "progress_text", "progress_time", "progress_tk", "progress_win", "quickdf", "r_ply", "raply", 
+           "rbind.fill", 
+           "rbind.fill.matrix", "rdply", "rename", "revalue", "rlply", "round_any", "splat", "split_indices", 
+           "split_labels", 
+           "strip_splits", "summarise", "summarize", 
+           "take", "true", "tryNULL", "try_default", "tryapply", "unrowname", "vaggregate")
 
 importFrom("VGAM", "rpareto")
 importFrom("grDevices", "col2rgb")
@@ -40,6 +53,8 @@ importFrom("igraph","graph.data.frame","as_data_frame","is_directed",
            "vertex_attr","E","read_graph","V","ends")
 
 importFrom("magicaxis","magaxis")
+
+importFrom("mapproj","map.grid", "mapproject", ".Last.projection")
 
 S3method(print, PAFit_result)
 S3method(print, PA_result)
