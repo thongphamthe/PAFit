@@ -15,7 +15,9 @@ as.PAFit_net <- function(graph, type = "directed", PA = NULL, fitness = NULL) {
       stop("Error: There is NAs in node fitnesses.")        
     if (sum(fitness <= 0)  > 0)
       stop("Error: Node fitnesses should be positive.")    
-  }
+ }
+ ### sort the edges based on their arrival time
+ graph  <- graph[order(graph[,3]),]
  result <- list(graph = graph, type = type, PA = PA, fitness = fitness)
  class(result) <- "PAFit_net"
  return(result)
