@@ -6,6 +6,10 @@ summary.PAFit_data <- function(object,...){
   cat("Number of new nodes: ",length(object$final_deg) - object$initial_nodes,"\n")
   cat("Number of new edges: ",sum(object$sum_m_k), "\n")
   cat("Number of time-steps:",  object$T,"\n");
-  cat("Maximum degree: ", object$deg_max,"\n");
+  if ("directed" == object$net_type[1]) {
+      cat("Maximum in-degree: ", object$deg_max,"\n");
+  } else {
+      cat("Maximum in-degree: ", object$deg_max,"\n");  
+  }
   cat("Number of bins:", object$g,"\n");
 }

@@ -11,6 +11,18 @@ only_A_estimate <- function(net_object         ,
   if (class(net_stat) != "PAFit_data")
     stop("Please input a proper net summary of class PAFit_data");
   
+  # quick check 
+  non_zero_theta     <- which(net_stat$sum_m_k > 0)
+  num_nonzero        <- length(non_zero_theta)
+  if (non_zero_theta == 1) {
+    # only one non-zero bin
+    stop(paste0("Error: There is only one bin that has a non-zero number of new edges (bin number ",which(net_stat$sum_m_k > 0),"). To estimate the PA function, we need at least two bins with non-zero number of new edges."))  
+  }
+  if (non_zero_theta == 0) {
+    # no non-zero bin
+    stop(paste0("Error: There is no bin that has a non-zero number of new edges. To estimate the PA function, we need at least two bins with non-zero number of new edges."))  
+  }
+  
   if (MLE == FALSE) {
       net_type       <- net_stat$net_type
 

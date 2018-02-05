@@ -24,6 +24,8 @@ PAFit <- function(net_stat,
             Please re-run GetStatistics again with the option 'only_PA = FALSE' if you also want to estimate fitnesses.")
     only_PA <- TRUE  
   }
+  
+  
 
   options(scipen=999)
   shape          <- s
@@ -34,6 +36,14 @@ PAFit <- function(net_stat,
   
   non_zero_theta     <- which(net_stat$sum_m_k > 0)
   num_nonzero        <- length(non_zero_theta)
+  if ((non_zero_theta == 1) && (only_f == FALSE)) {
+     # only one non-zero bin
+      stop(paste0("Error: There is only one bin that has a non-zero number of new edges (bin number ",which(net_stat$sum_m_k > 0),"). To estimate the PA function, we need at least two bins with non-zero number of new edges."))  
+  }
+  if ((non_zero_theta == 0) && (only_f == FALSE)) {
+    # no non-zero bin
+    stop(paste0("Error: There is no bin that has a non-zero number of new edges. To estimate the PA function, we need at least two bins with non-zero number of new edges."))  
+  }
   theta              <- rep(0,length(net_stat$sum_m_k))
   
   
