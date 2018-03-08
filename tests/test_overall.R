@@ -7,7 +7,7 @@ for (prob_m in c("TRUE", "FALSE"))
  
               for (i in 1:3) {
                   net  <- generate_net(N = 50, m = 10,prob_m = prob_m, increase = inc, log = log,
-                                      mode = i, shape = 100, rate = 100)
+                                      mode = i, s = 10)
                   for (bin in c("TRUE","FALSE"))
                     
                     for (deg_thresh in c(0)) {  

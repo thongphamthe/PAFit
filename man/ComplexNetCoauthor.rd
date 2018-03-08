@@ -1,6 +1,6 @@
 \name{Coauthorship network of scientists in the field of complex networks}
 \docType{data}
-\alias{ComplexNetCoauthor.rda}
+\alias{ComplexNetCoauthor}
 \alias{coauthor.net}
 \alias{coauthor.truetime}
 \alias{coauthor.author_id}

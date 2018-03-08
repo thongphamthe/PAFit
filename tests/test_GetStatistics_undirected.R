@@ -1,7 +1,7 @@
 library(PAFit)
 
 net  <- generate_net(N = 100, m = 10,prob_m = TRUE, increase = TRUE, log = TRUE, multiple_node = 5,
-                    mode = 1, shape = 100, rate = 100)
+                    mode = 1, s = 100)
 
 for (bin in c("FALSE","TRUE")) {
     deg_thresh <- 0
@@ -21,7 +21,7 @@ for (bin in c("FALSE","TRUE")) {
 }
 
 net  <- generate_net(N = 50, m = 10,prob_m = TRUE, increase = TRUE, log = TRUE,
-                    mode = 1, shape = 100, rate = 100)
+                    mode = 1, s = 100)
 
 temp <- net$graph[,2]
 net$graph[,2] <- net$graph[,1]

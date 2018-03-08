@@ -1,15 +1,11 @@
 # function to generate generalized Erdos-Renyi network 
 generate_fit_only <-
-  function(N, 
+  function(N              = 1000   , 
            num_seed       = 2      , 
            multiple_node  = 1      , 
            m              = 1      ,
            mode_f         = "gamma", 
-           s              = 10     , 
-           meanlog        = 0      , 
-           sdlog          = 1      ,
-           scale_pareto   = 2      ,
-           shape_pareto   = 2      
+           s              = 10    
   ){
     # N: number of nodes
     # Number of time-step: (N  - num_seed) / multiple_node
@@ -19,11 +15,9 @@ generate_fit_only <-
         stop("num_seed too small")
     if (multiple_node > N - num_seed)
         stop("Multiple node and/or num_seed are too large")   
-    if ((m <= 0) || (num_seed <= 0) || (multiple_node <= 0) || (s < 0) || (scale_pareto <= 0) || (shape_pareto <= 0))
+    if ((m <= 0) || (num_seed <= 0) || (multiple_node <= 0) || (s < 0))
         stop("The parameters must be positive") 
-    if (sdlog <= 0)
-        stop("sdlog must be positive")   
     
     return(generate_net(N = N , num_seed = num_seed , multiple_node = multiple_node , m = m , alpha = 0, mode_f = mode_f, 
-                       rate = s, shape = s,meanlog = meanlog, sdlog = sdlog, scale_pareto = scale_pareto, shape_pareto = shape_pareto))
+                       s = s))
   }

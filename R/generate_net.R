@@ -1,6 +1,6 @@
 # function to generate simulated network  
 generate_net <-
-function(N, 
+function(N                  = 1000  , 
          num_seed           = 2     , 
          multiple_node      = 1     , 
          specific_start     = NULL  ,
@@ -10,19 +10,14 @@ function(N,
          log                = FALSE , 
          no_new_node_step   = NULL  ,
          m_no_new_node_step = m     ,
-         custom_PA           = NULL ,
-         mode                = 1    , 
-         alpha           = 1        , 
-         beta            = 2        , 
-         sat_at          = 100      ,
-         offset          = 1        ,
-         mode_f          = "gamma"  , 
-         rate            = 0        , 
-         shape           = 0        , 
-         meanlog         = 0        , 
-         sdlog           = 1        ,
-         scale_pareto    = 2        ,
-         shape_pareto    = 2       
+         custom_PA          = NULL ,
+         mode               = 1    , 
+         alpha              = 1        , 
+         beta               = 2        , 
+         sat_at             = 100      ,
+         offset             = 1        ,
+         mode_f             = "gamma"  , 
+         s                  = 0        
      ){
    # N: number of nodes
    # Number of time-step: (N  - num_seed) / multiple_node
@@ -32,7 +27,7 @@ function(N,
       stop("num_seed too small")
    if (multiple_node > N - num_seed)
       stop("Multiple node and/or num_seed are too large")   
-   if ((alpha < 0 && mode != 1) || (beta < 0) || (sat_at < 0) || (rate < 0) || (shape < 0) || (m <= 0))
+   if ((alpha < 0 && mode != 1) || (beta < 0) || (sat_at < 0) || (s < 0) || (m <= 0))
        stop("The parameters must be non-negative")  
    if ((mode[1] != 1) && (mode[1] != 3) && (mode[1] != 2))
        stop("Mode must be 1, 2 or 3 ")
@@ -54,15 +49,27 @@ function(N,
    switch(mode_f[1], 
        gamma = {
        # gamma distribution
-       if (shape*rate > 0) 
-           fitness <- rgamma(N,rate = rate,shape = shape)
+       if (s > 0) 
+           fitness <- rgamma(N,rate = s,shape = s)
       else fitness <- rep(1,N)},
      log_normal ={
      # log_normal distribution
+       if (s > 0)  {
+        meanlog <- -1/2 * log(1/s + 1)
+        sdlog   <- sqrt(log(1/s + 1))
         fitness <- rlnorm(N, meanlog = meanlog, sdlog = sdlog)
+       } else {
+         fitness <- rep(1,N)  
+       }
      },
     power_law = {
-        fitness <- rpareto(N, scale = scale_pareto, shape = shape_pareto)
+        if (s > 0) {
+            shape_pareto <- sqrt(s + 1) + 1
+            scale_pareto <- sqrt(s + 1) / (sqrt(s + 1) + 1)
+            fitness      <- rpareto(N, scale = scale_pareto, shape = shape_pareto)
+        } else {
+            fitness <- rep(1,N)  
+        }
     },{
     stop('mode_f must be either "gamma", "log_normal" or "power_law"')
     }

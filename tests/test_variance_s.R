@@ -11,7 +11,7 @@ if (FALSE) {
     
     net  <- generate_net(N = 1000, m = 50,prob_m = prob_m, num_seed = 100, multiple_node = 100,
                         increase = inc, log = log,
-                        mode = 1, shape = 100, rate = 100,alpha = 0.5)
+                        mode = 1, s = 100,alpha = 0.5)
     
     net_stats <- get_statistics(net,deg_threshold = 0, 
                                binning = TRUE, g = 50) 

@@ -1,7 +1,7 @@
 Jeong <- function(net_object                              , 
-                  net_stat                                , 
+                  net_stat    = get_statistics(net_object), 
                   T_0_start   = 0                         ,
-                  T_0_end     =  round(net_stat$T * 0.75) ,
+                  T_0_end     = round(net_stat$T * 0.75) ,
                   T_1_start   = T_0_end + 1               ,
                   T_1_end     = net_stat$T                ,
                   interpolate = FALSE) {

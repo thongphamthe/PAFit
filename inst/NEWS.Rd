@@ -2,6 +2,20 @@
 \alias{NEWS}
 \title{Package News}
 
+\section{version 1.0.0.4 (Release date: 2018-02-05)}{
+  \subsection{FIXED}{
+    \itemize{
+    \item added some error messages to handle edge cases
+    }
+  }
+    \subsection{CHANGED}{
+    \itemize{
+    \item updated the tutorial
+    \item updated the help manual
+    }
+  }
+}
+
 \section{version 1.0.0.3 (Release date: 2018-02-05)}{
   \subsection{FIXED}{
     \itemize{

@@ -1,7 +1,7 @@
 library(PAFit)
 
 net  <- generate_net(N = 50, m = 10,prob_m = TRUE, increase = TRUE, log = TRUE,
-                    mode = 1, shape = 100, rate = 100)
+                    mode = 1, s = 100)
 
 for (bin in c("FALSE","TRUE")) {
   deg_thresh <- 0

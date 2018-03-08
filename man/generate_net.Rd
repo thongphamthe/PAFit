@@ -7,7 +7,7 @@ Simulating networks from preferential attachment and fitness mechanisms}
 This function generates networks from the General Temporal model, a generative temporal network model that includes many well-known models such as the \enc{Erdős–Rényi}{Erdos-Renyi} model, the \enc{Barabási}{Barabasi}-Albert model or the Bianconi-\enc{Barabási}{Barabasi} model as special cases. This function also includes some flexible mechanisms to vary the number of new nodes and new edges at each time-step in order to generate realistic networks. 
 }
 \usage{
-generate_net (N, 
+generate_net (N                 = 1000   , 
              num_seed           = 2      , 
              multiple_node      = 1      , 
              specific_start     = NULL   ,
@@ -24,12 +24,7 @@ generate_net (N,
              sat_at             = 100    ,
              offset             = 1      ,
              mode_f             = "gamma", 
-             rate               = 0      , 
-             shape              = 0      , 
-             meanlog            = 0      , 
-             sdlog              = 1      ,
-             scale_pareto       = 2      ,
-             shape_pareto       = 2      )
+             s                  = 0       )
 }
 
 %- maybe also 'usage' for other objects documented here.
@@ -72,7 +67,7 @@ Positive integer. The number of new edges in the no-new-node steps. Default valu
 
 The third group of parameters specifies the preferential attachment function:
 \item{custom_PA}{
-Numeric vector. This is the user-input PA function: \eqn{A_0, A_1,..., A_K}. If \code{custom_PA} is specified, then \code{mode} is ignored, and we grow the network using the PA function \code{custom_PA}. Degree greater than \eqn{K} will have attachment value \eqn{A_k}. Default value is \code{NULL}.
+Numeric vector. This is the user-input PA function: \eqn{A_0, A_1,..., A_K}. If \code{custom_PA} is specified, then \code{mode} is ignored, and we grow the network using the PA function \code{custom_PA}. Degrees greater than \eqn{K} will have attachment value \eqn{A_k}. Default value is \code{NULL}.
 }
 \item{mode}{
 Integer. Indicates the attachment function to be used in generating the network. If \code{mode == 1}, the attachment function is \eqn{A_k = k^\alpha}. If \code{mode == 2}, the attachment function is \eqn{A_k = min(k,sat.at)^\alpha}. If \code{mode == 3}, the attachment function is \eqn{A_k = \alpha log (k)^\beta}. Default value is \code{1}.
@@ -92,25 +87,10 @@ Numeric. The attachment value of degree \code{0}. Default value is \code{1}.
 }
 The final group of parameters specifies the distribution from which node fitnesses are generated:
   \item{mode_f}{
-String. Possible values:\code{"gamma"}, \code{"log_normal"} or \code{"power_law"}. This parameter indicates the true distribution for node fitness. \code{"gamma"} = gamma distribution, \code{"log_normal"} = log-normal distribution. \code{"power_law"} = power-law (pareto) distribution. Default value is "gamma".
+String. Possible values:\code{"gamma"}, \code{"log_normal"} or \code{"power_law"}. This parameter indicates the true distribution for node fitness. \code{"gamma"} = gamma distribution, \code{"log_normal"} = log-normal distribution. \code{"power_law"} = power-law (pareto) distribution. Default value is \code{"gamma"}.
 }
-\item{rate}{
-Positive numeric. The rate parameter in the Gamma prior for node fitness. If either rate or shape is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e. Barabasi-Albert model)
-}
-\item{shape}{
-Positive numeric. The shape parameter in the Gamma prior for node fitness. If either rate or shape is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e. Barabasi-Albert model)
-}
-  \item{meanlog}{
-Numeric. Mean of the log-normal distribution in log scale. Default value is \code{0}.
-}
-\item{sdlog}{
-Positive numeric. Standard deviation of the log-normal distribution in log scale. Default value is \code{1}.
-}
-\item{scale_pareto}{
-Numeric. The scale parameter of the Pareto distribution. Default value is \code{2}.
-}
-\item{shape_pareto}{
-Numeric. The shape parameter of the Pareto distribution. Default value is \code{2}.
+\item{s}{
+Non-negative numeric. The inverse variance parameter. The mean of the distribution is kept at \eqn{1} and the variance is \eqn{1/s}. This is achieved by setting shape and rate parameters of the Gamma distribution to \eqn{s}; setting mean and standard deviation in log-scale of the log-normal distribution to \eqn{-1/2*log (1/s + 1)} and \eqn{(log (1/s + 1))^0.5}; and setting shape and scale parameters of the pareto distribution to \eqn{(s+1)^0.5 + 1} and \eqn{(s+1)^0.5/((s+1)^0.5 + 1)}. If \code{s} is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e. Barabasi-Albert model)
 }
 }
 
@@ -132,7 +112,7 @@ For simpler functions to generate networks from well-known models, see \code{\li
 \examples{
 library("PAFit")
 #Generate a network from the original BA model with alpha = 1, N = 100, m = 1
-net <- generate_net(N = 100,m = 1,mode = 1, alpha = 1, shape = 0)
+net <- generate_net(N = 100,m = 1,mode = 1, alpha = 1, s = 0)
 str(net)
 plot(net)
 }

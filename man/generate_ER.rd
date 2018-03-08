@@ -7,9 +7,9 @@
   This function generates networks from the \enc{Erdős–Rényi}{Erdos-Renyi} model. In this model, the preferential attachment function is a constant function, i.e. \eqn{A_k = 1}, and node fitnesses are all equal to \eqn{1}. It is a wrapper of the more powerful function \code{\link{generate_net}}.
 }
 \usage{
-  generate_ER(N                  , 
-              num_seed       = 2 , 
-              multiple_node  = 1 , 
+  generate_ER(N              = 1000, 
+              num_seed       = 2   , 
+              multiple_node  = 1   , 
               m              = 1)
 }
 

@@ -3,11 +3,6 @@
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
 
-/* FIXME: 
-  Check these declarations against the C/Fortran source code.
-  */
-
-/* .Call calls */
 
 extern SEXP _PAFit_normalized_constant(SEXP , SEXP , SEXP , SEXP , 
                                       SEXP , SEXP); 

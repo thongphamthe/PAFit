@@ -442,7 +442,7 @@ PAFit <- function(net_stat,
             print(log10_likelihood[length(log10_likelihood) - 1])
             print(log10_likelihood[length(log10_likelihood)] -
                     log10_likelihood[length(log10_likelihood) - 1])  
-            save(f, alpha,r, s, theta, start_f, start_A, alpha_start,log10_likelihood,file = "Internal_status.Rdata")  
+            #save(f, alpha,r, s, theta, start_f, start_A, alpha_start,log10_likelihood,file = "Internal_status.Rdata")  
             stop("Warning: log likelihood decreased.")  
           }
       }
@@ -1488,18 +1488,13 @@ PAFit <- function(net_stat,
   
   result <- list(# estimated PA function and its variances, confidence interval 
     k       = k_non_zero ,  A             = A          , var_A       = cov       , var_logA = var_log10 ,
-    upper_A = upper_A    ,  lower_A       = lower_A    , weight_of_A = weight_A  , center_k = center_k,  
+    upper_A = upper_A    ,  lower_A       = lower_A    , center_k = center_k,  
     theta   = theta      ,  upper_bin     = upper_bin  , lower_bin   = lower_bin , var_bin  = cov_bin ,
+    
     # estimated attachment exponent alpha, and the log-linear fit 
     alpha   = alpha      ,  loglinear_fit = linear_fit , ci          = ci        ,
     
     
-    # for development:
-    #alpha_theta = alpha_theta , alpha_theta_unweight = alpha_theta_unweight ,
-    #ci_theta    = ci_theta    , ci_theta_unweight    = ci_theta_unweight    , 
-    #alpha_A_noduplicate = alpha_A_noduplicate, 
-    #ci_A_noduplicate    = ci_A_noduplicate,
-    # if mode_f = "log10_linear", the  attachment exponent alpha's over iterations
     alpha_series = ifelse(rep(mode_f[1] == "Log_linear", length(alpha_series)),alpha_series,-1),
     
     # estimated node fitnesses and their variances, confidence intervals
@@ -1510,10 +1505,11 @@ PAFit <- function(net_stat,
     objective_value = log10_likelihood,
     
     # other parameters specified
-    mode_f = mode_f[1] , true_A = true_A , true_f = true_f, PA_offset = PA_offset, candidate_accept = candidate_accept,
-    only_PA = only_PA, only_f = only_f, lambda = lambda, shape = shape, rate = rate, normalized_f = normalized_f, 
+    mode_f = mode_f[1] , true_A = true_A , true_f = true_f,
+    only_PA = only_PA  , only_f = only_f , lambda = lambda, 
+    shape = shape, rate = rate, 
     deg_threshold = net_stat$deg_thresh, stop_cond = stop_cond, auto_lambda = auto_lambda, ratio = ratio, 
-    g = net_stat$g,shape = shape, rate = rate, offset = offset, diverge_zero = diverge_zero
+    g = net_stat$g, diverge_zero = diverge_zero
   )
   class(result) <- "PAFit_result"
   return(result)

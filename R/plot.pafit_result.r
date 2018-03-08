@@ -147,7 +147,6 @@ function(x                       ,
       #layout(cbind(1,2), width = c(4,1))
       plot(d$x[ok_d] , d$y[ok_d], col  = 2 , log = "x", lwd = 0, main = "", 
            xlab = "Fitness", ylab = "Density",
-           cex.axis = 1 , cex.lab = 1, 
            mgp = c( 2.5 , 1 , 0 ), axes = FALSE,
            pch = "",...)
       magaxis(grid = TRUE, frame.plot = TRUE)

@@ -5,13 +5,14 @@
   Estimating node fitnesses in isolation   
 }
 \description{
-  This function estimates node fitnesses \eqn{\eta_i} assusming either \eqn{A_k = k} (i.e. linear preferential attachment) or \eqn{A_k = 1} (i.e. no preferential attachment). It first performs a cross-validation to select the optimal parameter \eqn{s} for the prior of \eqn{\eta_i}, then estimates \eqn{eta_i} (Ref. 1).
+  This function estimates node fitnesses \eqn{\eta_i} assusming either \eqn{A_k = k} (i.e. linear preferential attachment) or \eqn{A_k = 1} (i.e. no preferential attachment). The method has a hyper-parameter \eqn{s}. It first performs a cross-validation to select the optimal parameter \eqn{s} for the prior of \eqn{\eta_i}, then estimates \eqn{eta_i} with the full data (Ref. 1).
 }
 \usage{
-only_F_estimate(net_object           , 
-               net_stat              , 
-               stop_cond = 10^-8     , 
-               model_A   = "Linear"  ,
+only_F_estimate(net_object                             , 
+               net_stat    = get_statistics(net_object), 
+               p           = 0.75                      ,
+               stop_cond   = 10^-8                     , 
+               model_A     = "Linear"                  ,
                ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -20,8 +21,9 @@ only_F_estimate(net_object           ,
     an object of class \code{PAFit_net} that contains the network.
   }
 \item{net_stat}{
-   An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}.
+   An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}. The default value is \code{get_statistics(net_object)}.
 }
+  \item{p}{Numeric. This is the ratio of the number of new edges in the learning data to that of the full data. The data is then divided into two parts: learning data and testing data based on \code{p}. The learning data is used to learn the node fitnesses and the testing data is then used in cross-validation. Default value is \code{0.75}.}
 \item{stop_cond}{Numeric. The iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop.cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose \code{stop.cond} at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-8}. This threshold is good enough for most applications.}
   
   \item{model_A}{String. Indicates which attachment function \eqn{A_k} we assume:
@@ -40,7 +42,17 @@ only_F_estimate(net_object           ,
     
     \item \code{cv_result}: a \code{CV_Result} object which contains the cross-validation result. Normally the user does not need to pay attention to this data.
     
-    \item \code{estimate_result}: this is a \code{PAFit_result} object which contains the estimated node fitnesses and their confidence intervals.
+    \item \code{estimate_result}: this is a \code{PAFit_result} object which contains the estimated node fitnesses and their confidence intervals. In particular, the important fields are:      
+    \itemize{
+    \item \code{shape}: this is the selected value for the hyper-parameter \eqn{s}.
+    \item \code{g}: the number of bins used.
+    \item \code{f}: the estimated node fitnesses.
+    \item \code{var_f}: the estimated variance of \eqn{\eta_i}.
+    \item \code{upper_f}: the estimated upper value of the two-sigma confidence interval of \eqn{\eta_i}.
+    \item \code{lower_f}: the estimated lower value of the two-sigma confidence interval of \eqn{\eta_i}.
+    \item \code{objective_value}: values of the objective function over iterations in the final run with the full data.
+    \item \code{diverge_zero}: logical value indicates whether the algorithm diverged in the final run with the full data.
+}
   }
 }
 \author{

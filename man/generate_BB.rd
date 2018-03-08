@@ -7,16 +7,12 @@
   This function generates networks from the Bianconi-\enc{Barabási}{Barabasi} model. It is a \sQuote{preferential attachment with fitness} model. In this model, the preferential attachment function is linear, i.e. \eqn{A_k = k}, and node fitnesses are sampled from some probability distribution.  
 }
 \usage{
-generate_BB(N, 
+generate_BB(N              = 1000   , 
             num_seed       = 2      , 
             multiple_node  = 1      , 
             m              = 1      ,
             mode_f         = "gamma", 
-            s              = 10     , 
-            meanlog        = 0      , 
-            sdlog          = 1      ,
-            scale_pareto   = 2      ,
-            shape_pareto   = 2       )
+            s              = 10     )
 }
 
 %- maybe also 'usage' for other objects documented here.
@@ -42,20 +38,8 @@ The final group of parameters specifies the distribution from which node fitness
       String. Possible values:\code{"gamma"}, \code{"log_normal"} or \code{"power_law"}. This parameter indicates the true distribution for node fitness. \code{"gamma"} = gamma distribution, \code{"log_normal"} = log-normal distribution. \code{"power_law"} = power-law (pareto) distribution. Default value is "gamma".
     }
 \item{s}{
-    Positive numeric. The inverse variance of the Gamma prior for node fitness. If \code{s} is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e. \enc{Barabási}{Barabasi}-Albert model)
+Non-negative numeric. The inverse variance parameter. The mean of the distribution is kept at \eqn{1} and the variance is \eqn{1/s}. This is achieved by setting shape and rate parameters of the Gamma distribution to \eqn{s}; setting mean and standard deviation in log-scale of the log-normal distribution to \eqn{-1/2*log (1/s + 1)} and \eqn{(log (1/s + 1))^0.5}; and setting shape and scale parameters of the pareto distribution to \eqn{(s+1)^0.5 + 1} and \eqn{(s+1)^0.5/((s+1)^0.5 + 1)}. If \code{s} is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e. Barabasi-Albert model)
 }
-  \item{meanlog}{
-    Numeric. Mean of the log-normal distribution in log scale. Default value is \code{0}.
-  }
-  \item{sdlog}{
-    Positive numeric. Standard deviation of the log-normal distribution in log scale. Default value is \code{1}.
-  }
-  \item{scale_pareto}{
-    Numeric. The scale parameter of the Pareto distribution. Default value is \code{2}.
-  }
-  \item{shape_pareto}{
-    Numeric. The shape parameter of the Pareto distribution. Default value is \code{2}.
-  }
 }
 
 \value{
@@ -79,7 +63,7 @@ The final group of parameters specifies the distribution from which node fitness
 \examples{
   library("PAFit")
   # generate a network from the BB model with alpha = 1, N = 100, m = 1
-  # The inverse variance of distribution of node fitnesses is s = 10
+  # The inverse variance of the Gamma distribution of node fitnesses is s = 10
   net <- generate_BB(N = 100,m = 1,mode = 1, s = 10)
   str(net)
   plot(net)

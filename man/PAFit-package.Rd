@@ -4,12 +4,12 @@
 \docType{package} 
 \title{Generative Mechanism Estimation in Temporal Complex Networks}
 \description{
-A package for estimating preferential attachment and node fitness generative mechanisms in temporal complex networks.}
+A package for estimating preferential attachment and node fitness generative mechanisms in temporal complex networks. References: Thong Pham et al. (2015) <10.1371/journal.pone.0137796>, Thong Pham et al.(2016) <doi:10.1038/srep32558>}
 \details{
 \tabular{ll}{
 Package: \tab PAFit\cr
 Type: \tab Package\cr
-Version: \tab 1.0.0.3\cr
+Version: \tab 1.0.0.4\cr
 Authors: \tab Thong Pham, Paul Sheridan, Hidetoshi Shimodaira\cr
 Maintainer: \tab Thong Pham \email{thongpham@thongpham.net}\cr
 Date: \tab 2018-02-05\cr

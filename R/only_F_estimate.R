@@ -1,5 +1,6 @@
 only_F_estimate <- function(net_object, 
-                            net_stat, 
+                            net_stat  = get_statistics(net_object), 
+                            p         = 0.75      ,
                             stop_cond = 10^-8     , 
                             model_A   = "Linear"  ,
                             ...) {
@@ -18,7 +19,7 @@ only_F_estimate <- function(net_object,
   
   net_type     <- net_stat$net_type
   
-  data_cv        <- .CreateDataCV(net_object, deg_thresh = net_stat$deg_thresh)
+  data_cv        <- .CreateDataCV(net_object, deg_thresh = net_stat$deg_thresh, p = p)
   cv_result      <- .OnlyF_CV(data_cv, 
                             stop_cond   = stop_cond, 
                             alpha       = alpha_start,

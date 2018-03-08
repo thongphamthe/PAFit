@@ -8,7 +8,10 @@
 This function implements a correction of Newman's method to estimate the preferential attachment function. 
 }
 \usage{
-  Newman(net_object, net_stat , start = 1 , interpolate = FALSE)
+  Newman(net_object                              , 
+         net_stat    = get_statistics(net_object), 
+         start       = 1                         , 
+         interpolate = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -16,7 +19,7 @@ This function implements a correction of Newman's method to estimate the prefere
     an object of class \code{PAFit_net} that contains the network.
 }
   \item{net_stat}{
-    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}.
+    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}. Default value is \code{ get_statistics(net_object)}.
   }
   \item{start}{Positive integer. The starting time from which the method is applied. Default value is \eqn{1}.}
   \item{interpolate}{
@@ -24,7 +27,15 @@ This function implements a correction of Newman's method to estimate the prefere
   }
 }
 \value{
-  Outputs an \code{PA_result} object which contains the estimated attachment function. It also includes the estimated attachment exponenent \eqn{\alpha} (the field \code{alpha}) and the confidence interval of \eqn{\alpha} (the field \code{ci}) when possible.
+  Outputs an \code{PA_result} object which contains the estimated attachment function. In particular, it contains the following field:
+   \itemize{
+    \item \code{k} and \code{A}: a degree vector and the estimated PA function.
+    
+    \item \code{center_k} and \code{theta}: when we perform binning, these are the centers of the bins and the estimated PA values for those bins. 
+    \item \code{g}: the number of bins used.
+    \item \code{alpha} and \code{ci}: \code{alpha} is the estimated attachment exponenet \eqn{\alpha} (when assume \eqn{A_k = k^\alpha}), while \code{ci} is the confidence interval.
+    \item \code{loglinear_fit}: this is the fitting result when we estimate \eqn{\alpha}. 
+}
 }
 \author{
   Thong Pham \email{thongpham@thongpham.net}
@@ -40,7 +51,7 @@ See \code{\link{Jeong}}, \code{\link{only_A_estimate}} for other methods to esti
 }
 \examples{
   library("PAFit")
-  net        <- generate_net(N = 1000 , m = 1 , mode = 1 , alpha = 1 , shape = 0)
+  net        <- generate_net(N = 1000 , m = 1 , mode = 1 , alpha = 1 , s = 0)
   net_stats  <- get_statistics(net)
   result     <- Newman(net, net_stats)
   # true function

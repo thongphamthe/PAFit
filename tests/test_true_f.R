@@ -6,7 +6,7 @@ log    <-  c("TRUE")
 mode_f_value <- c("Constant_PA", "Log_linear")[1]  
 i      <- 1
 net  <- generate_net(N = 50, m = 10,prob_m = prob_m, increase = inc, log = log,
-                    mode = i, shape = 100, rate = 100,alpha = 0.5)
+                    mode = i, s = 100,alpha = 0.5)
 
 
 

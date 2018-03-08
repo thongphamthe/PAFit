@@ -8,12 +8,12 @@
   This function estimates the preferential attachment function by Jeong's method. 
 }
 \usage{
-Jeong(net_object    , 
-      net_stat      , 
-      T_0_start = 0                        ,
-      T_0_end   = round(net_stat$T * 0.75) ,
-      T_1_start = T_0_end + 1              ,
-      T_1_end   = net_stat$T               ,
+Jeong(net_object                               , 
+      net_stat  = get_statistics(net_object)   , 
+      T_0_start = 0                            ,
+      T_0_end   = round(net_stat$T * 0.75)     ,
+      T_1_start = T_0_end + 1                  ,
+      T_1_end   = net_stat$T                   ,
       interpolate = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -22,7 +22,7 @@ Jeong(net_object    ,
     an object of class \code{PAFit_net} that contains the network.
   }
   \item{net_stat}{
-    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}.
+    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}. Default value is \code{ get_statistics(net_object)}.
   }
   \item{T_0_start}{Positive integer. The starting time-step of the \code{T_0_interval}. Default value is \code{0}.}
   \item{T_0_end}{Positive integer. The ending time-step of \code{T_0_interval}. Default value is \code{round(net_stat$T * 0.75)}.}
@@ -35,7 +35,15 @@ Jeong(net_object    ,
   }
 }
 \value{
-  Outputs an \code{PA_result} object which contains the estimated attachment function. It also includes the estimated attachment exponenent \eqn{\alpha} (the field \code{alpha}) and the confidence interval of \eqn{\alpha} (the field \code{ci}) when possible.
+  Outputs an \code{PA_result} object which contains the estimated attachment function. In particular, it contains the following field:
+     \itemize{
+    \item \code{k} and \code{A}: a degree vector and the estimated PA function.
+    
+    \item \code{center_k} and \code{theta}: when we perform binning, these are the centers of the bins and the estimated PA values for those bins. 
+    \item \code{g}: the number of bins used.
+    \item \code{alpha} and \code{ci}: \code{alpha} is the estimated attachment exponenet \eqn{\alpha} (when assume \eqn{A_k = k^\alpha}), while \code{ci} is the confidence interval.
+    \item \code{loglinear_fit}: this is the fitting result when we estimate \eqn{\alpha}. 
+}
 }
 \author{
   Thong Pham \email{thongpham@thongpham.net}
@@ -53,7 +61,7 @@ See \code{\link{Newman}} and \code{\link{only_A_estimate}} for other methods to 
 
 \examples{
   library("PAFit")
-  net        <- generate_net(N = 1000 , m = 1 , mode = 1 , alpha = 1 , shape = 0)
+  net        <- generate_net(N = 1000 , m = 1 , mode = 1 , alpha = 1 , s = 0)
   net_stats  <- get_statistics(net)
   result     <- Jeong(net, net_stats)
   # true function

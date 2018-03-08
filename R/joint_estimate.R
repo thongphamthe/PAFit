@@ -1,8 +1,8 @@
-joint_estimate <- function(net_object               , 
-                           net_stat                 , 
-                           stop_cond      = 10^-8   ,
-                           mode_reg_A     = 0       ,
-                           p              = 0.75    ,
+joint_estimate <- function(net_object                                 , 
+                           net_stat       = get_statistics(net_object), 
+                           p              = 0.75                      ,
+                           stop_cond      = 10^-8                     ,
+                           mode_reg_A     = 0                         ,
                            ...) {
   
   if (class(net_object) != "PAFit_net")

@@ -73,9 +73,9 @@ plot.PAFit_net <- function(x,
       degree_dist <- table(degree_vec)
       degree      <- as.integer(labels(degree_dist)[[1]])
       plot(degree + 1, degree_dist, log = "xy", xlab = "Degree + 1", ylab = "Frequency", pch = 20,
-           col = "red", type = "n", axes = FALSE, mgp = c( 2.5 , 1 , 0 ))
-      magaxis(grid = TRUE, frame.plot = TRUE)
-      points(degree + 1, degree_dist, pch = 20, col = "red")
+           col = "red", type = "n", axes = FALSE, mgp = c( 2.5 , 1 , 0 ),...)
+      magaxis(grid = TRUE, frame.plot = TRUE,...)
+      points(degree + 1, degree_dist, pch = 20, col = "red",...)
   } else if ("PA" == plot) {
       # plot the PA function  
       if (is.null(net$PA))
@@ -97,7 +97,7 @@ plot.PAFit_net <- function(x,
            xlim = xlim , ylim = ylim , 
            axes = FALSE, log = "xy" , 
            col = rgb(col_pa[1],col_pa[2],col_pa[3], shade_point), 
-           mgp = c( 2.5 , 1 , 0 ), pch = 20)
+           mgp = c( 2.5 , 1 , 0 ), pch = 20,...)
      magaxis(grid = TRUE, frame.plot = TRUE);
  
     
@@ -113,7 +113,7 @@ plot.PAFit_net <- function(x,
            main = "", xlab = "Fitness", ylab = "Density",
            cex.axis = 1 , cex.lab = 1, 
            mgp = c( 2.5 , 1 , 0 ), axes = FALSE,
-           pch = "")
+           pch = "",...)
       magaxis(grid = TRUE, frame.plot = TRUE)
       u    <- smooth.spline(d$x, d$y, spar = 0.01)
       ok_u <- u$x > 0 & u$y > 0 

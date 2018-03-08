@@ -7,10 +7,10 @@
   This function generates networks from the generalized \enc{Barabási}{Barabasi}-Albert model. In this model, the preferential attachment function is power-law, i.e. \eqn{A_k = k^\alpha}, and node fitnesses are all equal to \eqn{1}. It is a wrapper of the more powerful function \code{\link{generate_net}}. 
 }
 \usage{
-generate_BA(N                  , 
-            num_seed       = 2 , 
-            multiple_node  = 1 , 
-            m              = 1 ,
+generate_BA(N              = 1000, 
+            num_seed       = 2   , 
+            multiple_node  = 1   , 
+            m              = 1   ,
             alpha          = 1)
 }
 

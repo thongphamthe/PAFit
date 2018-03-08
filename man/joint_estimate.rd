@@ -5,14 +5,14 @@
  Joint inference of attachment function and node fitnesses   
 }
 \description{
-  This function jointly estimates the attachment function \eqn{A_k} and node fitnesses \eqn{\eta_i}. It first performs a cross-validation to select the optimal parameters \eqn{r} and \eqn{s}, then estimates \eqn{A_k} and \eqn{eta_i} using that optimal pair (Ref. 1).
+  This function jointly estimates the attachment function \eqn{A_k} and node fitnesses \eqn{\eta_i}. It first performs a cross-validation to select the optimal parameters \eqn{r} and \eqn{s}, then estimates \eqn{A_k} and \eqn{eta_i} using that optimal pair with the full data (Ref. 1).
 }
 \usage{
-joint_estimate(net_object              , 
-              net_stat                 , 
-              stop_cond     = 10^-8    ,
-              mode_reg_A    = 0        , 
-              p             = 0.75     ,
+joint_estimate(net_object                               , 
+              net_stat      = get_statistics(net_object), 
+              p             = 0.75                      ,
+              stop_cond     = 10^-8                     ,
+              mode_reg_A    = 0                         , 
               ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -21,8 +21,9 @@ joint_estimate(net_object              ,
     an object of class \code{PAFit_net} that contains the network.
   }
   \item{net_stat}{
-    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}.
+    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}. The default value is \code{get_statistics(net_object)}.
   }
+\item{p}{Numeric. This is the ratio of the number of new edges in the learning data to that of the full data. The data is then divided into two parts: learning data and testing data based on \code{p}. The learning data is used to learn the node fitnesses and the testing data is then used in cross-validation. Default value is \code{0.75}.}  
 \item{stop_cond}{Numeric. The iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop.cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose \code{stop.cond} at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-8}. This threshold is good enough for most applications.}
 
 \item{mode_reg_A}{Binary. Indicates which regularization term is used for \eqn{A_k}:
@@ -31,18 +32,40 @@ joint_estimate(net_object              ,
 \item \code{1}: Unlike the default, this regularization term exactly enforces the functional form \eqn{A_k = k^\alpha}. Its main drawback is it is significantly slower to converge, while its gain over the default one is marginal in most cases.  
 }
 }
-\item{p}{Numeric. Default value is \code{0.75}.}
 \item{...}{Other parameters to pass to the internal estimation algorithm.}
 }
 
 \value{
   Outputs a \code{Full_PAFit_result} object, which is a list containing the following fields:
   \itemize{
-    \item \code{cv_data}: a \code{CV_Data} object which contains the cross-validation data. Normally the user does not need to pay attention to this data.
+    \item \code{cv_data}: a \code{CV_Data} object which contains the cross-validation data. This is the testing data.
     
     \item \code{cv_result}: a \code{CV_Result} object which contains the cross-validation result. Normally the user does not need to pay attention to this data.
     
-    \item \code{estimate_result}: this is a \code{PAFit_result} object which contains the estimated attachment function \eqn{A_k}, the estimated fitnesses \eqn{\eta_i} and their confidence intervals.
+    \item \code{estimate_result}: this is a \code{PAFit_result} object which contains the estimated attachment function \eqn{A_k}, the estimated fitnesses \eqn{\eta_i} and their confidence intervals. In particular, the important fields are:      
+    \itemize{
+    \item \code{ratio}: this is the selected value for the hyper-parameter \eqn{r}.
+    \item \code{shape}: this is the selected value for the hyper-parameter \eqn{s}.
+    \item \code{k} and \code{A}: a degree vector and the estimated PA function.
+    \item \code{var_A}: the estimated variance of \eqn{A}.
+    \item \code{var_logA}: the estimated variance of \eqn{log A}.
+    \item \code{upper_A}: the upper value of the two-sigma confidence interval of \eqn{A}.
+    \item \code{lower_A}: the lower value of the two-sigma confidence interval of \eqn{A}.
+    
+    \item \code{center_k} and \code{theta}: when we perform binning, these are the centers of the bins and the estimated PA values for those bins. \code{theta} is similar to \code{A} but with duplicated values removed.
+     \item \code{var_bin}: the variance of \code{theta}. Same as \code{var_A} but with duplicated values removed.
+    \item \code{upper_bin}: the upper value of the two-sigma confidence interval of \code{theta}. Same as \code{upper_A} but with duplicated values removed.
+    \item \code{lower_bin}: the lower value of the two-sigma confidence interval of \code{theta}. Same as \code{lower_A} but with duplicated values removed.
+    \item \code{g}: the number of bins used.
+    \item \code{alpha} and \code{ci}: \code{alpha} is the estimated attachment exponenet \eqn{\alpha} (when assume \eqn{A_k = k^\alpha}), while \code{ci} is the confidence interval.
+    \item \code{loglinear_fit}: this is the fitting result when we estimate \eqn{\alpha}. 
+    \item \code{f}: the estimated node fitnesses.
+    \item \code{var_f}: the estimated variance of \eqn{\eta_i}.
+    \item \code{upper_f}: the estimated upper value of the two-sigma confidence interval of \eqn{\eta_i}.
+    \item \code{lower_f}: the estimated lower value of the two-sigma confidence interval of \eqn{\eta_i}.
+    \item \code{objective_value}: values of the objective function over iterations in the final run with the full data.
+    \item \code{diverge_zero}: logical value indicates whether the algorithm diverged in the final run with the full data.
+}
   }
 }
 \author{

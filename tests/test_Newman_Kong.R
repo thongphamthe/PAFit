@@ -7,7 +7,7 @@ for (prob_m in c("TRUE", "FALSE"))
       
       for (i in 1:1) {
         net  <- generate_net(N = 50, m = 10,prob_m = prob_m, increase = inc, log = log,
-                            mode = i, shape = 100, rate = 100)
+                            mode = i, s = 10)
         net_stats <- get_statistics(net,deg_threshold = 1, binning = TRUE, g = 10) 
         result_Jeong  <- Jeong(net , net_stats, T_0_start = 0, T_0_end = 20, T_1_start = 30)
         plot(result_Jeong,net_stats)

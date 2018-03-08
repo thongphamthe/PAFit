@@ -1,6 +1,6 @@
-Newman <- function(net_object        , 
-                   net_stat          ,
-                   start       = 1   , 
+Newman <- function(net_object                              , 
+                   net_stat    = get_statistics(net_object),
+                   start       = 1                         ,    
                    interpolate = FALSE){
   if (class(net_object) != "PAFit_net")
       stop("net_object should be of PAFit_net class.")
