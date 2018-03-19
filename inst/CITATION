@@ -1,4 +1,4 @@
-citHeader("To cite the PAFit package in your publications, please cite Ref. 1. Additionally, depending on which method you use, please cite more accordingly: if you jointly estimate the PA function and node fitnesses, please cite Ref. 2, or if you estimate the PA function in isolation, please cite Ref. 3.")
+citHeader("If you find the PAFit package useful, please consider citing Ref. 1. in your publication. Additionally, depending on which method you use, please consider citing more accordingly: if you jointly estimate the PA function and node fitnesses, please consider Ref. 2, or if you estimate the PA function in isolation, please consider Ref. 3.")
 
 citEntry("article","1. Pham T, Sheridan P and Shimodaira H (2017). PAFit: an R Package for Estimating Preferential Attachment and Node Fitness in Temporal Complex Networks. arXiv preprint arXiv:1704.06017",
   header = NULL, footer = NULL, 

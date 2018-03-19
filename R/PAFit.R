@@ -551,7 +551,7 @@ PAFit <- function(net_stat,
         if (length(non_zero_f_now) > 0)
           for (lll in 1:length(non_zero_f_now))
             if (non_zero_f_start[lll] != non_zero_f_now[lll]) {
-              print("Fitnesses diverge to zero. The iteration stopped.")
+              #print("Fitnesses diverge to zero. The iteration stopped.")
               diverge_zero <- TRUE
               break; 
             }
@@ -1016,7 +1016,7 @@ PAFit <- function(net_stat,
       if (length(non_zero_f_now) > 0)
         for (lll in 1:length(non_zero_f_now))
           if (non_zero_f_start[lll] != non_zero_f_now[lll]) {
-            print("Fitnesses diverge to zero. The iteration stopped.")
+            #print("Fitnesses diverge to zero. The iteration stopped.")
             diverge_zero <- TRUE
             break; 
           }
@@ -1049,7 +1049,7 @@ PAFit <- function(net_stat,
       if (length(non_zero_theta_now) > 0)
         for (lll in 1:length(non_zero_theta_now))
           if (non_zero_theta_start[lll] != non_zero_theta_now[lll]) {
-            print("PA function diverges to zero. The iteration stopped.")
+            #print("PA function diverges to zero. The iteration stopped.")
             diverge_zero_theta <- TRUE
             break; 
           }
@@ -1075,8 +1075,8 @@ PAFit <- function(net_stat,
   #if (TRUE == debug)
   #    print("End of iteration")
   
-  if ((FALSE == break_flag) && (TRUE == auto_stop) && (diverge_zero == FALSE) && (diverge_zero_theta == FALSE))
-    print(paste0("End by reaching maximum number of iterations (",max_iter,")")); 
+  #if ((FALSE == break_flag) && (TRUE == auto_stop) && (diverge_zero == FALSE) && (diverge_zero_theta == FALSE))
+  #  print(paste0("End by reaching maximum number of iterations (",max_iter,")")); 
   
   if (normalized_f == TRUE) {
     sum_f  <- sum(f)  
