@@ -30,7 +30,7 @@
   }
  
   \item{\dots}{
-    %%     ~~Describe \code{\dots} here~~
+  Additional options to control display details. For the case of \code{plot = "graph"}, see \code{\link{plot.network.default}} in the package \pkg{network}. For the other cases, the options of the standard \code{plot} function can be used.
   }
 }
 
@@ -39,7 +39,7 @@
   Outputs the desired plot.
 }
 \author{
-  Thong Pham \email{thongpham@thongpham.net}
+  Thong Pham \email{thongpham@thongpham.net}. When \code{plot = "graph"}, the function uses \code{\link{plot.network.default}} in the \pkg{network} package.
 }
 
 

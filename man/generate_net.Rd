@@ -24,7 +24,7 @@ generate_net (N                 = 1000   ,
              sat_at             = 100    ,
              offset             = 1      ,
              mode_f             = "gamma", 
-             s                  = 0       )
+             s                  = 10       )
 }
 
 %- maybe also 'usage' for other objects documented here.
@@ -90,7 +90,7 @@ The final group of parameters specifies the distribution from which node fitness
 String. Possible values:\code{"gamma"}, \code{"log_normal"} or \code{"power_law"}. This parameter indicates the true distribution for node fitness. \code{"gamma"} = gamma distribution, \code{"log_normal"} = log-normal distribution. \code{"power_law"} = power-law (pareto) distribution. Default value is \code{"gamma"}.
 }
 \item{s}{
-Non-negative numeric. The inverse variance parameter. The mean of the distribution is kept at \eqn{1} and the variance is \eqn{1/s}. This is achieved by setting shape and rate parameters of the Gamma distribution to \eqn{s}; setting mean and standard deviation in log-scale of the log-normal distribution to \eqn{-1/2*log (1/s + 1)} and \eqn{(log (1/s + 1))^0.5}; and setting shape and scale parameters of the pareto distribution to \eqn{(s+1)^0.5 + 1} and \eqn{(s+1)^0.5/((s+1)^0.5 + 1)}. If \code{s} is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e. Barabasi-Albert model)
+Non-negative numeric. The inverse variance parameter. The mean of the distribution is kept at \eqn{1} and the variance is \eqn{1/s}. This is achieved by setting shape and rate parameters of the Gamma distribution to \eqn{s}; setting mean and standard deviation in log-scale of the log-normal distribution to \eqn{-1/2*log (1/s + 1)} and \eqn{(log (1/s + 1))^0.5}; and setting shape and scale parameters of the pareto distribution to \eqn{(s+1)^0.5 + 1} and \eqn{(s+1)^0.5/((s+1)^0.5 + 1)}. If \code{s} is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e. Barabasi-Albert model). The default value is \code{10}.
 }
 }
 

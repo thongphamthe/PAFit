@@ -4,12 +4,12 @@ if (FALSE) {
   #setwd("tests")
   rm(list = ls())
   library(PAFit)
-  set.seed(4)
+  set.seed(1)
   prob_m <- "FALSE"
   inc    <- "FALSE"
   log    <-  c("FALSE")
   
-  M <- 10
+  M <- 5
   
   alpha_vec     <- rep(0,M)
   s_vec         <- rep(0,M)
@@ -17,12 +17,12 @@ if (FALSE) {
   r_optimal     <- rep(0,M)
   for (i in 1:M) {
       #set.seed(1)
-      net  <- generate_BB(N = 1000, m = 15, num_seed = 200, 
-                          multiple_node = 200,
-                          s = 1) 
+      net  <- generate_net(N = 1000, m = 50, num_seed = 500, 
+                          multiple_node = 50, alpha = 1,
+                          s = 5) 
                           #shape = 1, rate = 1)
   
-      net_stats <- get_statistics(net, deg_threshold = 1) 
+      net_stats    <- get_statistics(net) 
   
       print(result <- joint_estimate(net, net_stats))
       

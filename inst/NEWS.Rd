@@ -2,10 +2,10 @@
 \alias{NEWS}
 \title{Package News}
 
-\section{version 1.0.0.4 (Release date: 2018-02-05)}{
-  \subsection{FIXED}{
+\section{version 1.0.0.4 (Release date: 2018-04-25)}{
+  \subsection{NEW}{
     \itemize{
-    \item added some error messages to handle edge cases
+    \item new function \code{test_linear_PA} to chech whether the linear PA-only case is consistent with the observed degree distribution.
     }
   }
     \subsection{CHANGED}{

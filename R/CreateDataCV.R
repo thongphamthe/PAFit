@@ -13,6 +13,7 @@
   out_node          <- as.vector(net[,1])
   out_node          <- out_node[net[,2] != -1]
   
+  ### use as.numeric, instead of as.integer, since the node id might be outside of integer range
   node_id           <- as.numeric(sort(union(in_node,out_node)))
   names(node_id)    <- as.numeric(node_id)
   unique_time       <- sort(unique(time_stamp))
@@ -26,10 +27,10 @@
   
   ok_time           <- which(edge_ratio >= p)
   
-  if (length(ok_time) == 1) {
+  if (length(ok_time) == 1) {  ## must check, since base on p, all the data might be regarded as learning data
     use_time      <- unique_time[length(unique_time) - 1]
   } else
-    use_time      <- unique_time[which(edge_ratio >= p)[1] + 1]
+    use_time      <- unique_time[which(edge_ratio >= p)[1]]
   
   data_new          <- net[time_stamp <= use_time, ]
   net_new           <- as.PAFit_net(graph = data_new, type = net_type)

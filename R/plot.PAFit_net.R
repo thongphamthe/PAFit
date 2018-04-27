@@ -73,8 +73,10 @@ plot.PAFit_net <- function(x,
       degree_dist <- table(degree_vec)
       degree      <- as.integer(labels(degree_dist)[[1]])
       plot(degree + 1, degree_dist, log = "xy", xlab = "Degree + 1", ylab = "Frequency", pch = 20,
-           col = "red", type = "n", axes = FALSE, mgp = c( 2.5 , 1 , 0 ),...)
-      magaxis(grid = TRUE, frame.plot = TRUE,...)
+           col = "red", type = "n", axes = FALSE, 
+           mgp = c( 2.5 , 1 , 0 ),
+           ...)
+      magaxis(grid = FALSE, frame.plot = TRUE, usepar=TRUE,...)
       points(degree + 1, degree_dist, pch = 20, col = "red",...)
   } else if ("PA" == plot) {
       # plot the PA function  
@@ -97,8 +99,9 @@ plot.PAFit_net <- function(x,
            xlim = xlim , ylim = ylim , 
            axes = FALSE, log = "xy" , 
            col = rgb(col_pa[1],col_pa[2],col_pa[3], shade_point), 
-           mgp = c( 2.5 , 1 , 0 ), pch = 20,...)
-     magaxis(grid = TRUE, frame.plot = TRUE);
+           mgp = c( 2.5 , 1 , 0 ), 
+           pch = 20,...)
+     magaxis(grid = FALSE, frame.plot = TRUE, usepar=TRUE);
  
     
   } else if ("fit" == plot) {
@@ -108,13 +111,21 @@ plot.PAFit_net <- function(x,
       f_non <- net$fitness[non_zero]
       d     <- density(f_non)
       ok_d  <- d$x > 0
+      max_x <- max(d$x[ok_d])
+      min_x <- min(d$x[ok_d])
+      
     
       plot(d$x[ok_d] , d$y[ok_d], col  = 2 , log = "x", lwd = 0, 
            main = "", xlab = "Fitness", ylab = "Density",
-           cex.axis = 1 , cex.lab = 1, 
-           mgp = c( 2.5 , 1 , 0 ), axes = FALSE,
+           mgp = c( 2.5 , 1 , 0 ), 
+           axes = FALSE,
            pch = "",...)
-      magaxis(grid = TRUE, frame.plot = TRUE)
+      axis(side = 1, at=c(format(round(min_x, 2), nsmall = 2),
+                          format(round(1, 2), nsmall = 2),
+                          format(round(max_x, 2), nsmall = 2)),
+           tcl = 0.5, ...)
+      magaxis(side = 2,grid = FALSE, frame.plot = TRUE,
+              logpretty = FALSE,...)
       u    <- smooth.spline(d$x, d$y, spar = 0.01)
       ok_u <- u$x > 0 & u$y > 0 
       lines(u$x[ok_u], u$y[ok_u], col = "grey50",lwd = 2.5);

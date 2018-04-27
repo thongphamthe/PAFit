@@ -17,7 +17,7 @@ function(N                  = 1000  ,
          sat_at             = 100      ,
          offset             = 1        ,
          mode_f             = "gamma"  , 
-         s                  = 0        
+         s                  = 10        
      ){
    # N: number of nodes
    # Number of time-step: (N  - num_seed) / multiple_node

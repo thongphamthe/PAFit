@@ -29,7 +29,7 @@ summary.Full_PAFit_result <- function(object,...){
       if (object_estimate_result$ci[1] == "N") {
           cat("No possible confidence interval for the estimated attachment exponent.\n");
       } else if (object_estimate_result$mode_f != "Log_linear") {
-            cat("95% confidence interval of the attachment exponent: (", object_estimate_result$ci[1], ",", 
+            cat("Two-sigma confidence interval of the attachment exponent: (", object_estimate_result$ci[1], ",", 
                 object_estimate_result$ci[2],")\n");
          }
       else {

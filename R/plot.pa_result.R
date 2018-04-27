@@ -87,7 +87,7 @@ plot.PA_result <-
     eval(parse(text = paste('plot(x$k[non_zero][1], x$A[non_zero][1] , xlab = ifelse(!is.null(label_x),label_x, "Degree k"),
            ylab = ifelse(!is.null(label_y) , label_y,"Attachment function"), pch =pch,  mgp = c( 2.5 , 1 , 0 ),
            xlim = xlim , ylim = ylim , log = "xy" , axes = FALSE, col = col_point, type = "n",', final_para, ')')))
-    eval(parse(text = paste('magaxis(grid = TRUE, frame.plot = TRUE, ',final_para,')')));
+    eval(parse(text = paste('magaxis(grid = FALSE, frame.plot = TRUE, ',final_para,')')));
       #xtick = seq(from = xlim[1], to = xlim[2],5)
       #axis(side = 1, at = xtick, labels = NULL, xlim = xlim, log = "x")
       

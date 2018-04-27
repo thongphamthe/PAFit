@@ -28,8 +28,8 @@ joint_estimate(net_object                               ,
 
 \item{mode_reg_A}{Binary. Indicates which regularization term is used for \eqn{A_k}:
 \itemize{
-\item \code{0}: This is the regularization term used in Ref. 1 and 2. It approximately enforces the power-law form \eqn{A_k = k^\alpha}. This is the default value. 
-\item \code{1}: Unlike the default, this regularization term exactly enforces the functional form \eqn{A_k = k^\alpha}. Its main drawback is it is significantly slower to converge, while its gain over the default one is marginal in most cases.  
+\item \code{0}: This is the regularization term used in Ref. 1 and 2.  Please refer to Eq. (5) in the tutorial for the definition of the term. It approximately enforces the power-law form \eqn{A_k = k^\alpha}. This is the default value. 
+\item \code{1}: Unlike the default, this regularization term exactly enforces the functional form \eqn{A_k = k^\alpha}. Please refer to Eq. (7) in the tutorial for the definition of the term. Its main drawback is it is significantly slower to converge, while its gain over the default one is marginal in most cases.  
 }
 }
 \item{...}{Other parameters to pass to the internal estimation algorithm.}

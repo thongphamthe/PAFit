@@ -93,7 +93,7 @@ plot.Full_PAFit_result <-
                               mgp = c( 2.5 , 1 , 0 ),
                               type = "n",', final_para, ')')))
       #magaxis(grid = TRUE, frame.plot = TRUE)
-      eval(parse(text = paste('magaxis(grid = TRUE, frame.plot = TRUE,',final_para,')')));
+      eval(parse(text = paste('magaxis(grid = FALSE, frame.plot = TRUE,',final_para,')')));
       #xtick = seq(from = xlim[1], to = xlim[2],5)
       #axis(side = 1, at = xtick, labels = NULL, xlim = xlim, log = "x")
       if (TRUE == confidence) {
@@ -144,35 +144,29 @@ plot.Full_PAFit_result <-
       f_non <- x$f[non_zero]
       d     <- density(f_non)
       ok_d  <- d$x > 0
-      
+      max_x <- max(d$x[ok_d])
+      min_x <- min(d$x[ok_d])
+      #print(min_x)
+      #print(max_x)
       #layout(cbind(1,2), width = c(4,1))
-      plot(d$x[ok_d] , d$y[ok_d], col  = 2 , log = "x", lwd = 0, main = "", xlab = "Fitness", ylab = "Density",
-           cex.axis = 1 , cex.lab = 1, 
-           mgp = c( 2.5 , 1 , 0 ), axes = FALSE,
+      plot(d$x[ok_d] , d$y[ok_d], col  = 2 , log = "x", lwd = 0, main = "", 
+           xlab = "Fitness", ylab = "Density",
+           xlim = c(min_x,max_x),
+           mgp = c(2.5 , 1 , 0 ), 
+           axes = FALSE,
            pch = "",...)
-      magaxis(grid = TRUE, frame.plot = TRUE)
+      axis(side = 1, at=c(format(round(min_x, 2), nsmall = 2),
+                          format(round(1, 2), nsmall = 2),
+                          format(round(max_x, 2), nsmall = 2)),
+                          tcl = 0.5, ...)
+      magaxis(side = 2,grid = FALSE, frame.plot = TRUE,
+              logpretty = FALSE,...)
       #x <- c(format(min(f_non),digits = 1),1,5,10,15,format(max(f_non),digits = 4))
       u    <- smooth.spline(d$x, d$y, spar = 0.01)
       #polygon(d$x, d$y, col = red_fade, border=NA)
       ok_u <- u$x > 0 & u$y > 0 
       lines(u$x[ok_u], u$y[ok_u], col = "grey50",lwd = 2.5);
-      #axis(3, at = 1,labels = "Mean = 1", las = 0,cex.axis = 2)
-      
-      #abline(v = median(f_non), lty = 5, lwd = 1.5,col = green)
-      #abline(v = quantile(f_non,0.99), lty = 4, lwd = 1.5, col = blue)
-      #mtext(at = median(f_non), side = 3,  
-      #      format(round(median(f_non), 2), nsmall = 2), cex = 1)
-      #mtext(at = quantile(f_non,0.99), side = 3,
-      #      format(round(quantile(f_non,0.99), 2), nsmall = 2), 
-      #      cex = 1)
-      
-      
-      #plot.new()
-      #par(mar=c(0, 0, 0, 0))
-      #legend(legend = c("99th percentile" , "Median"), 
-      #       text.col = c(gray),
-      #       x = "left", col = c(green,blue),lwd = 1.5,
-      #       lty = c(5,4),cex = 1, bty = "n")
+
     }
     else if ("true_f" == plot[1]) {
       #names(true_f) <- net_stat$node_id 
@@ -243,7 +237,7 @@ plot.Full_PAFit_result <-
                               mgp = c( 2.5 , 1 , 0 ) ,', 
                               final_para, ')')))
       #magaxis(grid = TRUE, frame.plot = TRUE)
-      eval(parse(text = paste('magaxis(grid = TRUE, frame.plot = TRUE,',final_para,')')));
+      eval(parse(text = paste('magaxis(grid = FALSE, frame.plot = TRUE,',final_para,')')));
       
       
       if (TRUE == confidence) {

@@ -128,7 +128,7 @@
                       
                       #PA              <- result_PAFit$A[cv_data$deg_each[k,chosen_node] + 1] 
                       #PA              <- result_PAFit$A[cv_data$deg_each[k,chosen_node] + 1]
-                      PA              <- (cv_data$deg_each[k,chosen_node] + 1)^alpha_start
+                      PA              <- (cv_data$deg_each[k,chosen_node])^alpha_start
                       if (sum(is.na(PA)) > 0) {
                           #PA[is.na(PA)] <- max(estimated_PA_start)  
                           #PA[is.na(PA)]   <- cv_data$deg_each[k,chosen_node][is.na(PA)]^alpha_start
@@ -246,7 +246,7 @@
             chosen_node    <- chosen_node_big[!is.na(result_PAFit$A[cv_data$deg_each[k,chosen_node_big] + 1])] 
             chosen_node    <- chosen_node[result_PAFit$A[cv_data$deg_each[k,chosen_node] + 1] != 0]
             #PA              <- cv_data$deg_each[k,chosen_node]^alpha_temp
-            PA              <- result_PAFit$A[cv_data$deg_each[k,chosen_node]]
+            PA              <- result_PAFit$A[cv_data$deg_each[k,chosen_node] + 1]
             if (sum(is.na(PA)) > 0) {
                 print("it should not happen here")  
                 PA[is.na(PA)]   <- cv_data$deg_each[k,chosen_node][is.na(PA)]^alpha_temp
