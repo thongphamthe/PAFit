@@ -1,11 +1,11 @@
 citHeader("If you find the PAFit package useful, please consider citing Ref. 1. in your publication. Additionally, depending on which method you use, please consider citing more accordingly: if you jointly estimate the PA function and node fitnesses, please consider Ref. 2, or if you estimate the PA function in isolation, please consider Ref. 3.")
 
-citEntry("article","1. Pham T, Sheridan P and Shimodaira H (2017). PAFit: an R Package for Estimating Preferential Attachment and Node Fitness in Temporal Complex Networks. arXiv preprint arXiv:1704.06017",
+citEntry("article","1. Pham T, Sheridan P and Shimodaira H (2018). PAFit: an R Package for the Non-parametric Estimation of Preferential Attachment and Node Fitness in Temporal Complex Networks. arXiv preprint arXiv:1704.06017",
   header = NULL, footer = NULL, 
-  title={"PAFit: an R Package for Modeling and Estimating Preferential Attachment and Node Fitness in Temporal Complex Networks"},
+  title={"PAFit: an R Package for the Non-parametric Estimation of Preferential Attachment and Node Fitness in Temporal Complex Networks"},
   Author={"Thong Pham and Paul Sheridan and Hidetoshi Shimodaira"},
   journal={"arXiv preprint arXiv:1704.06017"},
-  year={2017}
+  year={2018}
 )
 
 citEntry("article", "2. Pham T, Sheridan P and Shimodaira H (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558", 
