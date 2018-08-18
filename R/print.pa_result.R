@@ -6,5 +6,5 @@ print.PA_result <- function(x,...){
   if (x$ci[1] == "N") {
     cat("No possible confidence interval for the estimated attachment exponent.\n");
   } else cat("Two-sigma confidence interval of the attachment exponent: (", x$ci[1], ",", 
-              x$ci[2],")\n");
+              x$ci[2],")\n",sep = "");
 }

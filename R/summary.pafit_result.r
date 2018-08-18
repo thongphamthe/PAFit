@@ -24,11 +24,11 @@ summary.PAFit_result <- function(object,...){
       cat("No possible confidence interval for the estimated attachment exponent.\n");
     } else if (object$mode_f != "Log_linear") {
       cat("Two-sigma confidence interval of the attachment exponent: (", object$ci[1], ",", 
-          object$ci[2],")\n");
+          object$ci[2],")\n",sep = "");
     }
     else {
       cat("Two-sigma confidence interval of the attachment exponent: (", object$ci[1], ",", 
-          object$ci[2],")\n");  
+          object$ci[2],")\n",sep = "");  
     }
     cat("-------------------------------------------\n")
     cat("Additional information: \n");
