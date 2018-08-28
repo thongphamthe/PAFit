@@ -1,14 +1,10 @@
 ### this function compares a set of limiting degree distribution to find the best fit to the data
-### the set of limiting degree distribution include 9 distributions:
+### the set of limiting degree distribution includes 5 distributions:
 ### Yule distribution
 ### Waring distribution
 ### Negative binomial distribution
 ### Geometric distribution
 ### Poisson distribution
-
-### Truncated power law
-### Geometric-yule
-### Negative-binomial yule
 
 
 test_linear_PA <- function(degree_vector) {

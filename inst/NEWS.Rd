@@ -2,6 +2,15 @@
 \alias{NEWS}
 \title{Package News}
 
+\section{version 1.0.0.5 (Release date: 2018-08-23)}{
+    \subsection{CHANGED}{
+    \itemize{
+    \item updated the tutorial
+    \item updated the help manual
+    }
+  }
+}
+
 \section{version 1.0.0.4 (Release date: 2018-04-25)}{
   \subsection{NEW}{
     \itemize{

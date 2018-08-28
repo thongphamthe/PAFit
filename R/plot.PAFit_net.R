@@ -75,8 +75,11 @@ plot.PAFit_net <- function(x,
       plot(degree + 1, degree_dist, log = "xy", xlab = "Degree + 1", ylab = "Frequency", pch = 20,
            col = "red", type = "n", axes = FALSE, 
            mgp = c( 2.5 , 1 , 0 ),
+           tcl = 0.5,
            ...)
-      magaxis(grid = FALSE, frame.plot = TRUE, usepar=TRUE,...)
+      magaxis(grid = FALSE, frame.plot = TRUE,
+              mgp = c( 2.5 , 1 , 0 ),
+              tcl = 0.5,...)
       points(degree + 1, degree_dist, pch = 20, col = "red",...)
   } else if ("PA" == plot) {
       # plot the PA function  

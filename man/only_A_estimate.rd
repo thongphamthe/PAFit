@@ -29,8 +29,8 @@ only_A_estimate(net_object                             ,
 
 \item{mode_reg_A}{Binary. Indicates which regularization term is used for \eqn{A_k}:
 \itemize{
-\item \code{0}: This is the regularization term used in Ref. 1 and 2. Please refer to Eq. (5) in the tutorial for the definition of the term. It approximately enforces the power-law form \eqn{A_k = k^\alpha}. This is the default value. 
-\item \code{1}: Unlike the default, this regularization term exactly enforces the functional form \eqn{A_k = k^\alpha}. Please refer to Eq. (7) in the tutorial for the definition of the term. Its main drawback is it is significantly slower to converge, while its gain over the default one is marginal in most cases.  
+\item \code{0}: This is the regularization term used in Ref. 1 and 2. Please refer to Eq. (4) in the tutorial for the definition of the term. It approximately enforces the power-law form \eqn{A_k = k^\alpha}. This is the default value. 
+\item \code{1}: Unlike the default, this regularization term exactly enforces the functional form \eqn{A_k = k^\alpha}. Please refer to Eq. (6) in the tutorial for the definition of the term. Its main drawback is it is significantly slower to converge, while its gain over the default one is marginal in most cases.  
 }
 }
 \item{MLE}{Logical. If \code{TRUE}, then not perform cross-validation and estimate the PA function with \code{r = 0}, i.e. maximum likelihood estimation. Default is \code{FALSE}.}
@@ -51,13 +51,13 @@ only_A_estimate(net_object                             ,
     \item \code{k} and \code{A}: a degree vector and the estimated PA function.
     \item \code{var_A}: the estimated variance of \eqn{A}.
     \item \code{var_logA}: the estimated variance of \eqn{log A}.
-    \item \code{upper_A}: the upper value of the two-sigma confidence interval of \eqn{A}.
-    \item \code{lower_A}: the lower value of the two-sigma confidence interval of \eqn{A}.
+    \item \code{upper_A}: the upper value of the interval of two standard deviations around \eqn{A}.
+    \item \code{lower_A}: the lower value of the interval of two standard deviations around \eqn{A}.
     
     \item \code{center_k} and \code{theta}: when we perform binning, these are the centers of the bins and the estimated PA values for those bins. \code{theta} is similar to \code{A} but with duplicated values removed.
      \item \code{var_bin}: the variance of \code{theta}. Same as \code{var_A} but with duplicated values removed.
-    \item \code{upper_bin}: the upper value of the two-sigma confidence interval of \code{theta}. Same as \code{upper_A} but with duplicated values removed.
-    \item \code{lower_lower}: the lower value of the two-sigma confidence interval of \code{theta}. Same as \code{lower_A} but with duplicated values removed.
+    \item \code{upper_bin}: the upper value of the interval of two standard deviations around \code{theta}. Same as \code{upper_A} but with duplicated values removed.
+    \item \code{lower_lower}: the lower value of the interval of two standard deviations around \code{theta}. Same as \code{lower_A} but with duplicated values removed.
     \item \code{g}: the number of bins used.
     \item \code{alpha} and \code{ci}: \code{alpha} is the estimated attachment exponenet \eqn{\alpha} (when assume \eqn{A_k = k^\alpha}), while \code{ci} is the confidence interval.
     \item \code{loglinear_fit}: this is the fitting result when we estimate \eqn{\alpha}. 

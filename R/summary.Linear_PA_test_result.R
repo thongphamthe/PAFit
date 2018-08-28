@@ -1,6 +1,5 @@
 summary.Linear_PA_test_result <- function(object,...){
-  cat("\nContaining the AIC and BIC of fitting various distributions to the degree distribution.
-      \n");
+  cat("\nContaining the AIC and BIC of fitting various distributions to the degree distribution.");
   full_result             <-  object
   chosen_model_AIC        <-  vector(mode = "list", length = 5)
   chosen_model_BIC        <-  vector(mode = "list", length = 5)
@@ -29,27 +28,26 @@ summary.Linear_PA_test_result <- function(object,...){
     data_frame[i,1] <- names(chosen_model_AIC)[order(AIC_vector)[i]]
     data_frame[i,2] <- chosen_model_AIC[[order(AIC_vector)[i]]]$k_min
     data_frame[i,3] <- chosen_model_AIC[[order(AIC_vector)[i]]]$dim
-    data_frame[i,4] <- chosen_model_AIC[[order(AIC_vector)[i]]]$val
-    data_frame[i,5] <- chosen_model_AIC[[order(AIC_vector)[i]]]$AIC
-    data_frame[i,6] <- chosen_model_AIC[[order(AIC_vector)[i]]]$BIC
+    data_frame[i,4] <- format(round(chosen_model_AIC[[order(AIC_vector)[i]]]$val,2),nsmal = 2)
+    data_frame[i,5] <- format(round(chosen_model_AIC[[order(AIC_vector)[i]]]$AIC,2),nsmal = 2)
+    data_frame[i,6] <- format(round(chosen_model_AIC[[order(AIC_vector)[i]]]$BIC,2),nsmal = 2)
   }
   colnames(data_frame) <-  c("Model","k_min","Dimension","Log-Likelihood","AIC","BIC")
   
-  cat("Top five models ordered by the value of the AIC:");
+  cat("\nTop models ordered by the value of the AIC:");
   temp <- knitr::kable(head(data_frame))
   print(temp)
-  
-  cat("\nTop five models ordered by the value of the BIC:");
-  data_frame <- matrix(0,nrow = 5, ncol = 6)
-  for (i in 1:length(order(BIC_vector))) {
-    data_frame[i,1] <- names(chosen_model_BIC)[order(BIC_vector)[i]]
-    data_frame[i,2] <- chosen_model_BIC[[order(BIC_vector)[i]]]$k_min
-    data_frame[i,3] <- chosen_model_BIC[[order(BIC_vector)[i]]]$dim
-    data_frame[i,4] <- chosen_model_BIC[[order(BIC_vector)[i]]]$val
-    data_frame[i,5] <- chosen_model_BIC[[order(BIC_vector)[i]]]$AIC
-    data_frame[i,6] <- chosen_model_BIC[[order(BIC_vector)[i]]]$BIC
-  }
-  colnames(data_frame) <-  c("Model","k_min","Dimension","Log-Likelihood","AIC","BIC")
-  temp <- knitr::kable(head(data_frame))
-  print(temp)
+  # cat("\nTop five models ordered by the value of the BIC:");
+  # data_frame <- matrix(0,nrow = 5, ncol = 6)
+  # for (i in 1:length(order(BIC_vector))) {
+  #   data_frame[i,1] <- names(chosen_model_BIC)[order(BIC_vector)[i]]
+  #   data_frame[i,2] <- chosen_model_BIC[[order(BIC_vector)[i]]]$k_min
+  #   data_frame[i,3] <- chosen_model_BIC[[order(BIC_vector)[i]]]$dim
+  #   data_frame[i,4] <- chosen_model_BIC[[order(BIC_vector)[i]]]$val
+  #   data_frame[i,5] <- chosen_model_BIC[[order(BIC_vector)[i]]]$AIC
+  #   data_frame[i,6] <- chosen_model_BIC[[order(BIC_vector)[i]]]$BIC
+  # }
+  # colnames(data_frame) <-  c("Model","k_min","Dimension","Log-Likelihood","AIC","BIC")
+  # temp <- knitr::kable(head(data_frame))
+  # print(temp)
 }

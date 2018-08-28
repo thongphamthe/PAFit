@@ -13,21 +13,21 @@ print.PAFit_result <- function(x,...) {
   #cat(" Form of the PA function:",x$mode_f,"\n");
   if (x$only_f == FALSE) {
       if (x$auto_lambda == TRUE) {
-          cat("Ratio (r): ", x$ratio,"\n");
-      } else cat("Lambda used: ", x$lambda,"\n");
+          cat("Ratio (r):", x$ratio,"\n");
+      } else cat("Lambda used:", x$lambda,"\n");
   }
   
   if (x$only_PA == FALSE)
-      cat("Prior of node fitness: shape: ",x$shape,"; rate: ",x$rate,"\n")
-  cat("Estimated attachment exponent: ",x$alpha,"\n");
+      cat("Prior of node fitness: shape: ",x$shape,"; rate: ",x$rate,"\n", sep = "")
+  cat("Estimated attachment exponent:",x$alpha,"\n");
   if (x$ci[1] == "N") {
     cat("No possible confidence interval for the estimated attachment exponent.\n");
   } else if (x$mode_f != "Log_linear") {
-        cat("Two-sigma confidence interval of the attachment exponent: (", x$ci[1], ",", 
+        cat("Attachment exponent ","\u00B1", " 2 s.d.", ": (", x$ci[1], ",", 
            x$ci[2],")\n",sep = "");
   }
   else {
-     cat("Two-sigma confidence interval of the attachment exponent: (", x$ci[1], ",", 
+     cat("Attachment exponent ","\u00B1", " 2 s.d.", ": (", x$ci[1], ",", 
          x$ci[2],")\n",sep = "");  
 
   }

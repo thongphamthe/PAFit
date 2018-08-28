@@ -48,8 +48,8 @@ only_F_estimate(net_object                             ,
     \item \code{g}: the number of bins used.
     \item \code{f}: the estimated node fitnesses.
     \item \code{var_f}: the estimated variance of \eqn{\eta_i}.
-    \item \code{upper_f}: the estimated upper value of the two-sigma confidence interval of \eqn{\eta_i}.
-    \item \code{lower_f}: the estimated lower value of the two-sigma confidence interval of \eqn{\eta_i}.
+    \item \code{upper_f}: the estimated upper value of the interval of two standard deviations around \eqn{\eta_i}.
+    \item \code{lower_f}: the estimated lower value of the interval of two standard deviations around \eqn{\eta_i}.
     \item \code{objective_value}: values of the objective function over iterations in the final run with the full data.
     \item \code{diverge_zero}: logical value indicates whether the algorithm diverged in the final run with the full data.
 }
