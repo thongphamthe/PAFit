@@ -14,11 +14,11 @@ summary.PAFit_result <- function(object,...){
   
     if (object$only_f == FALSE) {
         if (object$auto_lambda == TRUE) {
-            cat("Ratio (r):", object$ratio,"\n");
+            cat("Selected r parameter:", object$ratio,"\n");  
         } else cat("Lambda used:", object$lambda,"\n");
     }
     if (object$only_PA == FALSE)
-        cat("Prior of node fitness: shape: ",object$shape,"; rate: ",object$rate,"\n", sep = "")
+        cat("Selected s parameter: ",object$shape,"\n", sep = "")
     cat("Estimated attachment exponent:",object$alpha,"\n");
     if (object$ci[1] == "N") {
       cat("No possible confidence interval for the estimated attachment exponent.\n");

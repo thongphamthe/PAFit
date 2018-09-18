@@ -49,7 +49,7 @@ Jeong(net_object                               ,
   Thong Pham \email{thongpham@thongpham.net}
 }
 \references{
-  1. Jeong, H., \enc{Néda}{Neda}, Z. & \enc{Barabási}{Barabasi}, A. . Measuring preferential attachment in evolving networks. Europhysics Letters. 2003;61(61):567–572. doi: 10.1209/epl/i2003-00166-9 (\url{http://iopscience.iop.org/article/10.1209/epl/i2003-00166-9/fulltext/}) .
+  1. Jeong, H., \enc{Néda}{Neda}, Z. & \enc{Barabási}{Barabasi}, A. . Measuring preferential attachment in evolving networks. Europhysics Letters. 2003;61(61):567–572. doi: 10.1209/epl/i2003-00166-9 (\url{https://doi.org/10.1209/epl/i2003-00166-9}).
 }
 \seealso{
 

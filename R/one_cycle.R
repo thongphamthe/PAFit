@@ -89,7 +89,7 @@
                 PA              <-  cv_data$deg_each[k,chosen_node]^alpha_temp
                 #print(PA)
                 if (sum(PA == 0) > 0)
-                    print("This should not happen")  
+                    error("This should not happen")  
                 #PA[PA == 0]     <- 1
                 fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node, drop = FALSE])[2])
                 names(fitness)  <- colnames(cv_data$deg_each[,chosen_node, drop = FALSE])
@@ -132,7 +132,7 @@
                       if (sum(is.na(PA)) > 0) {
                           #PA[is.na(PA)] <- max(estimated_PA_start)  
                           #PA[is.na(PA)]   <- cv_data$deg_each[k,chosen_node][is.na(PA)]^alpha_start
-                          print("It should not happen")
+                          error("It should not happen")
                       }
                       if (sum(PA == 0) > 0)
                           PA[PA == 0]     <- 1
@@ -177,7 +177,7 @@
       estimated_fitness_final <- estimated_fitness_final + estimated_fitness[[ok_index[temp_jj]]] 
   estimated_fitness_final <- estimated_fitness_final / length(ok_index)
   
-  
+  #print("Reach here")
 
   ### One pass to find optimal r #######
 
@@ -194,7 +194,10 @@
   switch_flag            <- 0
   
   for (i in 1:length(ratio_vec_PAFit)) {
-   
+  # print(i)
+  #print(!is.null(estimated_PA))
+  #print(is.null(estimated_PA_start))
+    
     #print(paste0("Processing case ",count, " of a maximum of ",total))
     if (!is.null(estimated_PA))
       result_PAFit <- PAFit(cv_data$stats, 
@@ -211,6 +214,7 @@
     
     else {
         if (is.null(estimated_PA_start)) {
+            ## error here
             result_PAFit <- PAFit(cv_data$stats, 
                                   s = s_optimal_final, 
                                   r = ratio_vec_PAFit[i], 

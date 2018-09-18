@@ -2,7 +2,15 @@
 \alias{NEWS}
 \title{Package News}
 
-\section{version 1.0.0.5 (Release date: 2018-08-23)}{
+\section{version 1.0.0.7 (Release date: 2018-11-29)}{
+    \subsection{FIXED}{
+    \itemize{
+    \item a bug when the number of non-zero positions in \eqn{A_k} is three.
+    }
+  }
+}
+
+\section{version 1.0.0.6 (Release date: 2018-08-29)}{
     \subsection{CHANGED}{
     \itemize{
     \item updated the tutorial

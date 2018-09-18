@@ -9,10 +9,10 @@ A package for estimating preferential attachment and node fitness generative mec
 \tabular{ll}{
 Package: \tab PAFit\cr
 Type: \tab Package\cr
-Version: \tab 1.0.0.5\cr
+Version: \tab 1.0.0.7\cr
 Authors: \tab Thong Pham, Paul Sheridan, Hidetoshi Shimodaira\cr
 Maintainer: \tab Thong Pham \email{thongpham@thongpham.net}\cr
-Date: \tab 2018-08-28\cr
+Date: \tab 2018-08-29\cr
 License: \tab GPL-3 \cr
 }
 The PAFit package provides a comprehensive framework to deal with growth mechanisms of temporal complex networks. In particular, it implements functions to simulate various temporal network models, gather essential network statistics from raw input data, and use these summarized statistics in the estimation of the attachment function \eqn{A_k} and node fitnesses \eqn{\eta_i}. The heavy computational parts of the package are implemented in \code{C++} through the use of the Rcpp package. Furthermore, users with a multi-core machine can enjoy a hassle-free speed up through OpenMP parallelization mechanisms implemented in the code. Apart from the main functions, the package also includes a real-world collaboration network dataset between scientists in the field of complex networks (\code{\link{coauthor.net}}). The main package functionalities are as follows. 
@@ -36,11 +36,11 @@ Thong Pham \email{thongpham@thongpham.net}, Paul Sheridan, and Hidetoshi Shimoda
 }
 
 \references{
-1. Jeong, H., \enc{Néda}{Neda}, Z. & \enc{Barabási}{Barabasi}, A. (2003). Measuring Preferential Attachment in Evolving Networks. Europhysics Letters 61(61):567-572. doi:10.1209/epl/i2003-00166-9 (\url{http://iopscience.iop.org/article/10.1209/epl/i2003-00166-9/fulltext/}).
+1. Jeong, H., \enc{Néda}{Neda}, Z. & \enc{Barabási}{Barabasi}, A. (2003). Measuring Preferential Attachment in Evolving Networks. Europhysics Letters 61(61):567-572. doi:10.1209/epl/i2003-00166-9 (\url{https://doi.org/10.1209/epl/i2003-00166-9}).
 
-2. Newman, M. (2001). Clustering and Preferential Attachment in Growing Networks. Physical Review E 64(2):025102. doi:10.1103/PhysRevE.64.025102 (\url{https://journals.aps.org/pre/abstract/10.1103/PhysRevE.64.025102}).
+2. Newman, M. (2001). Clustering and Preferential Attachment in Growing Networks. Physical Review E 64(2):025102. doi:10.1103/PhysRevE.64.025102 (\url{https://doi.org/10.1209/epl/i2003-00166-9}).
 
-3. Pham, T., Sheridan, P. & Shimodaira, H. (2015). PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks. PLoS ONE 10(9):e0137796. doi:10.1371/journal.pone.0137796 (\url{http://dx.doi.org/10.1371/journal.pone.0137796}).
+3. Pham, T., Sheridan, P. & Shimodaira, H. (2015). PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks. PLoS ONE 10(9):e0137796. doi:10.1371/journal.pone.0137796 (\url{https://dx.doi.org/10.1371/journal.pone.0137796}).
 
 4. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558 (\url{www.nature.com/articles/srep32558}).
 }
