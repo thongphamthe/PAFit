@@ -89,7 +89,7 @@
                 PA              <-  cv_data$deg_each[k,chosen_node]^alpha_temp
                 #print(PA)
                 if (sum(PA == 0) > 0)
-                    error("This should not happen")  
+                    stop("This should not happen")  
                 #PA[PA == 0]     <- 1
                 fitness         <- rep(1,dim(cv_data$deg_each[,chosen_node, drop = FALSE])[2])
                 names(fitness)  <- colnames(cv_data$deg_each[,chosen_node, drop = FALSE])
@@ -132,7 +132,7 @@
                       if (sum(is.na(PA)) > 0) {
                           #PA[is.na(PA)] <- max(estimated_PA_start)  
                           #PA[is.na(PA)]   <- cv_data$deg_each[k,chosen_node][is.na(PA)]^alpha_start
-                          error("It should not happen")
+                          stop("It should not happen")
                       }
                       if (sum(PA == 0) > 0)
                           PA[PA == 0]     <- 1
