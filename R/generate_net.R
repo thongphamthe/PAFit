@@ -30,7 +30,7 @@ function(N                  = 1000  ,
    if ((alpha < 0 && mode != 1) || (beta < 0) || (sat_at < 0) || (s < 0) || (m <= 0))
        stop("The parameters must be non-negative")  
    if ((mode[1] != 1) && (mode[1] != 3) && (mode[1] != 2))
-       stop("Mode must be 1, 2 or 3 ")
+       stop("Mode must be 1, 2, or3.")
   
    if (!is.null(no_new_node_step)) {
       if (no_new_node_step <= 0) 
@@ -128,11 +128,15 @@ function(N                  = 1000  ,
             temp          <- pmin(P,sat_at)^alpha
             P.sum         <- sum(temp*fitness[1:n_old])
             node.weights  <- temp*fitness[1:n_old]/P.sum
-        } else {
+        } else if (mode[1] == 3) {
             temp          <- alpha*(log(P))^beta + 1 
             P.sum         <- sum(temp*fitness[1:n_old])
             node.weights  <- temp*fitness[1:n_old]/P.sum
-        }
+        } #else if (mode[1] == 4) {
+          #    temp          <- exp(beta * degree)  
+          #    P.sum         <- sum(temp*fitness[1:n_old])
+          #    node.weights  <- temp*fitness[1:n_old]/P.sum
+        #}
         current_time_step <- current_time_step + 1
 
         for (i in 1:multiple_node){
@@ -204,11 +208,16 @@ function(N                  = 1000  ,
                           temp          <- pmin(P,sat_at)^alpha
                           P.sum         <- sum(temp*fitness[1:n_old])
                           node.weights  <- temp*fitness[1:n_old]/P.sum
-                     } else {
+                     } else if (mode[1] == 3) {
                            temp          <- alpha*(log(P))^beta + 1 
                            P.sum         <- sum(temp*fitness[1:n_old])
                            node.weights  <- temp*fitness[1:n_old]/P.sum
-                    }
+                    } # else if (mode[1] == 4){
+                    #        #P_temp        <- P
+                    #        temp          <- exp(beta * degree)  
+                    #        P.sum         <- sum(temp*fitness[1:n_old])
+                    #        node.weights  <- temp*fitness[1:n_old]/P.sum
+                    # }
                    current_time_step <- current_time_step + 1
                    if (TRUE == increase) {
                        count <- count + 1  
@@ -251,9 +260,11 @@ function(N                  = 1000  ,
             PA_vector <- c(1,1:max(degree))^alpha
         } else if (mode[1] == 2) {
             PA_vector <- pmin(c(1,1:max(degree)),sat_at)^alpha
-        } else {
+        } else if (mode[1] == 3) {
             PA_vector <- alpha*(log(c(1,1:max(degree))))^beta + 1 
-        }
+        } #else if (mode[1] == 4) {
+          # PA_vector <- exp(beta * 0:max(degree))  
+        #}
     }
     edge_list <- edge_list[-(edge_list_index:dim(edge_list)[1]),]
     result <- list(graph = edge_list, fitness = fitness, PA = PA_vector, type = "directed")

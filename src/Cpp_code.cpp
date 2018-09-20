@@ -469,12 +469,14 @@ int get_stats(CharacterVector    & time_stamp,
          //appear_onestep_out.at(i) = 0;
      }
 }
-   for (unsigned long k = 0; k < count_bin.size(); ++ k)
+   for (unsigned long k = 0; k < count_bin.size(); ++ k) {
+       //std::cout << count_bin.at(k) << " " << center_bin.at(k) << "\n"; 
        if (count_bin.at(k) != 0)  { 
            center_bin.at(k) /= count_bin.at(k);  
            center_bin.at(k)  = pow(10,center_bin.at(k));
        } 
-       else center_bin.at(k) = 0; 
+       else center_bin.at(k) = 0;
+   }
   //std::cout << "Outside loop " ;    
    return 0;
 }

@@ -42,6 +42,11 @@ function(net_object ,
     N                 <- length(node_id)
     if (only_true_deg_matrix == TRUE)
         binning <- FALSE  
+    g <- as.integer(g);
+    if (g < 3) {
+        cat("g must be at least 3. Reset g to 3.")
+        g <- 3
+    }  
     ##############  binning #########################
     #We have to cover from start_deg degree to deg.max degree, that is an interval with length deg.max - start_deg + 1
     if ((TRUE == binning) && (g > 0) && (g <= deg.max - start_deg + 1)) {
@@ -196,7 +201,7 @@ function(net_object ,
               Sum_m_k,n_tk,m_tk,m_t,offset_tk,z_j,node_degree,offset_m_tk,only_true_deg_matrix_num, deg.max, center_k,
               appear_time)
     
-    center_k[center_k == 0] <- begin_deg[center_k == 0]
+    #center_k[center_k == 0] <- begin_deg[center_k == 0]
     #if (center_k[length(center_k)] == 0)
     #    center_k[length(center_k)] <- center_k[length(center_k) - 1]  
     

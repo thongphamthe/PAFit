@@ -35,7 +35,7 @@ Second group of parameters specifies how to bin the degrees:
 Logical. Indicates whether the degree should be binned together. Default value is \code{TRUE}.
 }
 \item{g}{
-Positive integer. Number of bins. Default value is \code{50}.
+Positive integer. Number of bins. Should be at least \code{3}. Default value is \code{50}.
 }
 Third group contains a single parameter specifying how to reduce the number of node fitnesses:
 \item{deg_threshold}{

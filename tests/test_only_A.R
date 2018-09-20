@@ -1,21 +1,22 @@
 #testing CV-related functions
 
-## code here that contains the tests
-
 
 rm(list = ls())
 library(PAFit)
-set.seed(1)
-prob_m <- "FALSE"
-inc    <- "FALSE"
-log    <-  c("FALSE")
-i      <- 1
+# for CRAN. In developing, set ii from 1 to 1000
+for (ii in 1) {
+    set.seed(ii)
+    print(ii)
+    prob_m <- "FALSE"
+    inc    <- "FALSE"
+    log    <-  c("FALSE")
+    i      <- 1
 
-net  <- generate_net(N = 1000, m = 5,prob_m = prob_m, 
-                     increase = inc, log = log, multiple_node = 100, num_seed = 100,
-                     mode = i, s = 0,alpha = 1)
+    net  <- generate_net(N = 1000, m = 5,prob_m = prob_m, 
+                         increase = inc, log = log, multiple_node = 100, num_seed = 100,
+                         mode = i, s = 0,alpha = 1)
 
-net_stats <- get_statistics(net,deg_threshold = 1, 
-                            binning = TRUE, g = 50) 
-
-result <- only_A_estimate(net, net_stats)
+    net_stats <- get_statistics(net,deg_threshold = 1, 
+                                binning = TRUE, g = 50) 
+    result <- only_A_estimate(net, net_stats, stop_cond = 10^-5)
+}

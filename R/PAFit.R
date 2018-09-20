@@ -1362,19 +1362,30 @@ PAFit <- function(net_stat,
     alpha           <- linear_fit$coefficients[2]
     
   } else if ((only_f == FALSE) && (mode_f[1] != "Log_linear")) {
-    #print("case of first k is zero")  
-    non_zero_center           <- center_k > 0 & theta > 0 
-    linear_fit         <- lm(log10(theta[non_zero_center]) ~ log10(center_k[non_zero_center]))
-    
-    
-    
-    names(linear_fit$coefficients) <- c("offset","Attachment exponent")
-    res                    <- df.residual(linear_fit)
-    if (res > 0)
-      ci         <- confint(linear_fit,"Attachment exponent")
-    else ci          <-"N" 
-    
-    alpha           <- linear_fit$coefficients[2]
+        #print("case of first k is zero")  
+        non_zero_center    <- center_k > 0 & theta > 0 
+        if (sum(non_zero_center) > 1) {
+            linear_fit         <- lm(log10(theta[non_zero_center]) ~ log10(center_k[non_zero_center]))
+            names(linear_fit$coefficients) <- c("offset","Attachment exponent")
+            res                    <- df.residual(linear_fit)
+            if (res > 0)
+                ci         <- confint(linear_fit,"Attachment exponent")
+            else ci    <-"N" 
+            alpha           <- linear_fit$coefficients[2]
+        } else if (sum(non_zero_center) == 1) { # would happen if g = 2
+            target  <- center_k == 0 & theta >0  
+            if (sum(target) > 0) {
+                theta[non_zero_center] <- theta[non_zero_center] / theta[target]
+                theta[target]          <- 1
+                linear_fit <- c(-Inf,-Inf)
+                ci         <-"N" 
+                alpha      <- log10(theta[non_zero_center]) / log10(center_k[non_zero_center])
+            } else {
+                linear_fit <- c(-Inf,-Inf)
+                ci          <-"N" 
+                alpha       <- NULL  
+            }
+        }
   } else if (mode_f[1] == "Log_linear") {
     linear_fit <- c(-Inf,-Inf)
     ci          <-"N" 
@@ -1384,18 +1395,6 @@ PAFit <- function(net_stat,
     alpha       <- NULL
   } 
   
-  
-  #non_zero_center <- theta > 0 
-  #print("lm for alpha_center")
-  #print(var_log10_bin)
-  #print(non_zero_center)
-  #if ((FALSE == only_f) && (mode_f[1] != "log10_linear")) { 
-  #     if (sum(non_zero_center) > 0)
-  #         alpha_center <- lm(log10(theta[non_zero_center]) ~ log10(center2_k[non_zero_center]))$coefficients[2]
-  #     else alpha_center <- NULL   
-  # }
-  # else 
-  #     alpha_center <- NULL   
   ############# Return theta to A #####################################
   A                                  <- rep(0 , net_stat$deg_max)
   cov                                <- rep(0 , net_stat$deg_max)   
@@ -1419,6 +1418,7 @@ PAFit <- function(net_stat,
   #cc           <- exp(mean(log(k_non_zero[k_non_zero > 0])) - mean(log(A[A > 0])))
   cc           <- 1
   A            <- cc * A
+  names(A)     <- k_non_zero
   weight_A     <- weight_A[non_zero]
   cov          <- cc ^ 2 * cov[non_zero]  
   ############### fitting A_k = k^alpha ##################
