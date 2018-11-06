@@ -4,7 +4,7 @@
 \docType{package} 
 \title{Generative Mechanism Estimation in Temporal Complex Networks}
 \description{
-A package for estimating preferential attachment and node fitness generative mechanisms in temporal complex networks. References: Thong Pham et al. (2015) <10.1371/journal.pone.0137796>, Thong Pham et al.(2016) <doi:10.1038/srep32558>}
+A package for estimating preferential attachment and node fitness generative mechanisms in temporal complex networks. References: Thong Pham et al. (2015) <10.1371/journal.pone.0137796>, Thong Pham et al. (2016) <doi:10.1038/srep32558>}
 \details{
 \tabular{ll}{
 Package: \tab PAFit\cr

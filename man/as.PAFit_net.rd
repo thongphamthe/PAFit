@@ -13,8 +13,7 @@ as.PAFit_net(graph, type = "directed", PA = NULL, fitness = NULL)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 \item{graph}{
-An edgelist matrix. Each row is assumed to be of the form (\code{from_node_id} \code{to_node_id} \code{time_stamp}).
-\code{from_node_id} is the id of the source node. \code{to_node_id} is the id of the destination node. \code{time_stamp} is the arrival time of the edge. \code{from_node_id} and \code{to_node_id} are assumed to be integers that are at least \eqn{0}. They need not to be contiguous.
+An edgelist matrix. Each row is assumed to be of the form (\code{from_node_id} \code{to_node_id} \code{time_stamp}). For a directed network ,\code{from_node_id} is the id of the source node and \code{to_node_id} is the id of the destination node. For an undirected network, the order is ignored and \code{from_node_id} and \code{to_node_id} are the ids of two ends. \code{time_stamp} is the arrival time of the edge. \code{from_node_id} and \code{to_node_id} are assumed to be integers that are at least \eqn{0}. The whole ids need not to be contiguous.
 
 To register a new node \eqn{i} at time \eqn{t} without any edge, add a row with format (\code{i -1 t}). This works for both undirected and directed networks.
 

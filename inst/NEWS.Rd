@@ -2,7 +2,16 @@
 \alias{NEWS}
 \title{Package News}
 
-\section{version 1.0.0.7 (Release date: 2018-11-29)}{
+
+\section{version 1.0.0.8 (Release date: 2018-10-01)}{
+    \subsection{FIXED}{
+    \itemize{
+    \item a bug in the CV step.
+    }
+  }
+}
+
+\section{version 1.0.0.7 (Release date: 2018-09-19)}{
     \subsection{FIXED}{
     \itemize{
     \item a bug when the number of non-zero positions in \eqn{A_k} is three.
