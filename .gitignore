@@ -8,3 +8,4 @@
 *.so
 Icon
 .Rapp.history
+.Rhistory
