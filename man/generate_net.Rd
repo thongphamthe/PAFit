@@ -70,7 +70,7 @@ The third group of parameters specifies the preferential attachment function:
 Numeric vector. This is the user-input PA function: \eqn{A_0, A_1,..., A_K}. If \code{custom_PA} is specified, then \code{mode} is ignored, and we grow the network using the PA function \code{custom_PA}. Degrees greater than \eqn{K} will have attachment value \eqn{A_k}. Default value is \code{NULL}.
 }
 \item{mode}{
-Integer. Indicates the attachment function to be used in generating the network. If \code{mode == 1}, the attachment function is \eqn{A_k = k^\alpha}. If \code{mode == 2}, the attachment function is \eqn{A_k = min(k,sat.at)^\alpha}. If \code{mode == 3}, the attachment function is \eqn{A_k = \alpha log (k)^\beta}. Default value is \code{1}.
+Integer. Indicates the parametric attachment function to be used in generating the network. If \code{mode == 1}, the attachment function is \eqn{A_k = k^\alpha}. If \code{mode == 2}, the attachment function is \eqn{A_k = min(k,sat.at)^\alpha}. If \code{mode == 3}, the attachment function is \eqn{A_k = \alpha log (k)^\beta}. Default value is \code{1}.
 } 
   \item{alpha}{
 Numeric. If \code{mode == 1}, this is the attachment exponent in the attachment function \eqn{A_k = k^\alpha}. If \code{mode == 2}, this is the attachment exponenet in the attachment function \eqn{A_k = min(k,sat.at)^\alpha}. If \code{mode == 3}, this is the \eqn{\alpha} in the attachment function \eqn{A_k = \alpha log (k)^\beta + 1}.
@@ -90,7 +90,7 @@ The final group of parameters specifies the distribution from which node fitness
 String. Possible values:\code{"gamma"}, \code{"log_normal"} or \code{"power_law"}. This parameter indicates the true distribution for node fitness. \code{"gamma"} = gamma distribution, \code{"log_normal"} = log-normal distribution. \code{"power_law"} = power-law (pareto) distribution. Default value is \code{"gamma"}.
 }
 \item{s}{
-Non-negative numeric. The inverse variance parameter. The mean of the distribution is kept at \eqn{1} and the variance is \eqn{1/s}. This is achieved by setting shape and rate parameters of the Gamma distribution to \eqn{s}; setting mean and standard deviation in log-scale of the log-normal distribution to \eqn{-1/2*log (1/s + 1)} and \eqn{(log (1/s + 1))^0.5}; and setting shape and scale parameters of the pareto distribution to \eqn{(s+1)^0.5 + 1} and \eqn{(s+1)^0.5/((s+1)^0.5 + 1)}. If \code{s} is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e., \enc{Barabási}{Barabasi}-Albert model). The default value is \code{10}.
+Non-negative numeric. The inverse variance parameter. The mean of the distribution is kept at \eqn{1} and the variance is \eqn{1/s} (since node fitnesses are only meaningful up to scale). This is achieved by setting shape and rate parameters of the Gamma distribution to \eqn{s}; setting mean and standard deviation in log-scale of the log-normal distribution to \eqn{-1/2*log (1/s + 1)} and \eqn{(log (1/s + 1))^{0.5}}; and setting shape and scale parameters of the pareto distribution to \eqn{(s+1)^{0.5} + 1} and \eqn{(s+1)^{0.5}/((s+1)^{0.5} + 1)}. If \code{s} is \code{0}, all node fitnesses \eqn{\eta} are fixed at \code{1} (i.e., \enc{Barabási}{Barabasi}-Albert model). The default value is \code{10}.
 }
 }
 
