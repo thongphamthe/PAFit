@@ -3,7 +3,7 @@
 \title{Package News}
 
 
-\section{version 1.0.0.8 (Release date: 2018-10-01)}{
+\section{version 1.0.0.8 (Release date: 2018-12-01)}{
     \subsection{FIXED}{
     \itemize{
     \item a bug in the CV step.
