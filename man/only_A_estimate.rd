@@ -84,10 +84,12 @@ only_A_estimate(net_object                             ,
 \examples{
 \dontrun{
   library("PAFit")
+  set.seed(1)
+  #### Example 1: Linear preferential attachment  #########
   # a network from BA model
-  net        <- generate_BB(N = 1000 , m = 1 , mode = 1)
+  net        <- generate_net(N = 1000 , m = 50 , mode = 1, alpha = 1, s = 0)
   
-  net_stats  <- get_statistics(net)
+  net_stats  <- get_statistics(net, only_PA = TRUE)
   result     <- only_A_estimate(net, net_stats)
  
   # plot the estimated attachment function
@@ -95,6 +97,39 @@ only_A_estimate(net_object                             ,
   
   # true function
   true_A     <- result$estimate_result$center_k
+  lines(result$estimate_result$center_k, true_A, col = "red") # true line
+  legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
+  
+  #### Example 2: a non-log-linear preferential attachment  #########
+  # A_k = alpha* log (max(k,1))^beta + 1, with alpha = 2, and beta = 2
+  set.seed(1)
+  net        <- generate_net(N = 1000 , m = 50 , mode = 3, alpha = 2, beta = 2, s = 0)
+  
+  net_stats  <- get_statistics(net,only_PA = TRUE)
+  result     <- only_A_estimate(net, net_stats)
+ 
+  # plot the estimated attachment function
+  plot(result, net_stats)
+  
+  # true function
+  true_A     <- 2 * log(pmax(result$estimate_result$center_k,1))^2 + 1 # true function
+  lines(result$estimate_result$center_k, true_A, col = "red") # true line
+  legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
+  
+  #############################################################################
+  #### Example 3: another non-log-linear preferential attachment kernel ############
+  set.seed(1)
+  # A_k = min(max(k,1),sat_at)^alpha, with alpha = 1, and sat_at = 200
+  # inverse variance of the distribution of node fitnesse = 10
+  net        <- generate_net(N = 1000 , m = 50 , mode = 2, alpha = 1, sat_at = 200, s = 0)
+  net_stats  <- get_statistics(net, only_PA = TRUE)
+  
+  result     <- only_A_estimate(net, net_stats)
+  
+  
+  # plot the estimated attachment function
+  true_A     <- pmin(pmax(result$estimate_result$center_k,1),200)^1 # true function
+  plot(result , net_stats, max_A = max(true_A,result$estimate_result$theta))
   lines(result$estimate_result$center_k, true_A, col = "red") # true line
   legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
   }

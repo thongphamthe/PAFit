@@ -629,7 +629,7 @@ int update_f_new(      NumericVector& f,
             total += m_t(i) / normalized_const(i) * theta(degree(i,non_zero_f(j) - 1));
         }
     if (z_j(non_zero_f(j) - 1) + shape / weight_f.at(non_zero_f(j) - 1) - 1 <= 0)
-        f(non_zero_f(j) - 1) = f(non_zero_f(j) - 1);
+        f(non_zero_f(j) - 1) = 0;
     else 
         f(non_zero_f(j) - 1) = (z_j(non_zero_f(j) - 1) + shape / weight_f.at(non_zero_f(j) - 1) - 1) / 
          (total + rate / weight_f.at(non_zero_f(j) - 1));
@@ -933,8 +933,15 @@ int cal_var_f_new(        NumericVector& cov_f,
       if ((degree(i,non_zero_f(j) - 1) >= 0) && (normalized_const(i) != 0)) {
         total += m_t(i) / pow(normalized_const(i),2) * pow(theta(degree(i,non_zero_f(j) - 1)),2);
       }
+  // when f is zero, then z_j(non_zero_f(j) - 1)/pow(f(non_zero_f(j) - 1),2) be infinity
+  // which lead to zero variance
+  if (f(non_zero_f(j) - 1) > 0) {
     cov_f(j) = 1/(z_j(non_zero_f(j) - 1)/pow(f(non_zero_f(j) - 1),2) + - total +
-        (shape / weight_f.at(non_zero_f.at(j) - 1) - 1) * pow(f(non_zero_f(j) - 1),2));
+        (shape / weight_f.at(non_zero_f.at(j) - 1) - 1) * pow(f(non_zero_f(j) - 1),2)); 
+  } else {
+    cov_f(j) = 0;   
+  }
+ 
   }
   return 0;
 }

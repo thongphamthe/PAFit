@@ -26,7 +26,7 @@ joint_estimate <- function(net_object                                 ,
   # first finding the optima r and s by cross validation
   
   deg_thresh     <- net_stat$deg_thresh
-  cv_deg_thresh  <- c(1);
+  cv_deg_thresh  <- c(0);
   
   #net_type       <- net_stat$net_type
   #raw_net_object <- as.PAFit_net(graph = raw_net, type = net_type)

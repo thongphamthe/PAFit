@@ -1,7 +1,7 @@
 Package: PAFit
 Type: Package
 Title: Generative Mechanism Estimation in Temporal Complex Networks
-Version: 1.0.0.8
+Version: 1.0.1.0
 Date: 2018-10-01
 Author: Thong Pham, Paul Sheridan, Hidetoshi Shimodaira
 Maintainer: Thong Pham <thongpham@thongpham.net>

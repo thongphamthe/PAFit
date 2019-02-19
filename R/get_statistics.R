@@ -2,7 +2,7 @@
 get_statistics <-
 function(net_object ,
          only_PA       = FALSE , only_true_deg_matrix = FALSE,
-         binning       = TRUE  , g                    = 50   ,
+         binning       = TRUE  , g                    = 1000 ,
          deg_threshold = 0     , 
          compress_mode = 0     , compress_ratio       = 0.5  , 
          custom_time   = NULL){
@@ -18,7 +18,7 @@ function(net_object ,
     out_node          <- as.vector(net[,1])
     out_node          <- out_node
     node_id           <- as.numeric(sort(union(in_node[in_node !=  -1],out_node[out_node != - 1])))
-    
+    #print(node_id)
     ok_id <- which(in_node != -1 & out_node != -1)
     if (net_type[1] == "directed") {
         deg           <- table(in_node[ok_id])
@@ -42,7 +42,7 @@ function(net_object ,
     N                 <- length(node_id)
     if (only_true_deg_matrix == TRUE)
         binning <- FALSE  
-    g <- as.integer(g);
+    g <- as.numeric(g);
     if (g < 3) {
         cat("g must be at least 3. Reset g to 3.")
         g <- 3
@@ -105,7 +105,11 @@ function(net_object ,
         #net_temp   <- net_temp[ok_id,1:2]
         first_edge <- table(as.vector(net_temp))
     }
-       
+    
+    ## appear before the final time-step
+    in_node_before_final  <- as.vector(net[net[,3] < unique_time[length(unique_time)],2])
+    out_node_before_final <- as.vector(net[net[,3] < unique_time[length(unique_time)],1])
+    node_before_final     <- as.numeric(sort(union(in_node_before_final[in_node_before_final != -1],out_node_before_final[out_node_before_final != -1])))
     first_deg        <- rep(0,N)
     increase         <- rep(0,N)
     names(increase)  <- as.numeric(node_id)
@@ -122,11 +126,14 @@ function(net_object ,
         if (sum(pos_temp) == 0)
             stop("Degree threshold is too high. Please decrease degree threshold.")  
         f_position        <- node_id[pos_temp]
+        names(f_position) <- as.numeric(node_id[pos_temp])
     } else f_position        <- NULL
     
     node_id_old <- node_id
     if (FALSE == only_PA)
         node_id     <- node_id[inc >= deg_threshold]
+    
+    #print(node_id)
     
     N_new            <- length(node_id) 
     degree_appear    <- rep(0,deg.max + 1)
@@ -205,21 +212,26 @@ function(net_object ,
     #if (center_k[length(center_k)] == 0)
     #    center_k[length(center_k)] <- center_k[length(center_k) - 1]  
     
+    final_name <- sort(intersect(node_id,node_before_final))
     if (FALSE == only_PA) {
       if (only_true_deg_matrix == FALSE) {   
           names(z_j)            <- as.numeric(node_id)
+         
           #print(only_true_deg_matrix)
           #print("start:")
           #print(z_j)
           names(appear_time)    <- as.numeric(node_id)
+        
           #print(appear_time)
           #print("Stop!")
       }
       colnames(node_degree) <- as.numeric(node_id)
+    
       
     }
    
     names(node_id)    <- as.numeric(node_id)
+   
     #now perform the final selection
     true                           <- which(z_j >= deg_threshold)
     
@@ -235,7 +247,16 @@ function(net_object ,
     if (only_true_deg_matrix == FALSE) 
         node_degree                    <- node_degree[,true,drop = FALSE]
     
-
+    if (FALSE == only_PA) {
+        if (only_true_deg_matrix == FALSE) {    
+            z_j                   <- z_j[as.character(final_name)]
+            node_degree           <- node_degree[,as.character(final_name)]
+            f_position            <- f_position[as.character(final_name)]
+        }
+    }
+    appear_time           <- appear_time[as.character(final_name)]
+    node_id               <- node_id[as.character(node_before_final)]
+    
     result  <- list(offset_tk = offset_tk, offset_m_tk = offset_m_tk, net_type = net_type[1], 
                     n_tk = n_tk,m_tk = m_tk, bin_vector = bin_vector, center_k = center_k, 
                     sum_m_k = Sum_m_k,
@@ -253,7 +274,8 @@ function(net_object ,
                     deg_max = deg.max, compress_ratio = compress_ratio , 
                     custom_time = custom_time, 
                     only_true_deg_matrix = only_true_deg_matrix,
-                    appear_time = appear_time)
+                    appear_time = appear_time,
+                    node_before_final = node_before_final)
     class(result) <- "PAFit_data"
    
     return(result)

@@ -87,7 +87,10 @@ joint_estimate(net_object                               ,
 
 \examples{
 \dontrun{
+  
   library("PAFit")
+  #### Example 1: a linear preferential attachment kernel, i.e., A_k = k ############
+  set.seed(1)
   # size of initial network = 100
   # number of new nodes at each time-step = 100
   # Ak = k; inverse variance of the distribution of node fitnesse = 5
@@ -102,15 +105,61 @@ joint_estimate(net_object                               ,
   summary(result)
   
   # plot the estimated attachment function
-  plot(result , net_stats)
-  
-  # true function
-  true_A     <- pmax(result$estimate_result$center_k,1)
+  true_A     <- pmax(result$estimate_result$center_k,1) # true function
+  plot(result , net_stats, max_A = max(true_A,result$estimate_result$theta))
   lines(result$estimate_result$center_k, true_A, col = "red") # true line
   legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
   
-  # plot distribution of estimated node fitnesses
-  plot(result , net_stats, plot = "f")
+  # plot the estimated node fitnesses and true node fitnesses
+  plot(result, net_stats, true = net$fitness, plot = "true_f")
+  
+  #############################################################################
+  #### Example 2: a non-log-linear preferential attachment kernel ############
+  set.seed(1)
+  # size of initial network = 100
+  # number of new nodes at each time-step = 100
+  # A_k = alpha* log (max(k,1))^beta + 1, with alpha = 2, and beta = 2
+  # inverse variance of the distribution of node fitnesse = 10
+  net        <- generate_net(N       = 1000 , m             = 50 , 
+                            num_seed = 100  , multiple_node = 100,
+                            s        = 10   , mode = 3, alpha = 2, beta = 2)
+  net_stats  <- get_statistics(net)
+  
+  # Joint estimation of attachment function Ak and node fitness
+  result     <- joint_estimate(net, net_stats)
+  
+  summary(result)
+  
+  # plot the estimated attachment function
+  true_A     <- 2 * log(pmax(result$estimate_result$center_k,1))^2 + 1 # true function
+  plot(result , net_stats, max_A = max(true_A,result$estimate_result$theta))
+  lines(result$estimate_result$center_k, true_A, col = "red") # true line
+  legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
+  
+  # plot the estimated node fitnesses and true node fitnesses
+  plot(result, net_stats, true = net$fitness, plot = "true_f")
+  #############################################################################
+  #### Example 3: another non-log-linear preferential attachment kernel ############
+  set.seed(1)
+  # size of initial network = 100
+  # number of new nodes at each time-step = 100
+  # A_k = min(max(k,1),sat_at)^alpha, with alpha = 1, and sat_at = 100
+  # inverse variance of the distribution of node fitnesse = 10
+  net        <- generate_net(N       = 1000 , m             = 50 , 
+                            num_seed = 100  , multiple_node = 100,
+                            s        = 10   , mode = 2, alpha = 1, sat_at = 100)
+  net_stats  <- get_statistics(net)
+  
+  # Joint estimation of attachment function Ak and node fitness
+  result     <- joint_estimate(net, net_stats)
+  
+  summary(result)
+  
+  # plot the estimated attachment function
+  true_A     <- pmin(pmax(result$estimate_result$center_k,1),100)^1 # true function
+  plot(result , net_stats, max_A = max(true_A,result$estimate_result$theta))
+  lines(result$estimate_result$center_k, true_A, col = "red") # true line
+  legend("topleft" , legend = "True function" , col = "red" , lty = 1 , bty = "n")
   
   # plot the estimated node fitnesses and true node fitnesses
   plot(result, net_stats, true = net$fitness, plot = "true_f")

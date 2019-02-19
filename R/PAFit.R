@@ -59,13 +59,13 @@ PAFit <- function(net_stat,
      } else if ("Log_linear" != mode_f) {
     if ("Log_linear" == start_mode_A[1]){    
       if (ii <= net_stat$start_deg & ii %in% non_zero_theta) {
-        theta[ii] <- ii^alpha_start
+        theta[ii] <- max(ii,1)^alpha_start
       }
       else 
         if (ii > net_stat$start_deg & ii %in% non_zero_theta) {
           #print("Inside here")
           if (net_stat$begin_deg[ii - net_stat$start_deg] > 0)  
-            theta[ii] <- net_stat$begin_deg[ii - net_stat$start_deg]^alpha_start
+            theta[ii] <- max(net_stat$begin_deg[ii - net_stat$start_deg],1)^alpha_start
           else     theta[ii] <- 1 
         }
     } else if ("Random" == start_mode_A[1]) {
@@ -103,7 +103,7 @@ PAFit <- function(net_stat,
   #else theta         <- theta/sum(theta)
   #print(theta)
   #if (include_zero == 0)
-  non_zero_f    <- which(net_stat$z_j > 0)
+
   
   #if (shape <= 1 & rate <= 1)
   #    non_zero_f <- which(net_stat$z_j > 0)
@@ -113,6 +113,7 @@ PAFit <- function(net_stat,
   }
   else if (TRUE == only_PA) {
       f <- rep(1,length(net_stat$f_position)) 
+      names(f) <- names(net_stat$f_position)
   } else if (!is.null(start_f)) {
       f <- start_f  
   } else if ("Constant" == start_mode_f) {
@@ -129,13 +130,14 @@ PAFit <- function(net_stat,
       #         f             <- f/sqrt(var(f))*sqrt(1/s) # variance = 1/s
       # } else  f <- rep(1,length(net_stat$f_position)) 
       f <- rep(1,length(net_stat$f_position)) 
-      
+      names(f) <- names(net_stat$f_position)
       # reasoning: the final nodes with z_j = 0 should have fitness 1
       # earlier nodes with z_j = 0 should have fitness less than 1
   }
   else if ("Random" == start_mode_f) {
       f <- rgamma(n = length(net_stat$f_position), shape = s, rate = s);
       f <- length(f) * f / sum(f)
+      names(f) <- names(net_stat$f_position)
   }
   
   #print(s)
@@ -152,7 +154,7 @@ PAFit <- function(net_stat,
   # if (shape < 1 & rate < 1)
   # f[net_stat$z_j == 0] <- 0
   
-  f[net_stat$z_j == 0] <- 1
+  
   
   if (TRUE == only_PA) {
     if (is.null(true_f))
@@ -162,8 +164,15 @@ PAFit <- function(net_stat,
   }
   #print(f)
   
+  if (s <= 1)
+    f[net_stat$z_j == 0] <- 0
+  
+  
+  non_zero_f <- which(f > 0)
+  #print(non_zero_f)
+
   max_time <- max(net_stat$appear_time)
-  weight_f <- max_time/ (max_time - net_stat$appear_time[as.character(as.integer(net_stat$f_position))] + 1)
+  weight_f <- max_time/ (max_time - net_stat$appear_time[as.character(as.numeric(net_stat$f_position))] + 1)
   #print(weight)
   weight_f <- weight_f^0
   #weight_f <- rep(1,length(net_stat$f_position))
@@ -310,7 +319,7 @@ PAFit <- function(net_stat,
   diverge_zero_theta   <- FALSE
   non_zero_theta_start <- theta > 10^-30
   non_zero_f_start     <- f     > 10^-30
-  
+  #print(sum(!non_zero_f_start))
   cal_reg_A <- function() {
     #print(theta)  
     if (lambda > 0) {  
@@ -434,18 +443,21 @@ PAFit <- function(net_stat,
       if (TRUE == debug) {
         print(log10_likelihood[length(log10_likelihood)])
       }
+      break_flag <- FALSE
       if (length(log10_likelihood) > 1) {
         if (abs(log10_likelihood[length(log10_likelihood)] - log10_likelihood[length(log10_likelihood) - 1]) /
-            abs(log10_likelihood[length(log10_likelihood)]) > 10^-15)  
+            abs(log10_likelihood[length(log10_likelihood)]) > 10^-15)
           if (log10_likelihood[length(log10_likelihood)] < log10_likelihood[length(log10_likelihood) - 1]) {
             print(log10_likelihood[length(log10_likelihood)])
             print(log10_likelihood[length(log10_likelihood) - 1])
-            print(log10_likelihood[length(log10_likelihood)] -
-                    log10_likelihood[length(log10_likelihood) - 1])  
-            #save(f, alpha,r, s, theta, start_f, start_A, alpha_start,log10_likelihood,file = "Internal_status.Rdata")  
-            stop("Warning: log likelihood decreased.")  
+            print(paste0("Decrease amount: ",log10_likelihood[length(log10_likelihood)] -
+                    log10_likelihood[length(log10_likelihood) - 1]))
+            #save(f, alpha,r, s, theta, start_f, start_A, alpha_start,log10_likelihood,file = "Internal_status.Rdata")
+            #stop("Warning: log likelihood decreased.")
+            break_flag <- TRUE
           }
       }
+      if (break_flag) break;
       
       if (TRUE == auto_stop)
         if (length(log10_likelihood) > 1)
@@ -552,11 +564,11 @@ PAFit <- function(net_stat,
           for (lll in 1:length(non_zero_f_now))
             if (non_zero_f_start[lll] != non_zero_f_now[lll]) {
               #print("Fitnesses diverge to zero. The iteration stopped.")
-              diverge_zero <- TRUE
-              break; 
+              #diverge_zero <- TRUE
+              #break; 
             }
-        if (TRUE == diverge_zero)
-          break;   
+        #if (TRUE == diverge_zero)
+          #break;   
         
         
         #update offset
@@ -908,6 +920,7 @@ PAFit <- function(net_stat,
       }
     } else {
       # log-linear PA
+      #print("Inside log-linear PA")
       # print(f);
       #print(PA_offset)
       #print(theta)
@@ -924,16 +937,29 @@ PAFit <- function(net_stat,
       #print(paste("alpha:",alpha));
       
       #print(paste("log normalized_const:",log(normalized_const[time_non_zero])));
-      
-      upper_f_term <- net_stat$z_j[non_zero_f] * log(f[non_zero_f])
+      break_flag <- FALSE
+      non_zero_f_temp <- f > 0
+      for (xxx in 1:length(non_zero_f_temp)) {
+        if (non_zero_f_start[xxx] != non_zero_f_temp[xxx]) {
+           # find all 
+           non_zero_f_terminal <- which(f > 0)
+           print(non_zero_f_terminal)
+           print(paste0("s: ",s, "; r: ",r, "; Iteration: ",i,"; Alpha:",alpha));
+           #break_flag <- TRUE;
+           break;
+           #stop("Touch zero.")
+        }  
+      }
+      if (break_flag) break;
+      upper_f_term    <- net_stat$z_j[non_zero_f_temp] * log(f[non_zero_f_temp])
       #print(upper_f_term)
       #print(log10_likelihood)
       
       log10_likelihood    <- c(log10_likelihood, sum(upper_f_term) +
                                  alpha * sum(net_stat$sum_m_k * log(theta)) -
                                  sum(net_stat$m_t[time_non_zero] * log(normalized_const[time_non_zero])) +
-                                 (sum((shape / weight_f[non_zero_f] - 1) * log(f[non_zero_f])) - 
-                                    sum(rate / weight_f[non_zero_f]  * (f[non_zero_f]))) +
+                                 (sum((shape / weight_f[non_zero_f_temp] - 1) * log(f[non_zero_f_temp])) - 
+                                    sum(rate / weight_f[non_zero_f_temp]  * (f[non_zero_f_temp]))) +
                                  sum(net_stat$offset_m_tk)*log(offset) + (shape - 1) * log(offset) - rate * offset)
       
       
@@ -943,26 +969,28 @@ PAFit <- function(net_stat,
       #print(log10_likelihood);
       
       names(log10_likelihood) <- NULL
-      
+      break_flag <- FALSE
       if ((TRUE == debug) && (length(log10_likelihood) > 0)){
         print(log10_likelihood[length(log10_likelihood)])
       }
       if (length(log10_likelihood) > 1) {
-        if (abs(log10_likelihood[length(log10_likelihood)] - log10_likelihood[length(log10_likelihood) - 1]) /
-            abs(log10_likelihood[length(log10_likelihood)] + 1) > 10^-15)  
-          if (log10_likelihood[length(log10_likelihood)] < log10_likelihood[length(log10_likelihood) - 1]) {
+         if (abs(log10_likelihood[length(log10_likelihood)] - log10_likelihood[length(log10_likelihood) - 1]) /
+             abs(log10_likelihood[length(log10_likelihood)] + 1) > 10^-15)  
+           if (log10_likelihood[length(log10_likelihood)] < log10_likelihood[length(log10_likelihood) - 1]) {
             print(log10_likelihood[length(log10_likelihood)])
             print(log10_likelihood[length(log10_likelihood) - 1])
-            print(log10_likelihood[length(log10_likelihood)] -
-                    log10_likelihood[length(log10_likelihood) - 1]) 
-            save(f,alpha,alpha_series,alpha_start,log10_likelihood,file = "Internal_status.Rdata")  
-            stop("Warning: log likelihood decreased.")  
-            
-          }
+            print(paste0("Negative amount: ",log10_likelihood[length(log10_likelihood)] -
+                    log10_likelihood[length(log10_likelihood) - 1]))
+            print(paste0("s: ",s, "; r: ",r, "; Iteration: ",i));
+            #save(f,alpha,alpha_series,alpha_start,log10_likelihood,file = "Internal_status.Rdata")
+            #stop("Warning: log likelihood decreased.")
+
+            break_flag <- TRUE
+           }
       }
       #print("---------")
 
-      
+      if (break_flag) break;
       
       break_flag <- FALSE
       if (TRUE == auto_stop)
@@ -1001,11 +1029,11 @@ PAFit <- function(net_stat,
         for (lll in 1:length(non_zero_f_now))
           if (non_zero_f_start[lll] != non_zero_f_now[lll]) {
             #print("Fitnesses diverge to zero. The iteration stopped.")
-            diverge_zero <- TRUE
-            break; 
+            #diverge_zero <- TRUE
+            #break; 
           }
-      if (TRUE == diverge_zero)
-        break;   
+      #if (TRUE == diverge_zero)
+      #  break;   
       
       #if (sum(f) != 0)            
       #     if(normalized_f == TRUE) 
@@ -1027,7 +1055,7 @@ PAFit <- function(net_stat,
       #.normalized_constant_alpha(normalized_const, alpha, PA_offset, net_stat$node_degree,theta,f,net_stat$offset_tk,offset)
       alpha_series <- c(alpha_series,alpha)
       
-      theta_temp         <- theta^alpha
+      theta_temp         <- pmax(theta,1)^alpha
       non_zero_theta_now <- theta_temp > 10^-30
       
       if (length(non_zero_theta_now) > 0)
@@ -1045,7 +1073,7 @@ PAFit <- function(net_stat,
   
   if (is.null(true_A)) {
       if (mode_f == "Log_linear")   
-          theta    <- theta^alpha  
+          theta    <- pmax(theta,1)^alpha  
       if (only_f == TRUE)
           theta[1] <- PA_offset  
   }
@@ -1442,22 +1470,24 @@ PAFit <- function(net_stat,
   #if (rate <= 1 & shape <= 1)
   #   f[-non_zero_f] <- 0
   
-  f_new                                        <- rep(offset,net_stat$N)
-  names(f_new)                                 <- as.integer(net_stat$node_id)
-  #      print("In ending:")
+  f_new                                        <- f
+  names(f_new)                                 <- as.numeric(net_stat$f_position)
+
+    #      print("In ending:")
   #print(length(f))
   #print(length(net_stat$f_position))
-  f_new[as.character(as.integer(net_stat$f_position))]     <- f
-  cov_f_new                                    <- rep(0,net_stat$N)
-  names(cov_f_new)                             <- as.integer(net_stat$node_id)
-  cov_f_new[as.character(as.integer(net_stat$f_position))] <- abs(cov_f)
-  non_zero_f                                   <- f_new > 10^-10 & cov_f_new > 10^-10
+  #f_new[as.character(as.numeric(net_stat$f_position))]     <- f
+  cov_f_new                                    <- abs(cov_f)
+  names(cov_f_new)                             <- as.numeric(net_stat$f_position)
+  cov_f_new[as.character(as.numeric(net_stat$f_position))] <- abs(cov_f)
   
-  upper_f                                  <- rep(0,net_stat$N)
-  upper_f[non_zero_f]                      <- exp(log(f_new[non_zero_f]) + 2 * sqrt(cov_f_new[non_zero_f] / f_new[non_zero_f] ^ 2))
+  non_zero_f                  <- f_new > 10^-10 & cov_f_new > 10^-10
   
-  lower_f                                  <- rep(0,net_stat$N)
-  lower_f[non_zero_f]                      <- exp(log(f_new[non_zero_f]) - 2 * sqrt(cov_f_new[non_zero_f] / f_new[non_zero_f] ^ 2))
+  upper_f                     <- rep(0,length(net_stat$f_position))
+  upper_f[non_zero_f]         <- exp(log(f_new[non_zero_f]) + 2 * sqrt(cov_f_new[non_zero_f] / f_new[non_zero_f] ^ 2))
+  
+  lower_f                     <- rep(0,length(net_stat$f_position))
+  lower_f[non_zero_f]         <- exp(log(f_new[non_zero_f]) - 2 * sqrt(cov_f_new[non_zero_f] / f_new[non_zero_f] ^ 2))
   
   if (FALSE == only_f) {
     if (mode_f[1] != "Log_linear")
