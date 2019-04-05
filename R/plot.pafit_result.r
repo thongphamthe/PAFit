@@ -16,10 +16,13 @@ function(x                       ,
       x$A       <- x$theta
       x$upper_A <- x$upper_bin
       x$lower_A <- x$lower_bin
+      x$var_logA <- x$var_logbin
   } 
   dots <- function(...) {
       list(...)
   }
+  print("In plot.pafit_result")
+  
   additional_para <- dots(...)
   #print(additional_para)
   

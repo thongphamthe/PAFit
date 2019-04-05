@@ -11,9 +11,7 @@ export("generate_BA","generate_BB", "generate_ER",
        "to_igraph", "from_igraph",
        "to_networkDynamic", "from_networkDynamic",
        "graph_from_file", "graph_to_file",
-       "test_linear_PA","PAFit",".generate_net_time",
-       ".smooth",".CreateDataCV",".divide_net",
-       ".time_workflow")
+       "test_linear_PA")
 
 importFrom(Rcpp, evalCpp)
 importFrom("grDevices", "rgb")

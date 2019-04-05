@@ -1504,6 +1504,7 @@ PAFit <- function(net_stat,
     k       = k_non_zero ,  A             = A          , var_A       = cov       , var_logA = var_log10 ,
     upper_A = upper_A    ,  lower_A       = lower_A    , center_k = center_k,  
     theta   = theta      ,  upper_bin     = upper_bin  , lower_bin   = lower_bin , var_bin  = cov_bin ,
+    var_logbin = var_log10_bin,
     
     # estimated attachment exponent alpha, and the log-linear fit 
     alpha   = alpha      ,  loglinear_fit = linear_fit , ci          = ci        ,

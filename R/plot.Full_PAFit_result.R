@@ -13,11 +13,17 @@ plot.Full_PAFit_result <-
            ...) {
     x <- x$estimate_result
     if (plot_bin == TRUE) {
+      #print("plot bin")
       x$k       <- x$center_k
       x$A       <- x$theta
       x$upper_A <- x$upper_bin
       x$lower_A <- x$lower_bin
+      x$var_logA <- x$var_logbin
     } 
+    #names(x$k)        <- as.character(as.integer(x$k))
+    #names(x$var_logA) <- as.character(as.integer(x$k))
+    #print("In plot.full_PAFit_result")
+    
     dots <- function(...) {
       list(...)
     }
@@ -36,15 +42,28 @@ plot.Full_PAFit_result <-
         non_zero <- which(x$A > 10^-20 & x$k >= high_deg_A & x$k > 0)
       else 
         non_zero <- which(x$A > 10^-20 & x$k >= x$deg_threshold & x$k > 0) 
-      
+      #non_zero   <- x$k[non_zero]
+      #non_zero   <- as.character(as.integer(non_zero))
+      #print(x$A)
+      #print(x$k)
+      #print(non_zero)
       if (!is.null(high_deg_A)) {
+        #print(high_deg_A)
         v                   <- which(x$k[non_zero] == high_deg_A)  
         if (length(v) > 0) {
           new_var_log         <- x$var_logA[non_zero] #* (x$A[non_zero][v[1]]) ^ 2;
-          x$A[non_zero]       <- x$A[non_zero] / x$A[non_zero][v[1]];    
+          x$A[non_zero]       <- x$A[non_zero] / x$A[non_zero][v[1]];  
+          #print(non_zero)
+          #print(x$var_logA)
+          #print(x$var_A)
+          #print(x$var_logA[non_zero])
+          
+          #print(new_var_log)
           #print(x$var_logA[non_zero])
           #print(non_zero)
           #print(v)
+          #print(x$k)
+          #print(x$A)
           x$lower_A[non_zero] <- exp(log(x$A[non_zero]) - 2 * sqrt(new_var_log));
           x$upper_A[non_zero] <- exp(log(x$A[non_zero]) + 2 * sqrt(new_var_log));
           non_zero            <- x$A > 10^-20 & x$k >= high_deg_A &
@@ -85,7 +104,7 @@ plot.Full_PAFit_result <-
       final_para <- substr(additional_para_list,1,nchar(additional_para_list) - 1)
       #print(final_para)
       col_pa <- as.vector(col2rgb(col_point)) / 255
-      
+      #print(non_zero)
       eval(parse(text = paste('plot(x$k[non_zero][1], x$A[non_zero][1] , xlab = ifelse(!is.null(label_x),label_x, "Degree k"),
                               ylab = ifelse(!is.null(label_y) , label_y,"Attachment function"),
                               xlim = xlim , ylim = ylim , axes = FALSE, log = "xy" , 
