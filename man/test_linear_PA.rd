@@ -33,7 +33,7 @@ For fixed \eqn{k_min} and \eqn{f}, \eqn{\pi_k} and \eqn{\theta} can be estimated
 \examples{
   library("PAFit")
   set.seed(1)
-  net   <- generate_BA()
+  net   <- generate_BA(n = 100)
   stats <- get_statistics(net, only_PA = TRUE)
   u     <- test_linear_PA(stats$final_deg)
   print(u)
