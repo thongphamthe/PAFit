@@ -8,7 +8,7 @@ library(PAFit)
 # alpha = 0.5, s = 10, ii = 220
 # for CRAN. In developing, set ii from 1 to 1000
 for (ii in 1) {
-    set.seed(ii)
+    set.seed(2)
     print(ii)
     prob_m <- "FALSE"
     inc    <- "FALSE"

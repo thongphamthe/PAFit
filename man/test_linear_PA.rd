@@ -31,12 +31,14 @@ For fixed \eqn{k_min} and \eqn{f}, \eqn{\pi_k} and \eqn{\theta} can be estimated
   1. Handcock MS, Jones JH (2004). “Likelihood-based inference for stochastic models of sexual network formation.” Theoretical Population Biology, 65(4), 413 – 422. ISSN 0040-5809. \url{https://doi.org/10.1016/j.tpb.2003.09.006}. Demography in the 21st Century, \url{http://www.sciencedirect.com/science/article/pii/S0040580904000310}.
 }
 \examples{
+\dontrun{
   library("PAFit")
   set.seed(1)
-  net   <- generate_BA(n = 100)
+  net   <- generate_BA(n = 1000)
   stats <- get_statistics(net, only_PA = TRUE)
   u     <- test_linear_PA(stats$final_deg)
   print(u)
+}
 }
 
 \concept{linear preferential attachment}

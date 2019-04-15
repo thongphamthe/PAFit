@@ -2,7 +2,7 @@
 \alias{NEWS}
 \title{Package News}
 
-\section{version 1.0.1.1 (Release date: 2019-04-11)}{
+\section{version 1.0.1.2 (Release date: 2019-04-11)}{
     \subsection{FIXED}{
     \itemize{
     \item a bug in the plot function.

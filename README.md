@@ -1,5 +1,5 @@
 # PAFit package
-[![codecov](https://codecov.io/gh/thongphamthe/PAFit/branch/master/graph/badge.svg)](https://codecov.io/gh/thongphamthe/PAFit)
+<!--[![codecov](https://codecov.io/gh/thongphamthe/PAFit/branch/master/graph/badge.svg)](https://codecov.io/gh/thongphamthe/PAFit)-->
 [![Downloads from CRAN](https://cranlogs.r-pkg.org/badges/PAFit?color=brightgreen)](https://CRAN.R-project.org/package=PAFit)
 [![Downloads from CRAN](https://cranlogs.r-pkg.org/badges/grand-total/PAFit?color=brightgreen)](https://CRAN.R-project.org/package=PAFit)
 [![CRAN](https://www.r-pkg.org/badges/version/PAFit)](https://cran.rstudio.com/package=PAFit)
