@@ -41,5 +41,5 @@ Thong Pham \email{thongpham@thongpham.net}
 library("PAFit")
 # a network from Bianconi-Barabasi model
 net        <- generate_BB(N = 50 , m = 10 , s = 10)
-graph_to_file(net, file_name = "test.gml", format = "gml")
+#graph_to_file(net, file_name = "test.gml", format = "gml")
 }

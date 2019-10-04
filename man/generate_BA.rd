@@ -59,4 +59,4 @@ For other functions to generate networks, see \code{\link{generate_net}}, \code{
   plot(net)
 }
 
-\concept{\enc{Barabási}{Barabasi}-Albert model}
+\concept{Barabasi-Albert model}

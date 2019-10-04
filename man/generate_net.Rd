@@ -118,5 +118,5 @@ plot(net)
 }
 
 \concept{fitness model}
-\concept{\enc{Barabási}{Barabasi}-Albert model}
-\concept{Bianconi-\enc{Barabási}{Barabasi} model}
+\concept{Barabasi-Albert model}
+\concept{Bianconi-Barabasi model}

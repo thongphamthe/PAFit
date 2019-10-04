@@ -49,6 +49,7 @@ To register a new node \eqn{i} at time \eqn{t} without any edge, add a row with 
   library("PAFit")
   # a network from Bianconi-Barabasi model
   net        <- generate_BB(N = 50 , m = 10 , s = 10)
-  graph_to_file(net, file_name = "test.gml", format = "gml")
-  reread    <- graph_from_file(file_name = "test.gml", format = "gml")
+  
+  #graph_to_file(net, file_name = "test.gml", format = "gml")
+  #reread    <- graph_from_file(file_name = "test.gml", format = "gml")
 }

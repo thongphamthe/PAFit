@@ -68,4 +68,4 @@ Non-negative numeric. The inverse variance parameter. The mean of the distributi
   str(net)
   plot(net)
 }
-\concept{Bianconi-\enc{Barabási}{Barabasi} model}
+\concept{Bianconi-Barabasi model}

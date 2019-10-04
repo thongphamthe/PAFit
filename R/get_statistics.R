@@ -177,7 +177,9 @@ function(net_object ,
     only_true_deg_matrix_num = ifelse(only_true_deg_matrix,1,0)
     #print(time_stamp)
     #print(unique_time)
+    
     center_k <- rep(0,g)
+   
     
     #print(bin_vector)
     
