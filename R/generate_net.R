@@ -8,7 +8,7 @@ function(N                  = 1000  ,
          prob_m             = FALSE ,
          increase           = FALSE , 
          log                = FALSE , 
-         no_new_node_step   = NULL  ,
+         no_new_node_step   = 0     ,
          m_no_new_node_step = m     ,
          custom_PA          = NULL ,
          mode               = 1    , 
@@ -32,14 +32,14 @@ function(N                  = 1000  ,
    if ((mode[1] != 1) && (mode[1] != 3) && (mode[1] != 2))
        stop("Mode must be 1, 2, or3.")
   
-   if (!is.null(no_new_node_step)) {
-      if (no_new_node_step <= 0) 
-         stop("If no_new_node_step is specified, it should be a positive integer.")  
-   }
+
+   if (no_new_node_step < 0) 
+         stop("no_new_node_step should be a non-negative integer.")  
+  
   
    # a rough estimate, clearly not enough when increase = TRUE, or not exact when prob_m = TRUE
   
-   num_of_edge          <- num_seed - 1 + m * (N - num_seed) + ifelse(is.null(no_new_node_step),0,no_new_node_step) * m_no_new_node_step
+   num_of_edge          <- num_seed - 1 + m * (N - num_seed) + no_new_node_step * m_no_new_node_step
    
    edge_list            <- matrix(nrow = num_of_edge, ncol = 3,0)
   
@@ -140,7 +140,7 @@ function(N                  = 1000  ,
         current_time_step <- current_time_step + 1
 
         for (i in 1:multiple_node){
-            #Allow duplication in selectin destination nodes:  
+            #Allow duplication in selection destination nodes:  
             if (TRUE == increase) {
                 count <- count + 1  
                 nodes <- sort(sample(1:n_old,size = ifelse(log,max(round(log(count)),1),count),prob = node.weights, replace = TRUE))      
@@ -188,7 +188,7 @@ function(N                  = 1000  ,
         P[degree == 0] <- offset   
         
         # edges only step
-        if (!is.null(no_new_node_step)) {
+        if (no_new_node_step > 0) {
             for (jjj in 1:no_new_node_step) {
                 n_old <- n
                 if (!is.null(custom_PA)) {
@@ -212,25 +212,13 @@ function(N                  = 1000  ,
                            temp          <- alpha*(log(P))^beta + 1 
                            P.sum         <- sum(temp*fitness[1:n_old])
                            node.weights  <- temp*fitness[1:n_old]/P.sum
-                    } # else if (mode[1] == 4){
-                    #        #P_temp        <- P
-                    #        temp          <- exp(beta * degree)  
-                    #        P.sum         <- sum(temp*fitness[1:n_old])
-                    #        node.weights  <- temp*fitness[1:n_old]/P.sum
-                    # }
+                     }
+                
                    current_time_step <- current_time_step + 1
-                   if (TRUE == increase) {
-                       count <- count + 1  
-                       nodes <- sort(sample(1:n_old,size = ifelse(log,max(round(log(count)),1),count),prob = node.weights, replace = TRUE))      
-                   } else {
-                         if (prob_m == TRUE) {
-                             num_edge_temp <- rpois(1,lambda = m)
-                         if (num_edge_temp > 0)
-                             nodes <- sort(sample(1:n_old,num_edge_temp,prob = node.weights, replace = TRUE))
-                      else nodes <- NULL
-                   } else
-                      nodes <- sort(sample(1:n_old,size = m,prob = node.weights, replace = TRUE)) 
-                   }
+                   # choosing destination nodes
+                   # note that in edge-only step, we ignore the parameters prob_m, increase, log
+                   nodes <- sort(sample(1:n_old,size = m_no_new_node_step,prob = node.weights, replace = TRUE)) 
+                   
                    if (0 != length(nodes)) {
                     temp    <- table(nodes)
                     for(i in 1:length(temp)) { 
@@ -238,7 +226,11 @@ function(N                  = 1000  ,
                        node_name           <- as.integer(labels(temp[i]))
                        degree[node_name]   <- degree[node_name] + num_edge # Update degrees.
                     }
-                }
+                   }
+                   # choosing source node
+                   if (0 != length(nodes)) {
+                       source_node <- sample(1:n_old,size = length(nodes),replace = TRUE)
+                   }
                 if (edge_list_index + length(nodes) - 1 > current_length_edge) {
                     edge_list           <- rbind(edge_list,matrix(0,nrow = edge_list_index + length(nodes) - current_length_edge, ncol = 3))
                     current_length_edge <- dim(edge_list)[1]
@@ -248,7 +240,7 @@ function(N                  = 1000  ,
                 else final_time_step <- max(current_time_step - specific_start,0)
                    
                 if (length(nodes) >= 1)
-                    edge_list[edge_list_index:(edge_list_index + length(nodes) - 1),] <- cbind(rep(n , length(nodes)),nodes, rep(final_time_step, length(nodes)))
+                    edge_list[edge_list_index:(edge_list_index + length(nodes) - 1),] <- cbind(source_node,nodes, rep(final_time_step, length(nodes)))
                 edge_list_index <- edge_list_index + length(nodes)
                 P <- degree
                 P[degree == 0] <- offset   

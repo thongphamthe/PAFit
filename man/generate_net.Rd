@@ -15,7 +15,7 @@ generate_net (N                 = 1000   ,
              prob_m             = FALSE  ,
              increase           = FALSE  , 
              log                = FALSE  , 
-             no_new_node_step   = NULL   ,
+             no_new_node_step   = 0      ,
              m_no_new_node_step = m      ,
              custom_PA          = NULL   ,
              mode               = 1      , 
@@ -58,10 +58,10 @@ Logical. Indicates whether we increase the mean of the Poisson distribution over
 Logical. Indicates how to increase the mean of the Poisson distribution. If \code{log == TRUE}, the mean increases logarithmically with the number of current nodes. If \code{log == FALSE}, the mean increases linearly with the number of current nodes. Default value is \code{FALSE}.
 }
 \item{no_new_node_step}{
-Positive integer. The number of time-steps in which no new node is added, while new edges are added between existing nodes. Default value is \code{NULL}, i.e. new nodes are added at each time-step.
+Non-negative integer. The number of time-steps in which no new node is added, while new edges are added between existing nodes. Default value is \code{0}, i.e., new nodes are always added at each time-step.
 }
 \item{m_no_new_node_step}{
-Positive integer. The number of new edges in the no-new-node steps. Default value is equal to \code{m}. 
+Positive integer. The number of new edges in the no-new-node steps. Default value is equal to \code{m}. Note that the number of new edges in the no-new-node steps is not effected by the parameters \code{increase} or \code{prob_m}; this number is always the constant specified by \code{m_no_new_node_step}.
 }
 
 

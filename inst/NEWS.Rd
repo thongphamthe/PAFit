@@ -2,6 +2,14 @@
 \alias{NEWS}
 \title{Package News}
 
+\section{version 1.0.1.5 (Release date: 2019-12-21)}{
+    \subsection{FIXED}{
+    \itemize{
+    \item some bugs in the \code{generate_net} function.
+    }
+  }
+}
+
 \section{version 1.0.1.2 (Release date: 2019-04-11)}{
     \subsection{FIXED}{
     \itemize{
