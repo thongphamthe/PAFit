@@ -5,10 +5,10 @@ only_F_estimate <- function(net_object,
                             model_A   = "Linear"  ,
                             ...) {
   
-  if (class(net_object) != "PAFit_net")
+  if (!is(net_object,"PAFit_net"))
     stop("net_object should be of PAFit_net class.")
   
-  if (class(net_stat) != "PAFit_data")
+  if (!is(net_stat,"PAFit_data"))
     stop("Please input a proper net summary of class PAFit_data");
   
   mode_f <- "Log_linear"

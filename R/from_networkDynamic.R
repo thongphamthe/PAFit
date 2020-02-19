@@ -1,6 +1,6 @@
 
 from_networkDynamic <- function(net) {
-  if (class(net)[1] != "networkDynamic") {
+  if (!is(net,"networkDynamic")) {
     stop("net must be an object of networkDynamic.")  
   }
   result        <- as.data.frame(net)

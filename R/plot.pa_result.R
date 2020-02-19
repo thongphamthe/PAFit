@@ -72,7 +72,7 @@ plot.PA_result <-
       else xlim <- additional_para$xlim
       
     col_pa <- as.vector(col2rgb(col_point)) / 255
-    print("In plot.pa")
+    #print("In plot.pa")
     temp   <- names(additional_para)
     ok_vec <- which(temp != "xlim" & temp != "ylim")
     #print(additional_para)

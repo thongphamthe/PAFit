@@ -1,5 +1,5 @@
 from_igraph <- function(net) {
-  if (class(net)[1] != "igraph") {
+  if (!is(net,"igraph")) {
     stop("net must be an object of class igraph.")  
   }
   graph <- matrix(as.integer(as.matrix(as_data_frame(net))), ncol = 3)

@@ -6,4 +6,5 @@ print.PAFit_net <- function(x,...) {
  num_edges <- sum(x$graph[,2] != -1)
  cat(paste0("\nNumber of nodes: ", length(nodes)))
  cat(paste0("\nNumber of edges: ", num_edges))
+ cat("\n")
 }

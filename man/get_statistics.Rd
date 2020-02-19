@@ -11,7 +11,7 @@ The function summarizes input data into sufficient statistics for estimating the
 \usage{
 get_statistics(net_object, only_PA  = FALSE , 
                only_true_deg_matrix = FALSE ,
-               binning              = TRUE  , g              = 1000  , 
+               binning              = TRUE  , g              = 50    , 
                deg_threshold        = 0     , 
                compress_mode        = 0     , compress_ratio = 0.5   , 
                custom_time          = NULL)
@@ -35,7 +35,7 @@ Second group of parameters specifies how to bin the degrees:
 Logical. Indicates whether the degree should be binned together. Default value is \code{TRUE}.
 }
 \item{g}{
-Positive integer. Number of bins. Should be at least \code{3}. Default value is \code{1000}.
+Positive integer. Number of bins. Should be at least \code{3}. Default value is \code{50}.
 }
 Third group contains a single parameter specifying how to reduce the number of node fitnesses:
 \item{deg_threshold}{

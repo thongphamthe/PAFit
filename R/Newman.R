@@ -2,11 +2,11 @@ Newman <- function(net_object                              ,
                    net_stat    = get_statistics(net_object),
                    start       = 1                         ,    
                    interpolate = FALSE){
-  if (class(net_object) != "PAFit_net")
+  if (!is(net_object,"PAFit_net"))
       stop("net_object should be of PAFit_net class.")
   
   raw_net          <- net_object$graph
-  if (class(net_stat) != "PAFit_data")
+  if (!is(net_stat,"PAFit_data"))
     stop("Please input a proper net summary of class PAFit_data");
   
   deg_max          <- net_stat$deg_max

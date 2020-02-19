@@ -32,7 +32,9 @@ only_F_estimate(net_object                             ,
         \item \code{"Constant"}: We assume \eqn{A_k = 1}, i.e. the Caldarelli model (Ref. 3).
       }
   }
-\item{...}{Other parameters to pass to the internal estimation algorithm.}  
+    \item{\dots}{
+    %%     ~~Describe \code{\dots} here~~
+  }
 }
 
 \value{

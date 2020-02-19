@@ -12,7 +12,7 @@ export("generate_BA","generate_BB", "generate_ER",
        "to_networkDynamic", "from_networkDynamic",
        "graph_from_file", "graph_to_file",
        "test_linear_PA")
-
+importFrom("methods", "is")
 importFrom(Rcpp, evalCpp)
 importFrom("grDevices", "rgb")
 importFrom("grDevices", "hcl")

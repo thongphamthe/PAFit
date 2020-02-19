@@ -469,14 +469,12 @@ int get_stats(CharacterVector    & time_stamp,
          //appear_onestep_out.at(i) = 0;
      }
 }
-   for (unsigned long k = 0; k < count_bin.size(); ++ k) {
-       //std::cout << count_bin.at(k) << " " << center_bin.at(k) << "\n"; 
+   for (unsigned long k = 0; k < count_bin.size(); ++ k)
        if (count_bin.at(k) != 0)  { 
            center_bin.at(k) /= count_bin.at(k);  
            center_bin.at(k)  = pow(10,center_bin.at(k));
        } 
-       else center_bin.at(k) = 0;
-   }
+       else center_bin.at(k) = 0; 
   //std::cout << "Outside loop " ;    
    return 0;
 }
@@ -629,7 +627,7 @@ int update_f_new(      NumericVector& f,
             total += m_t(i) / normalized_const(i) * theta(degree(i,non_zero_f(j) - 1));
         }
     if (z_j(non_zero_f(j) - 1) + shape / weight_f.at(non_zero_f(j) - 1) - 1 <= 0)
-        f(non_zero_f(j) - 1) = 0;
+        f(non_zero_f(j) - 1) = f(non_zero_f(j) - 1);
     else 
         f(non_zero_f(j) - 1) = (z_j(non_zero_f(j) - 1) + shape / weight_f.at(non_zero_f(j) - 1) - 1) / 
          (total + rate / weight_f.at(non_zero_f(j) - 1));
@@ -933,15 +931,8 @@ int cal_var_f_new(        NumericVector& cov_f,
       if ((degree(i,non_zero_f(j) - 1) >= 0) && (normalized_const(i) != 0)) {
         total += m_t(i) / pow(normalized_const(i),2) * pow(theta(degree(i,non_zero_f(j) - 1)),2);
       }
-  // when f is zero, then z_j(non_zero_f(j) - 1)/pow(f(non_zero_f(j) - 1),2) be infinity
-  // which lead to zero variance
-  if (f(non_zero_f(j) - 1) > 0) {
     cov_f(j) = 1/(z_j(non_zero_f(j) - 1)/pow(f(non_zero_f(j) - 1),2) + - total +
-        (shape / weight_f.at(non_zero_f.at(j) - 1) - 1) * pow(f(non_zero_f(j) - 1),2)); 
-  } else {
-    cov_f(j) = 0;   
-  }
- 
+        (shape / weight_f.at(non_zero_f.at(j) - 1) - 1) * pow(f(non_zero_f(j) - 1),2));
   }
   return 0;
 }

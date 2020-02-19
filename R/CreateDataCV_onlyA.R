@@ -1,7 +1,8 @@
 
 .CreateDataCV_onlyA <- function(net_object , p = 0.75 , g = 50 , deg_thresh = 0    ) {
   #net               <- as.matrix(net)
-  options(scipen=999)
+  oopts <- options(scipen = 999)
+  on.exit(options(oopts))
   net               <- net_object$graph
   net_type          <- net_object$type
   net               <- net[order(net[,3] , decreasing = FALSE),]

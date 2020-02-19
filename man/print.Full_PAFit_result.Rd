@@ -15,8 +15,7 @@
   \item{x}{
     An object of class \code{Full_PAFit_result}, containing the estimated results from \code{\link{only_A_estimate}}, \code{\link{only_F_estimate}} or \code{\link{joint_estimate}}.
   }
-  
-  \item{\dots}{
+    \item{\dots}{
     %%     ~~Describe \code{\dots} here~~
   }
 }

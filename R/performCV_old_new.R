@@ -1,12 +1,11 @@
-.performCV_old_new <- function(cv_data                           ,
-                              r              = 10^c(-2,-1)       ,
-                              s              = c(1.01,seq(5,100,length.out = 5)), 
-                            
-                              stop_cond      = 10^-6                            ,
-                              print_out      = FALSE             ,
-                              cv_deg_thresh  = c(1,10)           ,
-                              normal_start_f = TRUE              ,
-                              weight_f       = 0                 ,
+.performCV_old_new <- function(cv_data                                            ,
+                              r              = 10^c(-5 , -4 , -3 , -2, - 1, 0, 1) ,
+                              s              = 10^c(- 1, 0 ,  1 ,  2 ,  3)        , 
+                              stop_cond      = 10^-6                              ,
+                              print_out      = FALSE                              ,
+                              cv_deg_thresh  = c(1,10)                            ,
+                              normal_start_f = TRUE                               ,
+                              weight_f       = 0                                  ,
                               ...) { 
   
   num_deg_thresh <- length(cv_deg_thresh)

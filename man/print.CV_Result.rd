@@ -15,8 +15,7 @@
   \item{x}{
     An object of class \code{CV_Result}.
   }
-  
-  \item{\dots}{
+    \item{\dots}{
     %%     ~~Describe \code{\dots} here~~
   }
 }

@@ -33,8 +33,8 @@ then work through the tutorial (link to the current CRAN version):
 
  * [Tutorial](https://CRAN.R-project.org/package=PAFit/vignettes/Tutorial.pdf)
  
-An earlier version of this tutorial has been accepted to Journal of Statistical Software:
-  * [arXiv version](https://arxiv.org/abs/1704.06017)
+A version of this tutorial is published in Journal of Statistical Software:
+  * [JSS paper](https://www.jstatsoft.org/article/view/v092i03)
   
 Reference manual
 ---------------

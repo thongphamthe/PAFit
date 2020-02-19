@@ -28,9 +28,8 @@
   \item{slice}{
     Integer. Ignored when \code{plot} is not \code{"graph"} or \code{"degree"}. Specifies the time-step at which the graph is plotted. Default value is the final time-step.
   }
- 
-  \item{\dots}{
-  Additional options to control display details. For the case of \code{plot = "graph"}, see \code{\link{plot.network.default}} in the package \pkg{network}. For the other cases, the options of the standard \code{plot} function can be used.
+    \item{\dots}{
+    %%     ~~Describe \code{\dots} here~~
   }
 }
 

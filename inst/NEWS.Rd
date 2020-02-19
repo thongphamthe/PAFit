@@ -2,6 +2,15 @@
 \alias{NEWS}
 \title{Package News}
 
+
+\section{version 1.0.1.6 (Release date: 2020-01-09)}{
+    \subsection{FIXED}{
+    \itemize{
+    \item some changes in various functions.
+    }
+  }
+}
+
 \section{version 1.0.1.5 (Release date: 2019-12-21)}{
     \subsection{FIXED}{
     \itemize{

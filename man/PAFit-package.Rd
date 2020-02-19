@@ -4,15 +4,15 @@
 \docType{package} 
 \title{Generative Mechanism Estimation in Temporal Complex Networks}
 \description{
-A package for estimating preferential attachment and node fitness generative mechanisms in temporal complex networks. References: Thong Pham et al. (2015) <10.1371/journal.pone.0137796>, Thong Pham et al. (2016) <doi:10.1038/srep32558>, Thong Pham et al. (to appear in Journal of Statistical Software) <arxiv:1704.06017>.}
+A package for estimating preferential attachment and node fitness generative mechanisms in temporal complex networks. References: Thong Pham et al. (2015) <10.1371/journal.pone.0137796>, Thong Pham et al. (2016) <doi:10.1038/srep32558>, Thong Pham et al. (2020) <doi:10.18637/jss.v092.i03>.}
 \details{
 \tabular{ll}{
 Package: \tab PAFit\cr
 Type: \tab Package\cr
-Version: \tab 1.0.1.5\cr
+Version: \tab 1.0.1.8\cr
 Authors: \tab Thong Pham, Paul Sheridan, Hidetoshi Shimodaira\cr
 Maintainer: \tab Thong Pham \email{thongphamthe@gmail.com}\cr
-Date: \tab 2019-12-21\cr
+Date: \tab 2019-02-17\cr
 License: \tab GPL-3 \cr
 }
 The PAFit package provides a comprehensive framework to deal with growth mechanisms of temporal complex networks. In particular, it implements functions to simulate various temporal network models, gather essential network statistics from raw input data, and use these summarized statistics in the estimation of the attachment function \eqn{A_k} and node fitnesses \eqn{\eta_i}. The heavy computational parts of the package are implemented in \code{C++} through the use of the Rcpp package. Furthermore, users with a multi-core machine can enjoy a hassle-free speed up through OpenMP parallelization mechanisms implemented in the code. Apart from the main functions, the package also includes a real-world collaboration network dataset between scientists in the field of complex networks (\code{\link{coauthor.net}}). The main package functionalities are as follows. 
@@ -44,7 +44,7 @@ Thong Pham \email{thongpham@thongpham.net}, Paul Sheridan, and Hidetoshi Shimoda
 
 4. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. \emph{Scientific Reports} 6, Article number: 32558. doi:10.1038/srep32558 (\url{http://www.nature.com/articles/srep32558}).
 
-5. Pham, T., Sheridan, P. & Shimodaira, H.. PAFit: an R Package for the Non-Parametric Estimation of Preferential Attachment and Node Fitness in Temporal Complex Networks. To appear in \emph{Journal of Statistical Software} (\url{https://arxiv.org/abs/1704.06017}).
+5. Pham, T., Sheridan, P. & Shimodaira, H. (2020). PAFit: An R Package for the Non-Parametric Estimation of Preferential Attachment and Node Fitness in Temporal Complex Networks. \emph{Journal of Statistical Software} 92 (3), doi:10.18637/jss.v092.i03. (\url{http://dx.doi.org/10.18637/jss.v092.i03})
 }
 
 \seealso{

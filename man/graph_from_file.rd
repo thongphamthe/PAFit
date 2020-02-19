@@ -30,10 +30,6 @@ To register a new node \eqn{i} at time \eqn{t} without any edge, add a row with 
 \item{type}{
    String. Indicates whether the network is \code{"directed"} or \code{"undirected"}. This option is ignored if \code{format} is \code{"gml"}, since the information is assumed to be contained in the \code{gml} file.
   }
-  
-  \item{\dots}{
-    %%     ~~Describe \code{\dots} here~~
-  }
 }
 
 

@@ -7,4 +7,5 @@ summary.PAFit_net <- function(object,...){
   if (!is.null(x$fitness)) {
     cat(paste0("\nThe node fitnesses are: ",paste(head(x$fitness), collapse = ", "),",..."))
   } else cat(paste0("\nThere are no node fitnesses"))
+  cat("\n")
 }

@@ -1,6 +1,6 @@
 to_networkDynamic <- function(net_object) {
   net <- net_object
-  if (class(net)[1] != "PAFit_net") {
+  if (!is(net,"PAFit_net")) {
     stop("net must be an object of class PAFit_net.")  
   }
   T            <- length(unique(net$graph[,3]))

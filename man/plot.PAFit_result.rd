@@ -68,8 +68,7 @@
   \item{label_x}{String. The label of x-axis.}
   \item{label_y}{String. The label of y-axis.}
   \item{col_interval}{String. The name of the color of the confidence intervals. Default value is \code{"lightsteelblue"}.}
-  
-  \item{\dots}{
+    \item{\dots}{
     %%     ~~Describe \code{\dots} here~~
   }
 }

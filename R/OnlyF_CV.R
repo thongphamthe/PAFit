@@ -6,11 +6,8 @@
                      ...) { 
   
   FitMultinomial         <- function(true,dat){
-    temp <- dat*log10(true); 
-    if (sum(is.na(temp)) > 0) {
-      
-      return(-Inf);
-    } else { return(sum(temp));}
+    true[true == 0] <- 1
+    return(sum(dat*log(true)))
   }
   
   count <- 0

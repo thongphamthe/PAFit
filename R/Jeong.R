@@ -6,12 +6,12 @@ Jeong <- function(net_object                              ,
                   T_1_end     = net_stat$T                ,
                   interpolate = FALSE) {
     #check the class 
-    if (class(net_object) != "PAFit_net")
+    if (!is(net_object,"PAFit_net"))
       stop("net_object should be of PAFit_net class.")
     
     raw_net <- net_object$graph
   
-    if (class(net_stat) != "PAFit_data")
+    if (!is(net_stat,"PAFit_data"))
         stop("Please input a proper net summary of class PAFit_data");
     
     if (T_0_end < T_0_start) 

@@ -1,7 +1,7 @@
 graph_to_file <- function(net_object, file_name, format = "edgelist") {
   net <- net_object
   #type = "edgelist" or "gml"
-  if (class(net)[1] != "PAFit_net") {
+  if (!is(net_object,"PAFit_net")) {
       stop("Error: net must be an object of class PAFit_net.")  
   }
   

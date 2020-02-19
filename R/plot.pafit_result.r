@@ -21,7 +21,7 @@ function(x                       ,
   dots <- function(...) {
       list(...)
   }
-  print("In plot.pafit_result")
+
   
   additional_para <- dots(...)
   #print(additional_para)
