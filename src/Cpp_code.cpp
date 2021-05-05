@@ -1,8 +1,10 @@
 //// Cpp functions 2015-3-11 Thong Pham
+#define STRICT_R_HEADERS
 #include <Rcpp.h>
 #include <iostream>    
 #include <algorithm>    
 #include <vector>      
+#include <cfloat>
 
 using namespace Rcpp;
 
