@@ -50,10 +50,10 @@ Non-negative numeric. The inverse variance parameter. The mean of the distributi
    \item{fitness}{fitness values of nodes in the network. The name of each value is the ID of the node.}
 }
 \author{
-  Thong Pham \email{thongpham@thongpham.net}
+  Thong Pham \email{thongphamthe@gmail.com}
 }
 \references{
-  1. Bianconni, G. & \enc{Barabási}{Barabasi}, A. (2001). Competition and multiscaling in evolving networks. Europhys. Lett., 54, 436 (\url{http://iopscience.iop.org/article/10.1209/epl/i2001-00260-6/meta}).
+  1. Bianconni, G. & \enc{Barabási}{Barabasi}, A. (2001). Competition and multiscaling in evolving networks. Europhys. Lett., 54, 436 (\doi{10.1209/epl/i2001-00260-6}).
 }
 \seealso{
   For subsequent estimation procedures, see \code{\link{get_statistics}}.

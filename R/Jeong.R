@@ -6,6 +6,8 @@ Jeong <- function(net_object                              ,
                   T_1_end     = net_stat$T                ,
                   interpolate = FALSE) {
     #check the class 
+  oopts <- options(scipen = 999)
+  on.exit(options(oopts))
     if (!is(net_object,"PAFit_net"))
       stop("net_object should be of PAFit_net class.")
     
@@ -54,11 +56,11 @@ Jeong <- function(net_object                              ,
   
     temp      <- table(degree)
     for (i in 1:length(degree))
-        normalized_const[as.integer(labels(temp)[[1]]) + 1] <- temp
+        normalized_const[as.numeric(labels(temp)[[1]]) + 1] <- temp
   
     really <- which((to_node %in% N_0) == TRUE)
     temp   <- table(degree[as.character(to_node[really])])
-    count[as.integer(labels(temp)[[1]]) + 1] <- temp
+    count[as.numeric(labels(temp)[[1]]) + 1] <- temp
   
     count <- count/ifelse(normalized_const != 0,normalized_const,1) 
   

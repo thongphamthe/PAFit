@@ -78,7 +78,7 @@ Numeric. Value between 0 and 1. This is the transparency level of the confidence
 Outputs the desired plot.
 }
 \author{
-Thong Pham \email{thongpham@thongpham.net}
+Thong Pham \email{thongphamthe@gmail.com}
 }
 \examples{
 ## Since the runtime is long, we do not let this example run on CRAN

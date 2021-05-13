@@ -10,7 +10,8 @@
                        normal_start_f          = TRUE     ,
                        weight_f                = 0        ,
                        ...) { 
-  
+  oopts <- options(scipen = 999)
+  on.exit(options(oopts))
   FitMultinomial         <- function(true,dat){
     true[true == 0] <- 1
     return(sum(dat*log10(true)))
@@ -24,7 +25,7 @@
   
   alpha_each           <- matrix(0,nrow = length(cv_deg_thresh), ncol = length(rate_PAFit))
   colnames(alpha_each) <- rate_PAFit
-  estimated_fitness    <- list(length = length(cv_deg_thresh))
+  estimated_fitness    <- vector(mode = "list", length = length(cv_deg_thresh))
   #estimated_PA        <- NULL
   max_val              <- rep(-Inf,length(cv_deg_thresh))
   s_optimal            <- rep(0,length(cv_deg_thresh))
@@ -107,7 +108,13 @@
       }
         for (dd in 1:length(cv_deg_thresh)) 
           if (alpha_each[dd,j] > max_val[dd]) {
-            estimated_fitness[[dd]]  <- result_PAFit$f[as.character(cv_data$stats$f_position)]
+            
+            estimated_fitness[[dd]]  <- result_PAFit$f[as.character(as.numeric(cv_data$stats$f_position))]
+            if (sum(is.na(estimated_fitness[[dd]])) > 0) {
+              if (sum(is.na(result_PAFit$f)) > 0) {print("both result_PAFit$f and estimated_fitness[dd] have NA")}
+              else {print("only estimated_fitness[dd] have NA"); f_pos <- cv_data$stats$f_position;
+              save(result_PAFit,cv_data,f_pos,estimated_fitness, file = "net_stat_bug_detailed.Rdata")}
+            }
             s_optimal[dd]            <- rate_PAFit[j]
             max_val[dd]              <- alpha_each[dd,j]
             alpha_optimal[dd]        <- result_PAFit$alpha
@@ -152,7 +159,11 @@
           }
           for (dd in 1:length(cv_deg_thresh)) 
               if (alpha_each[dd,j] > max_val[dd]) {
-                  estimated_fitness[[dd]]  <- result_PAFit$f[as.character(cv_data$stats$f_position)]
+                  estimated_fitness[[dd]]  <- result_PAFit$f[as.character(as.numeric(cv_data$stats$f_position))]
+                  if (sum(is.na(estimated_fitness[[dd]])) > 0) {
+                      if (sum(is.na(result_PAFit$f)) > 0) {print("both result_PAFit$f and estimated_fitness[dd] have NA")}
+                      else {print("only estimated_fitness[dd] have NA")}
+                  } 
                   s_optimal[dd]            <- rate_PAFit[j]
                   max_val[dd]              <- alpha_each[dd,j]
                   #alpha_optimal[dd]        <- result_PAFit$alpha
@@ -167,17 +178,23 @@
   s_optimal_final         <- mean(s_optimal[ok_index])
   
   #s_optimal_final         <- 10^(1/length(s_optimal[ok_index])* log10(prod(s_optimal[ok_index])))
+  #print("NA in estimated_fitness[[ok_index[1]]]:")
+  #print(sum(is.na(estimated_fitness[[ok_index[1]]])))
   
   if (is.null(estimated_PA_start))
       alpha_optimal_final     <- mean(alpha_optimal[ok_index])
   estimated_fitness_final <- estimated_fitness[[ok_index[1]]]
+  
+  #print("NA in estimated_fitness_final before sum:")
+  #print(sum(is.na(estimated_fitness_final)))
   
   if (length(ok_index) > 1)
     for (temp_jj in 2:length(ok_index))
       estimated_fitness_final <- estimated_fitness_final + estimated_fitness[[ok_index[temp_jj]]] 
   estimated_fitness_final <- estimated_fitness_final / length(ok_index)
   
-  
+ # print("NA in estimated_fitness_final after sum:")
+  #print(sum(is.na(estimated_fitness_final)))
 
   ### One pass to find optimal r #######
 

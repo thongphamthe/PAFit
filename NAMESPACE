@@ -11,7 +11,7 @@ export("generate_BA","generate_BB", "generate_ER",
        "to_igraph", "from_igraph",
        "to_networkDynamic", "from_networkDynamic",
        "graph_from_file", "graph_to_file",
-       "test_linear_PA")
+       "test_linear_PA","PAFit_oneshot")
 importFrom("methods", "is")
 importFrom(Rcpp, evalCpp)
 importFrom("grDevices", "rgb")
@@ -44,7 +44,7 @@ importFrom("graphics", "polygon")
 importFrom("graphics", "plot")
 importFrom("stats", "runif")
 importFrom("MASS","ginv")
-importFrom("stats", "var")
+importFrom("stats", "var","sd")
 
 importFrom("networkDynamic", "networkDynamic", "as.data.frame.networkDynamic")
 

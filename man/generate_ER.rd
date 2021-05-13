@@ -37,10 +37,10 @@
     \item{fitness}{fitness values of nodes in the network. The fitnesses are all equal to \eqn{1}.}
 }
 \author{
-  Thong Pham \email{thongpham@thongpham.net}
+  Thong Pham \email{thongphamthe@gmail.com}
 }
 \references{
-  1. \enc{Erdös}{Erdos} P. & \enc{Rényi}{Renyi} A.. On random graphs. Publicationes Mathematicae Debrecen. 1959;6:290–297 (\url{http://snap.stanford.edu/class/cs224w-readings/erdos59random.pdf}).
+  1. \enc{Erdös}{Erdos} P. & \enc{Rényi}{Renyi} A.. On random graphs. Publicationes Mathematicae Debrecen. 1959;6:290–297 (\url{https://snap.stanford.edu/class/cs224w-readings/erdos59random.pdf}).
 }
 \seealso{
 For subsequent estimation procedures, see \code{\link{get_statistics}}.

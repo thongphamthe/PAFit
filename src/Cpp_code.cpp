@@ -1,14 +1,227 @@
-//// Cpp functions 2015-3-11 Thong Pham
-#define STRICT_R_HEADERS
-#include <Rcpp.h>
-#include <iostream>    
-#include <algorithm>    
-#include <vector>      
-#include <cfloat>
+#include "PAFit_header.h"
 
-using namespace Rcpp;
-
-// [[Rcpp::plugins("cpp11")]]
+// [[Rcpp::export(".generate_net_C_with_count_multi_corrected")]]
+int generate_net_C_with_count_multi_corrected(
+    NumericMatrix appear_matrix, 
+    NumericMatrix final_matrix, // MxG
+    SEXP a_4,
+    SEXP a_5,
+    SEXP a_6,
+    SEXP a_7,
+    SEXP a_8,
+    SEXP a_9,
+    NumericVector& bin_vector,
+    SEXP a_11,
+    SEXP a_12,
+    SEXP a_pa_final,
+    SEXP a_is_directed,
+    SEXP a_M,
+    NumericVector& degree_exist
+) {
+  double time_step  = as<double>(a_4);
+  int mode_PA       = as<int>(a_5);
+  double alpha      = as<double>(a_6);
+  double beta       = as<double>(a_7);
+  double PA_final   = as<double>(a_pa_final);
+  int is_directed   = as<int>(a_is_directed);
+  NumericVector       custom_PA(a_8);
+  
+  
+  double p          = as<double>(a_9);
+  long g = as<long>(a_11);
+  long deg_penmax = as<long>(a_12);  
+  int  M = as<int>(a_M);
+  
+  
+  std::vector<xoshiro256_plusplus> rng_vec(M);
+  
+  rng_vec.at(0).init_by_splitmix64();
+  for (int i = 1; i < M; ++i) {
+    internal_state u = rng_vec.at(i-1).view();
+    rng_vec.at(i).set_state(u);
+    rng_vec.at(i).jump();
+  }
+  
+  //std::cout << "Pass here!\n" << std::flush;
+  //int tempp = omp_get_max_threads();
+  //std::cout << tempp << "\n"  << std::flush;
+#pragma omp parallel for
+  for (long jj = 0; jj < M; ++ jj) {
+    
+    std::vector<long> n_tk_vector(g,0);       // count the appearance of n_tk at that time
+    std::vector<long> n_tk_vector_old(g,0);  
+    
+    // estimated upper bound of number of nodes = time_step * p + 2 + 4 * sqrt(time_step * p(1-p))
+    long N_max = (long) (time_step * p + 2.0 + 4.0 * sqrt(time_step * p * (1.0 - p)));
+    std::vector<long> degree(N_max,0);
+    std::vector<double> degree_transform(N_max,1);
+    long   N = 2;
+    
+    for (long k = 0; k < N ; ++ k) {
+      long deg_plus_1 = degree.at(k);
+      if (deg_plus_1 <= 0) deg_plus_1 = 1;
+      if (1 == mode_PA) {
+        degree_transform.at(k) = pow(deg_plus_1,alpha);
+      } else if (2 == mode_PA) {
+        degree_transform.at(k) = alpha * pow(log(deg_plus_1),beta) + 1; 
+      } else if (3 == mode_PA) {
+        //std::cout << " reach here and die! /n";
+        long length_custom_PA = custom_PA.size();
+        if (degree.at(k) < length_custom_PA)
+          degree_transform.at(k)  = custom_PA.at(degree.at(k));
+        else {//degree_transform.at(k) = custom_PA.at(length_custom_PA - 1);
+          degree_transform.at(k) = PA_final;
+        }
+        //std::cout << " die? /n";
+      }
+    }
+    // initialize n_tk_vec 
+    n_tk_vector.at(0) = 2; // two nodes with degree 0
+    n_tk_vector_old.at(0) = 2;
+    
+    // Do not initialize count_vec here
+    //count_vector.at(0) = 1; // degree 0 appears at time 0
+    //weighted_count_vector.at(0) = 1;
+    
+    
+    //std::cout << "Time step: /n" << time_step;
+    
+    for (long t = 1; t <= time_step; ++ t) {
+      //if (t == time_step)
+      //   std::cout << "inside last time-step";
+      // mode_p: 1 = constant, 2 = increasing, 3 = decreasing
+      int    dice = 0; // 1: new node, 0: new edge
+      double p_t = p;  // p at the current t  
+      //std::cout << p_t << " ";
+      std::bernoulli_distribution dice_dist(p_t); 
+      if (dice_dist(rng_vec.at(jj)))
+        dice = 1;
+      else dice = 0;
+      
+      if (1 == dice){ // new node
+        ++N;  
+        // if (t == time_step)
+        //  std::cout << "after update edgelist in new node";
+        
+        //degree_transform.push_back(1);
+        if (N > N_max) {
+          ++N_max;
+          degree.push_back(0);
+          degree_transform.push_back(1);
+        }
+        n_tk_vector.at(0)++;
+        n_tk_vector_old.at(0)++;
+        // if (t == time_step)
+        //    std::cout <<  "end of new node branch";
+      } else { // new edge
+        
+        
+        std::uniform_int_distribution<long> int_uniform(0, (long)N - 1); 
+        long start_node = -1;
+        std::discrete_distribution<long> multinomial(degree_transform.begin(),
+                                                     degree_transform.begin() + N);
+        
+        if (1 == is_directed) {
+          start_node = int_uniform(rng_vec.at(jj)) + 1; // choose the start node uniformly
+        } else if (0 == is_directed){
+          start_node = multinomial(rng_vec.at(jj)) + 1;
+        } else {
+     //std::cout<<"Wrong is_directed value";
+        }
+        long end_node = multinomial(rng_vec.at(jj)) + 1;
+        
+        if (degree.at(end_node - 1) <= deg_penmax) {
+          n_tk_vector.at(degree.at(end_node - 1))--;
+          
+        }
+        degree.at(end_node - 1)++;
+        if (degree.at(end_node - 1) <= deg_penmax)
+          n_tk_vector.at(degree.at(end_node - 1))++;
+        
+        // For undirected networks:
+        if (0 == is_directed) {
+          if (end_node != start_node) {
+            if (degree.at(start_node - 1) <= deg_penmax) {
+              n_tk_vector.at(degree.at(start_node - 1))--;
+              
+            }
+            degree.at(start_node - 1)++;
+            if (degree.at(start_node - 1) <= deg_penmax)
+              n_tk_vector.at(degree.at(start_node - 1))++; 
+          }
+        }
+        // update count vector
+        if (t < time_step) {// do not count after the final time-step
+          for (long kk = 0; kk < g; ++kk) {
+            if (n_tk_vector_old.at(kk) > 0)  {
+              appear_matrix(jj,kk)++; 
+            }
+          }
+        }
+        // update n_tk_vector_old
+        for (long kk = 0; kk < g; ++kk) {
+          n_tk_vector_old.at(kk) = n_tk_vector.at(kk);
+        }
+        
+        // update degree transform
+        long deg_plus_1 = degree.at(end_node - 1);
+        if (deg_plus_1 <= 0) deg_plus_1 = 1;
+        if (1 == mode_PA) {
+          degree_transform.at(end_node - 1) = pow(deg_plus_1,alpha);
+        } else if (2 == mode_PA) {
+          degree_transform.at(end_node - 1) = alpha * pow(log(deg_plus_1),beta) + 1; 
+        } else if (3 == mode_PA) {
+          long length_custom_PA = custom_PA.size();
+          if (degree.at(end_node - 1) < length_custom_PA)
+            degree_transform.at(end_node - 1)  = custom_PA.at(degree.at(end_node - 1));
+          else {//degree_transform.at(end_node - 1) = custom_PA.at(length_custom_PA - 1);
+            degree_transform.at(end_node - 1) = PA_final;
+          }
+        }
+        
+        // for undirected networks:
+        if (0 == is_directed) {
+          //std::cout << " Why in undirected?";
+          if (end_node != start_node) {
+            long deg_plus_1 = degree.at(start_node - 1);
+            if (deg_plus_1 <= 0) deg_plus_1 = 1;
+            if (1 == mode_PA) {
+              degree_transform.at(start_node - 1) = pow(deg_plus_1,alpha);
+            } else if (2 == mode_PA) {
+              degree_transform.at(start_node - 1) = alpha * pow(log(deg_plus_1),beta) + 1; 
+            } else if (3 == mode_PA) {
+              long length_custom_PA = custom_PA.size();
+              if (degree.at(start_node - 1) < length_custom_PA)
+                degree_transform.at(start_node - 1)  = custom_PA.at(degree.at(start_node - 1));
+              else {//degree_transform.at(end_node - 1) = custom_PA.at(length_custom_PA - 1);
+                degree_transform.at(start_node - 1) = PA_final;
+              }
+            }
+          }  
+        }
+        
+      }
+    }
+    //final time
+    int flag = 1;
+    for (long kk = 0; kk < g; ++kk) {
+      if (n_tk_vector.at(kk) > 0) {
+        final_matrix(jj,kk) = 1;
+      } else {
+        final_matrix(jj,kk)  = 0; 
+        appear_matrix(jj,kk) = -1;
+      }
+      // if (1 == flag) {
+      //     if ((1 == degree_exist.at(kk)) & (0 == n_tk_vector.at(kk))) {
+      //         appear_matrix(jj,kk) = -1;  
+      //         flag = 0;
+      //     }
+      // }
+    }
+  }
+  return 0;
+  //return edge_count;
+}
 
 double my_zeroin(double ax,double bx,std::function <double (double)> f,double tol,long max_iter)  ;
 
@@ -35,6 +248,7 @@ int normalized_constant(      NumericVector& norm,
             total += offset * offset_tk(i,k) * theta(k);
         }
         norm(i) = total;
+            //printf("%f",total);
     }
     return 0;
 }
@@ -628,11 +842,13 @@ int update_f_new(      NumericVector& f,
         if ((degree(i,non_zero_f(j) - 1) >= 0) && (normalized_const(i) != 0)) {
             total += m_t(i) / normalized_const(i) * theta(degree(i,non_zero_f(j) - 1));
         }
-    if (z_j(non_zero_f(j) - 1) + shape / weight_f.at(non_zero_f(j) - 1) - 1 <= 0)
+    if (z_j(non_zero_f(j) - 1) + shape / weight_f.at(non_zero_f(j) - 1) - 1 <= 0.0)
         f(non_zero_f(j) - 1) = f(non_zero_f(j) - 1);
-    else 
+    else {
         f(non_zero_f(j) - 1) = (z_j(non_zero_f(j) - 1) + shape / weight_f.at(non_zero_f(j) - 1) - 1) / 
          (total + rate / weight_f.at(non_zero_f(j) - 1));
+      //if (total + rate / weight_f.at(non_zero_f(j) - 1) == 0) printf("Wtf!");
+    }
   }
   return 0;
 }

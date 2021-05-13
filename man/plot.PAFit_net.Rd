@@ -38,7 +38,7 @@
   Outputs the desired plot.
 }
 \author{
-  Thong Pham \email{thongpham@thongpham.net}. When \code{plot = "graph"}, the function uses \code{\link{plot.network.default}} in the \pkg{network} package.
+  Thong Pham \email{thongphamthe@gmail.com}. When \code{plot = "graph"}, the function uses \code{\link{plot.network.default}} in the \pkg{network} package.
 }
 
 

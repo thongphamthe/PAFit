@@ -2,6 +2,13 @@
 \alias{NEWS}
 \title{Package News}
 
+\section{version 1.1 (Release date: 2020-05-13)}{
+    \subsection{NEW}{
+    \itemize{
+    \item \code{PAFit_oneshot} function for estimating the preferential attachment function from one snapshot.
+    }
+  }
+}
 
 \section{version 1.0.1.6 (Release date: 2020-01-09)}{
     \subsection{FIXED}{

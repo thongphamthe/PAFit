@@ -37,7 +37,7 @@ To register a new node \eqn{i} at time \eqn{t} without any edge, add a row with 
   An object of class \code{PAFit_net} containing the network.
 }
 \author{
-  Thong Pham \email{thongpham@thongpham.net}
+  Thong Pham \email{thongphamthe@gmail.com}
 }
 
 

@@ -22,7 +22,7 @@ The function returns an \code{igraph} object.
 }
 
 \author{
-Thong Pham \email{thongpham@thongpham.net}
+Thong Pham \email{thongphamthe@gmail.com}
 }
 
 

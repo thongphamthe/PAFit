@@ -38,12 +38,12 @@ This function implements a correction proposed in [1] of the original Newman's m
 }
 }
 \author{
-  Thong Pham \email{thongpham@thongpham.net}
+  Thong Pham \email{thongphamthe@gmail.com}
 }
 \references{
-  1. Pham, T., Sheridan, P. & Shimodaira, H. (2015). PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks. PLoS ONE 10(9): e0137796. doi:10.1371/journal.pone.0137796 (\url{http://dx.doi.org/10.1371/journal.pone.0137796}).
+  1. Pham, T., Sheridan, P. & Shimodaira, H. (2015). PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks. PLoS ONE 10(9): e0137796. (\doi{10.1371/journal.pone.0137796}).
   
-  2. Newman, M.. Clustering and preferential attachment in growing networks. Physical Review E. 2001;64(2):025102 (\url{https://journals.aps.org/pre/abstract/10.1103/PhysRevE.64.025102}).
+  2. Newman, M.. Clustering and preferential attachment in growing networks. Physical Review E. 2001;64(2):025102 (\doi{10.1103/PhysRevE.64.025102}).
 }
 \seealso{
 

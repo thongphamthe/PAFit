@@ -4,7 +4,8 @@ joint_estimate <- function(net_object                                 ,
                            stop_cond      = 10^-8                     ,
                            mode_reg_A     = 0                         ,
                            ...) {
-  
+  oopts <- options(scipen = 999)
+  on.exit(options(oopts))
   if (!is(net_object,"PAFit_net"))
     stop("net_object should be of PAFit_net class.")
   
@@ -50,9 +51,9 @@ joint_estimate <- function(net_object                                 ,
   
   
   f_vector        <- rep(1,length(net_stat$f_position))
-  names(f_vector) <- net_stat$f_position
+  names(f_vector) <- as.numeric(net_stat$f_position)
   
-  name_vec <- as.character(net_stat$f_position)
+  name_vec <- as.character(as.numeric(net_stat$f_position))
   name_cv  <- names(cv_result$estimated_fitness)
   for (ii in 1:length(name_vec)) {
     jj <- which(name_cv == name_vec[ii])  

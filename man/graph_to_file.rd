@@ -33,7 +33,7 @@ The function writes directly to the output file.
 }
 
 \author{
-Thong Pham \email{thongpham@thongpham.net}
+Thong Pham \email{thongphamthe@gmail.com}
 }
 
 

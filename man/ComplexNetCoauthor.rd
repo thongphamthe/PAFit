@@ -10,11 +10,9 @@ The dataset is collaboration network of authors of network science articles with
 
 Reference: M. E. J. Newman, Finding community structure in networks using the eigenvectors of matrices, Preprint physics/0605087 (2006).
 
-The original network data that Mark Newman compiled is available for download at \url{http://www-personal.umich.edu/~mejn/netdata/netscience.zip}
-
-The dataset with article time-stamps is available for download at \url{http://www.paulsheridan.net/files/collabnet.zip}
+The dataset with article time-stamps is available for download at \url{https://www.paulsheridan.net/files/collabnet.zip}
 
 }
 \usage{data(ComplexNetCoauthor)}
 \format{\code{coauthor.net} is a matrix with 2849 rows and 3 columns. Each row is an edge with the format (author id 1, author id 2, time_stamp). \code{coauthor.truetime} is a two-column matrix whose each row is (time_stamp, real time). \code{coauthor.author_id} is a two-column matrix whose each row is (author id, author name).}
-\source{http://www.paulsheridan.net/files/collabnet.zip}
+\source{https://www.paulsheridan.net/files/collabnet.zip}

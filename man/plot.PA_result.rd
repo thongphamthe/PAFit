@@ -52,7 +52,7 @@
   Outputs the desired plot.
 }
 \author{
-  Thong Pham \email{thongpham@thongpham.net}
+  Thong Pham \email{thongphamthe@gmail.com}
 }
 
 \examples{

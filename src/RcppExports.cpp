@@ -5,6 +5,31 @@
 
 using namespace Rcpp;
 
+// generate_net_C_with_count_multi_corrected
+int generate_net_C_with_count_multi_corrected(NumericMatrix appear_matrix, NumericMatrix final_matrix, SEXP a_4, SEXP a_5, SEXP a_6, SEXP a_7, SEXP a_8, SEXP a_9, NumericVector& bin_vector, SEXP a_11, SEXP a_12, SEXP a_pa_final, SEXP a_is_directed, SEXP a_M, NumericVector& degree_exist);
+RcppExport SEXP _PAFit_generate_net_C_with_count_multi_corrected(SEXP appear_matrixSEXP, SEXP final_matrixSEXP, SEXP a_4SEXP, SEXP a_5SEXP, SEXP a_6SEXP, SEXP a_7SEXP, SEXP a_8SEXP, SEXP a_9SEXP, SEXP bin_vectorSEXP, SEXP a_11SEXP, SEXP a_12SEXP, SEXP a_pa_finalSEXP, SEXP a_is_directedSEXP, SEXP a_MSEXP, SEXP degree_existSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type appear_matrix(appear_matrixSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type final_matrix(final_matrixSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type a_4(a_4SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type a_5(a_5SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type a_6(a_6SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type a_7(a_7SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type a_8(a_8SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type a_9(a_9SEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type bin_vector(bin_vectorSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type a_11(a_11SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type a_12(a_12SEXP);
+    Rcpp::traits::input_parameter< SEXP >::type a_pa_final(a_pa_finalSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type a_is_directed(a_is_directedSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type a_M(a_MSEXP);
+    Rcpp::traits::input_parameter< NumericVector& >::type degree_exist(degree_existSEXP);
+    rcpp_result_gen = Rcpp::wrap(generate_net_C_with_count_multi_corrected(appear_matrix, final_matrix, a_4, a_5, a_6, a_7, a_8, a_9, bin_vector, a_11, a_12, a_pa_final, a_is_directed, a_M, degree_exist));
+    return rcpp_result_gen;
+END_RCPP
+}
 // normalized_constant
 int normalized_constant(NumericVector& norm, const NumericMatrix& degree, const NumericVector& theta, const NumericVector& f, const NumericMatrix& offset_tk, const double& offset);
 RcppExport SEXP _PAFit_normalized_constant(SEXP normSEXP, SEXP degreeSEXP, SEXP thetaSEXP, SEXP fSEXP, SEXP offset_tkSEXP, SEXP offsetSEXP) {

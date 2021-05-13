@@ -7,7 +7,8 @@
                                    normal_start_f = TRUE                                ,
                                    weight_f       = 0                                   ,
                                    ...) { 
-  
+  oopts <- options(scipen = 999)
+  on.exit(options(oopts))
   result_1 <- .one_cycle(cv_data, r, s,
                          estimated_fitness_start = NULL,
                          estimated_PA_start      = NULL, 

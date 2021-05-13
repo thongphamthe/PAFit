@@ -58,14 +58,14 @@ only_F_estimate(net_object                             ,
   }
 }
 \author{
-  Thong Pham \email{thongpham@thongpham.net}
+  Thong Pham \email{thongphamthe@gmail.com}
 }
 \references{
-  1. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{http://www.nature.com/articles/srep32558}).
+  1. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. (\doi{10.1038/srep32558}).
   
-  2. Bianconni, G. & \enc{Barabási}{Barabasi}, A. (2001). Competition and multiscaling in evolving networks. Europhys. Lett., 54, 436 (\url{http://iopscience.iop.org/article/10.1209/epl/i2001-00260-6/meta}).
+  2. Bianconni, G. & \enc{Barabási}{Barabasi}, A. (2001). Competition and multiscaling in evolving networks. Europhys. Lett., 54, 436 (\doi{10.1209/epl/i2001-00260-6}).
   
-  3. Caldarelli, G., Capocci, A. , De Los Rios, P. & \enc{Muñoz}{Munoz}, M.A. (2002). Scale-Free Networks from Varying Vertex Intrinsic Fitness. Phys. Rev. Lett., 89, 258702 (\url{http://link.aps.org/doi/10.1103/PhysRevLett.89.258702}).
+  3. Caldarelli, G., Capocci, A. , De Los Rios, P. & \enc{Muñoz}{Munoz}, M.A. (2002). Scale-Free Networks from Varying Vertex Intrinsic Fitness. Phys. Rev. Lett., 89, 258702 (\doi{10.1103/PhysRevLett.89.258702}).
   
 }
 \seealso{

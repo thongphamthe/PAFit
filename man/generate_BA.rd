@@ -41,10 +41,10 @@ Numeric. This is the attachment exponent in the attachment function \eqn{A_k = k
   \item{fitness}{fitness values of nodes in the network. The fitnesses are all equal to \eqn{1}.}
 }
 \author{
-  Thong Pham \email{thongpham@thongpham.net}
+  Thong Pham \email{thongphamthe@gmail.com}
 }
 \references{
-  1. Albert, R. & \enc{Barabási}{Barabasi}, A. (1999). Emergence of scaling in random networks. Science, 286,509–512 (\url{http://science.sciencemag.org/content/286/5439/509}).
+  1. Albert, R. & \enc{Barabási}{Barabasi}, A. (1999). Emergence of scaling in random networks. Science, 286,509–512 (\url{https://science.sciencemag.org/content/286/5439/509}).
 }
 \seealso{
 For subsequent estimation procedures, see \code{\link{get_statistics}}.

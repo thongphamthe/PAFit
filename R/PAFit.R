@@ -27,7 +27,8 @@ PAFit <- function(net_stat,
   
   
 
-  oopts <- options(scipen = 999)
+  oopts <- options()
+  options(scipen = 999)
   on.exit(options(oopts))
   shape          <- s
   rate           <- s
@@ -140,7 +141,7 @@ PAFit <- function(net_stat,
 
   
   max_time <- max(net_stat$appear_time)
-  weight_f <- max_time/ (max_time - net_stat$appear_time[as.character(as.integer(net_stat$f_position))] + 1)
+  weight_f <- max_time/ (max_time - net_stat$appear_time[as.character(as.numeric(net_stat$f_position))] + 1)
  
   weight_f <- weight_f^0
   #weight_f <- rep(1,length(net_stat$f_position))
@@ -338,15 +339,29 @@ PAFit <- function(net_stat,
   candidate_ok     <- 0
   candidate_accept <- 0
   
+  #print(paste0("Mode f: ",mode_f))
+  #print(paste0("Only_F: ",only_f));
+  #print(paste0("Theta: "))
+  #print(head(theta))
   
   for (i in 1:iteration) {
-    
+    #print(i)
     if (mode_f[1] != "Log_linear") {
+     # print(paste0("Before update Normalized const: "))
+     # print(head(normalized_const))
       if ((FALSE == only_PA) || ((TRUE == only_PA) && (!is.null(true_f)))) {
-        .normalized_constant(normalized_const,net_stat$node_degree,theta,f,net_stat$offset_tk,offset) 
+        .normalized_constant(normalized_const,net_stat$node_degree,theta,f,net_stat$offset_tk,offset)
+       # print(paste0("After update Normalized const:"))
+        #print(head(normalized_const))
+       # print("F:")
+       # print(head(f))
+       # save(net_stat,i,theta,shape,rate,offset,weight_f,f,non_zero_f,
+       #      normalized_const,file = "net_stat_bug.Rdata")
+       # break;
       } else if (is.null(true_f) && (TRUE == only_PA)) {
         normalized_const <- as.vector(net_stat$n_tk[,non_zero_theta]%*%theta[non_zero_theta])
       }
+    
    
       
       log10_likelihood        <- c(log10_likelihood,objective_function_value(theta,f,offset,normalized_const))  ;
@@ -376,6 +391,8 @@ PAFit <- function(net_stat,
             break_flag <- TRUE;},error = function(e) { 
               break_flag <- TRUE;})
       
+     # print("before acceleration")
+     # print(head(f))
       
       ######################### quasi-Newton acceleration #########################
       ####  calculate the smallest approximation to the second derivative at current point ####
@@ -432,18 +449,20 @@ PAFit <- function(net_stat,
             parameter_save[(length(theta) + 1):(length(theta) + length(f)),i] <- f
             parameter_save[dim(parameter_save)[1],i] <- offset
           }
-
+        
           if ((FALSE == only_PA) || ((TRUE == only_PA) && (!is.null(true_f)))){
             .normalized_constant(normalized_const,net_stat$node_degree,theta,f,net_stat$offset_tk,offset) 
           }
           else normalized_const <- as.vector(net_stat$n_tk[,non_zero_theta]%*%theta[non_zero_theta])
           #.normalized_constant(normalized_const, net_stat$node_degree,theta,f,net_stat$offset_tk,offset)
-          
+         
           
         }
       }
       ############### End of quasi-Newton acceleration ################
       
+      #print("after acceleration")
+      #print(head(f))
       
       if (break_flag) {
         break;   
@@ -469,13 +488,18 @@ PAFit <- function(net_stat,
         
         non_zero_f_now <- f > 10^-30
         
-        if (length(non_zero_f_now) > 0)
+        if (length(non_zero_f_now) > 0) {
+         ## print(head(non_zero_f_start))
+         # print(head(non_zero_f_now))
+         # print(head(f))
+       
           for (lll in 1:length(non_zero_f_now))
             if (non_zero_f_start[lll] != non_zero_f_now[lll]) {
               
               diverge_zero <- TRUE
               break; 
             }
+        }
         if (TRUE == diverge_zero)
           break;   
         
@@ -842,9 +866,12 @@ PAFit <- function(net_stat,
       # log-linear PA
      
       #if (i == 1 || only_f == FALSE)
+      #print(paste0("Before update Normalized const in log-linear PA: "))
+      #print(head(normalized_const))
         .normalized_constant_alpha(normalized_const, alpha,
                                    PA_offset,net_stat$node_degree,theta,f,net_stat$offset_tk,offset)
-     
+       # print(paste0("after update Normalized const in log-linear PA: "))
+      #  print(head(normalized_const))
       time_non_zero     <- which(normalized_const != 0)
       #non_zero_f        <- which(f > 0) 
      
@@ -1321,12 +1348,12 @@ PAFit <- function(net_stat,
   #   f[-non_zero_f] <- 0
   
   f_new                                        <- rep(offset,net_stat$N)
-  names(f_new)                                 <- as.integer(net_stat$node_id)
+  names(f_new)                                 <- as.numeric(net_stat$node_id)
  
-  f_new[as.character(as.integer(net_stat$f_position))]     <- f
+  f_new[as.character(as.numeric(net_stat$f_position))]     <- f
   cov_f_new                                    <- rep(0,net_stat$N)
-  names(cov_f_new)                             <- as.integer(net_stat$node_id)
-  cov_f_new[as.character(as.integer(net_stat$f_position))] <- abs(cov_f)
+  names(cov_f_new)                             <- as.numeric(net_stat$node_id)
+  cov_f_new[as.character(as.numeric(net_stat$f_position))] <- abs(cov_f)
   non_zero_f                                   <- f_new > 10^-10 & cov_f_new > 10^-10
   
   upper_f                                  <- rep(0,net_stat$N)
@@ -1335,6 +1362,7 @@ PAFit <- function(net_stat,
   lower_f                                  <- rep(0,net_stat$N)
   lower_f[non_zero_f]                      <- exp(log(f_new[non_zero_f]) - 2 * sqrt(cov_f_new[non_zero_f] / f_new[non_zero_f] ^ 2))
   
+
   if (FALSE == only_f) {
     if (mode_f[1] != "Log_linear")
       alpha = linear_fit$coefficients[2]
@@ -1342,7 +1370,7 @@ PAFit <- function(net_stat,
   }
   
   
-  
+  if (sum(is.na(f_new)) > 0) {print("NA right before returning inside PAFit")}
   
   
   result <- list(# estimated PA function and its variances, confidence interval 

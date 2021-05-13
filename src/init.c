@@ -63,6 +63,8 @@ extern SEXP _PAFit_update_f_new(SEXP , SEXP ,
                                SEXP , SEXP , 
                                SEXP , SEXP , 
                                SEXP );
+extern SEXP _PAFit_generate_net_C_with_count_multi_corrected(SEXP, SEXP, SEXP , SEXP , SEXP, SEXP , SEXP , SEXP , SEXP,
+                                                               SEXP , SEXP , SEXP, SEXP,SEXP,SEXP); 
 
   
 static const R_CallMethodDef CallEntries[] = {
@@ -80,6 +82,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"_PAFit_normalized_constant_alpha", (DL_FUNC) &_PAFit_normalized_constant_alpha, 8},
   {"_PAFit_normalized_constant", (DL_FUNC) &_PAFit_normalized_constant, 6},
   {"_PAFit_update_f_new", (DL_FUNC) &_PAFit_update_f_new, 11},
+  {"_PAFit_generate_net_C_with_count_multi_corrected", (DL_FUNC) &_PAFit_generate_net_C_with_count_multi_corrected,15},
   {NULL, NULL, 0}
 };
 

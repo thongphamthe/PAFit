@@ -25,10 +25,10 @@ For fixed \eqn{k_min} and \eqn{f}, \eqn{\pi_k} and \eqn{\theta} can be estimated
   Outputs a \code{Linear_PA_test_result} object which contains the fitting of five distributions to the degree vector: Yule (\code{yule}), Waring (\code{waring}), Poisson (\code{pois}), geometric (\code{geom}) and negative binomial (\code{nb}). In particular, for each distribution, the AIC and BIC are calcualted for each \eqn{k_min}. 
 }
 \author{
-  Thong Pham \email{thongpham@thongpham.net}
+  Thong Pham \email{thongphamthe@gmail.com}
 }
 \references{
-  1. Handcock MS, Jones JH (2004). “Likelihood-based inference for stochastic models of sexual network formation.” Theoretical Population Biology, 65(4), 413 – 422. ISSN 0040-5809. \url{https://doi.org/10.1016/j.tpb.2003.09.006}. Demography in the 21st Century, \url{http://www.sciencedirect.com/science/article/pii/S0040580904000310}.
+  1. Handcock MS, Jones JH (2004). “Likelihood-based inference for stochastic models of sexual network formation.” Theoretical Population Biology, 65(4), 413 – 422. ISSN 0040-5809. \doi{10.1016/j.tpb.2003.09.006}. Demography in the 21st Century, \url{https://www.sciencedirect.com/science/article/pii/S0040580904000310}.
 }
 \examples{
 \dontrun{

@@ -102,7 +102,7 @@ Non-negative numeric. The inverse variance parameter. The mean of the distributi
     \item{fitness}{fitness values of nodes in the network. The name of each value is the ID of the node.}
 }
 \author{
-Thong Pham \email{thongpham@thongpham.net}
+Thong Pham \email{thongphamthe@gmail.com}
 }
 \seealso{
 For subsequent estimation procedures, see \code{\link{get_statistics}}.

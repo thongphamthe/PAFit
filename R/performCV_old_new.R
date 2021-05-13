@@ -7,7 +7,8 @@
                               normal_start_f = TRUE                               ,
                               weight_f       = 0                                  ,
                               ...) { 
-  
+  oopts <- options(scipen = 999)
+  on.exit(options(oopts))
   num_deg_thresh <- length(cv_deg_thresh)
   # check possible
   for (dd in 1:length(cv_deg_thresh))

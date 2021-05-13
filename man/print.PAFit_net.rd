@@ -26,7 +26,7 @@
   Outputs simple information of the network. 
 }
 \author{
-  Thong Pham \email{thongpham@thongpham.net}
+  Thong Pham \email{thongphamthe@gmail.com}
 }
 
 

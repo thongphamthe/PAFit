@@ -21,6 +21,8 @@ function(N                  = 1000  ,
      ){
    # N: number of nodes
    # Number of time-step: (N  - num_seed) / multiple_node
+  oopts <- options(scipen = 999)
+  on.exit(options(oopts))
    if (num_seed >= N)
        stop("num_seed too large")
    if (num_seed < 2)
@@ -74,7 +76,7 @@ function(N                  = 1000  ,
     stop('mode_f must be either "gamma", "log_normal" or "power_law"')
     }
     )
-    names(fitness) <- as.integer(1:N)
+    names(fitness) <- as.character(as.numeric(1:N))
     
     edge_list_index <- 1
     for (n in 2:num_seed) {
@@ -84,9 +86,9 @@ function(N                  = 1000  ,
     #print(edge_list[1:(edge_list_index - 1),])
     
     degree                 <- rep(0,num_seed)
-    names(degree)          <- as.integer(1:num_seed) 
+    names(degree)          <- as.numeric(1:num_seed) 
     u                      <- table(edge_list[1:(edge_list_index - 1),2])
-    degree[as.character(as.integer(labels(u)[[1]]))] <- degree[as.character(as.integer(labels(u)[[1]]))] + u 
+    degree[as.character(as.numeric(labels(u)[[1]]))] <- degree[as.character(as.numeric(labels(u)[[1]]))] + u 
 
     P               <- degree
     P[P == 0]       <- offset
@@ -159,7 +161,7 @@ function(N                  = 1000  ,
                 temp    <- table(nodes)
                 for(i in 1:length(temp)) { 
                     num_edge            <- as.numeric(temp[i]) 
-                    node_name           <- as.integer(labels(temp[i]))
+                    node_name           <- as.numeric(labels(temp[i]))
                     degree[node_name]   <- degree[node_name] + num_edge # Update degrees.
                 }
             }
@@ -223,7 +225,7 @@ function(N                  = 1000  ,
                     temp    <- table(nodes)
                     for(i in 1:length(temp)) { 
                        num_edge            <- as.numeric(temp[i]) 
-                       node_name           <- as.integer(labels(temp[i]))
+                       node_name           <- as.numeric(labels(temp[i]))
                        degree[node_name]   <- degree[node_name] + num_edge # Update degrees.
                     }
                    }

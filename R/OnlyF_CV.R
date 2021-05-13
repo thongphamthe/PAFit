@@ -9,7 +9,8 @@
     true[true == 0] <- 1
     return(sum(dat*log(true)))
   }
-  
+  oopts <- options(scipen = 999)
+  on.exit(options(oopts))
   count <- 0
   
   ### Three passes to find optimal s #######
@@ -41,16 +42,16 @@
         PA              <-  cv_data$deg_each[k,]^alpha
         #print(PA)
         PA[PA == 0]     <- 1
-        prob_PAFit      <- PA * result_PAFit$f[as.character(cv_data$stats$f_position)] 
+        prob_PAFit      <- PA * result_PAFit$f[as.character(as.numeric(cv_data$stats$f_position))] 
         prob_PAFit      <- prob_PAFit / sum(prob_PAFit,na.rm = TRUE) 
         prob_PAFit[sapply(prob_PAFit,is.na)] <- 0 
         alpha_each[j] <- alpha_each[j] + 
-                FitMultinomial(true = as.vector(prob_PAFit), dat = as.vector(cv_data$prob_em_each[k,as.character(cv_data$stats$f_position)] * 
+                FitMultinomial(true = as.vector(prob_PAFit), dat = as.vector(cv_data$prob_em_each[k,as.character(as.numeric(cv_data$stats$f_position))] * 
                                                                 cv_data$m_each[k])) 
       }
     #alpha_ea
     if (alpha_each[j] > max_val) {
-      estimated_fitness <- result_PAFit$f[as.character(cv_data$stats$f_position)]
+      estimated_fitness <- result_PAFit$f[as.character(as.numeric(cv_data$stats$f_position))]
       s_optimal         <- rate_PAFit[j]
       max_val           <- alpha_each[j]
     }
@@ -91,14 +92,14 @@
         if (cv_data$m_each[k] != 0) {
           PA              <-  cv_data$deg_each[k,]^alpha
           PA[PA == 0]     <- 1
-          prob_PAFit      <- PA * result_PAFit$f[as.character(cv_data$stats$f_position)] 
+          prob_PAFit      <- PA * result_PAFit$f[as.character(as.numeric(cv_data$stats$f_position))] 
           prob_PAFit      <- prob_PAFit / sum(prob_PAFit,na.rm = TRUE) 
           prob_PAFit[sapply(prob_PAFit,is.na)] <- 0 
           alpha_each[j]   <- alpha_each[j] + 
-            FitMultinomial(true = as.vector(prob_PAFit), dat = as.vector(cv_data$prob_em_each[k,as.character(cv_data$stats$f_position)] * cv_data$m_each[k])) 
+            FitMultinomial(true = as.vector(prob_PAFit), dat = as.vector(cv_data$prob_em_each[k,as.character(as.numeric(cv_data$stats$f_position))] * cv_data$m_each[k])) 
         }
       if (alpha_each[j] > max_val) {
-        estimated_fitness <- result_PAFit$f[as.character(cv_data$stats$f_position)]
+        estimated_fitness <- result_PAFit$f[as.character(as.numeric(cv_data$stats$f_position))]
         s_optimal         <- rate_PAFit[j]
         max_val           <- alpha_each[j]
       }
@@ -135,15 +136,15 @@
           if (cv_data$m_each[k] != 0) {
               PA              <-  cv_data$deg_each[k,]^alpha
               PA[PA == 0]     <- 1
-              prob_PAFit      <- PA * result_PAFit$f[as.character(cv_data$stats$f_position)] 
+              prob_PAFit      <- PA * result_PAFit$f[as.character(as.numeric(cv_data$stats$f_position))] 
               prob_PAFit      <- prob_PAFit / sum(prob_PAFit,na.rm = TRUE) 
               prob_PAFit[sapply(prob_PAFit,is.na)] <- 0 
               alpha_each[j] <- alpha_each[j] + 
-                   FitMultinomial(true = as.vector(prob_PAFit), dat = as.vector(cv_data$prob_em_each[k,as.character(cv_data$stats$f_position)] * cv_data$m_each[k])) 
+                   FitMultinomial(true = as.vector(prob_PAFit), dat = as.vector(cv_data$prob_em_each[k,as.character(as.numeric(cv_data$stats$f_position))] * cv_data$m_each[k])) 
         }
       
       if (alpha_each[j] > max_val) {
-        estimated_fitness <- result_PAFit$f[as.character(cv_data$stats$f_position)]
+        estimated_fitness <- result_PAFit$f[as.character(as.numeric(cv_data$stats$f_position))]
         s_optimal         <- rate_PAFit[j]
         max_val           <- alpha_each[j]
       }

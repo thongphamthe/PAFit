@@ -26,7 +26,7 @@
   Prints simple information of the network statistics.
 }
 \author{
-  Thong Pham \email{thongpham@thongpham.net}
+  Thong Pham \email{thongphamthe@gmail.com}
 }
 \examples{
   ## Since the runtime is long, we do not let this example run on CRAN

@@ -91,7 +91,7 @@ Vector. Custom time stamps. This vector is a subset of the vector that contains 
 }
 
 \author{
-Thong Pham \email{thongpham@thongpham.net}
+Thong Pham \email{thongphamthe@gmail.com}
 }
 \seealso{
 For creating the needed input for this function (a \code{PAFit_net} object), see \code{\link{as.PAFit_net}}, \code{\link{from_igraph}}, \code{\link{from_networkDynamic}}, and \code{\link{graph_from_file}}. 

@@ -3,6 +3,8 @@ plot.PAFit_net <- function(x,
                            slice = length(unique(x$graph[,3])) - 1,
                            ...) {
  
+  oopts <- options(scipen = 999)
+  on.exit(options(oopts))
   net          <- x
   T            <- length(unique(net$graph[,3]))
   if (slice < 0)
@@ -27,8 +29,8 @@ plot.PAFit_net <- function(x,
       N            <- length(current_node)
   
       ajc_matrix           <- matrix(0, nrow = N, ncol = N)
-      rownames(ajc_matrix) <- as.character(as.integer(current_node))
-      colnames(ajc_matrix) <- as.character(as.integer(current_node))
+      rownames(ajc_matrix) <- as.character(as.numeric(current_node))
+      colnames(ajc_matrix) <- as.character(as.numeric(current_node))
       current_node         <- NULL
   
   
@@ -48,8 +50,8 @@ plot.PAFit_net <- function(x,
           ajc_matrix[index] <- ajc_matrix[index] + repeat_vec[,3]
       }
     
-      my_graph <- network(ajc_matrix[as.character(as.integer(current_node)), 
-                          as.character(as.integer(current_node))], directed = directed, 
+      my_graph <- network(ajc_matrix[as.character(as.numeric(current_node)), 
+                          as.character(as.numeric(current_node))], directed = directed, 
                           loops = TRUE, multiple = FALSE)
       plot(my_graph, ...)
   } else if ("degree" == plot) {
@@ -59,19 +61,19 @@ plot.PAFit_net <- function(x,
       appear_node  <- edge_portion[edge_portion[, 2] == -1, 1] # isolated nodes at this time
       current_node <- sort(unique(c(current_node,union(c(in_node,out_node),appear_node))))
       degree_vec   <- rep(0,length(current_node))
-      names(degree_vec) <- as.character(as.integer(current_node))
+      names(degree_vec) <- as.character(as.numeric(current_node))
       if (TRUE == directed) {
           temp       <- table(in_node)  
-          degree_vec[as.character(as.integer(labels(temp)[[1]]))]  <- 
-                degree_vec[as.character(as.integer(labels(temp)[[1]]))] + temp
+          degree_vec[as.character(as.numeric(labels(temp)[[1]]))]  <- 
+                degree_vec[as.character(as.numeric(labels(temp)[[1]]))] + temp
              
       } else{
           temp       <- table(c(in_node,out_node))
-          degree_vec[as.character(as.integer(labels(temp)[[1]]))]  <- 
-            degree_vec[as.character(as.integer(labels(temp)[[1]]))] + temp
+          degree_vec[as.character(as.numeric(labels(temp)[[1]]))]  <- 
+            degree_vec[as.character(as.numeric(labels(temp)[[1]]))] + temp
       }
       degree_dist <- table(degree_vec)
-      degree      <- as.integer(labels(degree_dist)[[1]])
+      degree      <- as.numeric(labels(degree_dist)[[1]])
       plot(degree + 1, degree_dist, log = "xy", xlab = "Degree + 1", ylab = "Frequency", pch = 20,
            col = "red", type = "n", axes = FALSE, 
            mgp = c( 2.5 , 1 , 0 ),

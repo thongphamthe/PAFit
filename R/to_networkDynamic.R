@@ -1,4 +1,6 @@
 to_networkDynamic <- function(net_object) {
+  oopts <- options(scipen = 999)
+  on.exit(options(oopts))
   net <- net_object
   if (!is(net,"PAFit_net")) {
     stop("net must be an object of class PAFit_net.")  
@@ -21,8 +23,8 @@ to_networkDynamic <- function(net_object) {
   N            <- length(current_node)
   
   ajc_matrix           <- matrix(0, nrow = N, ncol = N)
-  rownames(ajc_matrix) <- as.character(as.integer(current_node))
-  colnames(ajc_matrix) <- as.character(as.integer(current_node))
+  rownames(ajc_matrix) <- as.character(as.numeric(current_node))
+  colnames(ajc_matrix) <- as.character(as.numeric(current_node))
   current_node         <- NULL
  
   for (t in 1:T) {
@@ -33,17 +35,19 @@ to_networkDynamic <- function(net_object) {
       current_node <- sort(unique(c(current_node,union(c(in_node,out_node),appear_node))))
       edge_portion <- as.data.frame(edge_portion)
       repeat_vec   <- ddply(edge_portion,.(edge_portion[,1],edge_portion[,2]), nrow)
-      index        <- matrix(c(as.character(repeat_vec[,1]), as.character(repeat_vec[,2])), ncol = 2)
+      index        <- matrix(c(as.character(as.numeric(repeat_vec[,1])), 
+                               as.character(as.numeric(repeat_vec[,2]))), ncol = 2)
     
       ajc_matrix[index] <- ajc_matrix[index] + repeat_vec[,3]
     
       if (directed == FALSE) {
-          index <- matrix(c(as.character(repeat_vec[,2]), as.character(repeat_vec[,1])), ncol = 2)  
+          index <- matrix(c(as.character(as.numeric(repeat_vec[,2])), 
+                            as.character(as.numeric(repeat_vec[,1]))), ncol = 2)  
           ajc_matrix[index] <- ajc_matrix[index] + repeat_vec[,3]
       }
           
-      list_net[[t]]  <- as.network(ajc_matrix[as.character(as.integer(current_node)), 
-                                              as.character(as.integer(current_node))], 
+      list_net[[t]]  <- as.network(ajc_matrix[as.character(as.numeric(current_node)), 
+                                              as.character(as.numeric(current_node))], 
                                    directed = directed, loops = TRUE, multiple = TRUE)
   }
   # the whole to_networkDynamic function is slow, but the bottleneck is in the final step: converting list of nets to networkDynamic

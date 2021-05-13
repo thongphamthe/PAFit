@@ -9,6 +9,8 @@
     true[true == 0] <- 1
     return(sum(dat*log(true)))
   }
+  oopts <- options(scipen = 999)
+  on.exit(options(oopts))
   count <- 0
   
   ### Two passes to find optimal r #######

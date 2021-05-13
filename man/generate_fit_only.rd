@@ -50,10 +50,10 @@ Non-negative numeric. The inverse variance parameter. The mean of the distributi
   \item{fitness}{fitness values of nodes in the network. The name of each value is the ID of the node.}
 }
 \author{
-  Thong Pham \email{thongpham@thongpham.net}
+  Thong Pham \email{thongphamthe@gmail.com}
 }
 \references{
-  1. Caldarelli, G., Capocci, A. , De Los Rios, P. & \enc{Muñoz}{Munoz}, M.A. (2002). Scale-Free Networks from Varying Vertex Intrinsic Fitness. Phys. Rev. Lett., 89, 258702 (\url{http://link.aps.org/doi/10.1103/PhysRevLett.89.258702}).
+  1. Caldarelli, G., Capocci, A. , De Los Rios, P. & \enc{Muñoz}{Munoz}, M.A. (2002). Scale-Free Networks from Varying Vertex Intrinsic Fitness. Phys. Rev. Lett., 89, 258702 (\doi{10.1103/PhysRevLett.89.258702}).
 }
 \seealso{
   For subsequent estimation procedures, see \code{\link{get_statistics}}.

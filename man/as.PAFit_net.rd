@@ -36,7 +36,7 @@ An object of class \code{PAFit_net}
 }
 
 \author{
-Thong Pham \email{thongpham@thongpham.net}
+Thong Pham \email{thongphamthe@gmail.com}
 }
 
 
