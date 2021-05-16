@@ -24,11 +24,6 @@ using namespace Rcpp;
 
 // [[Rcpp::plugins("cpp11")]]
 
-using namespace Rcpp;
-
-
-// [[Rcpp::plugins("cpp11")]]
-
 
 double my_zeroin(double, double, std::function <double (double)>, double, long);
 
@@ -70,11 +65,11 @@ class xoshiro256_plusplus {
     std::uint64_t u = next();
     return(u);
   }
-  inline constexpr std::uint64_t min() 
+  static inline constexpr std::uint64_t min() 
   {
   return std::numeric_limits<std::uint64_t>::lowest ();
   }
-  inline constexpr std::uint64_t max() 
+  static inline constexpr std::uint64_t max() 
   {
     return  std::numeric_limits<std::uint64_t>::max ();
 
@@ -104,7 +99,7 @@ class xoshiro256_plusplus {
     std::uint64_t s1 = 0;
     std::uint64_t s2 = 0;
     std::uint64_t s3 = 0;
-    for(int i = 0; i < sizeof JUMP / sizeof *JUMP; i++)
+    for(long unsigned int i = 0; i < sizeof JUMP / sizeof *JUMP; i++)
       for(int b = 0; b < 64; b++) {
         if (JUMP[i] & UINT64_C(1) << b) {
           s0 ^= s[0];

@@ -203,7 +203,7 @@ int generate_net_C_with_count_multi_corrected(
       }
     }
     //final time
-    int flag = 1;
+   //int flag = 1;
     for (long kk = 0; kk < g; ++kk) {
       if (n_tk_vector.at(kk) > 0) {
         final_matrix(jj,kk) = 1;
