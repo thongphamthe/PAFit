@@ -58,7 +58,7 @@ int generate_net_C_with_count_multi_corrected(
     long   N = 2;
     
     for (long k = 0; k < N ; ++ k) {
-      long deg_plus_1 = degree.at(k);
+      double deg_plus_1 = 1.0 * degree.at(k);
       if (deg_plus_1 <= 0) deg_plus_1 = 1;
       if (1 == mode_PA) {
         degree_transform.at(k) = pow(deg_plus_1,alpha);
@@ -164,7 +164,7 @@ int generate_net_C_with_count_multi_corrected(
         }
         
         // update degree transform
-        long deg_plus_1 = degree.at(end_node - 1);
+        double deg_plus_1 = 1.0 * degree.at(end_node - 1);
         if (deg_plus_1 <= 0) deg_plus_1 = 1;
         if (1 == mode_PA) {
           degree_transform.at(end_node - 1) = pow(deg_plus_1,alpha);
@@ -183,7 +183,7 @@ int generate_net_C_with_count_multi_corrected(
         if (0 == is_directed) {
           //std::cout << " Why in undirected?";
           if (end_node != start_node) {
-            long deg_plus_1 = degree.at(start_node - 1);
+            double deg_plus_1 = 1.0 * degree.at(start_node - 1);
             if (deg_plus_1 <= 0) deg_plus_1 = 1;
             if (1 == mode_PA) {
               degree_transform.at(start_node - 1) = pow(deg_plus_1,alpha);
