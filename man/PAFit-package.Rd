@@ -9,7 +9,7 @@ A package for estimating preferential attachment and node fitness generative mec
 \tabular{ll}{
 Package: \tab PAFit\cr
 Type: \tab Package\cr
-Version: \tab 1.1.0.2\cr
+Version: \tab 1.1.0.3\cr
 Authors: \tab Thong Pham, Paul Sheridan, Hidetoshi Shimodaira\cr
 Maintainer: \tab Thong Pham \email{thongphamthe@gmail.com}\cr
 Date: \tab 2021-05-17\cr

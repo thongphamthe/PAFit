@@ -6,7 +6,11 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 
-This package provides a framework for modelling and inferencing attachment mechanisms of temporal complex networks. For estimating the preferential attachment (PA) function in isolation, we implement Jeong's method, the corrected Newman's method and the PAFit method. For jointly estimating the PA function and node fitnesses, we implement the PAFit method. The package can quantify the remaining uncertainties by providing confidence intervals for the estimated results. We also provide flexible methods to generate a wide range of temporal networks based on PA and fitness.   
+This package provides a framework for modelling and inferencing attachment mechanisms of temporal complex networks. The two main functionalities of the package are:
+* Estimating preferential attachment (PA) and fitness when the growth process can be observed. This is when one can observed the temporal network at at least two time-steps. For estimating the PA function in isolation, we implement Jeong's method, the corrected Newman's method and the PAFit method. For jointly estimating the PA function and node fitnesses, we implement the PAFit method.
+* Estimating PA with only one snapshot of the temporal network.  We implement the PAFit-oneshot method for estimating the PA function from one single snapshot.
+
+In addition, the package can quantify the remaining uncertainties by providing confidence intervals for the estimated results. We also provide flexible methods to generate a wide range of temporal networks based on PA and fitness.   
 
 Installation
 ------------
