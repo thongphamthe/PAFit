@@ -41,6 +41,7 @@ int generate_net_C_with_count_multi_corrected(
     rng_vec.at(i).set_state(u);
     rng_vec.at(i).jump();
   }
+ //std::cout << g << std::flush;
   
   //std::cout << "Pass here!\n" << std::flush;
   //int tempp = omp_get_max_threads();
@@ -53,6 +54,10 @@ int generate_net_C_with_count_multi_corrected(
     
     // estimated upper bound of number of nodes = time_step * p + 2 + 4 * sqrt(time_step * p(1-p))
     long N_max = (long) (time_step * p + 2.0 + 4.0 * sqrt(time_step * p * (1.0 - p)));
+    //std::cout << time_step << " " << std::flush;
+    //std::cout << p << " " << std::flush;
+    //std::cout << N_max << " " << std::flush;
+    
     std::vector<long> degree(N_max,0);
     std::vector<double> degree_transform(N_max,1);
     long   N = 2;

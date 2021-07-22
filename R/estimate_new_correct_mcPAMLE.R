@@ -31,7 +31,9 @@
     deg_vec[names(hist)] <- hist
     Total_T        <- dim(net)[1] - 2 # remove the first time-step
     #print(Total_T)
-    p_estimate     <- (length(unique_node) - 2) / (Total_T - 1)
+    total_edge     <- sum(hist) 
+    p_estimate     <- ((length(unique_node) - 2)) / ((length(unique_node) - 2) + (total_edge - 1))
+    
     #print(p_estimate)
     
     

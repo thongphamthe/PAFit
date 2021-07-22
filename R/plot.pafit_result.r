@@ -1,7 +1,7 @@
 # function to plot estimation results  2015-3-12 Thong Pham
 plot.PAFit_result <-
 function(x                       ,
-         net_stat                ,
+         net_stat       = NULL   ,
          true_f         = NULL   , plot             = "A"              , plot_bin     = TRUE  ,
          line           = FALSE  , confidence       = TRUE             , high_deg_A   = 1     , 
          high_deg_f     = 5      ,   

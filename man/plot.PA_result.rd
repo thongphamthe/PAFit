@@ -9,7 +9,7 @@
 }
 \usage{
 \method{plot}{PA_result}(x, 
-     net_stat,
+     net_stat    = NULL,
      plot_bin    = TRUE   ,
      high_deg    = 1      ,  
      line        = FALSE  , 

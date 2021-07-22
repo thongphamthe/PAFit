@@ -1,6 +1,6 @@
 # function to plot estimation results  2015-3-12 Thong Pham
 plot.PA_result <-
-  function(x, net_stat,
+  function(x, net_stat = NULL,
            plot_bin    = TRUE   ,
            high_deg    = 1      ,
            line        = FALSE  , 

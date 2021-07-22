@@ -28,15 +28,32 @@
   
   ok_time           <- which(edge_ratio >= p)
   
-  if (length(ok_time) == 1) {  ## must check, since base on p, all the data might be regarded as learning data
-    use_time      <- unique_time[length(unique_time) - 1]
-  } else
-    use_time      <- unique_time[which(edge_ratio >= p)[1]]
+  use_time_index    <- length(unique_time) - 1
   
-  data_new          <- net[time_stamp <= use_time, ]
-  net_new           <- as.PAFit_net(graph = data_new, type = net_type)
-  stats             <- get_statistics(net_new,
+  if (length(ok_time) == 1) {  ## must check, since base on p, all the data might be regarded as learning data
+    use_time_index <- length(unique_time) - 1 
+    use_time       <- unique_time[use_time_index]
+  } else {
+    use_time_index <- which(edge_ratio >= p)[1]
+    use_time       <- unique_time[use_time_index]
+  }
+  
+  use_time_index   <- use_time_index + 1;
+  repeat {
+     use_time_index <- use_time_index - 1
+     if (use_time_index <= 0) {
+        stop(paste0("Total number of new edges is too small in the learning data. \n Please try either:\n a) estimate only the PA function by only_A_estimate. \n b) increase p from its current value of ",p,".\n"))   
+     }
+     use_time       <- unique_time[use_time_index]
+     data_new          <- net[time_stamp <= use_time, ]
+     net_new           <- as.PAFit_net(graph = data_new, type = net_type)
+     stats             <- get_statistics(net_new,
                                       binning = TRUE , g = g , deg_threshold = deg_thresh)
+     if (sum(stats$z_j > 0) >= 2) break;
+       
+  }
+  
+  #save(stats,file = "stats_temp.Rdata")
   appear[as.character(as.numeric(stats$f_position))] <- 1
   deg                                    <- stats$final_deg[as.character(as.numeric(stats$f_position))]
   if (FALSE == exclude_end) {

@@ -1,6 +1,7 @@
-PAFit_oneshot <- function(net,M = 100,S = 5, loop = 5,
+PAFit_oneshot <- function(net_object,M = 10,S = 5, loop = 5,
                               G = 1000) {
 
+net <- net_object$graph[,1:2]  
 result_list <- vector(mode = "list",length = loop)
 for (j in 1:loop) {
   result_list[[j]] <- .estimate_multiple_phase_correct_mcPAMLE(net,M = M, S = 5, G = G,
@@ -45,6 +46,7 @@ net_type   <- input_ob$net_type
 deg_penmax <- input_ob$deg_penmax
 bin_object <- input_ob$bin_object
 p_estimate <- input_ob$p_estimate
+#print(p_estimate)
 Total_T    <- input_ob$Total_T
 original_cumsum <- input_ob$original_cumsum
 bin_dist        <- input_ob$bin_dist
@@ -147,6 +149,43 @@ names(selective_result_bin) <- 0:(g_new - 1)
                              regress_result_no_sd = regress_select_bin_no_sd)
 final_prob <- colMeans(prob_matrix)
 
-return(list(M = M, S= S, loop = loop,G = G,result_list = result_list,
-            prob_matrix = prob_matrix, final_prob = final_prob, final_result = final_result))
+
+alpha    <- final_result$alpha
+ci       <- c(regress_select_bin$ci[1],regress_select_bin$ci[2])
+k        <- final_result$k
+center_k <- k
+
+A        <- final_result$A
+upper_A  <- final_result$A_upper
+lower_A  <- final_result$A_lower
+upper_bin <- upper_A
+lower_bin <- lower_A
+theta    <- A
+var_logA   <- (log(final_result$A_upper) - log(A))/2
+var_logbin <- var_logA
+
+
+
+detail_result <- list(M = M, S= S, loop = loop,G = G,result_list = result_list,
+                     prob_matrix = prob_matrix, final_prob = final_prob, final_result = final_result)
+
+names(alpha) <- "Estimated attachment exponent"
+
+result <- list(g = g, alpha = alpha, ci = ci,
+            k = k , A = A, upper_A = upper_A, lower_A = lower_A,
+            upper_bin = upper_bin, lower_bin = lower_bin,
+            center_k = center_k, theta = theta,
+            var_logA = var_logA, var_logbin = var_logbin,
+            only_PA = TRUE, only_f = FALSE,
+            detail_result = detail_result,
+            oneshot = TRUE)
+
+
+class(result) <- "PAFit_result"
+
+return(result)
+
+
+
+
 }

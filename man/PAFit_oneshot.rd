@@ -9,19 +9,19 @@
 }
 \usage{
 
-PAFit_oneshot(net  , 
-              M    = 100,
+PAFit_oneshot(net_object, 
+              M    = 10,
               S    = 5,
               loop = 5,
-              G = 1000)
+              G    = 1000)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{net}{
-    a net.
+ \item{net_object}{
+    an object of class \code{PAFit_net} that contains the network. Any time-step information, if available, will be ignored.
   }
    \item{M}{
-  Integer. Number of simulated networks in each iteration. Default is \code{100}.
+  Integer. Number of simulated networks in each iteration. Default is \code{10}.
   }
   \item{S}{
   Integer. Number of iterations inside each loop. Default is \code{5}.
@@ -35,7 +35,7 @@ PAFit_oneshot(net  ,
 }
 
 \value{
-  Outputs the estimated result.
+   Outputs a \code{PAFit_result} object.
 }
 
 \author{
@@ -59,6 +59,15 @@ PAFit_oneshot(net  ,
 \examples{
 \dontrun{
   library("PAFit")
+  net_1    <- generate_BA(N = 5000, alpha = 1)
+  result_1 <- PAFit_oneshot(net_1)
+  print(result_1)
+  plot(result_1)
+  
+  net_2    <- generate_BA(N = 5000, alpha = 0.5)
+  result_2 <- PAFit_oneshot(net_2)
+  print(result_2)
+  plot(result_2)
   }
 }
 
