@@ -41,13 +41,13 @@ PAFit_oneshot(net_object,
 \author{
   Thong Pham \email{thongphamthe@gmail.com}
 }
-%\references{
-%  1. Pham, T., Sheridan, P. & Shimodaira, H. (2015). PAFit: A Statistical Method for Measuring Preferential Attachment in Temporal Complex Networks. PLoS ONE 10(9): e0137796. doi:10.1371/journal.pone.0137796 (\url{http://dx.doi.org/10.1371/journal.pone.0137796}).
+\references{
+1. Pham, T., Sheridan, P. & Shimodaira, H. (2021). Non-parametric estimation of the preferential attachment function from one network snapshot. Journal of Complex Networks 9(5): cnab024. (\doi{10.1093/comnet/cnab024}).
   
 %  2. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. doi:10.1038/srep32558   (\url{http://www.nature.com/articles/srep32558}).
   
 % 3. Pham, T., Sheridan, P. & Shimodaira, H. (2020). PAFit: An R Package for the Non-Parametric Estimation of Preferential Attachment and Node Fitness in Temporal Complex Networks. Journal of Statistical Software 92 (3), doi:10.18637/jss.v092.i03. (\url{http://dx.doi.org/10.18637/jss.v092.i03})
-%}
+}
 %\seealso{
 %  See \code{\link{get_statistics}} for how to create summerized statistics needed in this function.
   
@@ -59,15 +59,14 @@ PAFit_oneshot(net_object,
 \examples{
 \dontrun{
   library("PAFit")
-  net_1    <- generate_BA(N = 5000, alpha = 1)
+  net_1    <- generate_BA(N = 10000, alpha = 1) # true attachment exponent = 1.0
   result_1 <- PAFit_oneshot(net_1)
   print(result_1)
-  plot(result_1)
+
   
-  net_2    <- generate_BA(N = 5000, alpha = 0.5)
+  net_2    <- generate_BA(N = 10000, alpha = 0.5) # true attachment exponent = 0.5
   result_2 <- PAFit_oneshot(net_2)
   print(result_2)
-  plot(result_2)
   }
 }
 

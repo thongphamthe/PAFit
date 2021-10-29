@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // generate_net_C_with_count_multi_corrected
 int generate_net_C_with_count_multi_corrected(NumericMatrix appear_matrix, NumericMatrix final_matrix, SEXP a_4, SEXP a_5, SEXP a_6, SEXP a_7, SEXP a_8, SEXP a_9, NumericVector& bin_vector, SEXP a_11, SEXP a_12, SEXP a_pa_final, SEXP a_is_directed, SEXP a_M, NumericVector& degree_exist);
 RcppExport SEXP _PAFit_generate_net_C_with_count_multi_corrected(SEXP appear_matrixSEXP, SEXP final_matrixSEXP, SEXP a_4SEXP, SEXP a_5SEXP, SEXP a_6SEXP, SEXP a_7SEXP, SEXP a_8SEXP, SEXP a_9SEXP, SEXP bin_vectorSEXP, SEXP a_11SEXP, SEXP a_12SEXP, SEXP a_pa_finalSEXP, SEXP a_is_directedSEXP, SEXP a_MSEXP, SEXP degree_existSEXP) {

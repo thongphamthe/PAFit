@@ -44,7 +44,7 @@ Numeric. This is the attachment exponent in the attachment function \eqn{A_k = k
   Thong Pham \email{thongphamthe@gmail.com}
 }
 \references{
-  1. Albert, R. & \enc{Barabási}{Barabasi}, A. (1999). Emergence of scaling in random networks. Science, 286,509–512 (\url{https://science.sciencemag.org/content/286/5439/509}).
+  1. Albert, R. & \enc{Barabási}{Barabasi}, A. (1999). Emergence of scaling in random networks. Science, 286,509–512 (\url{https://www.science.org/doi/10.1126/science.286.5439.509}).
 }
 \seealso{
 For subsequent estimation procedures, see \code{\link{get_statistics}}.

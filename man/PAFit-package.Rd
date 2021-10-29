@@ -4,15 +4,15 @@
 \docType{package} 
 \title{Generative Mechanism Estimation in Temporal Complex Networks}
 \description{
-A package for estimating preferential attachment and node fitness generative mechanisms in temporal complex networks. References: Thong Pham et al. (2015) <10.1371/journal.pone.0137796>, Thong Pham et al. (2016) <doi:10.1038/srep32558>, Thong Pham et al. (2020) <doi:10.18637/jss.v092.i03>.}
+A package for estimating preferential attachment and node fitness generative mechanisms in temporal complex networks. References: Thong Pham et al. (2015) <10.1371/journal.pone.0137796>, Thong Pham et al. (2016) <doi:10.1038/srep32558>, Thong Pham et al. (2020) <doi:10.18637/jss.v092.i03>, Thong Pham et al. (2021) <doi:10.1093/comnet/cnab024>.}
 \details{
 \tabular{ll}{
 Package: \tab PAFit\cr
 Type: \tab Package\cr
-Version: \tab 1.1.0.4\cr
+Version: \tab 1.2.1\cr
 Authors: \tab Thong Pham, Paul Sheridan, Hidetoshi Shimodaira\cr
 Maintainer: \tab Thong Pham \email{thongphamthe@gmail.com}\cr
-Date: \tab 2021-07-23\cr
+Date: \tab 2021-10-29\cr
 License: \tab GPL-3 \cr
 }
 The PAFit package provides a comprehensive framework to deal with growth mechanisms of temporal complex networks. In particular, it implements functions to simulate various temporal network models, gather essential network statistics from raw input data, and use these summarized statistics in the estimation of the attachment function \eqn{A_k} and node fitnesses \eqn{\eta_i}. The heavy computational parts of the package are implemented in \code{C++} through the use of the Rcpp package. Furthermore, users with a multi-core machine can enjoy a hassle-free speed up through OpenMP parallelization mechanisms implemented in the code. Apart from the main functions, the package also includes a real-world collaboration network dataset between scientists in the field of complex networks (\code{\link{coauthor.net}}). The main package functionalities are as follows. 
@@ -26,7 +26,7 @@ The most important functionality of the package is estimating the attachment fun
 \item The functions for estimating the attachment function in isolation are: \code{\link{Jeong}} for Jeong's method (Ref. 1), \code{\link{Newman}} for Newman's method (Ref. 2), and \code{\link{only_A_estimate}} for the PAFit method (Ref. 3). 
 \item For estimation of node fitnesses in isolation, \code{\link{only_F_estimate}} implements a variant of the PAFit method (Ref. 4). 
 \item For the joint estimation of the attachment function and node fitnesses, we implement the full version of the PAFit method in \code{\link{joint_estimate}} (Ref. 4). 
-\item For estimating the nonparametric attachment function from a single snapshot, use \code{\link{PAFit_oneshot}}.
+\item For estimating the nonparametric attachment function from a single snapshot, use \code{\link{PAFit_oneshot}} (Ref. 6).
 }
 Excluding \code{\link{PAFit_oneshot}}, the input of the remaining functions is the output object of the function \code{\link{get_statistics}}. The output object of these functions contains the estimation results as well as some additional information pertaining to the estimation process. The estimated attachment function and/or node fitnesses can be plotted by using the \code{plot} command directly on this output object. This will visualize not only the estimated results but also the remaining uncertainties when possible.
 
@@ -46,6 +46,8 @@ Thong Pham \email{thongphamthe@gmail.com}, Paul Sheridan, and Hidetoshi Shimodai
 4. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. \emph{Scientific Reports} 6, Article number: 32558. (\doi{10.1038/srep32558}).
 
 5. Pham, T., Sheridan, P. & Shimodaira, H. (2020). PAFit: An R Package for the Non-Parametric Estimation of Preferential Attachment and Node Fitness in Temporal Complex Networks. \emph{Journal of Statistical Software} 92 (3). (\doi{10.18637/jss.v092.i03})
+
+6. Pham, T., Sheridan, P. & Shimodaira, H. (2021). Non-parametric estimation of the preferential attachment function from one network snapshot. Journal of Complex Networks 9(5): cnab024. (\doi{10.1093/comnet/cnab024}).
 }
 
 \seealso{

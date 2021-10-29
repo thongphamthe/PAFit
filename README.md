@@ -39,6 +39,8 @@ then work through the tutorial (link to the current CRAN version):
  
 A version of this tutorial is published in Journal of Statistical Software:
   * [JSS paper](https://www.jstatsoft.org/article/view/v092i03)
+
+The *PAFit-oneshot* method is described in [this paper](https://academic.oup.com/comnet/article/9/5/cnab024/6377709).
   
 Reference manual
 ---------------

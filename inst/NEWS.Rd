@@ -2,6 +2,14 @@
 \alias{NEWS}
 \title{Package News}
 
+\section{version 1.2.1 (Release date: 2021-10-29)}{
+    \subsection{NEW}{
+    \itemize{
+    \item Updating bibliography information for the PAFit-oneshot method.
+    }
+  }
+}
+
 \section{version 1.1 (Release date: 2021-05-13)}{
     \subsection{NEW}{
     \itemize{
