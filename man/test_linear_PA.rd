@@ -8,9 +8,9 @@ This function implements the method in Handcock and Jones (2004) to fit various 
 
 Thus, if the best fitted distribution, which is chosen by either the Akaike Information Criterion (AIC) or the Bayesian Information Criterion (BIC), is NOT Yule or Waring, then the case of \eqn{A_k = k} for \eqn{k \ge 1} and  \eqn{\eta_i = 1} for all \eqn{i}  is NOT consistent with the observed degree vector.
 
-The method allows the low-tail probabilities to NOT follow the parametric distribution, i.e., \eqn{P(K = k) = \pi_k} for all \eqn{k \le k_min} and \eqn{P(K = k) = f(k,\theta)} for all \eqn{k > k_min}. Here \eqn{k_min} is the degree threshold above which the parametric distribution holds, \eqn{\pi_k} are probabilities of the low-tail, \eqn{f(.,\theta)} is the parametric distribution with parameter vector \eqn{\theta}. 
+The method allows the low-tail probabilities to NOT follow the parametric distribution, i.e., \eqn{P(K = k) = \pi_k} for all \eqn{k \le k_{min}}{k \le k_min} and \eqn{P(K = k) = f(k,\theta)} for all \eqn{k > k_{min}}{k > k_min}. Here \eqn{k_{min}}{k_min} is the degree threshold above which the parametric distribution holds, \eqn{\pi_k} are probabilities of the low-tail, \eqn{f(.,\theta)} is the parametric distribution with parameter vector \eqn{\theta}. 
 
-For fixed \eqn{k_min} and \eqn{f}, \eqn{\pi_k} and \eqn{\theta} can be estimated by Maximum Likelihood Estimation. We can choose the best \eqn{k_min} for each \eqn{f} by comparing the AIC (or BIC). More details can be founded in Handcock and Jones (2004).
+For fixed \eqn{k_{min}}{k_min} and \eqn{f}, \eqn{\pi_k} and \eqn{\theta} can be estimated by Maximum Likelihood Estimation. We can choose the best \eqn{k_{min}}{k_min} for each \eqn{f} by comparing the AIC (or BIC). More details can be founded in Handcock and Jones (2004).
 }
 \usage{
  test_linear_PA(degree_vector)
