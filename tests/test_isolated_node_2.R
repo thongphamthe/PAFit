@@ -5,7 +5,7 @@ library(PAFit)
 # for CRAN. In developing, set ii from 1 to 1000
 for (ii in 1) {
   set.seed(2) 
-  print(ii)
+  #print(ii)
   prob_m    <- "FALSE"
   inc       <- "FALSE"
   log       <-  c("FALSE")

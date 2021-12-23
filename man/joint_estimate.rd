@@ -68,7 +68,13 @@ joint_estimate(net_object                               ,
     \item \code{objective_value}: values of the objective function over iterations in the final run with the full data.
     \item \code{diverge_zero}: logical value indicates whether the algorithm diverged in the final run with the full data.
 }
-  }
+\item \code{contribution}: a list containing an estimate of the contributions of preferential attachment and fitness mechanisms in the growth process of the network. The calculation adapts a quantification method proposed in Section 3 of Ref. 4, which is for preferential attachment and transitivity, to preferential attachment and fitness.
+\itemize{
+\item \code{PA_contribution}: an array containing the contributions of preferential attachment at each time-step 
+\item \code{fit_contribution}: an array containing the contributions of the fitness mechanism at each time-step 
+\item \code{mean_PA_contrib}: the average contribution of preferential attachment through the whole growth process
+\item \code{mean_fit_contrib}: the average contribution of the fitness mechanism through the whole growth process}
+}
 }
 \author{
   Thong Pham \email{thongphamthe@gmail.com}
@@ -78,7 +84,9 @@ joint_estimate(net_object                               ,
   
   2. Pham, T., Sheridan, P. & Shimodaira, H. (2016). Joint Estimation of Preferential Attachment and Node Fitness in Growing Complex Networks. Scientific Reports 6, Article number: 32558. (\doi{10.1038/srep32558}).
   
- 3. Pham, T., Sheridan, P. & Shimodaira, H. (2020). PAFit: An R Package for the Non-Parametric Estimation of Preferential Attachment and Node Fitness in Temporal Complex Networks. Journal of Statistical Software 92 (3). (\doi{10.18637/jss.v092.i03})
+ 3. Pham, T., Sheridan, P. & Shimodaira, H. (2020). PAFit: An R Package for the Non-Parametric Estimation of Preferential Attachment and Node Fitness in Temporal Complex Networks. Journal of Statistical Software 92 (3). (\doi{10.18637/jss.v092.i03}).
+
+4. Inoue, M., Pham, T. & Shimodaira, H. (2020). Joint Estimation of Non-parametric Transitivity and Preferential Attachment Functions in Scientific Co-authorship Networks. Journal of Informetrics 14(3). (\doi{10.1016/j.joi.2020.101042}).
 }
 \seealso{
   See \code{\link{get_statistics}} for how to create summerized statistics needed in this function.
