@@ -21,7 +21,7 @@ joint_estimate(net_object                               ,
     an object of class \code{PAFit_net} that contains the network.
   }
   \item{net_stat}{
-    An object of class \code{PAFit_data} which contains summerized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}. The default value is \code{get_statistics(net_object)}.
+    An object of class \code{PAFit_data} which contains summarized statistics needed in estimation. This object is created by the function \code{\link{get_statistics}}. The default value is \code{get_statistics(net_object)}.
   }
 \item{p}{Numeric. This is the ratio of the number of new edges in the learning data to that of the full data. The data is then divided into two parts: learning data and testing data based on \code{p}. The learning data is used to learn the node fitnesses and the testing data is then used in cross-validation. Default value is \code{0.75}.}  
 \item{stop_cond}{Numeric. The iterative algorithm stops when \eqn{abs(h(ii) - h(ii + 1)) / (abs(h(ii)) + 1) < stop.cond} where \eqn{h(ii)} is the value of the objective function at iteration \eqn{ii}. We recommend to choose \code{stop.cond} at most equal to \eqn{10^(- number of digits of h - 2)}, in order to ensure that when the algorithm stops, the increase in posterior probability is less than 1\% of the current posterior probability. Default is \code{10^-8}. This threshold is good enough for most applications.}
@@ -59,7 +59,7 @@ joint_estimate(net_object                               ,
     \item \code{upper_bin}: the upper value of the interval of two standard deviations around \code{theta}. Same as \code{upper_A} but with duplicated values removed.
     \item \code{lower_bin}: the lower value of the interval of two standard deviations around \code{theta}. Same as \code{lower_A} but with duplicated values removed.
     \item \code{g}: the number of bins used.
-    \item \code{alpha} and \code{ci}: \code{alpha} is the estimated attachment exponenet \eqn{\alpha} (when assume \eqn{A_k = k^\alpha}), while \code{ci} is the confidence interval.
+    \item \code{alpha} and \code{ci}: \code{alpha} is the estimated attachment exponent \eqn{\alpha} (when assume \eqn{A_k = k^\alpha}), while \code{ci} is the confidence interval.
     \item \code{loglinear_fit}: this is the fitting result when we estimate \eqn{\alpha}. 
     \item \code{f}: the estimated node fitnesses.
     \item \code{var_f}: the estimated variance of \eqn{\eta_i}.
@@ -89,7 +89,7 @@ joint_estimate(net_object                               ,
 4. Inoue, M., Pham, T. & Shimodaira, H. (2020). Joint Estimation of Non-parametric Transitivity and Preferential Attachment Functions in Scientific Co-authorship Networks. Journal of Informetrics 14(3). (\doi{10.1016/j.joi.2020.101042}).
 }
 \seealso{
-  See \code{\link{get_statistics}} for how to create summerized statistics needed in this function.
+  See \code{\link{get_statistics}} for how to create summarized statistics needed in this function.
   
   See \code{\link{Jeong}}, \code{\link{Newman}} and \code{\link{only_A_estimate}} for functions to estimate the attachment function in isolation.
   

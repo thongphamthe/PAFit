@@ -19,7 +19,7 @@ get_statistics(net_object, only_PA  = FALSE ,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 
-The parameters can be divided into four groups. The first group specifies input data and how the data will be summerized:
+The parameters can be divided into four groups. The first group specifies input data and how the data will be summarized:
 
   \item{net_object}{
 An object of class \code{PAFit_net}. You can use the function \code{\link{as.PAFit_net}} to convert from an edgelist matrix, function \code{\link{from_igraph}} to convert from an \code{igraph} object, function \code{\link{from_networkDynamic}} to convert from a \code{networkDynamic} object, and function \code{\link{graph_from_file}} to read from a file.}
@@ -28,7 +28,7 @@ An object of class \code{PAFit_net}. You can use the function \code{\link{as.PAF
 Logical. Indicates whether only the statistics for estimating \eqn{A_k} are summarized. if \code{TRUE}, the statistics for estimating \eqn{\eta_i} are NOT collected. This will save memory at the cost of unable to estimate node fitness). Default value is \code{FALSE}. 
 }
 \item{only_true_deg_matrix}{
-Logical. Return only the true degree matrix (without binning), and no other statistics is returned. The result cannot be used in \code{PAFit} function to estimate PA or fitness. The motivation for this option is that sometimes we only want to get a degree matrix that summerizes the growth process of a very big network for plotting etc. Default value is \code{FALSE}.
+Logical. Return only the true degree matrix (without binning), and no other statistics is returned. The result cannot be used in \code{PAFit} function to estimate PA or fitness. The motivation for this option is that sometimes we only want to get a degree matrix that summarizes the growth process of a very big network for plotting etc. Default value is \code{FALSE}.
 }
 Second group of parameters specifies how to bin the degrees:
 \item{binning}{
@@ -67,7 +67,7 @@ Vector. Custom time stamps. This vector is a subset of the vector that contains 
 \item{n_tk}{A matrix where the \code{(t,k+1)} element is the number of nodes with degree \eqn{k} at time \eqn{t}}
 \item{m_tk}{A matrix where the \code{(t,k+1)} element is the number of new edges connect to a degree-\eqn{k} node at time \eqn{t}}
 \item{sum_m_k}{A vector where the \code{(k+1)}-th element is the total number of edges that linked to a degree \eqn{k} node, counting over all time steps}
-\item{node_degree}{A matrix recording the degree of all nodes (that satisty \code{degree_threshold} condition) at each time step}
+\item{node_degree}{A matrix recording the degree of all nodes (that satisfy \code{degree_threshold} condition) at each time step}
 \item{m_t}{A vector where the \code{t}-th element is the number of new edges at time \eqn{t}}
 \item{z_j}{A vector where the \code{j}-th element is the total number of edges that linked to node \eqn{j}}
 \item{N}{Numeric. The number of nodes in the network}

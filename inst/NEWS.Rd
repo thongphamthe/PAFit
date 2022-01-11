@@ -2,6 +2,23 @@
 \alias{NEWS}
 \title{Package News}
 
+
+\section{version 1.2.5 (Release date: 2022-01-11)}{
+    \subsection{NEW}{
+    \itemize{
+    \item adding \code{generate_simulated_data_from_estimated_model} for generating simulated networks from a fitted joint estimation model and \code{plot_contribution} for plotting contributions calculated from simulated and observed data. 
+    }
+  }
+}
+
+\section{version 1.2.4 (Release date: 2021-12-22)}{
+    \subsection{NEW}{
+    \itemize{
+    \item adding a quantification of the contributions of preferential attachment and fitness mechanisms in the growth process of a temporal network. See the help page of \code{joint_estimate} for more information.
+    }
+  }
+}
+
 \section{version 1.2.1 (Release date: 2021-10-29)}{
     \subsection{NEW}{
     \itemize{

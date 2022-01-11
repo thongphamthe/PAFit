@@ -19,12 +19,12 @@ for (ii in 1) {
                          increase = inc, log = log, multiple_node = 1, num_seed = 20,
                          mode = i, s = 10,alpha = 0.5)
 
-    net_stats <- get_statistics(net,deg_threshold = 5, 
+    net_stat <- get_statistics(net,deg_threshold = 5, 
                                 binning = TRUE, g = 50) 
 
-    result_A <- only_A_estimate(net, net_stats, stop_cond = 10^-5)
+    result_A <- only_A_estimate(net, net_stat, stop_cond = 10^-5)
     
-    result <- joint_estimate(net, net_stats, stop_cond = 10^-5)
+    result <- joint_estimate(net, net_stat, stop_cond = 10^-5)
     plot(result,net_stats)
 }
 

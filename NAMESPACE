@@ -11,7 +11,9 @@ export("generate_BA","generate_BB", "generate_ER",
        "to_igraph", "from_igraph",
        "to_networkDynamic", "from_networkDynamic",
        "graph_from_file", "graph_to_file",
-       "test_linear_PA","PAFit_oneshot")
+       "test_linear_PA","PAFit_oneshot",
+       "generate_simulated_data_from_estimated_model",
+       "plot_contribution")
 importFrom("methods", "is")
 importFrom(Rcpp, evalCpp)
 importFrom("grDevices", "rgb")
@@ -23,6 +25,10 @@ importFrom("stats", "lm", "rgamma", "rpois", "uniroot","rlnorm","confint","df.re
 importFrom("graphics", "legend", "mtext","axis")
 importFrom("utils","head", "write.table", "read.table")
 importFrom("stats", "median", "quantile", "smooth.spline","optim")
+importFrom("ggplot2","ggplot","scale_color_manual","geom_point",
+           "geom_errorbar","ylab","xlab", "theme", "theme_bw", "aes",
+           "element_blank", "element_line", "element_rect", "element_text",
+           "margin", "rel", "ylim")
 importFrom("plyr","ddply",".", "a_ply","aaply","alply","amv_dimnames", "arrange","as.quoted",
            "catcolwise", "colwise", "compact", "count", "create_progress_bar", "d_ply", 
            "daply", "defaults", 

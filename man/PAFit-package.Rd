@@ -9,10 +9,10 @@ A package for estimating preferential attachment and node fitness generative mec
 \tabular{ll}{
 Package: \tab PAFit\cr
 Type: \tab Package\cr
-Version: \tab 1.2.4\cr
+Version: \tab 1.2.5\cr
 Authors: \tab Thong Pham, Paul Sheridan, Hidetoshi Shimodaira\cr
 Maintainer: \tab Thong Pham \email{thongphamthe@gmail.com}\cr
-Date: \tab 2021-12-22\cr
+Date: \tab 2022-01-11\cr
 License: \tab GPL-3 \cr
 }
 The PAFit package provides a comprehensive framework to deal with growth mechanisms of temporal complex networks. In particular, it implements functions to simulate various temporal network models, gather essential network statistics from raw input data, and use these summarized statistics in the estimation of the attachment function \eqn{A_k} and node fitnesses \eqn{\eta_i}. The heavy computational parts of the package are implemented in \code{C++} through the use of the Rcpp package. Furthermore, users with a multi-core machine can enjoy a hassle-free speed up through OpenMP parallelization mechanisms implemented in the code. Apart from the main functions, the package also includes a real-world collaboration network dataset between scientists in the field of complex networks (\code{\link{coauthor.net}}). The main package functionalities are as follows. 
@@ -52,7 +52,7 @@ Thong Pham \email{thongphamthe@gmail.com}, Paul Sheridan, and Hidetoshi Shimodai
 
 \seealso{
 
- See the acompanying vignette for a tutorial.
+ See the accompanying vignette for a tutorial.
 
  See also the \href{https://github.com/thongphamthe/PAFit}{GitHub page}.
 
