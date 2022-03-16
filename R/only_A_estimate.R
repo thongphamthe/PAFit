@@ -56,8 +56,46 @@ only_A_estimate <- function(net_object                             ,
     data_cv   <- NULL
     cv_result <- NULL
   }
-  combined_result        <- list(cv_data = data_cv, cv_result = cv_result, 
-                                 estimate_result = result) 
+  PA  <- result$A
+  fit <- result$f
+  small_t <- dim(net_stat$node_degree)[1]
+  contrib_PA_array  <- rep(0,small_t)
+  contrib_fit_array <- rep(0,small_t) 
+  name_node <- colnames(net_stat$node_degree)
+  
+  for (i in 1:small_t) {
+    presence <- net_stat$node_degree[i,] > 0
+    
+    # sampling the node based on the product of PA and fitness
+    pa_value                  <- PA[net_stat$node_degree[i,presence] + 1]
+    pa_value[is.na(pa_value)] <- PA[length(PA)]
+    #print(length(pa_value))
+    
+    fitness_value <- fit[name_node[presence]]
+    #print(length(fitness_value))
+    sampling_prob <- fitness_value * pa_value / sum(fitness_value * pa_value)
+    
+    mean_log_PA   <- mean(sampling_prob * log(pa_value), na.rm = TRUE)
+    var_log_PA    <- mean(sampling_prob* (log(pa_value) - mean_log_PA)^2, na.rm = TRUE)
+    
+    mean_log_fit   <- mean(sampling_prob * log(fitness_value) , na.rm = TRUE)
+    var_log_fit    <- mean(sampling_prob* (log(fitness_value) - mean_log_fit)^2 , na.rm = TRUE)
+    
+    contrib_PA    <- var_log_PA
+    contrib_fit   <- var_log_fit
+    contrib_PA_array[i]  <- contrib_PA
+    contrib_fit_array[i] <- contrib_fit
+  }
+  mean_PA_contrib  <- sqrt(mean(contrib_PA_array, na.rm = TRUE))
+  mean_fit_contrib <- sqrt(mean(contrib_fit_array, na.rm = TRUE))
+  contribution <- list(PA_contribution = sqrt(contrib_PA_array),
+                       fit_contribution = sqrt(contrib_fit_array),
+                       mean_PA_contrib = mean_PA_contrib,
+                       mean_fit_contrib = mean_fit_contrib)
+  
+  combined_result <- list(cv_data = data_cv, cv_result = cv_result, 
+                          estimate_result = result, contribution = contribution) 
+  
   class(combined_result) <- "Full_PAFit_result"
   return(combined_result)
 }

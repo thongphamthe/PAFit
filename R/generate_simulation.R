@@ -115,6 +115,9 @@ PA[as.character(result$estimate_result$k)] <- result$estimate_result$A
 f  <- result$estimate_result$f
 
 
+is_only_PA <- result$estimate_result$only_PA
+is_only_f  <- result$estimate_result$only_f
+
 if (net_type[1] == "directed") {is_directed <- TRUE} else {is_directed <- FALSE};
 
 binning_used    <- net_stat$binning
@@ -198,7 +201,16 @@ for (mm in 1:M) {
   graph_list[[mm]]  <- graph
   one_net <- as.PAFit_net(graph,type = net_type)
   stats_list[[mm]]  <- get_statistics(one_net,binning = binning_used, g = g_used) 
-  result_list[[mm]] <- joint_estimate(net_object = one_net,net_stat = stats_list[[mm]],p = p_used, stop_cond = stop_cond_used) 
+  if (TRUE == is_only_PA) {
+    result_list[[mm]] <- only_A_estimate(net_object = one_net,net_stat = stats_list[[mm]],p = p_used, 
+                                         stop_cond = stop_cond_used)
+  } else if (TRUE == is_only_f) {
+    result_list[[mm]] <- only_F_estimate(net_object = one_net,net_stat = stats_list[[mm]],p = p_used, 
+                                         stop_cond = stop_cond_used)
+  } else {
+      result_list[[mm]] <- joint_estimate(net_object = one_net,net_stat = stats_list[[mm]],p = p_used, 
+                                      stop_cond = stop_cond_used)
+  }
 }
 supplement_data <- list(existing_node      = existing_node,
                         new_node_list      = new_node_list,
