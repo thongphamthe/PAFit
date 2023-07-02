@@ -98,11 +98,16 @@
             
                 prob_PAFit      <- PA * fitness
                 prob_PAFit      <- prob_PAFit / sum(prob_PAFit,na.rm = TRUE) 
-                prob_PAFit[sapply(prob_PAFit,is.na)] <- 0 
-                alpha_each[dd,j]   <- alpha_each[dd, j] + 
+                #temp_sapply <- sapply(prob_PAFit,is.na)
+                #print(prob_PAFit)
+                #print(temp_sapply)
+                if (length(prob_PAFit) > 0) {
+                  prob_PAFit[sapply(prob_PAFit,is.na)] <- 0 
+                  alpha_each[dd,j]   <- alpha_each[dd, j] + 
                                       FitMultinomial(true = as.vector(prob_PAFit), 
                                                      dat = as.vector(cv_data$prob_em_each[k,chosen_node] * 
-                                                                             cv_data$m_each[k])) 
+                                                                             cv_data$m_each[k]))
+                }
             }
         }
       }
@@ -149,11 +154,16 @@
               
                       prob_PAFit      <- PA * fitness
                       prob_PAFit      <- prob_PAFit / sum(prob_PAFit,na.rm = TRUE) 
-                      prob_PAFit[sapply(prob_PAFit,is.na)] <- 0 
-                      alpha_each[dd,j] <- alpha_each[dd, j] + 
+                      #temp_sapply <- sapply(prob_PAFit,is.na)
+                      #print(prob_PAFit)
+                      #print(temp_sapply)
+                      if (length(prob_PAFit) > 0) {
+                        prob_PAFit[sapply(prob_PAFit,is.na)] <- 0 
+                        alpha_each[dd,j] <- alpha_each[dd, j] + 
                                              FitMultinomial(true = as.vector(prob_PAFit), 
                                                            dat = as.vector(cv_data$prob_em_each[k,chosen_node] * 
                                                            cv_data$m_each[k])) 
+                      }
                  }
             }
           }
@@ -280,10 +290,15 @@
         
             prob_PAFit      <- PA * fitness
             prob_PAFit      <- prob_PAFit / sum(prob_PAFit,na.rm = TRUE) 
-            prob_PAFit[sapply(prob_PAFit,is.na)] <- 0 
-            PA_each[i]      <- PA_each[i] + 
+            #temp_sapply <- sapply(prob_PAFit,is.na)
+            #print(prob_PAFit)
+            #print(temp_sapply)
+            if (length(prob_PAFit) > 0) {
+              prob_PAFit[sapply(prob_PAFit,is.na)] <- 0 
+                PA_each[i]      <- PA_each[i] + 
                 FitMultinomial(true = as.vector(prob_PAFit), dat = as.vector(cv_data$prob_em_each[k,chosen_node] * 
                                                                              cv_data$m_each[k])) 
+            }
          }
     if (i == 1) {  
          lambda_optimal    <- result_PAFit$lambda  
