@@ -33,7 +33,7 @@ only_F_estimate(net_object                             ,
       }
   }
     \item{\dots}{
-    %%     ~~Describe \code{\dots} here~~
+   Other arguments to pass to the underlying algorithm.
   }
 }
 

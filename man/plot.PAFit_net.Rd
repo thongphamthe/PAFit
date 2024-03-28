@@ -29,7 +29,7 @@
     Integer. Ignored when \code{plot} is not \code{"graph"} or \code{"degree"}. Specifies the time-step at which the graph is plotted. Default value is the final time-step.
   }
     \item{\dots}{
-    %%     ~~Describe \code{\dots} here~~
+   Other arguments to pass to the underlying plotting function.
   }
 }
 

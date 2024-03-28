@@ -35,7 +35,7 @@ only_A_estimate(net_object                             ,
 }
 \item{MLE}{Logical. If \code{TRUE}, then not perform cross-validation and estimate the PA function with \code{r = 0}, i.e., maximum likelihood estimation. Default is \code{FALSE}. One might want to set this option to \code{TRUE} when one believes that there are sufficient data to get a reasonable MLE result, or when one wants to compare the default, regularized result with the MLE result.}
   \item{\dots}{
-    %%     ~~Describe \code{\dots} here~~
+   Other arguments to pass to the underlying algorithm.
   }
 }
 

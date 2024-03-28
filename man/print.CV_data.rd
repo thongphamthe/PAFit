@@ -16,7 +16,7 @@
     An object of class \code{CV_Data}.
   }
     \item{\dots}{
-    %%     ~~Describe \code{\dots} here~~
+   Other arguments to pass.
   }
 }
 

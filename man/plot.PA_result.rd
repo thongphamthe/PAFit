@@ -45,7 +45,7 @@
   \item{label_x}{String. The label of x-axis. If \code{NULL}, then \code{"Degree k"} is used.}
   \item{label_y}{String. The label of y-axis. If \code{NULL}, then \code{"Attachment function"} is used.}
     \item{\dots}{
-    %%     ~~Describe \code{\dots} here~~
+   Other arguments to pass to the underlying plotting function.
   }
 }
 \value{

@@ -17,7 +17,7 @@
     An object of class \code{PAFit_net}.
   }
   \item{\dots}{
-    %%     ~~Describe \code{\dots} here~~
+   Other arguments to pass.
   }
 }
 

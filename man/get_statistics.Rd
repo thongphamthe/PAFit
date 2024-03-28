@@ -56,7 +56,7 @@ Integer. Indicates whether the timeline should be compressed. The value of Compr
  Default value is \code{0}, i.e. no compression.
 }
   \item{compress_ratio}{
-Numeric. Indicates how much we should compress if CompressMode is \code{1} or {2}. Default value is \code{0.5}.
+Numeric. Indicates how much we should compress if CompressMode is \code{1} or \code{2}. Default value is \code{0.5}.
 }
   \item{custom_time}{
 Vector. Custom time stamps. This vector is a subset of the vector that contains all time-stamps. Only effective if \code{CompressMode == 3}. In that case, only these time stamps are used.

@@ -17,7 +17,7 @@
   }
 
   \item{\dots}{
-    %%     ~~Describe \code{\dots} here~~
+    Other arguments to pass.
   }
 }
 

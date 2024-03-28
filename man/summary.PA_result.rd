@@ -17,7 +17,7 @@
     An object of class \code{PA_result}, containing the estimated attachment function and the estimated attachment exponenet from either \code{\link{Newman}} or \code{\link{Jeong}} functions. 
   }
   \item{\dots}{
-    Additional parameters to pass onto the \code{plot} function.
+    Additional parameters to pass.
   }
 }
 \value{

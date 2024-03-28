@@ -69,7 +69,7 @@ Numeric. Value between 0 and 1. This is the transparency level of the confidence
 \item{label_y}{String. The label of y-axis.}
 \item{col_interval}{String. The name of the color of the confidence intervals. Default value is \code{"lightsteelblue"}.}
   \item{\dots}{
-    %%     ~~Describe \code{\dots} here~~
+   Other arguments to pass to the underlying plotting function.
   }
 }
 
