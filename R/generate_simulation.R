@@ -52,14 +52,19 @@ existing_node          <- vector(mode = "list",length = T)
 new_node_list          <- vector(mode = "list",length = T) # the new nodes appear at that time-step
 const_graph_list       <- vector(mode = "list",length = T) #list of non-simulated edges or new nodes at each time-step
 edge_from_new_node     <- vector(mode = "list",length = T)  # list of the fixed source node of new edges needed to draw
-num_of_new_edges_fixed <- rep(0,length = T) # total number of new edges needed to draw with fixed source node : only in directed case
+# total number of new edges needed to draw with fixed source node : only in directed case
+num_of_new_edges_fixed <- rep(0,length = T)
 num_of_new_edges_free  <- rep(0,length = T) # total number of new edges needed to draw free both end
 
 
 for (i in 1:T) {
   current_graph <- net[net[,3] == unique_time[i],,drop = FALSE]
-  in_node_temp  <- current_graph[, 2, drop = FALSE]
-  out_node_temp <- current_graph[, 1, drop = FALSE] 
+  
+  in_node_temp  <- data.matrix(current_graph[, 2, drop = FALSE])
+  
+  in_node_temp <- as.numeric(as.vector(in_node_temp))
+  out_node_temp <- data.matrix(current_graph[, 1, drop = FALSE])
+  out_node_temp <- as.numeric(as.vector(out_node_temp))
   
   if (i == 1) {
     const_graph_list[[i]] <- current_graph
@@ -73,18 +78,21 @@ for (i in 1:T) {
     } else if (net_type[1] == "directed") {
       # destination node are new
       const_index             <- !(in_node_temp %in% existing_node[[i - 1]])
+     
       const_graph_list[[i]]   <- current_graph[const_index,,drop = FALSE]
       # source node index: source node is new but destination node is existing
       
       source_new_index          <- (in_node_temp %in% existing_node[[i - 1]]) & !(out_node_temp %in% existing_node[[i - 1]]) 
       source_node_is_new        <- out_node_temp[source_new_index]
+      #print(source_node_is_new)
       edge_from_new_node[[i]]   <- source_node_is_new
       num_of_new_edges_fixed[i] <- length(source_node_is_new)
       
       # the remaining new edges that have both source and destination nodes as existing nodes
       num_of_new_edges_free[i]      <- sum(net[,3] == unique_time[i]) - sum(const_index)  - sum(source_new_index)
       
-      #check:
+      #check: 
+      # this might happen when problems with data frame or string id occurs
       if (num_of_new_edges_free[i] != sum((in_node_temp %in% existing_node[[i - 1]]) & (out_node_temp %in% existing_node[[i - 1]]))) {
         print("Mismatch in num of edge free") 
         print(i)
@@ -96,6 +104,7 @@ for (i in 1:T) {
   }
   existing_node[[i]] <- as.numeric(sort(union(in_node_temp[in_node_temp !=  -1],
                                               out_node_temp[out_node_temp != - 1])))
+
   if (i > 1) {
     new_node_list[[i]] <- setdiff(existing_node[[i]],existing_node[[i - 1]])
     existing_node[[i]] <- union(existing_node[[i]],existing_node[[i - 1]])
@@ -134,6 +143,9 @@ for (mm in 1:M) {
   graph         <- const_graph_list[[1]]  
   in_node_temp  <- graph[, 2, drop = FALSE]
   out_node_temp <- graph[, 1, drop = FALSE] 
+  in_node_temp  <- as.numeric(as.vector(as.matrix(in_node_temp)))
+  out_node_temp <- as.numeric(as.vector(as.matrix(out_node_temp)))
+  
   ok_id         <- which(in_node_temp != -1 & out_node_temp != -1)
   deg_vec       <- rep(-1,length(existing_node[[T]]))
   names(deg_vec) <- as.character(existing_node[[T]])
@@ -142,6 +154,7 @@ for (mm in 1:M) {
   
   if (length(ok_id) > 0) {
       if (TRUE == is_directed) {
+         
           temp_vec       <- table(in_node_temp[ok_id])
       } else {temp_vec <- table(c(in_node_temp[ok_id],out_node_temp[ok_id]))}
       deg_vec[names(temp_vec)] <- deg_vec[names(temp_vec)] + temp_vec
@@ -168,23 +181,32 @@ for (mm in 1:M) {
         out_node_new  <- sample(size = num_of_new_edges_free[i], replace = TRUE, x = existing_node[[i - 1]], 
                                 prob = pa_value * fit_value /sum(pa_value * fit_value) ) # based on model
       }
-      graph        <- rbind(graph,cbind(out_node_new,in_node_new,unique_time[i]))
+      temp_graph   <- cbind(out_node_new,in_node_new,unique_time[i])
+      colnames(temp_graph) <- colnames(graph)
+      graph        <- rbind(graph,temp_graph)
     }
     
     if (num_of_new_edges_fixed[i] > 0) { # only possible in directed case: sampling the destination nodes
       if (FALSE == is_directed) {print("Wrong in replicating new edge fixed")}
       in_node_new  <- sample(size = num_of_new_edges_fixed[i], replace = TRUE, x = existing_node[[i - 1]], 
                              prob = pa_value * fit_value/sum(pa_value * fit_value))  
-      
-      graph <- rbind(graph,cbind(edge_from_new_node[[i]],in_node_new,unique_time[i]))
+      temp_graph <- cbind(edge_from_new_node[[i]],in_node_new,unique_time[i])
+      colnames(temp_graph) <- colnames(graph)
+      graph <- rbind(graph,temp_graph)
     }
     
     # update degree vector 
     in_node_temp  <- graph[graph[,3] == unique_time[i], 2, drop = FALSE]
     out_node_temp <- graph[graph[,3] == unique_time[i], 1, drop = FALSE] 
+    
+    in_node_temp  <- as.numeric(as.vector(as.matrix(in_node_temp)))
+    out_node_temp <- as.numeric(as.vector(as.matrix(out_node_temp)))
+    
     ok_id         <- which(in_node_temp != -1 & out_node_temp != -1)
+    
     if (length(ok_id) > 0) {
         if (TRUE == is_directed) {
+          
           temp_vec       <- table(in_node_temp[ok_id])
         } else {temp_vec <- table(c(in_node_temp[ok_id],out_node_temp[ok_id]))}
     

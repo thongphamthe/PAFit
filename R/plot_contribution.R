@@ -7,10 +7,10 @@ plot_contribution <- function(simulated_object,
                               legend_pos_x = 0.75,
                               legend_pos_y = 0.9) {
   x <- y <- ymin <- ymax <- y_obs <- NULL
-  if (class(simulated_object) != "Simulated_Data_From_Fitted_Model") {
+  if (!is(simulated_object,"Simulated_Data_From_Fitted_Model")) {
      stop("simulated_object needs to be an object from generate_simulated_data_from_estimated_model")
   }
-  if (class(original_result) != "Full_PAFit_result") {
+  if (!is(original_result,"Full_PAFit_result")) {
     stop("original_result needs to be an object from joint_estimate")
   }
   result_list <- simulated_object$result_list
